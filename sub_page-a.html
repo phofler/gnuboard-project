@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Corporate Sub Page - Type A</title>
+    <!-- Google Fonts: Playfair Display (Titles) & Inter (Body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        /* 
+         * PREMIUM CORPORATE THEME BASE
+         * TYPE A REDESIGN: Modern Dark Theme (Tech/Trust)
+         * Colors: Dark Navy, Cool White, Mint/Cyan Accent
+         */
+        :root {
+            --primary-bg: #0a192f;
+            --secondary-bg: #112240;
+            --text-main: #eff2f7;
+            /* Cool White */
+            --text-muted: #8892b0;
+            --accent: #64ffda;
+            /* Cyber Mint - Tech Vibe */
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--primary-bg);
+            color: var(--text-main);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* --- Hero Section --- */
+        .sub-hero {
+            position: relative;
+            height: 50vh;
+            min-height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #020c1b;
+        }
+
+        .sub-hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+        }
+
+        .sub-hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .sub-hero-title {
+            font-family: var(--font-sans);
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+        }
+
+        .sub-hero-subtitle {
+            font-size: 1rem;
+            color: var(--accent);
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        /* --- Breadcrumb --- */
+        .breadcrumb {
+            background-color: var(--secondary-bg);
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .breadcrumb-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: flex-end;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .breadcrumb span {
+            margin: 0 5px;
+        }
+
+        .breadcrumb .current {
+            color: var(--accent);
+        }
+    </style>
+</head>
+
+<!-- IMPORTANT: ID and Class added to mimic real environment for CSS Specificity -->
+
+<body id="wrapper" class="sub-layout-light">
+
+    <!-- HERO SECTION -->
+    <section class="sub-hero">
+        <div class="sub-hero-bg"></div>
+        <div class="sub-hero-content" data-aos="fade-up" data-aos-duration="1000">
+            <p class="sub-hero-subtitle">About Us</p>
+            <h1 class="sub-hero-title">Company Introduction</h1>
+        </div>
+    </section>
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb">
+        <div class="breadcrumb-inner">
+            <span>Home</span> &gt;
+            <span>Company</span> &gt;
+            <span class="current">Intro</span>
+        </div>
+    </div>
+
+    <!-- 
+      ================================================================
+      START SKIN CONTENT: TYPE A (Modern Dark)
+      ================================================================
+    -->
+    <style>
+        /* 
+         * Type A: Modern Dark Design
+         * Colors: Cool White Text, Dark BG, Mint Accent
+         */
+
+        /* 1. Container */
+        #wrapper.sub-layout-light .ci-type-a,
+        .ci-type-a {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            color: #eff2f7;
+            /* Cool White */
+        }
+
+        /* 2. Section Header */
+        #wrapper.sub-layout-light .ci-type-a .section-header,
+        .ci-type-a .section-header {
+            margin-bottom: 50px;
+            text-align: left;
+            border-left: 4px solid var(--accent);
+            padding-left: 25px;
+        }
+
+        /* H2 */
+        #wrapper.sub-layout-light .ci-type-a .section-header h2,
+        .ci-type-a .section-header h2 {
+            font-family: 'Inter', sans-serif;
+            /* Modern Sans */
+            font-weight: 700;
+            font-size: 2.8rem;
+            color: #fff;
+            margin-bottom: 10px;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        /* P (Header) */
+        #wrapper.sub-layout-light .ci-type-a .section-header p,
+        .ci-type-a .section-header p {
+            color: var(--accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            display: block;
+            /* Stacked */
+        }
+
+        #wrapper.sub-layout-light .ci-type-a .section-header p::before,
+        .ci-type-a .section-header p::before {
+            display: none;
+            /* Remove line */
+        }
+
+        /* 3. Layout Grid */
+        #wrapper.sub-layout-light .ci-type-a .about-grid,
+        .ci-type-a .about-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 80px;
+            align-items: flex-start;
+        }
+
+        /* Image Side */
+        #wrapper.sub-layout-light .ci-type-a .about-image,
+        .ci-type-a .about-image {
+            position: relative;
+        }
+
+        #wrapper.sub-layout-light .ci-type-a .about-image img,
+        .ci-type-a .about-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            display: block;
+            box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
+            /* Deep Shadow */
+            border: 1px solid rgba(100, 255, 218, 0.2);
+            /* Thin Accent Border */
+        }
+
+        /* Geometric Decoration */
+        #wrapper.sub-layout-light .ci-type-a .about-image::before,
+        .ci-type-a .about-image::before {
+            /* Remove big frame, keep logic clean */
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: -20px;
+            bottom: -20px;
+            border: 1px solid var(--accent);
+            z-index: -1;
+            opacity: 0.3;
+            transition: all 0.3s ease;
+        }
+
+        #wrapper.sub-layout-light .ci-type-a .about-image:hover::before,
+        .ci-type-a .about-image:hover::before {
+            top: 10px;
+            left: 10px;
+            right: -10px;
+            bottom: -10px;
+            opacity: 0.8;
+        }
+
+        /* 4. Text Side */
+        #wrapper.sub-layout-light .ci-type-a .about-text,
+        .ci-type-a .about-text {
+            color: #8892b0;
+            padding-top: 10px;
+        }
+
+        #wrapper.sub-layout-light .ci-type-a .about-text h3,
+        .ci-type-a .about-text h3 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: #ccd6f6;
+            /* Bright Gray */
+            margin-bottom: 25px;
+            line-height: 1.3;
+        }
+
+        #wrapper.sub-layout-light .ci-type-a .about-text p,
+        .ci-type-a .about-text p {
+            margin-bottom: 20px;
+            text-align: justify;
+            line-height: 1.7;
+            color: #8892b0;
+            font-size: 1.05rem;
+        }
+
+        /* Stats Section */
+        #wrapper.sub-layout-light .ci-type-a .stats-row,
+        .ci-type-a .stats-row {
+            display: flex;
+            justify-content: flex-start;
+            /* Left align */
+            gap: 60px;
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        #wrapper.sub-layout-light .ci-type-a .stat-item,
+        .ci-type-a .stat-item {
+            text-align: left;
+        }
+
+        #wrapper.sub-layout-light .ci-type-a .stat-number,
+        .ci-type-a .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+            font-family: 'Inter', sans-serif;
+        }
+
+        #wrapper.sub-layout-light .ci-type-a .stat-label,
+        .ci-type-a .stat-label {
+            font-size: 0.85rem;
+            color: #8892b0;
+            margin-top: 10px;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+        }
+
+        /* Responsive */
+        @media (max-width: 991px) {
+
+            #wrapper.sub-layout-light .ci-type-a .about-grid,
+            .ci-type-a .about-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+    </style>
+
+    <div class="ci-type-a">
+        <div class="section-header" data-aos="fade-right">
+            <p>Who We Are</p>
+            <h2>Excellence in<br>Advanced Technology</h2>
+            <!-- More generic title -->
+        </div>
+
+        <div class="about-grid">
+            <!-- Image Area -->
+            <div class="about-image" data-aos="fade-right" data-aos-delay="200">
+                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop"
+                    alt="Company Image">
+                <!-- Changed to Office Image -->
+            </div>
+
+            <!-- Text Area -->
+            <div class="about-text" data-aos="fade-left" data-aos-delay="400">
+                <h3>Building a Better Future<br>With Creative Solutions</h3>
+                <p>
+                    저희 회사는 창립 이래 끊임없는 기술 혁신과 도전 정신으로 업계를 선도해 왔습니다. 고객의 신뢰를 최우선 가치로 여기며, 지속 가능한 미래를 위해 앞장서고 있습니다.
+                </p>
+                <p>
+                    최고의 전문 인력과 최첨단 기술력을 바탕으로 차별화된 솔루션을 제공하며, 글로벌 시장에서도 경쟁력을 인정받고 있습니다. 사회적 책임을 다하는 기업으로서, 투명 경영과 나눔을
+                    실천합니다.
+                </p>
+                <p>
+                    여러분의 성공적인 비즈니스 파트너로서 언제나 곁에서 함께 성장하겠습니다. 감사합니다.
+                </p>
+            </div>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="stats-row" data-aos="fade-up" data-aos-delay="600">
+            <div class="stat-item">
+                <div class="stat-number">2023</div>
+                <div class="stat-label">FOUNDED</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">150+</div>
+                <div class="stat-label">PROJECTS COMPLETED</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">98%</div>
+                <div class="stat-label">CLIENT SATISFACTION</div>
+            </div>
+        </div>
+    </div>
+    <!-- END SKIN CONTENT -->
+
+
+    <!-- Script Init for AOS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            once: true,
+            offset: 120,
+            duration: 800,
+            easing: 'ease-out-cubic'
+        });
+    </script>
+</body>
+
+</html>

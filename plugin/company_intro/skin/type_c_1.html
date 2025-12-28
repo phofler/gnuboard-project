@@ -1,0 +1,155 @@
+<style>
+    /* 
+     * Type C-1: CEO Center Skin (Centralized)
+     * Layout: Header -> Wide Image (CEO) -> Signature -> Message
+     * Colors: Inherited
+     */
+
+    /* Container */
+    #wrapper.sub-layout-light .ci-type-c-1,
+    .ci-type-c-1 {
+        width: 100%;
+        max-width: var(--spacing-container, 1200px);
+        margin: 0 auto;
+        padding: 0;
+        box-sizing: border-box;
+        text-align: center;
+        color: var(--color-text-primary, #e6f1ff);
+    }
+
+    /* 1. Header */
+    #wrapper.sub-layout-light .ci-type-c-1 .vertical-header,
+    .ci-type-c-1 .vertical-header {
+        margin-bottom: 50px;
+    }
+
+    #wrapper.sub-layout-light .ci-type-c-1 .vertical-header h2,
+    .ci-type-c-1 .vertical-header h2 {
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--color-text-primary, #fff);
+        margin-bottom: 10px;
+        font-family: var(--font-heading, sans-serif);
+    }
+
+    #wrapper.sub-layout-light .ci-type-c-1 .vertical-header p,
+    .ci-type-c-1 .vertical-header p {
+        color: var(--color-accent-gold, #d4af37);
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+    }
+
+    /* 2. CEO Image & Signature Area */
+    /* [FIX] Added Bottom Bar to match Type C Standard */
+    #wrapper.sub-layout-light .ci-type-c-1 .vertical-header::after,
+    .ci-type-c-1 .vertical-header::after {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 4px;
+        background: var(--color-accent-gold, #d4af37);
+        margin: 20px auto 0;
+        border-radius: 2px;
+    }
+
+    #wrapper.sub-layout-light .ci-type-c-1 .ceo-area,
+    .ci-type-c-1 .ceo-area {
+        position: relative;
+        margin-bottom: 50px;
+    }
+
+    #wrapper.sub-layout-light .ci-type-c-1 .ceo-image,
+    .ci-type-c-1 .ceo-image {
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        margin: 0 auto 30px;
+        overflow: hidden;
+        border: 4px solid var(--color-accent-gold, #d4af37);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    #wrapper.sub-layout-light .ci-type-c-1 .ceo-image img,
+    .ci-type-c-1 .ceo-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    #wrapper.sub-layout-light .ci-type-c-1 .sign-img,
+    .ci-type-c-1 .sign-img {
+        max-width: 200px;
+        margin: 0 auto;
+        filter: invert(1);
+        /* Assuming black signature image */
+        opacity: 0.8;
+    }
+
+    /* 3. Message */
+    #wrapper.sub-layout-light .ci-type-c-1 .ceo-message,
+    .ci-type-c-1 .ceo-message {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    #wrapper.sub-layout-light .ci-type-c-1 .ceo-message h3,
+    .ci-type-c-1 .ceo-message h3 {
+        font-size: 2rem;
+        font-family: 'Playfair Display', serif;
+        margin-bottom: 30px;
+        color: var(--color-text-primary, #fff);
+        line-height: 1.4;
+    }
+
+    #wrapper.sub-layout-light .ci-type-c-1 .ceo-message p,
+    .ci-type-c-1 .ceo-message p {
+        font-size: 1.05rem;
+        line-height: 1.8;
+        color: var(--color-text-secondary, #cccccc);
+        margin-bottom: 20px;
+        word-break: keep-all;
+    }
+
+    #wrapper.sub-layout-light .ci-type-c-1 .ceo-title,
+    .ci-type-c-1 .ceo-title {
+        font-weight: 700;
+        margin-top: 40px;
+        color: var(--color-text-primary, #fff);
+    }
+</style>
+
+<div class="ci-type-c-1">
+    <div class="vertical-header" data-aos="fade-down">
+        <p>CEO Message</p>
+        <h2>Leadership with Vision</h2>
+    </div>
+
+    <div class="ceo-area" data-aos="zoom-in">
+        <div class="ceo-image">
+            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1000&auto=format&fit=crop"
+                alt="CEO">
+        </div>
+        <!-- Signature Placeholder -->
+        <!-- <img src="/theme/corporate/img/signature.png" class="sign-img" alt="Signature"> -->
+    </div>
+
+    <div class="ceo-message" data-aos="fade-up" data-aos-delay="200">
+        <h3>"혁신은 두려움 없는<br>도전에서 시작됩니다."</h3>
+        <p>
+            안녕하십니까, 대표이사 김철수입니다.<br>
+            저희 회사는 지난 40여 년간 끊임없는 도전과 혁신으로 업계를 선도해 왔습니다.<br>
+            고객 여러분의 변함없는 신뢰가 있었기에 가능한 일이었습니다.
+        </p>
+        <p>
+            앞으로도 저희는 '사람 중심의 기술'이라는 철학을 바탕으로<br>
+            더 나은 세상을 만드는 데 기여하겠습니다.<br>
+            지속 가능한 성장을 통해 사회적 책임을 다하는 기업이 되겠습니다.
+        </p>
+        <div class="ceo-title">
+            Passionate & Trusted Partner<br>
+            CEO. Kim Cheol-Su
+        </div>
+    </div>
+</div>

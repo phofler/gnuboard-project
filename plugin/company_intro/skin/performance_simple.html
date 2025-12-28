@@ -1,0 +1,168 @@
+<style>
+    /* Performance Simple (실적 - 심플) */
+    .perf-simple-section {
+        width: 100%;
+        max-width: var(--spacing-container, 1200px);
+        margin: 0 auto;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .section-header h2 {
+        color: var(--color-text-primary);
+        font-family: var(--font-heading);
+    }
+
+    .section-header p {
+        color: var(--color-text-secondary);
+    }
+
+    .perf-simple-list {
+        max-width: 1000px;
+        margin: 50px auto 0;
+        border-top: 2px solid var(--color-text-primary);
+    }
+
+    .perf-simple-item {
+        display: flex;
+        padding: 25px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        align-items: flex-start;
+        transition: background 0.2s;
+    }
+
+    /* Light Mode Fallback for border */
+    @media (prefers-color-scheme: light) {
+        .perf-simple-item {
+            border-bottom-color: rgba(0, 0, 0, 0.1);
+        }
+    }
+
+    .perf-simple-item:hover {
+        background: rgba(255, 255, 255, 0.02);
+    }
+
+    .perf-simple-date {
+        flex: 0 0 150px;
+        font-weight: bold;
+        color: var(--color-accent-gold);
+        font-family: var(--font-heading);
+        font-size: 1.1rem;
+        padding-top: 2px;
+    }
+
+    .perf-simple-info {
+        flex: 1;
+    }
+
+    .perf-simple-title {
+        font-size: 1.2rem;
+        color: var(--color-text-primary);
+        margin: 0 0 10px;
+        font-weight: bold;
+    }
+
+    .perf-simple-desc {
+        color: var(--color-text-secondary);
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin: 0;
+    }
+
+    .perf-simple-meta {
+        margin-top: 10px;
+        font-size: 0.85rem;
+        color: #888;
+        display: flex;
+        gap: 15px;
+    }
+
+    .perf-tag {
+        display: inline-block;
+        padding: 2px 8px;
+        border: 1px solid var(--color-text-secondary);
+        border-radius: 20px;
+        font-size: 0.75rem;
+        opacity: 0.7;
+    }
+
+    @media screen and (max-width: 768px) {
+        .perf-simple-item {
+            flex-direction: column;
+        }
+
+        .perf-simple-date {
+            margin-bottom: 10px;
+            flex: auto;
+        }
+    }
+</style>
+
+<div class="perf-simple-section">
+    <div class="section-header text-center mb-5">
+        <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">PROJECT LIST</h2>
+        <p>성공적으로 수행한 주요 프로젝트 목록입니다.</p>
+    </div>
+
+    <div class="perf-simple-list">
+        <!-- Item 1 -->
+        <div class="perf-simple-item" data-aos="fade-up">
+            <div class="perf-simple-date">2024. 02</div>
+            <div class="perf-simple-info">
+                <h3 class="perf-simple-title">금융권 차세대 시스템 구축</h3>
+                <p class="perf-simple-desc">
+                    A은행 모바일 뱅킹 서비스 리뉴얼 및 코어 뱅킹 인터페이스 고도화 작업을 성공적으로 수행하였습니다.
+                </p>
+                <div class="perf-simple-meta">
+                    <span class="perf-tag">Finance</span>
+                    <span class="perf-tag">SI</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="perf-simple-item" data-aos="fade-up" data-aos-delay="50">
+            <div class="perf-simple-date">2023. 11</div>
+            <div class="perf-simple-info">
+                <h3 class="perf-simple-title">공공기관 빅데이터 분석 플랫폼</h3>
+                <p class="perf-simple-desc">
+                    방대한 공공 데이터를 수집, 분석하여 시각화하는 대시보드 시스템을 구축하였습니다.
+                </p>
+                <div class="perf-simple-meta">
+                    <span class="perf-tag">Public</span>
+                    <span class="perf-tag">Big Data</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="perf-simple-item" data-aos="fade-up" data-aos-delay="100">
+            <div class="perf-simple-date">2023. 08</div>
+            <div class="perf-simple-info">
+                <h3 class="perf-simple-title">글로벌 이커머스 솔루션 개발</h3>
+                <p class="perf-simple-desc">
+                    다국어 및 다통화 결제를 지원하는 엔터프라이즈급 쇼핑몰 플랫폼을 런칭하였습니다.
+                </p>
+                <div class="perf-simple-meta">
+                    <span class="perf-tag">E-commerce</span>
+                    <span class="perf-tag">Solution</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="perf-simple-item" data-aos="fade-up" data-aos-delay="150">
+            <div class="perf-simple-date">2023. 04</div>
+            <div class="perf-simple-info">
+                <h3 class="perf-simple-title">스마트 팩토리 IoT 시스템</h3>
+                <p class="perf-simple-desc">
+                    제조 라인의 센서 데이터를 실시간으로 모니터링하고 제어하는 통합 관제 시스템입니다.
+                </p>
+                <div class="perf-simple-meta">
+                    <span class="perf-tag">Smart Factory</span>
+                    <span class="perf-tag">IoT</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

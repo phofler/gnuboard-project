@@ -1,0 +1,254 @@
+<style>
+    /* 
+     * Type B-1: Premium CEO Message Skin (Text Left / Image Right)
+     * Colors: Dark Navy (#0a192f), Gold/Bronze (#d4af37), White, Soft Gray
+     * [FIX] Dual Selectors: Verified for both Front-end (High Specificity) and Editor (Visual)
+     */
+
+    /* 1. Container */
+    #wrapper.sub-layout-light .ci-type-b1,
+    .ci-type-b1 {
+        width: 100%;
+        max-width: var(--spacing-container, 1200px);
+        margin: 0 auto;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Inter', sans-serif;
+        color: #e6f1ff;
+    }
+
+    /* 2. Section Header */
+    /* 2. Section Header - [FIX] Right Edge Standard (Mirrors Type A Global) */
+    #wrapper.sub-layout-light .ci-type-b1 .section-header,
+    .ci-type-b1 .section-header {
+        margin-bottom: 60px;
+        text-align: left;
+        /* Global Left Edge will apply */
+    }
+
+    /* H2 - The most critical override */
+    #wrapper.sub-layout-light .ci-type-b1 .section-header h2,
+    .ci-type-b1 .section-header h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: 2.5rem;
+        color: #e6f1ff;
+        margin-bottom: 20px;
+        line-height: 1.2;
+    }
+
+    /* P (Header) */
+    #wrapper.sub-layout-light .ci-type-b1 .section-header p,
+    .ci-type-b1 .section-header p {
+        color: #d4af37;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-size: 0.9rem;
+        display: block;
+        text-align: left;
+        /* Align right */
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+
+    /* P Before - Change to After for Right Align? Or just maintain visual order. */
+    /* Let's keep it simple: line always next to text. */
+    /* P After - [FIX] Removed to follow Right Edge Standard (No duplicate lines) */
+    #wrapper.sub-layout-light .ci-type-b1 .section-header p::after,
+    .ci-type-b1 .section-header p::after {
+        display: none;
+    }
+
+    /* Remove Before used in Type A */
+    #wrapper.sub-layout-light .ci-type-b1 .section-header p::before,
+    .ci-type-b1 .section-header p::before {
+        display: none;
+    }
+
+    /* 3. Layout Grid */
+    #wrapper.sub-layout-light .ci-type-b1 .about-grid,
+    .ci-type-b1 .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        /* 1:1 Split */
+        gap: 60px;
+        align-items: flex-start;
+        /* Top Align */
+    }
+
+    /* Text Side (First) */
+    #wrapper.sub-layout-light .ci-type-b1 .about-text,
+    .ci-type-b1 .about-text {
+        color: #8892b0;
+    }
+
+    #wrapper.sub-layout-light .ci-type-b1 .about-text h3,
+    .ci-type-b1 .about-text h3 {
+        font-family: 'Playfair Display', serif;
+        font-size: 2rem;
+        color: #e6f1ff;
+        margin-bottom: 25px;
+        line-height: 1.3;
+    }
+
+    #wrapper.sub-layout-light .ci-type-b1 .about-text p,
+    .ci-type-b1 .about-text p {
+        margin-bottom: 20px;
+        text-align: justify;
+        line-height: 1.7;
+        color: #8892b0;
+    }
+
+    /* Signature */
+    #wrapper.sub-layout-light .ci-type-b1 .sign-area,
+    .ci-type-b1 .sign-area {
+        margin-top: 40px;
+        text-align: left;
+        /* Left align for B-1 Text Area */
+    }
+
+    #wrapper.sub-layout-light .ci-type-b1 .sign-name,
+    .ci-type-b1 .sign-name {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.1rem;
+        color: #e6f1ff;
+        margin-top: 10px;
+        font-style: italic;
+    }
+
+    /* Image Side (Second) */
+    #wrapper.sub-layout-light .ci-type-b1 .about-image,
+    .ci-type-b1 .about-image {
+        position: relative;
+    }
+
+    #wrapper.sub-layout-light .ci-type-b1 .about-image img,
+    .ci-type-b1 .about-image img {
+        width: 100%;
+        height: auto;
+        border-radius: 4px;
+        display: block;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Geometric Decoration */
+    #wrapper.sub-layout-light .ci-type-b1 .about-image::before,
+    .ci-type-b1 .about-image::before {
+        content: '';
+        position: absolute;
+        top: -20px;
+        right: -20px;
+        /* Mirrored to Right */
+        width: 100%;
+        height: 100%;
+        border: 2px solid #d4af37;
+        z-index: -1;
+        opacity: 0.5;
+        transition: all 0.3s ease;
+    }
+
+    #wrapper.sub-layout-light .ci-type-b1 .about-image:hover::before,
+    .ci-type-b1 .about-image:hover::before {
+        top: 20px;
+        right: 20px;
+        /* Mirrored */
+        opacity: 1;
+    }
+
+    /* 5. Stats Section */
+    #wrapper.sub-layout-light .ci-type-b1 .stats-row,
+    .ci-type-b1 .stats-row {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 80px;
+        padding-top: 40px;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    #wrapper.sub-layout-light .ci-type-b1 .stat-item,
+    .ci-type-b1 .stat-item {
+        text-align: center;
+    }
+
+    #wrapper.sub-layout-light .ci-type-b1 .stat-number,
+    .ci-type-b1 .stat-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #d4af37;
+        font-family: 'Playfair Display', serif;
+    }
+
+    #wrapper.sub-layout-light .ci-type-b1 .stat-label,
+    .ci-type-b1 .stat-label {
+        font-size: 0.9rem;
+        color: #8892b0;
+        margin-top: 5px;
+    }
+
+    /* Responsive */
+    @media (max-width: 991px) {
+
+        #wrapper.sub-layout-light .ci-type-b1 .about-grid,
+        .ci-type-b1 .about-grid {
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        #wrapper.sub-layout-light .ci-type-b1 .about-image::before,
+        .ci-type-b1 .about-image::before {
+            display: none;
+        }
+    }
+</style>
+
+<div class="ci-type-b1">
+    <div class="section-header" data-aos="fade-left">
+        <p>Our Vision</p>
+        <h2>Leading the Future of<br>Environmental Design</h2>
+    </div>
+
+    <div class="about-grid">
+        <!-- Text Area (Left) -->
+        <div class="about-text" data-aos="fade-right" data-aos-delay="200">
+            <h3>Innovation through<br>Passion and Dedication</h3>
+            <p>
+                (주)르네상스 환경디자인산업은 1978년에 설립되었으며, 창조성 정확성 높은 수준의 품질과 마무리는 르네상스 환경디자인산업의 가장 중요한 사업 목표입니다.
+            </p>
+            <p>
+                저희는 차별화된 특수자동게이트, 썬큰, 오버헤드도어, 특수 계단구조물, 주물 게이트, 알루미늄 주물 휀스, 단조난간, 화분대, 방범창 등 특화된 금속 구조물을 전문적으로 다루고
+                있습니다.
+            </p>
+            <p>
+                끊임없는 연구 개발과 디자인 혁신을 통해 고객 여러분께 최고의 가치를 전달해 드릴 것을 약속드립니다. 감사합니다.
+            </p>
+
+            <div class="sign-area" data-aos="fade-up" data-aos-delay="600">
+                <div class="sign-name">CEO. Kim Cheol-Su</div>
+            </div>
+        </div>
+
+        <!-- Image Area (Right) -->
+        <div class="about-image" data-aos="fade-left" data-aos-delay="400">
+            <!-- Placeholder for CEO or Company Image -->
+            <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2071&auto=format&fit=crop"
+                alt="CEO Image">
+        </div>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="stats-row" data-aos="fade-up" data-aos-delay="600">
+        <div class="stat-item">
+            <div class="stat-number">1978</div>
+            <div class="stat-label">SINCE</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">45+</div>
+            <div class="stat-label">YEARS OF EXCELLENCE</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">CUSTOMER SATISFACTION</div>
+        </div>
+    </div>
+</div>

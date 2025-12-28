@@ -1,0 +1,80 @@
+<style>
+    /* Organization Chart A - Image Type (Left Edge Style) */
+    .org-section {
+        width: 100%;
+        max-width: var(--spacing-container, 1200px);
+        margin: 0 auto;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    /* 
+       [Header Style]
+       Inherits 'Left Edge Bar' from default.css (.section-header)
+       We ensure text alignment is left.
+    */
+    .org-section .section-header {
+        text-align: left;
+        margin-bottom: 60px;
+        /* Ensure the global Left Border is visible */
+        border-left: 4px solid var(--color-accent-gold);
+        padding-left: 25px;
+    }
+
+    .org-section .section-header h2 {
+        font-size: 2.5rem;
+        color: var(--color-text-primary);
+        font-family: var(--font-heading);
+        margin-bottom: 1rem;
+    }
+
+    .org-section .section-header p {
+        color: var(--color-text-secondary);
+        display: block;
+        /* Left align */
+        text-align: left;
+    }
+
+    /* Remove Bottom Bar if it exists from previous CSS */
+    .org-section .section-header::after {
+        display: none;
+    }
+
+    /* Image Container */
+    .org-img-container {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.03);
+        padding: 30px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        text-align: center;
+    }
+
+    .org-img-container img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+        border-radius: 4px;
+    }
+</style>
+
+<div class="org-section">
+    <!-- Header: Left Edge Style -->
+    <div class="section-header">
+        <h2>ORGANIZATION</h2>
+        <p>체계적인 조직 구조로 최상의 성과를 만들어갑니다.</p>
+    </div>
+
+    <!-- Image Area -->
+    <div class="org-img-container" data-aos="fade-up">
+        <!-- 
+            [TIP] 이미지 교체 방법
+            1. 이미지를 클릭하세요.
+            2. 'Unsplash 이미지 검색 및 교체' 버튼을 누르거나, 에디터의 이미지 업로드 기능을 사용하세요.
+            3. 준비된 조직도 이미지를 등록하면 됩니다.
+        -->
+        <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=1600&auto=format&fit=crop"
+            alt="Organization Chart">
+    </div>
+</div>

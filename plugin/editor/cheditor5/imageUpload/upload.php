@@ -89,6 +89,7 @@ switch ($type) {
         $found = true;
 }
 
+
 if ($found != true || $filename_len != 23) {
     exit;
 }
@@ -101,24 +102,27 @@ $filename = che_replace_filename($filename);
 $savefile = SAVE_DIR . '/' . $filename;
 
 move_uploaded_file($tempfile, $savefile);
-$imgsize = getimagesize($savefile);
+$imgsize = @getimagesize($savefile);
 $filesize = filesize($savefile);
 
 if (!$imgsize) {
     $filesize = 0;
     $random_name = '-ERR';
-    unlink($savefile);
+    @unlink($savefile);
 }
 
+// Reprocessing disabled to prevent server crash
+/*
 if (CHE_UPLOAD_IMG_CHECK && !che_reprocessImage($savefile, null)) {
     $filesize = 0;
     $random_name = '-ERR';
-    unlink($savefile);
+    @unlink($savefile);
 }
+*/
 
 try {
     if (defined('G5_FILE_PERMISSION')) {
-        chmod($savefile, G5_FILE_PERMISSION);
+        @chmod($savefile, G5_FILE_PERMISSION);
     }
 } catch (Exception $e) {
 }

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Naver Map Test</title>
+    <!-- Hardcoded Client ID: nd582w0kst -->
+    <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=nd582w0kst"></script>
+</head>
+
+<body>
+    <h1>Naver Map Connection Test</h1>
+    <div id="map" style="width:100%;height:400px;background-color:#eee;">Map should appear here</div>
+    <script>
+        window.addEventListener("load", function () {
+            if (typeof naver === "undefined") {
+                document.getElementById('map').innerHTML = "<h3 style='color:red;'>Failed to load Naver SDK. Authentication Failed?</h3>";
+                return;
+            }
+            var mapOptions = {
+                center: new naver.maps.LatLng(37.5665, 126.9780),
+                zoom: 17
+            };
+            var map = new naver.maps.Map('map', mapOptions);
+        });
+    </script>
+</body>
+
+</html>

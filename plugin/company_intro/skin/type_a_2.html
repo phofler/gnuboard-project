@@ -1,0 +1,193 @@
+<style>
+    /* 
+     * Type A-2: Vision Skin (Image Left / Text Right)
+     * Concept: Future, Growth
+     * Layout: Standard A-Type structure
+     */
+
+    /* 1. Container */
+    #wrapper.sub-layout-light .ci-type-a2,
+    .ci-type-a2 {
+        width: 100%;
+        max-width: var(--spacing-container, 1200px);
+        /* Standardize */
+        margin: 0 auto;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Inter', sans-serif;
+        color: var(--color-text-primary, #e6f1ff);
+    }
+
+    /* 2. Header */
+    #wrapper.sub-layout-light .ci-type-a2 .section-header,
+    .ci-type-a2 .section-header {
+        margin-bottom: 60px;
+        text-align: left;
+    }
+
+    #wrapper.sub-layout-light .ci-type-a2 .section-header h2,
+    .ci-type-a2 .section-header h2 {
+        font-family: var(--font-heading, 'Noto Sans KR', sans-serif);
+        font-size: 2.2rem;
+        color: var(--color-text-primary, #ffffff);
+        margin-bottom: 15px;
+        line-height: 1.2;
+    }
+
+    #wrapper.sub-layout-light .ci-type-a2 .section-header p,
+    .ci-type-a2 .section-header p {
+        color: var(--color-accent-gold, #d4af37);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    /* [FIX] Removed Horizontal Line to follow Global Vertical Edge Standard */
+    #wrapper.sub-layout-light .ci-type-a2 .section-header p::before,
+    .ci-type-a2 .section-header p::before {
+        display: none;
+    }
+
+    /* 3. Grid */
+    #wrapper.sub-layout-light .ci-type-a2 .vision-grid,
+    .ci-type-a2 .vision-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+    }
+
+    /* Image */
+    #wrapper.sub-layout-light .ci-type-a2 .vision-image,
+    .ci-type-a2 .vision-image {
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+    }
+
+    #wrapper.sub-layout-light .ci-type-a2 .vision-image img,
+    .ci-type-a2 .vision-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+        transition: transform 0.5s ease;
+    }
+
+    #wrapper.sub-layout-light .ci-type-a2 .vision-image:hover img,
+    .ci-type-a2 .vision-image:hover img {
+        transform: scale(1.03);
+    }
+
+    /* Text */
+    #wrapper.sub-layout-light .ci-type-a2 .vision-text h3,
+    .ci-type-a2 .vision-text h3 {
+        font-size: 1.8rem;
+        color: var(--color-text-primary, #ffffff);
+        margin-bottom: 25px;
+    }
+
+    #wrapper.sub-layout-light .ci-type-a2 .vision-text p,
+    .ci-type-a2 .vision-text p {
+        margin-bottom: 20px;
+        line-height: 1.7;
+        color: var(--color-text-secondary, #aaa);
+    }
+
+    /* Vision Points */
+    #wrapper.sub-layout-light .ci-type-a2 .vision-points,
+    .ci-type-a2 .vision-points {
+        margin-top: 30px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    #wrapper.sub-layout-light .ci-type-a2 .v-point,
+    .ci-type-a2 .v-point {
+        display: flex;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    #wrapper.sub-layout-light .ci-type-a2 .v-icon,
+    .ci-type-a2 .v-icon {
+        color: var(--color-accent-gold, #d4af37);
+        font-size: 1.2rem;
+        font-weight: bold;
+        padding-top: 3px;
+    }
+
+    #wrapper.sub-layout-light .ci-type-a2 .v-desc h4,
+    .ci-type-a2 .v-desc h4 {
+        font-size: 1.1rem;
+        color: var(--color-text-primary, #fff);
+        margin-bottom: 5px;
+    }
+
+    #wrapper.sub-layout-light .ci-type-a2 .v-desc p,
+    .ci-type-a2 .v-desc p {
+        font-size: 0.9rem;
+        color: var(--color-text-secondary, #999);
+        margin: 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 991px) {
+
+        #wrapper.sub-layout-light .ci-type-a2 .vision-grid,
+        .ci-type-a2 .vision-grid {
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+    }
+</style>
+
+<div class="ci-type-a2">
+    <div class="section-header" data-aos="fade-right">
+        <p>Our Vision</p>
+        <h2>Global Leader in<br>Sustainable Innovation</h2>
+    </div>
+
+    <div class="vision-grid">
+        <div class="vision-image" data-aos="fade-right" data-aos-delay="200">
+            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop"
+                alt="Vision Future">
+        </div>
+
+        <div class="vision-text" data-aos="fade-left" data-aos-delay="400">
+            <h3>Shaping the Future Together</h3>
+            <p>
+                우리는 단순한 성장을 넘어, 인류와 환경이 공존하는 지속 가능한 미래를 만들어갑니다.
+                혁신적인 기술과 창의적인 사고로 한계를 뛰어넘어 새로운 가치를 창출합니다.
+            </p>
+
+            <div class="vision-points">
+                <div class="v-point">
+                    <div class="v-icon">01</div>
+                    <div class="v-desc">
+                        <h4>Global Network</h4>
+                        <p>전 세계를 연결하는 비즈니스 네트워크로 무한한 가능성을 확장합니다.</p>
+                    </div>
+                </div>
+                <div class="v-point">
+                    <div class="v-icon">02</div>
+                    <div class="v-desc">
+                        <h4>Eco-Friendly</h4>
+                        <p>환경을 생각하는 기술 개발로 더 나은 내일을 약속합니다.</p>
+                    </div>
+                </div>
+                <div class="v-point">
+                    <div class="v-icon">03</div>
+                    <div class="v-desc">
+                        <h4>Human Centric</h4>
+                        <p>사람을 최우선으로 생각하며 삶의 질을 높이는 솔루션을 제공합니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

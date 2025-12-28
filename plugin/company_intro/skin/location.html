@@ -1,0 +1,204 @@
+<!-- Copyright Data Loaded via Placeholders -->
+<meta charset="utf-8">
+<style>
+    /* Location Skin (오시는 길) - Type C Style */
+    .location-section {
+        width: 100%;
+        max-width: var(--spacing-container, 1200px);
+        margin: 0 auto;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    /* 1. Header (Left Aligned Standard) */
+    .location-section .section-header {
+        text-align: left;
+        margin-bottom: 80px;
+        border-left: 4px solid var(--color-accent-gold);
+        padding-left: 25px;
+    }
+
+    .location-section .section-header h2 {
+        font-size: 2.5rem;
+        color: var(--color-text-primary);
+        font-family: var(--font-heading);
+        margin-bottom: 1rem;
+    }
+
+    .location-section .section-header p {
+        color: var(--color-text-secondary);
+        display: block;
+        text-align: left;
+    }
+
+    /* Remove Bottom Gold Bar */
+    .location-section .section-header::after {
+        display: none;
+    }
+
+    /* 2. Map Container */
+    .location-map-wrap {
+        width: 100%;
+        height: 500px;
+        background: #222;
+        /* Placeholder color */
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 60px;
+        position: relative;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Map Element (Target for API) */
+    #root_daum_roughmap {
+        width: 100%;
+        height: 100%;
+    }
+
+    /* 3. Info Grid */
+    .location-info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+    }
+
+    .info-group h3 {
+        font-size: 1.5rem;
+        color: var(--color-text-primary);
+        margin-bottom: 25px;
+        font-family: var(--font-heading);
+        border-left: 4px solid var(--color-accent-gold);
+        padding-left: 15px;
+    }
+
+    .info-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .info-list li {
+        margin-bottom: 20px;
+        color: var(--color-text-secondary);
+        font-size: 1rem;
+        display: flex;
+        align-items: flex-start;
+        line-height: 1.6;
+    }
+
+    .info-list li strong {
+        color: var(--color-text-primary);
+        font-weight: 600;
+        width: 100px;
+        flex-shrink: 0;
+    }
+
+    .info-label {
+        font-weight: bold;
+        color: var(--color-accent-gold);
+        margin-right: 10px;
+    }
+
+    /* Transport Icons/Badges */
+    .transport-badge {
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        color: #fff;
+        margin-right: 8px;
+        font-weight: bold;
+    }
+
+    /* Colors handled inline for editor support */
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .location-info-grid {
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        .location-map-wrap {
+            height: 350px;
+        }
+    }
+</style>
+
+<div class="location-section">
+    <!-- Header -->
+    <div class="section-header">
+        <h2>LOCATION</h2>
+        <p>고객 여러분의 방문을 진심으로 환영합니다.</p>
+    </div>
+
+    <!-- Map Area -->
+    <div class="location-map-wrap">
+        <!-- 
+            [SYSTEM] Map API Integration 
+            This placeholder {MAP_API_DISPLAY} will be dynamically replaced by view.php 
+            using the configuration from 'Map API Settings' menu.
+        -->
+        {MAP_API_DISPLAY}
+    </div>
+
+    <!-- Info Grid -->
+    <div class="location-info-grid">
+        <!-- Address & Contact -->
+        <div class="info-group" data-aos="fade-right">
+            <h3>Address & Contact</h3>
+            <ul class="info-list">
+                <li>
+                    <strong>Address</strong>
+                    <span>{CP_ADDRESS}</span>
+                </li>
+
+                <li>
+                    <strong>Tel</strong>
+                    <span>{CP_TEL}</span>
+                </li>
+
+                <li>
+                    <strong>Fax</strong>
+                    <span>{CP_FAX}</span>
+                </li>
+
+                <li>
+                    <strong>Email</strong>
+                    <span>{CP_EMAIL}</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Transport -->
+        <div class="info-group" data-aos="fade-left" data-aos-delay="200">
+            <h3>Transportation</h3>
+            <ul class="info-list">
+                <li>
+                    <strong>지하철</strong>
+                    <div>
+                        <!-- Inline Style: Green for Line 2 -->
+                        <span class="transport-badge" style="background-color: #3cb44a;">2호선</span>
+                        역삼역 3번 출구 도보 5분
+                    </div>
+                </li>
+                <li>
+                    <strong>버스</strong>
+                    <div>
+                        <!-- Inline Style: Blue for Trunk Bus -->
+                        <span class="transport-badge" style="background-color: #3765da;">간선</span>
+                        146, 341, 360, 740번 (역삼역.포스코P&S타워 하차)
+                    </div>
+                </li>
+                <li>
+                    <strong>자가용</strong>
+                    <div>
+                        네비게이션에 <b>'르네상스 환경디자인'</b> 검색<br>
+                        (건물 내 지하 주차장 이용 가능)
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

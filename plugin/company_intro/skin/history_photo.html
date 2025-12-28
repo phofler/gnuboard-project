@@ -1,0 +1,180 @@
+<style>
+    /* History Photo (포토 연혁) */
+    .ci-history-photo {
+        width: 100%;
+        max-width: var(--spacing-container, 1200px);
+        margin: 0 auto;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .section-header h2 {
+        color: var(--color-text-primary);
+        font-family: var(--font-heading);
+    }
+
+    .section-header p {
+        color: var(--color-text-secondary);
+    }
+
+    .history-photo-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 80px;
+        /* AOS animation opacity handled by JS library */
+    }
+
+    .history-photo-item:nth-child(even) {
+        flex-direction: row-reverse;
+    }
+
+    .history-photo-img {
+        flex: 1;
+        max-width: 45%;
+        position: relative;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .history-photo-img img {
+        width: 100%;
+        height: auto;
+        display: block;
+        transition: transform 0.5s;
+    }
+
+    .history-photo-img:hover img {
+        transform: scale(1.05);
+    }
+
+    .history-photo-txt {
+        flex: 1;
+        padding: 0 40px;
+        text-align: center;
+    }
+
+    .history-photo-year {
+        display: inline-block;
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: var(--color-accent-gold);
+        margin-bottom: 10px;
+        position: relative;
+        font-family: var(--font-heading);
+    }
+
+    .history-photo-year::after {
+        content: '';
+        display: block;
+        width: 40px;
+        height: 3px;
+        background: var(--color-text-primary);
+        margin: 10px auto;
+        opacity: 0.3;
+    }
+
+    .history-photo-txt h3 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        color: var(--color-text-primary);
+        font-family: var(--font-heading);
+    }
+
+    .history-photo-txt p {
+        color: var(--color-text-secondary);
+        line-height: 1.8;
+    }
+
+    .history-photo-txt ul {
+        list-style: none;
+        padding: 0;
+        margin-top: 20px;
+        color: var(--color-text-secondary);
+    }
+
+    @media screen and (max-width: 768px) {
+
+        .history-photo-item,
+        .history-photo-item:nth-child(even) {
+            flex-direction: column;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .history-photo-img {
+            max-width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .history-photo-txt {
+            padding: 0;
+        }
+    }
+</style>
+
+<div class="ci-history-photo">
+    <div class="section-header mb-5">
+        <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">HISTORY</h2>
+        <p>사진으로 보는 우리의 역사입니다.</p>
+    </div>
+
+    <div class="history-photo-list">
+        <!-- 2024 -->
+        <div class="history-photo-item" data-aos="fade-right">
+            <div class="history-photo-img">
+                <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80"
+                    alt="Meeting">
+            </div>
+            <div class="history-photo-txt">
+                <span class="history-photo-year">2024</span>
+                <h3>글로벌 파트너십 체결</h3>
+                <p>
+                    세계적인 기업들과의 파트너십을 통해<br>
+                    글로벌 시장에서의 입지를 더욱 공고히 하였습니다.
+                </p>
+                <ul>
+                    <li>- 글로벌 A사 독점 공급 계약</li>
+                    <li>- 해외 전략적 투자 유치</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 2022 -->
+        <div class="history-photo-item" data-aos="fade-left">
+            <div class="history-photo-img">
+                <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80"
+                    alt="Tech">
+            </div>
+            <div class="history-photo-txt">
+                <span class="history-photo-year">2022</span>
+                <h3>혁신 기술 개발</h3>
+                <p>
+                    독자적인 기술력을 바탕으로 시장을 선도하는<br>
+                    새로운 솔루션을 출시하였습니다.
+                </p>
+                <ul>
+                    <li>- 차세대 AI 엔진 개발</li>
+                    <li>- 기술 특허 5건 등록</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 2018 -->
+        <div class="history-photo-item" data-aos="fade-up">
+            <div class="history-photo-img">
+                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80"
+                    alt="Building">
+            </div>
+            <div class="history-photo-txt">
+                <span class="history-photo-year">2018</span>
+                <h3>새로운 시작</h3>
+                <p>
+                    더 큰 꿈을 위해 새로운 사옥으로 이전하고<br>
+                    제2의 도약을 선포하였습니다.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,144 @@
+<!-- Copyright Data Loaded via Placeholders -->
+<meta charset="utf-8">
+<style>
+    /* Location Skin C - Overlay Style */
+    .loc-c-wrap {
+        width: 100%;
+        max-width: 100%;
+        /* Full Width */
+        padding: 0;
+        margin: 0;
+        position: relative;
+    }
+
+    /* Map Background Container */
+    .loc-c-map-container {
+        width: 100%;
+        height: 80vh;
+        /* Extremely tall map */
+        position: relative;
+        filter: brightness(0.9);
+    }
+
+    #root_daum_roughmap {
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    /* Floating Card */
+    .loc-c-card {
+        position: absolute;
+        top: 50%;
+        left: 10%;
+        transform: translateY(-50%);
+        width: 400px;
+        background: rgba(18, 18, 18, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 50px;
+        border-radius: 4px;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        z-index: 10;
+    }
+
+    .loc-c-card h2 {
+        font-size: 2.5rem;
+        color: #fff;
+        margin-bottom: 10px;
+        font-family: var(--font-heading);
+    }
+
+    .loc-c-card p.sub {
+        color: var(--color-accent-gold);
+        font-weight: bold;
+        margin-bottom: 40px;
+        display: block;
+    }
+
+    .loc-c-info-item {
+        margin-bottom: 25px;
+        border-left: 3px solid rgba(255, 255, 255, 0.2);
+        padding-left: 15px;
+        transition: border-color 0.3s;
+    }
+
+    .loc-c-info-item:hover {
+        border-color: var(--color-accent-gold);
+    }
+
+    .loc-c-info-item strong {
+        display: block;
+        color: #aaa;
+        font-size: 0.85rem;
+        margin-bottom: 5px;
+        text-transform: uppercase;
+    }
+
+    .loc-c-info-item span {
+        color: #fff;
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+        .loc-c-wrap {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .loc-c-map-container {
+            height: 400px;
+            order: 2;
+        }
+
+        .loc-c-card {
+            position: relative;
+            top: auto;
+            left: auto;
+            transform: none;
+            width: 100%;
+            box-sizing: border-box;
+            order: 1;
+            padding: 40px 20px;
+            border-radius: 0;
+            border: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    }
+</style>
+
+<div class="loc-c-wrap">
+    <!-- Map as Background -->
+    <div class="loc-c-map-container">
+        {MAP_API_DISPLAY}
+    </div>
+
+    <!-- Floating Info Card -->
+    <div class="loc-c-card">
+        <h2>LOCATION</h2>
+        <p class="sub">Office Information</p>
+
+        <div class="loc-c-content">
+            <div class="loc-c-info-item">
+                <strong>Address</strong>
+                <span>{CP_ADDRESS}</span>
+            </div>
+
+            <div class="loc-c-info-item">
+                <strong>Tel</strong>
+                <span>{CP_TEL}</span>
+            </div>
+
+            <div class="loc-c-info-item">
+                <strong>Fax</strong>
+                <span>{CP_FAX}</span>
+            </div>
+
+            <div class="loc-c-info-item">
+                <strong>Email</strong>
+                <span>{CP_EMAIL}</span>
+            </div>
+        </div>
+    </div>
+</div>

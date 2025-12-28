@@ -1,0 +1,211 @@
+<style>
+    /* Performance Gallery (실적 - 갤러리) */
+    .perf-gallery-section {
+        width: 100%;
+        max-width: var(--spacing-container, 1200px);
+        margin: 0 auto;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .section-header h2 {
+        color: var(--color-text-primary);
+        font-family: var(--font-heading);
+    }
+
+    .section-header p {
+        color: var(--color-text-secondary);
+    }
+
+    .perf-gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 30px;
+        margin-top: 50px;
+    }
+
+    .perf-item {
+        background: #fff;
+        /* Fallback */
+        background: var(--color-bg-light, #fff);
+        /* Adjusted for theme if needed, or keep white for card style */
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        overflow: hidden;
+        transition: transform 0.3s, box-shadow 0.3s;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Dark Mode Support via Variables */
+    /* Assuming global dark mode sets --color-bg-dark for body, we might need specific card bg */
+    body.theme-dark .perf-item {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .perf-item:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        border-color: var(--color-accent-gold);
+    }
+
+    .perf-img-box {
+        width: 100%;
+        height: 250px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .perf-img-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s;
+    }
+
+    .perf-item:hover .perf-img-box img {
+        transform: scale(1.1);
+    }
+
+    .perf-content {
+        padding: 25px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .perf-category {
+        font-size: 0.85rem;
+        color: var(--color-accent-gold);
+        font-weight: bold;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .perf-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: var(--color-text-primary);
+        margin: 0 0 15px;
+        line-height: 1.4;
+    }
+
+    .perf-desc {
+        color: var(--color-text-secondary);
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        flex-grow: 1;
+    }
+
+    .perf-meta {
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+        padding-top: 15px;
+        font-size: 0.9rem;
+        color: var(--color-text-secondary);
+        display: flex;
+        justify-content: space-between;
+        opacity: 0.8;
+    }
+
+    body.theme-dark .perf-meta {
+        border-top-color: rgba(255, 255, 255, 0.1);
+    }
+
+    @media screen and (max-width: 768px) {
+        .perf-gallery-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="perf-gallery-section">
+    <div class="section-header text-center mb-5">
+        <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">PERFORMANCE</h2>
+        <p>최고의 기술력으로 완성한 주요 실적입니다.</p>
+    </div>
+
+    <div class="perf-gallery-grid">
+        <!-- Item 1 -->
+        <div class="perf-item" data-aos="fade-up">
+            <div class="perf-img-box">
+                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80"
+                    alt="Project 1">
+            </div>
+            <div class="perf-content">
+                <div class="perf-category">Architecture</div>
+                <h3 class="perf-title">판교 테크노밸리 사옥 신축</h3>
+                <p class="perf-desc">
+                    친환경 에너지 설계와 최첨단 스마트 시스템이 적용된
+                    미래형 업무 공간을 구축하였습니다.
+                </p>
+                <div class="perf-meta">
+                    <span>2024.01</span>
+                    <span>판교, 한국</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="perf-item" data-aos="fade-up" data-aos-delay="100">
+            <div class="perf-img-box">
+                <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80"
+                    alt="Project 2">
+            </div>
+            <div class="perf-content">
+                <div class="perf-category">Research</div>
+                <h3 class="perf-title">AI 데이터 센터 구축</h3>
+                <p class="perf-desc">
+                    대규모 데이터 처리를 위한 고효율 서버 인프라와
+                    냉각 시스템을 완벽하게 구현하였습니다.
+                </p>
+                <div class="perf-meta">
+                    <span>2023.11</span>
+                    <span>서울, 한국</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="perf-item" data-aos="fade-up" data-aos-delay="200">
+            <div class="perf-img-box">
+                <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80"
+                    alt="Project 3">
+            </div>
+            <div class="perf-content">
+                <div class="perf-category">Global Biz</div>
+                <h3 class="perf-title">베트남 생산기지 확장</h3>
+                <p class="perf-desc">
+                    아시아 시장 공략을 위한 핵심 거점으로서
+                    최신 자동화 설비를 갖춘 생산 라인입니다.
+                </p>
+                <div class="perf-meta">
+                    <span>2023.06</span>
+                    <span>하이퐁, 베트남</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="perf-item" data-aos="fade-up" data-aos-delay="300">
+            <div class="perf-img-box">
+                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80"
+                    alt="Project 4">
+            </div>
+            <div class="perf-content">
+                <div class="perf-category">Interior</div>
+                <h3 class="perf-title">본사 라운지 리모델링</h3>
+                <p class="perf-desc">
+                    임직원의 창의적인 업무 환경과 휴식을 위한
+                    프리미엄 라운지 공간을 조성하였습니다.
+                </p>
+                <div class="perf-meta">
+                    <span>2022.12</span>
+                    <span>서울, 한국</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

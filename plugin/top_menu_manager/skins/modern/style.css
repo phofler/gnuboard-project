@@ -1,0 +1,243 @@
+@charset "utf-8";
+
+/* Modern Premium Dark Skin (Restored Glassmorphism) */
+
+:root {
+    /* Theme Inheritance */
+    --modern-bg: var(--color-bg-dark);
+    /* Was rgba(15, 15, 20, 0.85) */
+    --modern-border: rgba(255, 255, 255, 0.1);
+    --modern-text: var(--color-text-primary);
+    /* Was #ffffff */
+    --modern-text-muted: var(--color-text-secondary);
+    /* Was #8892b0 */
+    --modern-gold: var(--color-accent-gold);
+    /* Was #c5a47e */
+
+    --glass-blur: blur(12px);
+    --header-h: 90px;
+}
+
+/* Hide Hamburger on Desktop */
+@media (min-width: 1025px) {
+
+    .gnb_menu_btn,
+    #gnb_menu_btn {
+        display: none !important;
+    }
+}
+
+/* Override Theme Header */
+#hd {
+    background: var(--modern-bg) !important;
+    backdrop-filter: var(--glass-blur) !important;
+    border-bottom: 1px solid var(--modern-border) !important;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5) !important;
+    height: var(--header-h) !important;
+}
+
+.modern-gnb-wrap {
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+#logo a {
+    text-decoration: none;
+    display: flex;
+}
+
+#logo img {
+    height: auto;
+    max-height: 65px;
+    /* Increased from 30px to 65px */
+    width: auto;
+}
+
+#gnb {
+    height: 100%;
+}
+
+#gnb_1dul {
+    display: flex;
+    gap: 40px;
+    height: 100%;
+    align-items: center;
+}
+
+.gnb_1dli {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.gnb_1da {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--modern-text-muted);
+    letter-spacing: 0.5px;
+    padding: 8px 15px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: 0.3s;
+
+    /* Top Menu Truncation Logic */
+    display: inline-block;
+    /* Required for ellipsis */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    /* Align with other items */
+    max-width: 160px;
+    /* Limit width to prevent header explosion */
+}
+
+.gnb_1dli:hover .gnb_1da {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.gnb_1dli::after {
+    content: '';
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: var(--modern-gold);
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+}
+
+.gnb_1dli:hover::after {
+    width: 20px;
+    opacity: 1;
+}
+
+/* Dropdown (Dynamic Height/Width) */
+.gnb_2dul {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    min-width: 220px;
+    background: #1a1b20;
+    border: 1px solid var(--modern-border);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    z-index: 9999;
+}
+
+/* Wide variant for many items (Products) */
+.gnb_2dul.wide-dropdown {
+    min-width: 480px;
+    display: flex;
+    gap: 30px;
+}
+
+.gnb_2dul.wide-dropdown ul {
+    flex: 1;
+}
+
+.gnb_2dul::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 12px;
+    height: 12px;
+    background: #1a1b20;
+    border-top: 1px solid var(--modern-border);
+    border-left: 1px solid var(--modern-border);
+}
+
+.gnb_1dli:hover .gnb_2dul {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+.gnb_2da {
+    display: block;
+    padding: 10px 15px;
+    font-size: 14px;
+    color: #cfd8dc;
+    border-radius: 6px;
+    transition: 0.2s;
+    text-decoration: none;
+
+    /* Text Truncation Logic (Safe Range Analysis: ~10-12 Hangul chars) */
+    white-space: nowrap;
+    /* Prevent wrapping */
+    overflow: hidden;
+    /* Hide overflow */
+    text-overflow: ellipsis;
+    /* Show '...' */
+    max-width: 190px;
+    /* slightly less than 200px column width */
+}
+
+.gnb_2da:hover {
+    background: var(--modern-gold);
+    color: #000;
+    font-weight: 600;
+}
+
+.hd_right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.btn-inquiry {
+    padding: 10px 24px;
+    background: transparent;
+    border: 1px solid var(--modern-gold);
+    color: var(--modern-gold);
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.btn-inquiry:hover {
+    background: var(--modern-gold);
+    color: #000;
+}
+
+.hd_login_simple a {
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.hd_login_simple a:hover {
+    color: #fff;
+}
+
+@media (max-width: 1024px) {
+    .modern-gnb-wrap {
+        /* display: none; REMOVED to allow mobile menu to show */
+        padding: 0 15px;
+        /* Adjust padding for mobile */
+    }
+
+    /* Hide Desktop Right Menu (Login/Contact) on Mobile */
+    .hd_right {
+        display: none !important;
+    }
+}

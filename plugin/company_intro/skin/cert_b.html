@@ -1,0 +1,144 @@
+<style>
+    /* Certificate Type B - Simple List */
+    .cert-simple-section {
+        width: 100%;
+        max-width: var(--spacing-container, 1200px);
+        margin: 0 auto;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .section-header h2 {
+        color: var(--color-text-primary);
+        font-family: var(--font-heading);
+    }
+
+    .section-header p {
+        color: var(--color-text-secondary);
+    }
+
+    .cert-simple-table {
+        width: 100%;
+        border-top: 2px solid var(--color-text-primary);
+        border-collapse: collapse;
+        margin-top: 30px;
+    }
+
+    .cert-simple-table th,
+    .cert-simple-table td {
+        padding: 15px 10px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        text-align: left;
+        color: var(--color-text-secondary);
+    }
+
+    @media (prefers-color-scheme: light) {
+        .cert-simple-table td {
+            border-bottom-color: rgba(0, 0, 0, 0.1);
+        }
+    }
+
+    .cert-simple-table th {
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--color-text-primary);
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .cert-date {
+        width: 120px;
+        text-align: center !important;
+        font-family: var(--font-heading);
+        color: var(--color-accent-gold) !important;
+    }
+
+    .cert-org {
+        width: 150px;
+        text-align: center !important;
+    }
+
+    .cert-name {
+        font-weight: bold;
+        color: var(--color-text-primary) !important;
+    }
+
+    @media screen and (max-width: 768px) {
+        .cert-simple-table thead {
+            display: none;
+        }
+
+        .cert-simple-table tr {
+            display: block;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 0;
+        }
+
+        .cert-simple-table td {
+            display: block;
+            border: none;
+            padding: 5px 0;
+            text-align: left !important;
+            width: auto !important;
+        }
+
+        .cert-date {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+
+        .cert-name {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+    }
+</style>
+
+<div class="cert-simple-section">
+    <div class="section-header text-center mb-5">
+        <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">LICENSE & AWARDS</h2>
+        <p>투명하고 정직한 기업 경영의 결실입니다.</p>
+    </div>
+
+    <table class="cert-simple-table">
+        <colgroup>
+            <col style="width: 120px;">
+            <col>
+            <col style="width: 180px;">
+        </colgroup>
+        <thead>
+            <tr>
+                <th>발급일</th>
+                <th>인증서명</th>
+                <th>발급기관</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="cert-date">2024.01</td>
+                <td class="cert-name">ISO 9001 품질경영시스템 인증</td>
+                <td class="cert-org">한국표준협회</td>
+            </tr>
+            <tr>
+                <td class="cert-date">2023.11</td>
+                <td class="cert-name">기술혁신형 중소기업(Inno-Biz) 확인서</td>
+                <td class="cert-org">중소벤처기업부</td>
+            </tr>
+            <tr>
+                <td class="cert-date">2023.05</td>
+                <td class="cert-name">기업부설연구소 인정서</td>
+                <td class="cert-org">한국산업기술진흥협회</td>
+            </tr>
+            <tr>
+                <td class="cert-date">2022.12</td>
+                <td class="cert-name">정보보호 관리체계(ISMS) 인증</td>
+                <td class="cert-org">한국인터넷진흥원</td>
+            </tr>
+            <tr>
+                <td class="cert-date">2022.06</td>
+                <td class="cert-name">소프트웨어 품질인증(GS) 1등급</td>
+                <td class="cert-org">한국정보통신기술협회</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

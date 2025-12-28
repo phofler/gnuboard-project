@@ -1,0 +1,164 @@
+<style>
+    /* History Simple (심플 연혁) */
+    .ci-history-simple {
+        width: 100%;
+        max-width: var(--spacing-container, 1200px);
+        margin: 0 auto;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .section-header h2 {
+        color: var(--color-text-primary);
+        font-family: var(--font-heading);
+    }
+
+    .section-header p {
+        color: var(--color-text-secondary);
+    }
+
+    .history-simple-box {
+        max-width: 900px;
+        margin: 0 auto;
+        padding-left: 20px;
+        border-left: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .history-simple-item {
+        display: flex;
+        margin-bottom: 50px;
+        padding-left: 30px;
+        position: relative;
+    }
+
+    .history-simple-item::before {
+        content: '';
+        position: absolute;
+        left: -5px;
+        /* Line width 1px, dot 9px -> center alignment */
+        top: 10px;
+        width: 9px;
+        height: 9px;
+        background: var(--color-accent-gold);
+        border-radius: 50%;
+        box-shadow: 0 0 10px var(--color-accent-gold);
+    }
+
+    .history-simple-year {
+        flex: 0 0 120px;
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--color-text-primary);
+        line-height: 1;
+        font-family: var(--font-heading);
+        opacity: 0.9;
+    }
+
+    .history-simple-content {
+        flex: 1;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        padding-top: 5px;
+    }
+
+    .history-simple-content h4 {
+        margin: 0 0 15px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: var(--color-text-primary);
+    }
+
+    .history-simple-content ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        color: var(--color-text-secondary);
+    }
+
+    .history-simple-content li {
+        margin-bottom: 8px;
+        position: relative;
+        padding-left: 12px;
+    }
+
+    .history-simple-content li::before {
+        content: '-';
+        position: absolute;
+        left: 0;
+        color: var(--color-text-secondary);
+        opacity: 0.5;
+    }
+
+    @media screen and (max-width: 768px) {
+        .history-simple-item {
+            flex-direction: column;
+        }
+
+        .history-simple-year {
+            margin-bottom: 15px;
+            color: var(--color-accent-gold);
+        }
+
+        .history-simple-content {
+            border-top: none;
+            padding-left: 15px;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    }
+</style>
+
+<div class="ci-history-simple">
+    <div class="section-header text-center mb-5">
+        <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">HISTORY</h2>
+        <p>심플함 속에 담긴 우리의 역사입니다.</p>
+    </div>
+
+    <div class="history-simple-box">
+        <!-- 2024 -->
+        <div class="history-simple-item" data-aos="fade-up">
+            <div class="history-simple-year">2024</div>
+            <div class="history-simple-content">
+                <h4>글로벌 시장 확대</h4>
+                <ul>
+                    <li>미주 법인 설립 (New York, USA)</li>
+                    <li>연간 매출 500억 달성</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 2023 -->
+        <div class="history-simple-item" data-aos="fade-up">
+            <div class="history-simple-year">2023</div>
+            <div class="history-simple-content">
+                <h4>R&D 센터 구축</h4>
+                <ul>
+                    <li>제2 판교 테크노밸리 R&D 센터 입주</li>
+                    <li>AI 데이터 분석 솔루션 특허 출원</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 2022 -->
+        <div class="history-simple-item" data-aos="fade-up">
+            <div class="history-simple-year">2022</div>
+            <div class="history-simple-content">
+                <h4>서비스 고도화</h4>
+                <ul>
+                    <li>고객만족도(CS) 1위 선정</li>
+                    <li>ISO 9001 품질경영 인증 획득</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 2020 -->
+        <div class="history-simple-item" data-aos="fade-up">
+            <div class="history-simple-year">2020</div>
+            <div class="history-simple-content">
+                <h4>(주)회사명 설립</h4>
+                <ul>
+                    <li>법인 설립 및 서비스 런칭</li>
+                    <li>벤처기업 인증 획득</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

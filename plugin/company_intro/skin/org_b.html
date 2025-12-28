@@ -1,0 +1,84 @@
+<style>
+    /* Organization Chart B - Image Type (Center Style) */
+    .org-section {
+        width: 100%;
+        max-width: var(--spacing-container, 1200px);
+        margin: 0 auto;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    /* 
+       [Header Style]
+       Center Alignment with Gold Bottom Bar
+    */
+    .org-section .section-header {
+        text-align: center;
+        margin-bottom: 60px;
+        /* Reset Global 'Edge Bar' Style */
+        border-left: 0 !important;
+        padding-left: 0 !important;
+    }
+
+    .org-section .section-header h2 {
+        font-size: 2.5rem;
+        color: var(--color-text-primary);
+        font-family: var(--font-heading);
+        margin-bottom: 1rem;
+    }
+
+    .org-section .section-header p {
+        color: var(--color-text-secondary);
+        display: flex;
+        justify-content: center;
+    }
+
+    /* Gold Bottom Bar */
+    .org-section .section-header::after {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 4px;
+        background: var(--color-accent-gold);
+        margin: 20px auto 0;
+        border-radius: 2px;
+    }
+
+    /* Image Container */
+    .org-img-container {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.03);
+        padding: 30px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        text-align: center;
+    }
+
+    .org-img-container img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+        border-radius: 4px;
+    }
+</style>
+
+<div class="org-section">
+    <!-- Header: Center Style -->
+    <div class="section-header">
+        <h2>ORGANIZATION</h2>
+        <p>기능 중심의 유기적인 협력을 지향합니다.</p>
+    </div>
+
+    <!-- Image Area -->
+    <div class="org-img-container" data-aos="fade-up">
+        <!-- 
+            [TIP] 이미지 교체 방법
+            1. 이미지를 클릭하세요.
+            2. 'Unsplash 이미지 검색 및 교체' 버튼을 누르거나, 에디터의 이미지 업로드 기능을 사용하세요.
+            3. 준비된 조직도 이미지를 등록하면 됩니다.
+        -->
+        <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1600&auto=format&fit=crop"
+            alt="Organization Chart Center">
+    </div>
+</div>

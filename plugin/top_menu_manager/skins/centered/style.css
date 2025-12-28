@@ -1,0 +1,325 @@
+@charset "utf-8";
+
+/* Centered Skin CSS */
+
+:root {
+    /* Theme Inheritance */
+    --centered-bg: var(--color-bg-dark);
+    --centered-text: var(--color-text-primary);
+    --centered-accent: var(--color-accent-gold);
+    --centered-header-h: var(--header-height, 90px);
+}
+
+/* [FIX] Override Theme's Fixed Header Height */
+#hd {
+    height: auto !important;
+    min-height: 120px;
+    /* Ensure enough space */
+    padding: 0 !important;
+    align-items: flex-start !important;
+    /* Allow top alignment */
+}
+
+#hd_wrapper {
+    max-width: 100% !important;
+    padding: 0 !important;
+    width: 100% !important;
+    display: block !important;
+    /* Stacked layout */
+}
+
+/* Centered Header */
+.centered-header {
+    width: 100%;
+    min-height: var(--centered-header-h);
+    /* Flexible height */
+    padding: 30px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background: var(--centered-bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-inner {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#logo {
+    display: block;
+    margin-bottom: 25px;
+}
+
+#logo a {
+    text-decoration: none;
+    display: inline-block;
+}
+
+#logo img {
+    height: auto;
+    max-height: 70px;
+    /* Slightly larger for centered layout */
+    width: auto;
+}
+
+/* GNB Navigation */
+#gnb {
+    display: block;
+}
+
+#gnb_1dul {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.gnb_1dli {
+    position: relative;
+    padding-bottom: 15px;
+    /* Spacing for bridge */
+}
+
+.gnb_1da {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: 0.3s;
+    display: inline-block;
+
+    /* Truncation */
+    max-width: 140px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+}
+
+.gnb_1dli:hover .gnb_1da {
+    color: var(--centered-accent);
+}
+
+/* Underline Effect */
+.gnb_1da::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    /* Align to container bottom */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: var(--centered-accent);
+    transition: 0.3s;
+}
+
+.gnb_1dli:hover .gnb_1da::after {
+    width: 100%;
+}
+
+/* Dropdown Submenu */
+.gnb_2dul {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-bg-panel);
+    border: 1px solid #333;
+    width: 220px;
+    /* Fixed width to ensure truncation and full bg fill */
+    padding: 15px 0;
+    list-style: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.2s ease-in-out;
+    z-index: 999;
+    text-align: left;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Hover Bridge to prevent gap */
+.gnb_2dul::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    /* Extend upwards to cover the gap */
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background: transparent;
+    z-index: 1000;
+}
+
+.gnb_2dul.wide-dropdown {
+    width: 500px !important;
+    /* Fixed width for grid */
+    min-width: 0 !important;
+    /* Reset min-width */
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    /* Force 2 equal columns */
+    gap: 15px !important;
+    padding: 25px;
+    box-sizing: border-box;
+    align-content: start;
+    /* Ensure items start at top */
+}
+
+.gnb_2dul.wide-dropdown li {
+    /* Flex removed, Grid handles width */
+    width: auto;
+    min-width: 0;
+    /* CRITICAL: Allows grid item to shrink below content size */
+}
+
+.gnb_1dli:hover .gnb_2dul {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+    /* Remove downward push to keep it closer */
+}
+
+.gnb_2da {
+    display: block;
+    padding: 8px 20px;
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: 0.2s;
+
+    /* Truncation (Restored as per request) */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    /* Fill container */
+    max-width: none;
+    /* Let container define width */
+    display: block;
+    word-break: normal;
+}
+
+.gnb_2da:hover {
+    color: var(--centered-accent);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 1024px) {
+
+    /* [responsive] Hide Desktop Menu */
+    #gnb {
+        display: none !important;
+    }
+
+    /* [responsive] Show Hamburger Button */
+    .gnb_menu_btn {
+        display: block !important;
+        position: absolute;
+        top: 30px;
+        /* Aligned with padding */
+        right: 20px;
+        color: #fff;
+    }
+
+    .centered-header {
+        padding: 0 20px;
+        /* Reset padding */
+        height: 60px;
+        /* Standard Height */
+        min-height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    #logo {
+        margin: 0;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+    }
+
+    #logo img {
+        max-height: 40px;
+        width: auto;
+    }
+
+    /* [responsive] Fix Mobile Height Gap */
+    body #hd {
+        min-height: auto !important;
+        height: auto !important;
+    }
+}
+
+/* ----------------------------------------------------
+   MOBILE OVERLAY MENU (Copied from Basic Skin)
+   ---------------------------------------------------- */
+#gnb_all {
+    display: none;
+    /* Initially hidden */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--centered-bg, #1a1a1a);
+    /* Dark Background */
+    z-index: 99999;
+    overflow-y: auto;
+}
+
+.gnb_all_wr {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding-bottom: 50px;
+}
+
+.gnb_al_ul {
+    list-style: none;
+    padding: 20px;
+    margin: 0;
+}
+
+.gnb_al_li {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 15px 0;
+}
+
+.gnb_al_a {
+    display: block;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    text-decoration: none;
+    margin-bottom: 10px;
+}
+
+.gnb_al_li ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 5px;
+}
+
+.gnb_al_li ul li a {
+    display: block;
+    padding: 10px 15px;
+    font-size: 14px;
+    color: #aeaeae;
+    text-decoration: none;
+}
+
+.gnb_al_li ul li a:hover {
+    color: var(--centered-accent, #d4af37);
+    background: rgba(255, 255, 255, 0.05);
+}

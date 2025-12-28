@@ -1,0 +1,124 @@
+.footer-skin-b {
+    padding: 100px 0;
+    background-color: var(--color-bg-panel);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-skin-b .footer-container {
+    max-width: var(--spacing-container);
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 60px;
+}
+
+.footer-skin-b .footer-left {
+    flex: 1;
+}
+
+.footer-skin-b .footer-right {
+    flex: 1.5;
+}
+
+.footer-skin-b .footer-logo {
+    margin-bottom: 30px;
+}
+
+.footer-skin-b .footer-logo img {
+    height: 45px;
+    object-fit: contain;
+}
+
+.footer-skin-b .footer-links {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.footer-skin-b .footer-links a {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+}
+
+.footer-skin-b .link-privacy {
+    color: var(--color-accent-gold) !important;
+}
+
+.footer-skin-b .footer-copyright {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.footer-skin-b .footer-contact-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.footer-skin-b .info-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.footer-skin-b .info-item.label-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+.footer-skin-b .label {
+    font-family: var(--font-body);
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.3);
+    min-width: 60px;
+    font-size: 0.8rem;
+}
+
+.footer-skin-b .value {
+    color: var(--color-text-primary);
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+.footer-skin-b .contact-flex {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 991px) {
+    .footer-skin-b .footer-container {
+        flex-direction: column;
+        gap: 50px;
+        text-align: center;
+        align-items: center;
+        /* Center the flex items explicitly */
+    }
+
+    .footer-skin-b .footer-left,
+    .footer-skin-b .footer-right {
+        width: 100%;
+        /* Ensure full width for text-align to work */
+    }
+
+    .footer-skin-b .footer-links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .footer-skin-b .info-item,
+    .footer-skin-b .info-item.label-top {
+        align-items: center;
+        justify-content: center;
+    }
+
+    .footer-skin-b .contact-flex {
+        text-align: center;
+        justify-items: center;
+    }
+}

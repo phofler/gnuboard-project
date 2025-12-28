@@ -87,7 +87,7 @@ jQuery(function ($) {
                 if (!preload && !othis.filter.test(file.type)) {
                     var agent = navigator.userAgent.toLowerCase();
                     var msg = '';
-                    msg = (agent.indexOf('trident') != -1 || agent.indexOf("msie") != -1)? "익스플로러 환경에서는 gif, png, jpg 파일만 \n전송할 수 있습니다.":"이미지만 허용합니다.";
+                    msg = (agent.indexOf('trident') != -1 || agent.indexOf("msie") != -1) ? "익스플로러 환경에서는 gif, png, jpg 파일만 \n전송할 수 있습니다." : "이미지만 허용합니다.";
                     data.context.remove();
                     alert(msg);
                     return true;
@@ -238,6 +238,15 @@ jQuery(function ($) {
         gnu._done(e, data);
 
     }).on('fileuploadfail', function (e, data) {
+        var msg = "Upload Failed!\n";
+        msg += "TextStatus: " + (data.textStatus || 'N/A') + "\n";
+        msg += "ErrorThrown: " + (data.errorThrown || 'N/A') + "\n";
+        if (data.jqXHR) {
+            msg += "Status: " + data.jqXHR.status + "\n";
+            msg += "Response: " + data.jqXHR.responseText;
+        }
+        alert(msg);
+
         $.each(data.files, function (index, file) {
             var error = $('<span class="text-danger"/>').text('File upload failed.');
             $(data.context.children()[index])

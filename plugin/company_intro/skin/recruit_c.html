@@ -1,0 +1,193 @@
+<style>
+    /* Recruit Skin C - Split / Minimal Style */
+    .recruit-section-c {
+        width: 100%;
+        max-width: var(--spacing-container, 1200px);
+        margin: 0 auto;
+        padding: var(--spacing-section, 80px) 20px;
+        box-sizing: border-box;
+    }
+
+    /* Header */
+    .recruit-section-c .section-header {
+        text-align: left;
+        margin-bottom: 80px;
+        border-left: 4px solid var(--color-accent-gold);
+        padding-left: 25px;
+    }
+
+    .recruit-section-c .section-header h2 {
+        font-size: 2.5rem;
+        color: var(--color-text-primary);
+        font-family: var(--font-heading);
+        margin-bottom: 1rem;
+    }
+
+    .recruit-section-c .section-header p {
+        color: var(--color-text-secondary);
+        font-size: 1.1rem;
+        display: block;
+        text-align: left;
+    }
+
+    /* Split Layout */
+    .recruit-split {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        gap: 60px;
+        margin-bottom: 100px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 60px;
+    }
+
+    .split-title {
+        font-size: 2rem;
+        color: var(--color-accent-gold);
+        font-weight: 700;
+        font-family: var(--font-heading);
+    }
+
+    .split-content .desc {
+        font-size: 1.2rem;
+        color: #fff;
+        margin-bottom: 40px;
+        line-height: 1.6;
+    }
+
+    /* Minimal List */
+    .minimal-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .minimal-list li {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        color: var(--color-text-secondary);
+    }
+
+    .minimal-list li strong {
+        color: #fff;
+        font-weight: 500;
+    }
+
+    /* Process Minimal */
+    .process-minimal {
+        display: flex;
+        align-items: center;
+        margin-top: 40px;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .pm-step {
+        display: inline-flex;
+        align-items: center;
+        color: #fff;
+        font-size: 1.1rem;
+    }
+
+    .pm-step span {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        background: var(--color-accent-gold);
+        color: #000;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 30px;
+        font-weight: bold;
+        margin-right: 15px;
+        font-size: 0.9rem;
+    }
+
+    .pm-arrow {
+        color: rgba(255, 255, 255, 0.2);
+        margin: 0 10px;
+    }
+
+    .btn-apply {
+        display: inline-block;
+        margin-top: 40px;
+        padding: 15px 40px;
+        background: transparent;
+        border: 1px solid var(--color-accent-gold);
+        color: var(--color-accent-gold);
+        text-decoration: none;
+        font-weight: bold;
+        transition: all 0.3s;
+    }
+
+    .btn-apply:hover {
+        background: var(--color-accent-gold);
+        color: #000;
+    }
+
+    @media (max-width: 768px) {
+        .recruit-split {
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+    }
+</style>
+
+<div class="recruit-section-c">
+    <div class="section-header">
+        <h2>JOIN US</h2>
+        <p>당신의 열정을 기다립니다</p>
+    </div>
+
+    <!-- Section 1: Intro & Info -->
+    <div class="recruit-split" data-aos="fade-up">
+        <div class="split-left">
+            <div class="split-title">01.<br>채용안내</div>
+        </div>
+        <div class="split-content">
+            <p class="desc">
+                "꿈있는 모든 젊은이들의 도전을 기다립니다."<br>
+                저희는 능력 중심의 인재 채용을 원칙으로, 수시로 우수한 인재를 모집하고 있습니다.
+            </p>
+
+            <ul class="minimal-list">
+                <li>
+                    <strong>채용형태</strong>
+                    <span>수시채용 (홈페이지, 취업사이트)</span>
+                </li>
+                <li>
+                    <strong>모집직종</strong>
+                    <span>일반관리직, 기능직</span>
+                </li>
+                <li>
+                    <strong>복리후생</strong>
+                    <span>4대보험, 주5일, 퇴직금, 각종 휴가</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Section 2: Process -->
+    <div class="recruit-split" data-aos="fade-up" data-aos-delay="100">
+        <div class="split-left">
+            <div class="split-title">02.<br>전형방법</div>
+        </div>
+        <div class="split-content">
+            <div class="process-minimal">
+                <div class="pm-step"><span>01</span>서류전형</div>
+                <div class="pm-arrow">→</div>
+                <div class="pm-step"><span>02</span>면접전형</div>
+                <div class="pm-arrow">→</div>
+                <div class="pm-step"><span>03</span>신체검사</div>
+                <div class="pm-arrow">→</div>
+                <div class="pm-step" style="color:var(--color-accent-gold);"><span>04</span>최종입사</div>
+            </div>
+
+            <a href="#" class="btn-apply">입사지원하기</a>
+            <p style="margin-top: 15px; font-size: 0.9rem; color: #666;">
+                * 기타 서류 전형은 필요시 별도 공지합니다.
+            </p>
+        </div>
+    </div>
+</div>

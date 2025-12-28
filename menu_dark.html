@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corporate Dark Menu Preview</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            /* Color Palette */
+            --color-bg-dark: #121212;
+            --color-bg-panel: #1e1e1e;
+            --color-text-primary: #e0e0e0;
+            --color-text-secondary: #a0a0a0;
+            --color-accent-gold: #d4af37;
+            --color-accent-gold-hover: #f0c04a;
+
+            /* Typography */
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+
+            /* Spacing */
+            --header-height: 100px;
+            --spacing-container: 1400px;
+        }
+
+        /* Reset & Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--color-bg-dark);
+            color: var(--color-text-primary);
+            font-family: var(--font-body);
+            font-size: 16px;
+            padding-top: 150px;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s ease;
+        }
+
+        /* Header & Navigation */
+        #hd {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background: rgba(18, 18, 18, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #hd_wrapper {
+            width: 100%;
+            max-width: var(--spacing-container);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+        }
+
+        #logo a {
+            font-family: var(--font-heading);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--color-text-primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* GNB Structure based on User Request but Styled */
+        #gnb_1dul {
+            display: flex;
+            gap: 30px;
+            position: relative;
+        }
+
+        .gnb_1dli {
+            position: relative;
+        }
+
+        /* 1st Depth Menu Item style */
+        .gnb_1da {
+            font-family: var(--font-body);
+            font-size: 15px;
+            /* Slightly larger for readability */
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--color-text-primary);
+            display: block;
+            padding: 10px 5px;
+        }
+
+        .gnb_1da:hover {
+            color: var(--color-accent-gold);
+        }
+
+        /* Submenu (2nd Depth) */
+        .gnb_2dul {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            /* Center align relative to parent */
+            transform: translateX(-50%);
+            background: rgba(30, 30, 30, 0.95);
+            backdrop-filter: blur(10px);
+            min-width: 220px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            padding: 15px 0;
+            border-top: 2px solid var(--color-accent-gold);
+            z-index: 1001;
+        }
+
+        /* Special Width for Product Submenu */
+        .gnb_1dli:nth-child(2) .gnb_2dul {
+            min-width: 400px;
+            /* Wider for 2 columns */
+            display: none;
+            /* Reset display state managed by hover */
+        }
+
+        /* When hovering 2nd item, show it as grid/flex */
+        .gnb_1dli:nth-child(2):hover .gnb_2dul {
+            display: flex;
+            padding: 20px;
+            gap: 20px;
+        }
+
+
+        .gnb_1dli:hover .gnb_2dul {
+            display: block;
+            /* Default block display */
+        }
+
+        /* Override for 2nd item to be flex on hover */
+        .gnb_1dli:nth-child(2):hover .gnb_2dul {
+            display: flex;
+        }
+
+
+        .gnb_2da {
+            display: block;
+            padding: 8px 20px;
+            font-size: 13px;
+            color: #ccc;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .gnb_2da:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--color-accent-gold);
+            padding-left: 25px;
+        }
+
+        /* For multi-column submenu (products) */
+        .submenu-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="hd">
+        <div id="hd_wrapper">
+            <div id="logo">
+                <a href="#">GNUBOARD</a>
+            </div>
+
+            <!-- GNB -->
+            <nav id="gnb">
+                <ul id="gnb_1dul">
+                    <!-- 01: Company Info -->
+                    <li class="gnb_1dli">
+                        <a href="#" class="gnb_1da">회사소개</a>
+                        <ul class="gnb_2dul">
+                            <li><a href="/company/about.php" class="gnb_2da">회사개요</a></li>
+                            <li><a href="/company/greeting.php" class="gnb_2da">인사말</a></li>
+                            <li><a href="/company/product_s.php" class="gnb_2da">제품개요</a></li>
+                            <li><a href="/company/history.php" class="gnb_2da">연혁</a></li>
+                            <li><a href="/company/organ.php" class="gnb_2da">조직도</a></li>
+                            <li><a href="/company/business.php" class="gnb_2da">사업분야</a></li>
+                            <li><a href="/company/process.php" class="gnb_2da">공정현황</a></li>
+                            <li><a href="/company/certi.php" class="gnb_2da">인증/실적</a></li>
+                            <li><a href="/company/recruit01.php" class="gnb_2da">채용정보</a></li>
+                            <li><a href="/company/location.php" class="gnb_2da">찾아오시는길</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- 02: Products (Multi-column) -->
+                    <li class="gnb_1dli">
+                        <a href="#" class="gnb_1da">제품소개</a>
+                        <!-- Multi-column Layout Simulation for Products -->
+                        <div class="gnb_2dul">
+                            <div class="submenu-col">
+                                <a href="/product/product01.php?category=56" class="gnb_2da">대문</a>
+                                <a href="/product/product02.php?category=63" class="gnb_2da">자동대문</a>
+                                <a href="/product/product03.php?category=71" class="gnb_2da">오버헤드도어</a>
+                                <a href="/product/product04.php?category=74" class="gnb_2da">현관문</a>
+                                <a href="/product/product05.php?category=80" class="gnb_2da">회전계단/특수계단</a>
+                                <a href="/product/product06.php?category=83" class="gnb_2da">계단난간</a>
+                                <a href="/product/product07.php?category=90" class="gnb_2da">휀스</a>
+                                <a href="/product/product19.php?category=101" class="gnb_2da">장애자램프/난간대</a>
+                                <a href="/product/product08.php?category=106" class="gnb_2da">화분대/에어컨받침대</a>
+                                <a href="/product/product09.php?category=110" class="gnb_2da">방범창/파티션</a>
+                            </div>
+                            <div class="submenu-col">
+                                <a href="/product/product10.php" class="gnb_2da">벤치</a>
+                                <a href="/product/product11.php?category=114" class="gnb_2da">로툰다/퍼걸러/캐노피</a>
+                                <a href="/product/product12.php?category=118" class="gnb_2da">조명</a>
+                                <a href="/product/product13.php?category=124" class="gnb_2da">단순부속품</a>
+                                <a href="/product/product20.php?category=132" class="gnb_2da">소품</a>
+                                <a href="/product/product14.php" class="gnb_2da">특수주문제작</a>
+                                <a href="/product/product15.php" class="gnb_2da">정원아치장식</a>
+                                <a href="/product/product16.php" class="gnb_2da">샷시&창호공사</a>
+                                <a href="/product/product17.php" class="gnb_2da">금속구조물공사</a>
+                                <a href="/product/product18.php" class="gnb_2da">시설물유지관리공사</a>
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- 03: Construction Cases -->
+                    <li class="gnb_1dli">
+                        <a href="/case/case.php" class="gnb_1da">시공사례</a>
+                        <ul class="gnb_2dul">
+                            <li><a href="/case/case.php" class="gnb_2da">시공사례</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- 06: Catalog (Reordered as per snippet) -->
+                    <li class="gnb_1dli">
+                        <a href="javascript:;" class="gnb_1da">카달로그</a>
+                        <ul class="gnb_2dul">
+                            <li><a href="javascript:show('/ebook/catal.swf',1000,700);" class="gnb_2da">카달로그 보기</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- 04: Online Inquiry -->
+                    <li class="gnb_1dli">
+                        <a href="/online/online.php" class="gnb_1da">온라인문의</a>
+                        <ul class="gnb_2dul">
+                            <li><a href="/online/online.php" class="gnb_2da">온라인문의</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- 05: Customer Support -->
+                    <li class="gnb_1dli">
+                        <a href="#" class="gnb_1da">고객지원</a>
+                        <ul class="gnb_2dul">
+                            <li><a href="/customer/notice.php" class="gnb_2da">뉴스 & 공지</a></li>
+                            <li><a href="/customer/data.php" class="gnb_2da">자료실</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <div class="container" style="max-width: 1400px; margin: 0 auto; color: #777;">
+        <h2>본문 영역</h2>
+        <p>전달주신 메뉴 구조를 적용하여 Dark Styled로 변환한 미리보기입니다.</p>
+        <p>이미지 대신 텍스트 메뉴명으로 교체하였습니다.</p>
+    </div>
+
+</body>
+
+</html>

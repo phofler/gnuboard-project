@@ -1,0 +1,232 @@
+<style>
+    /* History Timeline (테임라인 연혁) - Smart Inherited */
+    .ci-history-timeline {
+        width: 100%;
+        max-width: var(--spacing-container, 1200px);
+        margin: 0 auto;
+        padding: 0;
+        box-sizing: border-box;
+        color: var(--color-text-primary);
+        /* Force Text Color */
+    }
+
+    /* Header - Center Style (matches Type C) */
+    .ci-history-timeline .section-header {
+        border-left: none;
+        /* Disable global edge */
+        padding-left: 0;
+        text-align: center;
+        /* Force center */
+    }
+
+    /* Bottom Gold Bar */
+    .ci-history-timeline .section-header::after {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 4px;
+        background: var(--color-accent-gold);
+        margin: 20px auto 0;
+        border-radius: 2px;
+    }
+
+    .section-header h2 {
+        color: var(--color-text-primary);
+        font-family: var(--font-heading);
+    }
+
+    /* [FIX] Center Subtitle (Flex Override) */
+    .ci-history-timeline .section-header p {
+        justify-content: center;
+        color: var(--color-text-secondary);
+    }
+
+    .history-timeline-box {
+        position: relative;
+        max-width: 1000px;
+        margin: 50px auto;
+        padding: 20px 0;
+    }
+
+    /* Central Line - Smart Inheritance w/ Opacity */
+    .history-timeline-box::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        width: 2px;
+        /* Thicker for visibility */
+        background: rgba(var(--color-accent-gold-rgb), 0.3);
+        /* [KEY] Theme Color 30% */
+        transform: translateX(-50%);
+    }
+
+    .history-time-item {
+        position: relative;
+        margin-bottom: 60px;
+        width: 50%;
+        padding-right: 50px;
+        text-align: right;
+        box-sizing: border-box;
+        float: left;
+        clear: both;
+    }
+
+    .history-time-item:nth-child(even) {
+        float: right;
+        text-align: left;
+        padding-right: 0;
+        padding-left: 50px;
+    }
+
+    .history-time-dot {
+        position: absolute;
+        top: 0;
+        right: -11px;
+        /* Adjusted for 2px line */
+        width: 20px;
+        height: 20px;
+        background: var(--color-bg-dark);
+        border: 2px solid var(--color-accent-gold);
+        border-radius: 50%;
+        z-index: 1;
+        box-shadow: 0 0 15px rgba(var(--color-accent-gold-rgb), 0.4);
+        /* Glow Effect */
+    }
+
+    .history-time-item:nth-child(even) .history-time-dot {
+        right: auto;
+        left: -11px;
+    }
+
+    .history-time-year {
+        display: inline-block;
+        padding: 5px 15px;
+        background: rgba(var(--color-accent-gold-rgb), 0.1);
+        /* Soft BG */
+        border: 1px solid var(--color-accent-gold);
+        color: var(--color-accent-gold);
+        /* Text is now Gold */
+        font-weight: bold;
+        border-radius: 20px;
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+        font-family: var(--font-heading);
+    }
+
+    .history-time-content h4 {
+        margin: 0 0 10px;
+        font-size: 1.2rem;
+        color: var(--color-text-primary);
+    }
+
+    .history-time-content ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        color: var(--color-text-secondary);
+        line-height: 1.6;
+    }
+
+    .history-time-content ul li {
+        margin-bottom: 5px;
+    }
+
+    /* Clearfix */
+    .history-timeline-box::after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+
+    /* Mobile Responsive */
+    @media screen and (max-width: 768px) {
+        .history-timeline-box::before {
+            left: 20px;
+        }
+
+        .history-time-item {
+            width: 100%;
+            float: none;
+            padding-left: 60px !important;
+            padding-right: 0 !important;
+            text-align: left !important;
+        }
+
+        .history-time-item:nth-child(even) {
+            float: none;
+        }
+
+        .history-time-dot {
+            left: 9px !important;
+            /* Adjust for line position */
+            right: auto !important;
+        }
+    }
+</style>
+
+<div class="ci-history-timeline">
+    <div class="section-header text-center mb-5">
+        <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">COMPANY HISTORY</h2>
+        <p>끊임없는 도전과 혁신으로 성장해온 발자취입니다.</p>
+    </div>
+
+    <div class="history-timeline-box">
+        <!-- 2024 -->
+        <div class="history-time-item" data-aos="fade-up">
+            <div class="history-time-dot"></div>
+            <div class="history-time-content">
+                <span class="history-time-year">2024</span>
+                <h4>글로벌 도약의 해</h4>
+                <ul>
+                    <li>- 해외 지사 설립 (미국, 유럽)</li>
+                    <li>- 수출 1,000만불 탑 달성</li>
+                    <li>- ISO 9001/14001 인증 획득</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 2023 -->
+        <div class="history-time-item" data-aos="fade-up" data-aos-delay="100">
+            <div class="history-time-dot"></div>
+            <div class="history-time-content">
+                <span class="history-time-year">2023</span>
+                <h4>기술 혁신과 성장</h4>
+                <ul>
+                    <li>- 기업부설연구소 설립</li>
+                    <li>- 신기술 인증(NET) 획득</li>
+                    <li>- 벤처기업 인증</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 2022 -->
+        <div class="history-time-item" data-aos="fade-up" data-aos-delay="200">
+            <div class="history-time-dot"></div>
+            <div class="history-time-content">
+                <span class="history-time-year">2022</span>
+                <h4>사업 확장</h4>
+                <ul>
+                    <li>- 제2공장 준공</li>
+                    <li>- 기술보증기금 투자 유치</li>
+                    <li>- 우수 중소기업 선정</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 2021 -->
+        <div class="history-time-item" data-aos="fade-up" data-aos-delay="300">
+            <div class="history-time-dot"></div>
+            <div class="history-time-content">
+                <span class="history-time-year">2021</span>
+                <h4>설립 및 기반 구축</h4>
+                <ul>
+                    <li>- (주)회사명 법인 전환</li>
+                    <li>- 창립기념식 개최</li>
+                    <li>- 서비스 런칭</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

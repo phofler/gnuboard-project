@@ -1,0 +1,218 @@
+<style>
+    /* Recruit Skin B - Card/Module Style */
+    .recruit-section-b {
+        width: 100%;
+        max-width: var(--spacing-container, 1200px);
+        margin: 0 auto;
+        padding: var(--spacing-section, 80px) 20px;
+        box-sizing: border-box;
+    }
+
+    /* Header */
+    .recruit-section-b .section-header {
+        text-align: left;
+        margin-bottom: 60px;
+        border-left: 4px solid var(--color-accent-gold);
+        padding-left: 25px;
+    }
+
+    .recruit-section-b .section-header h2 {
+        font-size: 2.5rem;
+        color: var(--color-text-primary);
+        font-family: var(--font-heading);
+        margin-bottom: 1rem;
+    }
+
+    .recruit-section-b .section-header p {
+        color: var(--color-text-secondary);
+        font-size: 1.1rem;
+        display: block;
+        text-align: left;
+    }
+
+    /* Key Message Visual */
+    .key-visual {
+        display: flex;
+        align-items: center;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+        border-radius: 12px;
+        padding: 50px;
+        margin-bottom: 60px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .key-text h3 {
+        font-size: 2rem;
+        color: #fff;
+        margin-bottom: 20px;
+        line-height: 1.4;
+    }
+
+    .key-text .highlight {
+        color: var(--color-accent-gold);
+        font-weight: bold;
+    }
+
+    .key-text p {
+        color: var(--color-text-secondary);
+        font-size: 1.1rem;
+    }
+
+    /* Grid Container */
+    .details-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-bottom: 60px;
+    }
+
+    .detail-card {
+        background: rgba(255, 255, 255, 0.03);
+        padding: 30px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .card-title {
+        font-size: 1.3rem;
+        color: #fff;
+        border-bottom: 2px solid var(--color-accent-gold);
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+        display: inline-block;
+    }
+
+    .detail-list li {
+        margin-bottom: 12px;
+        padding-left: 15px;
+        position: relative;
+        color: var(--color-text-secondary);
+        line-height: 1.6;
+    }
+
+    .detail-list li::before {
+        content: '•';
+        position: absolute;
+        left: 0;
+        color: var(--color-accent-gold);
+    }
+
+    /* Process Icons */
+    .process-cards {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+    }
+
+    .p-card {
+        background: #1a1a1a;
+        padding: 30px 20px;
+        text-align: center;
+        border-radius: 8px;
+        transition: transform 0.3s, border 0.3s;
+        border: 1px solid transparent;
+    }
+
+    .p-card:hover {
+        transform: translateY(-10px);
+        border-color: var(--color-accent-gold);
+    }
+
+    .p-num {
+        font-size: 3.5rem;
+        color: rgba(255, 255, 255, 0.1);
+        font-weight: 800;
+        margin-bottom: 15px;
+        font-family: var(--font-heading);
+        line-height: 1;
+        transition: color 0.3s;
+    }
+
+    .p-card:hover .p-num {
+        color: var(--color-accent-gold);
+    }
+
+    .p-title {
+        color: #fff;
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+
+    @media (max-width: 768px) {
+        .details-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .process-cards {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .key-visual {
+            padding: 30px;
+        }
+    }
+</style>
+
+<div class="recruit-section-b">
+    <div class="section-header">
+        <h2>RECRUITMENT</h2>
+        <p>함께 성장할 인재를 찾습니다</p>
+    </div>
+
+    <!-- Key Visual -->
+    <div class="key-visual" data-aos="fade-up">
+        <div class="key-text">
+            <h3>
+                <span class="highlight">수시로 좋은 인재를 모집합니다.</span><br>
+                꿈있는 모든 젊은이들의 도전을 기다립니다.
+            </h3>
+            <p style="margin-top: 20px;">
+                열린 마음과 창의적인 사고로 새로운 가치를 창출할 준비된 당신을 환영합니다.
+            </p>
+        </div>
+    </div>
+
+    <!-- Details Grid -->
+    <div class="details-grid">
+        <!-- Info Card -->
+        <div class="detail-card" data-aos="fade-up" data-aos-delay="100">
+            <h3 class="card-title">모집 요강</h3>
+            <ul class="detail-list">
+                <li><strong>채용형태:</strong> 수시채용 (홈페이지 및 취업사이트)</li>
+                <li><strong>모집직종:</strong> 일반관리직 (기획, 인사, 총무 등)</li>
+                <li><strong>모집직종:</strong> 기능직 (생산, 기술 지원 등)</li>
+            </ul>
+        </div>
+
+        <!-- Welfare Card -->
+        <div class="detail-card" data-aos="fade-up" data-aos-delay="200">
+            <h3 class="card-title">복리후생</h3>
+            <ul class="detail-list">
+                <li><strong>기본:</strong> 4대보험, 퇴직금, 주 5일 근무</li>
+                <li><strong>휴가:</strong> 연차, 정기 휴가, 하계 휴가</li>
+                <li><strong>지원:</strong> 각종 경조휴가 및 경조사비 지원</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Process -->
+    <h3 style="color:#fff; margin-bottom: 30px; font-size: 1.5rem;">전형 절차</h3>
+    <div class="process-cards" data-aos="fade-up" data-aos-delay="300">
+        <div class="p-card">
+            <div class="p-num">01</div>
+            <div class="p-title">서류전형</div>
+        </div>
+        <div class="p-card">
+            <div class="p-num">02</div>
+            <div class="p-title">면접전형</div>
+        </div>
+        <div class="p-card">
+            <div class="p-num">03</div>
+            <div class="p-title">신체검사</div>
+        </div>
+        <div class="p-card">
+            <div class="p-num">04</div>
+            <div class="p-title">최종입사</div>
+        </div>
+    </div>
+</div>

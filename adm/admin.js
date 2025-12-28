@@ -1,30 +1,30 @@
 /** 공통 UI 모듈 */
 window.CommonUI = {
-  bindTabs(tabSelector, contentSelector, options = {}) {
-    const tabs = document.querySelectorAll(tabSelector);
-    const contents = document.querySelectorAll(contentSelector);
+    bindTabs(tabSelector, contentSelector, options = {}) {
+        const tabs = document.querySelectorAll(tabSelector);
+        const contents = document.querySelectorAll(contentSelector);
 
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        const tabName = tab.dataset.tab;
-        const target = document.getElementById(`tab-${tabName}`);
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.dataset.tab;
+                const target = document.getElementById(`tab-${tabName}`);
 
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
 
-        contents.forEach(c => c.classList.add('is-hidden'));
+                contents.forEach(c => c.classList.add('is-hidden'));
 
-        if (target) target.classList.remove('is-hidden');
+                if (target) target.classList.remove('is-hidden');
 
-        options.onChange?.(tabName, target);
-      });
-    });
-  }
+                options.onChange?.(tabName, target);
+            });
+        });
+    }
 };
 
 function setHtml(el, markup) {
-    if (!el) return; 
-    if (markup == null || markup === '') { 
+    if (!el) return;
+    if (markup == null || markup === '') {
         el.textContent = '';
         return;
     }
@@ -110,8 +110,7 @@ function check_all(target) {
 }
 
 
-function btn_check(f, act)
-{
+function btn_check(f, act) {
     if (act == "update") // 선택수정
     {
         f.action = list_update_php;
@@ -128,20 +127,17 @@ function btn_check(f, act)
     var chk = document.getElementsByName("chk[]");
     var bchk = false;
 
-    for (i=0; i<chk.length; i++)
-    {
+    for (i = 0; i < chk.length; i++) {
         if (chk[i].checked)
             bchk = true;
     }
 
-    if (!bchk)
-    {
+    if (!bchk) {
         alert(str + "할 자료를 하나 이상 선택하세요.");
         return;
     }
 
-    if (act == "delete")
-    {
+    if (act == "delete") {
         if (!confirm("선택한 자료를 정말 삭제 하시겠습니까?"))
             return;
     }
@@ -149,11 +145,10 @@ function btn_check(f, act)
     f.submit();
 }
 
-function is_checked(elements_name)
-{
+function is_checked(elements_name) {
     var checked = false;
     var chk = document.getElementsByName(elements_name);
-    for (var i=0; i<chk.length; i++) {
+    for (var i = 0; i < chk.length; i++) {
         if (chk[i].checked) {
             checked = true;
         }
@@ -161,50 +156,56 @@ function is_checked(elements_name)
     return checked;
 }
 
-function delete_confirm(el)
-{
-    if(confirm("한번 삭제한 자료는 복구할 방법이 없습니다.\n\n정말 삭제하시겠습니까?")) {
+function delete_confirm(el) {
+    if (confirm("한번 삭제한 자료는 복구할 방법이 없습니다.\n\n정말 삭제하시겠습니까?")) {
         var token = get_ajax_token();
         var href = el.href.replace(/&token=.+$/g, "");
-        if(!token) {
+        if (!token) {
             alert("토큰 정보가 올바르지 않습니다.");
             return false;
         }
-        el.href = href+"&token="+token;
+        el.href = href + "&token=" + token;
         return true;
     } else {
         return false;
     }
 }
 
-function delete_confirm2(msg)
-{
-    if(confirm(msg))
+function delete_confirm2(msg) {
+    if (confirm(msg))
         return true;
     else
         return false;
 }
 
-function get_ajax_token()
-{
+function get_ajax_token() {
     var token = "",
         admin_csrf_token_key = (typeof g5_admin_csrf_token_key !== "undefined") ? g5_admin_csrf_token_key : "";
 
     $.ajax({
         type: "POST",
-        url: g5_admin_url+"/ajax.token.php",
-        data : {admin_csrf_token_key:admin_csrf_token_key},
+        url: g5_admin_url + "/ajax.token.php",
+        data: { admin_csrf_token_key: admin_csrf_token_key },
         cache: false,
         async: false,
         dataType: "json",
-        success: function(data) {
-            if(data.error) {
+        success: function (data) {
+            if (data.error) {
                 alert(data.error);
-                if(data.url)
+                if (data.url)
                     document.location.href = data.url;
 
                 return false;
             }
+
+            if (data.error) {
+                alert(data.error);
+                if (data.url)
+                    document.location.href = data.url;
+
+                return false;
+            }
+
 
             token = data.token;
         }
@@ -213,19 +214,25 @@ function get_ajax_token()
     return token;
 }
 
-$(function() {
-    $(document).on("click", "form input:submit, form button:submit", function() {
+$(function () {
+    $(document).on("click", "form input:submit, form button:submit", function () {
         var f = this.form;
+        var $f = $(f);
+        var $token = $f.find("input[name=token]");
+
+        // 이미 토큰 값이 존재하는 경우 새로 생성하거나 덮어쓰지 않음
+        if ($token.length > 0 && $token.val() !== "") {
+            return true;
+        }
+
         var token = get_ajax_token();
 
-        if(!token) {
-            alert("토큰 정보가 올바르지 않습니다.");
+        if (!token) {
+            alert("토큰 정보가 올바르지 않습니다!!");
             return false;
         }
 
-        var $f = $(f);
-
-        if(typeof f.token === "undefined")
+        if (typeof f.token === "undefined")
             $f.prepend('<input type="hidden" name="token" value="">');
 
         $f.find("input[name=token]").val(token);

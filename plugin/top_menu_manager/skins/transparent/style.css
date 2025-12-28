@@ -1,0 +1,339 @@
+@charset "utf-8";
+
+/* Transparent Skin CSS */
+
+:root {
+    /* Theme Inheritance */
+    --transparent-accent: var(--color-accent-gold);
+    --transparent-header-h: var(--header-height, 90px);
+}
+
+/* Transparent Header */
+.transparent-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--transparent-header-h);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 50px;
+    z-index: 1000;
+    background: transparent;
+    /* Initially Transparent */
+    transition: background 0.3s ease, height 0.3s ease;
+}
+
+/* Scrolled State */
+.transparent-header.scrolled {
+    background: var(--color-bg-panel);
+    /* Dark background on scroll */
+    height: calc(var(--transparent-header-h) - 10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+#logo img {
+    height: auto;
+    max-height: 65px;
+    width: auto;
+}
+
+/* GNB Navigation */
+#gnb {
+    display: block;
+}
+
+/* [FIX] Desktop Transparency Enforcement */
+@media (min-width: 1025px) {
+
+    body #hd,
+    body #hd_wrapper {
+        background: transparent !important;
+        background-color: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        /* Ensure it doesn't push content if fixed header handles layout? 
+           Actually, #hd wraps fixed header, so #hd height is 0. 
+           But if theme sets background on #hd, it shows a bar.
+        */
+    }
+}
+
+#gnb_1dul {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.gnb_1dli {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.gnb_1da {
+    display: inline-block;
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+
+    /* Truncation */
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    opacity: 0.8;
+    transition: 0.3s;
+}
+
+.gnb_1dli:hover .gnb_1da {
+    opacity: 1;
+    color: var(--transparent-accent);
+}
+
+/* Dropdown Submenu */
+.gnb_2dul {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: var(--color-bg-panel);
+    min-width: 180px;
+    padding: 15px 0;
+    list-style: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s;
+    text-align: left;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.gnb_2dul.wide-dropdown {
+    width: 500px !important;
+    /* Fixed width for grid */
+    min-width: 0 !important;
+    /* Reset min-width */
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    /* Force 2 equal columns */
+    gap: 15px !important;
+    padding: 25px;
+    box-sizing: border-box;
+    align-content: start;
+    /* Ensure items start at top */
+}
+
+.gnb_2dul.wide-dropdown li {
+    /* Flex logic off, Grid logic on */
+    width: auto;
+    min-width: 0;
+    /* CRITICAL for truncation in grid */
+}
+
+.gnb_1dli:hover .gnb_2dul {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+.gnb_2da {
+    display: block;
+    padding: 10px 20px;
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    opacity: 1;
+
+    /* Truncation */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.gnb_2da:hover {
+    color: var(--transparent-accent);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Inquiry Button */
+.btn-inquiry {
+    padding: 10px 25px;
+    border: 1px solid #fff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn-inquiry:hover {
+    background: #fff;
+    color: #000;
+}
+
+/* ----------------------------------------------------
+   MOBILE RESPONSIVENESS & OVERLAY MENU
+   ---------------------------------------------------- */
+
+/* Hamburger Button (Default Hidden) */
+.gnb_menu_btn {
+    display: none;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+@media (max-width: 1024px) {
+
+    /* Hide Desktop Menu */
+    #gnb {
+        display: none !important;
+    }
+
+    /* Show Hamburger */
+    .gnb_menu_btn {
+        display: block !important;
+    }
+
+    /* [responsive] Mobile Layout Reset */
+    .transparent-header {
+        position: relative;
+        /* [FIX] Pushes content down (Match Basic) */
+        top: auto;
+        left: auto;
+        padding: 0 20px;
+        height: 60px;
+        /* Standard mobile navbar height */
+        display: flex;
+        align-items: center;
+        /* Center Vertically */
+        justify-content: space-between;
+        background: #121212;
+        /* [FIX] Solid Dark Background */
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* Hide Desktop Elements on Mobile */
+    .btn-inquiry,
+    .hd_login {
+        display: none !important;
+    }
+
+    /* Remove specific heights to let flex work */
+    body #hd {
+        height: auto !important;
+        min-height: auto !important;
+    }
+
+    /* Reset Logo Position */
+    #logo {
+        margin: 0;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+    }
+
+    #logo img {
+        max-height: 40px;
+        width: auto;
+    }
+}
+
+/* Mobile Overlay Styles (Standard) */
+#gnb_all {
+    display: none;
+    /* Initially hidden */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #121212;
+    /* Dark Background */
+    z-index: 99999;
+    overflow-y: auto;
+}
+
+.gnb_all_wr {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding-bottom: 50px;
+}
+
+.gnb_all_header {
+    /* Header inside overlay */
+    position: relative;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.hd_login_mobile {
+    display: flex;
+    gap: 20px;
+    font-size: 14px;
+    color: #a0a0a0;
+    font-weight: 500;
+}
+
+.hd_login_mobile a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.gnb_al_ul {
+    list-style: none;
+    padding: 20px;
+    margin: 0;
+}
+
+.gnb_al_li {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 15px 0;
+}
+
+.gnb_al_a {
+    display: block;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    text-decoration: none;
+    margin-bottom: 10px;
+}
+
+.gnb_al_li ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 5px;
+}
+
+.gnb_al_li ul li a {
+    display: block;
+    padding: 10px 15px;
+    font-size: 14px;
+    color: #aeaeae;
+    text-decoration: none;
+}
+
+.gnb_al_li ul li a:hover {
+    color: var(--transparent-accent);
+    background: rgba(255, 255, 255, 0.05);
+}

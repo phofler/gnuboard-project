@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centered Menu Style</title>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --accent-color: #d4af37;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-body);
+        }
+
+        /* Centered Header */
+        header {
+            padding: 40px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background: #121212;
+            min-height: var(--header-height, 90px);
+            /* Inherit Base Height */
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .logo {
+            display: inline-block;
+            font-family: var(--font-heading);
+            font-size: 32px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: #fff;
+            text-decoration: none;
+            margin-bottom: 30px;
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        .gnb {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            list-style: none;
+        }
+
+        .gnb a {
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #888;
+            text-decoration: none;
+            transition: 0.3s;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .gnb a:hover {
+            color: var(--accent-color);
+        }
+
+        .gnb a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--accent-color);
+            transition: 0.3s;
+        }
+
+        .gnb a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero */
+        .hero {
+            height: 600px;
+            background: url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80') center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .hero h2 {
+            position: relative;
+            z-index: 10;
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 20px 60px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-inner">
+            <a href="#" class="logo">LUXURY<span>.</span></a>
+
+            <ul class="gnb">
+                <li>
+                    <a href="#">회사소개회사소개회사소개회사소개회사소개</a>
+                    <ul class="gnb_2dul">
+                        <li><a href="#">회사개요</a></li>
+                        <li><a href="#">인사말</a></li>
+                        <li><a href="#">제품개요</a></li>
+                        <li><a href="#">연혁</a></li>
+                        <li><a href="#">조직도</a></li>
+                        <li><a href="#">사업분야</a></li>
+                        <li><a href="#">인증/실적</a></li>
+                        <li><a href="#">채용정보</a></li>
+                        <li><a href="#">찾아오시는길</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">제품소개제품소개제품소개제품소개제품소개제품소개제품소개제품소개</a>
+                    <ul class="gnb_2dul wide">
+                        <li><a href="#">오버헤드도어오버헤드도어오버헤드도어...</a></li>
+                        <li><a href="#">자동대문</a></li>
+                        <li><a href="#">오버헤드도어</a></li>
+                        <li><a href="#">현관문</a></li>
+                        <li><a href="#">친환경</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">시공사례</a></li>
+                <li><a href="#">온라인문의</a></li>
+                <li>
+                    <a href="#">고객지원</a>
+                    <ul class="gnb_2dul">
+                        <li><a href="#">뉴스 & 공지</a></li>
+                        <li><a href="#">자료실</a></li>
+                        <li><a href="#">묻고답하기</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </header>
+    <style>
+        /* CSS for Dropdown & Overflow Handling */
+        .gnb>li {
+            position: relative;
+        }
+
+        .gnb>li>a {
+            display: inline-block;
+            max-width: 140px;
+            /* Force Truncation */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            vertical-align: bottom;
+        }
+
+        .gnb_2dul {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: #1a1a1a;
+            border: 1px solid #333;
+            min-width: 160px;
+            padding: 15px 0;
+            list-style: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+            z-index: 100;
+            text-align: left;
+        }
+
+        .gnb_2dul.wide {
+            min-width: 250px;
+        }
+
+        .gnb>li:hover .gnb_2dul {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .gnb_2dul li a {
+            display: block;
+            padding: 8px 20px;
+            font-size: 13px;
+            color: #ccc;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+
+        .gnb_2dul li a:hover {
+            color: var(--accent-color);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .gnb_2dul li a::after {
+            display: none;
+        }
+    </style>
+
+    <div class="hero">
+        <h2>Timeless Elegance</h2>
+    </div>
+
+</body>
+
+</html>

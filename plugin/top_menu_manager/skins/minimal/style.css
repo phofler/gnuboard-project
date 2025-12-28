@@ -1,0 +1,195 @@
+:root {
+    /* Theme Inheritance */
+    --minimal-bg: var(--color-bg-dark);
+    --minimal-text: var(--color-text-primary);
+    --minimal-accent: var(--color-accent-gold);
+    --minimal-header-h: var(--header-height, 90px);
+}
+
+/* Minimal Header */
+.minimal-header {
+    width: 100%;
+    height: var(--minimal-header-h);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+#logo img {
+    height: auto;
+    max-height: 65px;
+    width: auto;
+}
+
+.menu-toggle {
+    background: none;
+    border: none;
+    color: var(--minimal-text);
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.menu-toggle i {
+    font-size: 24px;
+    color: var(--minimal-accent);
+}
+
+/* Fullscreen Overlay */
+.overlay-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(18, 18, 18, 0.98);
+    /* High opacity dark background for legibility */
+    backdrop-filter: blur(10px);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.4s ease;
+}
+
+.overlay-menu.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.overlay-close {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    background: none;
+    border: none;
+    color: var(--minimal-text);
+    font-size: 40px;
+    cursor: pointer;
+}
+
+.menu-list {
+    list-style: none;
+    text-align: center;
+    max-height: 80vh;
+    overflow-y: auto;
+    width: 100%;
+}
+
+.menu-list>li {
+    margin: 10px 0;
+    /* Reduced margin for compact view */
+}
+
+.menu-list>li>a {
+    font-family: var(--font-heading);
+    font-size: 40px;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: 0.3s;
+    display: inline-block;
+    /* Inline-block for background pill */
+    max-width: 300px;
+    /* Limit width to 300px to force truncation */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 10px 30px;
+    /* Comfortable click area */
+    border-radius: 50px;
+    /* Pill shape */
+    vertical-align: middle;
+}
+
+/* Hover & Active State */
+.menu-list>li>a:hover,
+.menu-list>li.active>a {
+    color: #fff;
+    background: var(--minimal-accent, #d4af37);
+    /* Gold background on hover */
+    transform: translateY(-2px);
+    /* Slight lift */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Submenu Animation */
+.submenu {
+    list-style: none;
+    margin-top: 0;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease, margin 0.3s ease;
+}
+
+/* Active State for Click Interaction */
+.menu-list li.active .submenu,
+.menu-list li:hover .submenu {
+    max-height: 1000px;
+    /* Increased max-height for large menus */
+    opacity: 1;
+    margin-top: 20px;
+}
+
+.submenu li {
+    margin: 12px 0;
+}
+
+.submenu a {
+    font-size: 18px !important;
+    color: var(--color-text-secondary);
+    display: block;
+    max-width: 250px;
+    /* Submenu truncation limit */
+    margin: 0 auto;
+    /* Center align */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: 0.3s ease;
+    text-decoration: none;
+}
+
+/* Show items when parent is hovered OR active */
+.menu-list li.active .submenu a,
+.menu-list li:hover .submenu a {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Staggered Delay */
+.menu-list li:hover .submenu li:nth-child(1) a {
+    transition-delay: 0.1s;
+}
+
+.menu-list li:hover .submenu li:nth-child(2) a {
+    transition-delay: 0.15s;
+}
+
+.menu-list li:hover .submenu li:nth-child(3) a {
+    transition-delay: 0.2s;
+}
+
+.menu-list li:hover .submenu li:nth-child(4) a {
+    transition-delay: 0.25s;
+}
+
+.menu-list li:hover .submenu li:nth-child(5) a {
+    transition-delay: 0.3s;
+}
+
+@media (max-width: 768px) {
+    .menu-list>li>a {
+        font-size: 28px;
+    }
+}

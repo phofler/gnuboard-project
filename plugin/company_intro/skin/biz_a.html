@@ -1,0 +1,161 @@
+<style>
+    /* Business Area Skin (Grid Style) */
+    .biz-section {
+        width: 100%;
+        max-width: var(--spacing-container, 1200px);
+        margin: 0 auto;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    /* Header */
+    /* Header */
+    .biz-section .section-header {
+        text-align: left;
+        margin-bottom: 60px;
+        /* Left Edge Bar */
+        border-left: 4px solid var(--color-accent-gold);
+        padding-left: 25px;
+    }
+
+    .biz-section .section-header h2 {
+        font-size: 2.5rem;
+        color: var(--color-text-primary);
+        font-family: var(--font-heading);
+        margin-bottom: 1rem;
+    }
+
+    .biz-section .section-header p {
+        color: var(--color-text-secondary);
+        display: block;
+        text-align: left;
+    }
+
+    /* Remove Bottom Bar */
+    .biz-section .section-header::after {
+        display: none;
+    }
+
+    /* Business Grid */
+    .biz-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+    }
+
+    .biz-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.3s;
+        text-align: left;
+    }
+
+    .biz-card:hover {
+        transform: translateY(-10px);
+        border-color: var(--color-accent-gold);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .biz-img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.5s;
+    }
+
+    .biz-card:hover .biz-img {
+        transform: scale(1.05);
+    }
+
+    .biz-content {
+        padding: 30px;
+    }
+
+    .biz-icon {
+        font-size: 3.5rem;
+        font-weight: 800;
+        font-family: var(--font-heading);
+        color: var(--color-accent-gold);
+        margin-bottom: 20px;
+        display: inline-block;
+        line-height: 1;
+    }
+
+    .biz-card h3 {
+        font-size: 1.4rem;
+        color: var(--color-text-primary);
+        margin-bottom: 15px;
+        font-weight: 700;
+        font-family: var(--font-heading);
+    }
+
+    .biz-card p {
+        font-size: 0.95rem;
+        color: var(--color-text-secondary);
+        line-height: 1.6;
+        margin: 0;
+    }
+
+    @media (max-width: 992px) {
+        .biz-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .biz-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="biz-section">
+    <div class="section-header">
+        <h2>BUSINESS AREA</h2>
+        <p>고객의 가치를 극대화하는 전문 솔루션을 제공합니다.</p>
+    </div>
+
+    <div class="biz-grid">
+        <!-- Card 1 -->
+        <div class="biz-card" data-aos="fade-up">
+            <div style="overflow:hidden;">
+                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=800&auto=format&fit=crop"
+                    class="biz-img" alt="Interior Design">
+            </div>
+            <div class="biz-content">
+                <div class="biz-icon">01</div>
+                <h3>Space Design</h3>
+                <p>효율적이고 창의적인 공간 설계를 통해 최적의 업무 및 휴식 환경을 제안합니다.</p>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="biz-card" data-aos="fade-up" data-aos-delay="100">
+            <div style="overflow:hidden;">
+                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=800&auto=format&fit=crop"
+                    class="biz-img" alt="Architecture">
+            </div>
+            <div class="biz-content">
+                <div class="biz-icon">02</div>
+                <h3>Urban Architecture</h3>
+                <p>도시의 풍경을 바꾸는 감각적인 건축 디자인으로 새로운 랜드마크를 건설합니다.</p>
+            </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="biz-card" data-aos="fade-up" data-aos-delay="200">
+            <div style="overflow:hidden;">
+                <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=800&auto=format&fit=crop"
+                    class="biz-img" alt="Consulting">
+            </div>
+            <div class="biz-content">
+                <div class="biz-icon">03</div>
+                <h3>Consulting</h3>
+                <p>빅데이터 분석을 기반으로 한 전략적 컨설팅으로 비즈니스 성장을 가속화합니다.</p>
+            </div>
+        </div>
+    </div>
+</div>
