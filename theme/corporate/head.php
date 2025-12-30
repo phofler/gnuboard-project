@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 if (!defined('_GNUBOARD_'))
     exit; // 媛쒕퀎 ?섏씠吏 ?묎렐 遺덇?
 
@@ -22,35 +22,20 @@ include_once(G5_LIB_PATH . '/popular.lib.php');
 ?>
 
 <!-- ?곷떒 ?쒖옉 { -->
-<div id="hd">
-    <!-- <div id="hd_wrapper"> -->
-    <!-- <div id="logo">
-            <a href="<?php echo G5_URL ?>"><img src="<?php echo G5_IMG_URL ?>/logo.png?v=<?php echo date('YmdHis'); ?>"
-                    alt="<?php echo $config['cf_title']; ?>"></a>
-        </div> -->
-
-    <!-- Top Menu Plugin -->
+<!-- 상단 시작 { -->
+<div id="hd" style="width:100%; padding:0; background:var(--color-bg-dark, #121212);">
+    <!-- Top Menu Plugin (Handles Logo, Menu, Login via Skin) -->
     <?php
-    if (defined('G5_PLUGIN_PATH') && file_exists(G5_PLUGIN_PATH . '/top_menu_manager/lib.php')) {
-        include_once(G5_PLUGIN_PATH . '/top_menu_manager/lib.php');
-        display_top_menu();
+    if (defined('G5_PLUGIN_PATH') && file_exists(G5_PLUGIN_PATH . '/pro_menu_manager/lib.php')) {
+        include_once(G5_PLUGIN_PATH . '/pro_menu_manager/lib.php');
+        if (function_exists('display_pro_menu')) {
+            // [Dynamic Skin Loading]
+            display_pro_menu();
+        }
     }
     ?>
-
-    <!-- <ul class="hd_login">
-            <?php
-            if ($is_member) { //湲곗〈 硫ㅻ쾭?쇰㈃
-                ?>
-                <li><a href="<?php echo G5_BBS_URL ?>/logout.php">LOGOUT</a></li>
-                <?php if ($is_admin) { ?>
-                    <li class="tnb_admin"><a href="<?php echo correct_goto_url(G5_ADMIN_URL); ?>">ADMIN</a></li>
-                <?php } ?>
-            <?php } else { ?>
-                <li><a href="<?php echo G5_BBS_URL ?>/login.php">LOGIN</a></li>
-            <?php } ?>
-        </ul> -->
-    <!-- </div> -->
 </div>
+<!-- } 상단 끝 -->
 <!-- } ?곷떒 ??-->
 
 <?php

@@ -1,0 +1,91 @@
+@charset "utf-8";
+
+/* Pro Menu Manager Layout */
+#pmm_container {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.pmm-tree-panel {
+    flex: 0 0 400px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    min-height: 500px;
+}
+
+.pmm-form-panel {
+    flex: 1;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+.panel-header {
+    padding: 10px 15px;
+    background: #f7f7f7;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.panel-header h3 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.panel-body {
+    padding: 15px;
+}
+
+/* Tree Styling */
+.tree-root {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tree-item {
+    margin-bottom: 5px;
+}
+
+.tree-handle {
+    display: block;
+    padding: 8px 10px;
+    background: #f9f9f9;
+    border: 1px solid #e5e5e5;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.tree-handle:hover {
+    background: #f0f0f0;
+    border-color: #ccc;
+}
+
+.tree-handle.active {
+    background: #e8f0fe;
+    border-color: #4285f4;
+    color: #1967d2;
+}
+
+.tree-group {
+    list-style: none;
+    padding-left: 20px;
+    margin-top: 5px;
+    border-left: 1px dashed #ccc;
+}
+
+.badges {
+    margin-left: 5px;
+    font-size: 0.85em;
+}
+
+.empty-msg {
+    padding: 20px;
+    text-align: center;
+    color: #999;
+}

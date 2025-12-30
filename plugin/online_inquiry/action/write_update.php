@@ -10,7 +10,13 @@ $name = isset($_POST['name']) ? clean_xss_tags($_POST['name'], 1, 1) : '';
 $contact = isset($_POST['contact']) ? clean_xss_tags($_POST['contact'], 1, 1) : '';
 $email = isset($_POST['email']) ? clean_xss_tags($_POST['email'], 1, 1) : '';
 $subject = isset($_POST['subject']) ? clean_xss_tags($_POST['subject'], 1, 1) : '';
-$content = isset($_POST['content']) ? clean_xss_tags($_POST['content'], 1, 1) : '';
+$content = isset($_POST['content']) ? strip_tags($_POST['content']) : '';
+$content = addslashes($content); // Escape for SQL
+// Ensure other fields are safe too if clean_xss_tags doesn't escape
+$name = addslashes($name);
+$contact = addslashes($contact);
+$email = addslashes($email);
+$subject = addslashes($subject);
 
 if (!$name || !$contact || !$subject || !$content) {
     alert('필수 입력값이 누락되었습니다.');

@@ -33,6 +33,10 @@ $row = sql_fetch(" SHOW COLUMNS FROM {$table_name} LIKE 'tc_target' ");
 if (!$row)
     sql_query(" ALTER TABLE {$table_name} ADD COLUMN `tc_target` varchar(10) NOT NULL DEFAULT '' AFTER `tc_link` ", false);
 
+$row = sql_fetch(" SHOW COLUMNS FROM {$table_name} LIKE 'tc_menu_use' ");
+if (!$row)
+    sql_query(" ALTER TABLE {$table_name} ADD COLUMN `tc_menu_use` tinyint(4) NOT NULL DEFAULT '1' AFTER `tc_use` ", false);
+
 // --- Logic Merged from update.php ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     check_admin_token();
@@ -221,6 +225,13 @@ $root_code = isset($_GET['root_code']) ? $_GET['root_code'] : '';
                                     <label><input type="radio" name="tc_use" value="0"> 미사용</label>
                                 </td>
                             </tr>
+                            <tr>
+                                <th scope="row">메뉴 노출</th>
+                                <td>
+                                    <label><input type="radio" name="tc_menu_use" value="1"> 노출</label>
+                                    <label><input type="radio" name="tc_menu_use" value="0" checked> 숨김</label>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -343,7 +354,9 @@ $root_code = isset($_GET['root_code']) ? $_GET['root_code'] : '';
         var link = p.data("link");
         var target = p.data("target");
         var order = p.data("order");
+        var order = p.data("order");
         var use = p.data("use");
+        var menu_use = p.data("menu-use"); // [NEW]
 
         var f = document.fcate;
         f.w.value = "u";
@@ -354,7 +367,9 @@ $root_code = isset($_GET['root_code']) ? $_GET['root_code'] : '';
         f.tc_link.value = link ? link : "";
         f.tc_target.checked = (target == "_blank");
         f.tc_order.value = order;
+        f.tc_order.value = order;
         $("input[name='tc_use'][value='" + use + "']").prop("checked", true);
+        $("input[name='tc_menu_use'][value='" + menu_use + "']").prop("checked", true); // [NEW]
 
         $("#form_title").text("카테고리 수정 (" + code + ")");
         $("#btn_add_child").show();
@@ -397,7 +412,9 @@ $root_code = isset($_GET['root_code']) ? $_GET['root_code'] : '';
         f.tc_link.value = "";
         f.tc_target.checked = false;
         f.tc_order.value = "0";
+        f.tc_order.value = "0";
         $("input[name='tc_use'][value='1']").prop("checked", true);
+        $("input[name='tc_menu_use'][value='0']").prop("checked", true); // [NEW] Default to Hidden
         $("#form_title").text("새 카테고리 등록");
         $("#btn_add_child").hide();
         $("#btn_delete").hide();

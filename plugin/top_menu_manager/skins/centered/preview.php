@@ -2,7 +2,48 @@
 include_once('../../../../common.php');
 include_once(G5_LIB_PATH . '/latest.lib.php');
 
-/* Real Data Loading: get_menu_db() is called inside menu.skin.php */
+/* Real Data Loading: Inject data for preview */
+if (defined('G5_PLUGIN_PATH') && file_exists(G5_PLUGIN_PATH . '/pro_menu_manager/lib.php')) {
+    include_once(G5_PLUGIN_PATH . '/pro_menu_manager/lib.php');
+    $raw_menus = get_pro_menu_list();
+    $menu_tree = build_pro_menu_tree($raw_menus);
+    $menu_datas = array();
+    foreach ($menu_tree as $root_code => $root) {
+        $root_mapped = array(
+            'me_name' => $root['ma_name'],
+            'me_link' => $root['ma_link'],
+            'me_target' => $root['ma_target'],
+            'me_code' => $root['ma_code'],
+            'sub' => array()
+        );
+        if (!empty($root['sub'])) {
+            foreach ($root['sub'] as $child_code => $child) {
+                $child_mapped = array(
+                    'me_name' => $child['ma_name'],
+                    'me_link' => $child['ma_link'],
+                    'me_target' => $child['ma_target'],
+                    'me_code' => $child['ma_code'],
+                    'sub' => array()
+                );
+                // Depth 3
+                if (!empty($child['sub'])) {
+                    foreach ($child['sub'] as $grand_code => $grand) {
+                        $child_mapped['sub'][] = array(
+                            'me_name' => $grand['ma_name'],
+                            'me_link' => $grand['ma_link'],
+                            'me_target' => $grand['ma_target'],
+                            'me_code' => $grand['ma_code']
+                        );
+                    }
+                }
+                $root_mapped['sub'][] = $child_mapped;
+            }
+        }
+        $menu_datas[] = $root_mapped;
+    }
+} else {
+    $menu_datas = array();
+}
 ?>
 <!DOCTYPE html>
 <html lang="ko">

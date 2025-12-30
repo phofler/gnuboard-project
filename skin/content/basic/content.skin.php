@@ -12,7 +12,11 @@ add_stylesheet('<link rel="stylesheet" href="' . $content_skin_url . '/style.css
     </header>
 
     <div id="ctt_con">
-        <?php echo $str; ?>
+        <?php
+        // [FIX] Force remove duplicate wrapper
+        $str = preg_replace('/class=["\'][^"\']*sub-layout-width-height[^"\']*["\']/', '', $str);
+        echo $str;
+        ?>
     </div>
 
 </article>

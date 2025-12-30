@@ -6,7 +6,7 @@ if (!defined('_GNUBOARD_'))
 function get_tree_categories($table = 'g5_tree_category_add')
 {
     global $g5;
-    $sql = " SELECT * FROM {$table} WHERE tc_use = 1 ORDER BY tc_order ASC, tc_code ASC ";
+    $sql = " SELECT * FROM {$table} WHERE tc_use = 1 AND tc_menu_use = 1 ORDER BY tc_order ASC, tc_code ASC ";
     $result = sql_query($sql);
     $list = array();
     while ($row = sql_fetch_array($result)) {

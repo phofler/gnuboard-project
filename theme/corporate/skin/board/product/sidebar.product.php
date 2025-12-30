@@ -94,13 +94,42 @@ if (isset($_GET['cate']) && $_GET['cate']) {
                 <ul class="sub-menu" style="<?php echo $is_active ? 'display:block;' : 'display:none;'; ?>">
                     <?php foreach ($sub_items as $sub) { 
                         $is_sub_active = ($active_code === $sub['tc_code']);
+                        
+                        // Check if this Depth 2 item should be expanded (if it has active child)
+                        // Expanded if active_code starts with this code (and is longer) OR is exactly this code (optional, to see children)
+                        $is_sub_expanded = (substr($active_code, 0, 6) === $sub['tc_code']);
+
                         $sub_active_cls = $is_sub_active ? 'active' : '';
                         $sub_href = $sub['tc_link'] ? $sub['tc_link'] : G5_BBS_URL . '/board.php?bo_table=' . $bo_table . '&cate=' . $sub['tc_code'] . '#page_start';
+
+                        // Find Depth 3 Items (Length 8)
+                        $third_items = array();
+                        foreach ($product_cats as $third) {
+                            if (strlen($third['tc_code']) === 8 && substr($third['tc_code'], 0, 6) === $sub['tc_code']) {
+                                $third_items[] = $third;
+                            }
+                        }
                     ?>
                         <li class="menu-item depth-2 <?php echo $sub_active_cls; ?>">
                             <a href="<?php echo $sub_href; ?>" <?php echo $sub['tc_target'] == '_blank' ? 'target="_blank"' : ''; ?>>
                                 - <?php echo $sub['tc_name']; ?>
                             </a>
+
+                            <?php if (count($third_items) > 0) { ?>
+                                <ul class="sub-menu sub-menu-3" style="<?php echo $is_sub_expanded ? 'display:block;' : 'display:none;'; ?>">
+                                    <?php foreach ($third_items as $third) {
+                                        $is_third_active = ($active_code === $third['tc_code']);
+                                        $third_active_cls = $is_third_active ? 'active' : '';
+                                        $third_href = $third['tc_link'] ? $third['tc_link'] : G5_BBS_URL . '/board.php?bo_table=' . $bo_table . '&cate=' . $third['tc_code'] . '#page_start';
+                                    ?>
+                                        <li class="menu-item depth-3 <?php echo $third_active_cls; ?>">
+                                            <a href="<?php echo $third_href; ?>" <?php echo $third['tc_target'] == '_blank' ? 'target="_blank"' : ''; ?>>
+                                                -- <?php echo $third['tc_name']; ?>
+                                            </a>
+                                        </li>
+                                    <?php } ?>
+                                </ul>
+                            <?php } ?>
                         </li>
                     <?php } ?>
                 </ul>
@@ -211,14 +240,29 @@ if (isset($_GET['cate']) && $_GET['cate']) {
     border-bottom: none;
 }
 .sidebar-menu .sub-menu li a:hover,
-.sidebar-menu .sub-menu li.current > a {
+.sidebar-menu .sub-menu li.active > a {
     color: var(--color-text-primary);
     background: transparent;
 }
-.sidebar-menu .sub-menu li.current > a::before {
-    content: "• ";
-    color: var(--color-accent-gold); /* Gold Dot */
-    margin-right: 5px;
+.sidebar-menu .sub-menu li.active > a::before {
+    content: none;
+}
+
+/* Depth 3 Sub Menu */
+.sidebar-menu .sub-menu-3 {
+    list-style: none;
+    padding: 0;
+    background: rgba(0,0,0,0.1); /* Slightly darker/transparent */
+    display: none;
+}
+.sidebar-menu .sub-menu-3 li a {
+    padding-left: 55px; /* More Indentation */
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+}
+.sidebar-menu .sub-menu-3 li a:hover,
+.sidebar-menu .sub-menu-3 li.active > a {
+    color: var(--color-accent-gold);
 }
 
 /* Contact Box - Integrated into Edge Bar */

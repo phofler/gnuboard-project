@@ -59,11 +59,12 @@ if (!function_exists('build_admin_tree')) {
                 // For now, simple render.
 
                 $use_status = ($cat['tc_use'] == '0') ? ' <span style="color:#e52727; font-size:0.9em;">[미사용]</span>' : '';
+                $menu_status = ($cat['tc_menu_use'] == '0') ? ' <span style="color:#999; font-size:0.9em;">[숨김]</span>' : '';
 
-                $html .= '<li class="tree-item" data-code="' . $cat['tc_code'] . '" data-name="' . $cat['tc_name'] . '" data-link="' . $cat['tc_link'] . '" data-target="' . $cat['tc_target'] . '" data-order="' . $cat['tc_order'] . '" data-use="' . $cat['tc_use'] . '">';
+                $html .= '<li class="tree-item" data-code="' . $cat['tc_code'] . '" data-name="' . $cat['tc_name'] . '" data-link="' . $cat['tc_link'] . '" data-target="' . $cat['tc_target'] . '" data-order="' . $cat['tc_order'] . '" data-use="' . $cat['tc_use'] . '" data-menu-use="' . $cat['tc_menu_use'] . '">';
                 $html .= '<div class="tree-content" onclick="load_category(this)">';
                 $html .= '<span class="tree-icon"><i class="fa ' . $icon . '"></i></span> ';
-                $html .= '<span class="tree-text">' . $cat['tc_name'] . $use_status . ' <small class="text-muted">(' . $cat['tc_code'] . ')</small></span>';
+                $html .= '<span class="tree-text">' . $cat['tc_name'] . $use_status . $menu_status . ' <small class="text-muted">(' . $cat['tc_code'] . ')</small></span>';
                 $html .= '</div>';
 
                 $children_html = build_admin_tree($cats, $cat['tc_code']);

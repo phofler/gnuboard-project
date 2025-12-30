@@ -2,12 +2,13 @@
 if (!defined('_GNUBOARD_'))
     exit;
 
-// Menu Data Load
-$menu_datas = get_menu_db(0, true);
+// Menu Data Load (Supplied by display_pro_menu)
+// $menu_datas = get_menu_db(0, true);
 
-// [FIX] Load Skin CSS (Required for Live Site)
-$menu_skin_url = str_replace(G5_PATH, G5_URL, dirname(__FILE__));
-add_stylesheet('<link rel="stylesheet" href="' . $menu_skin_url . '/style.css?v=' . time() . '">', 0);
+// [FIX] Load Skin CSS (Using passed $skin_url from lib.php)
+if (!isset($skin_url))
+    $skin_url = str_replace(G5_PATH, G5_URL, dirname(__FILE__));
+add_stylesheet('<link rel="stylesheet" href="' . $skin_url . '/style.css?v=' . time() . '">', 0);
 ?>
 
 <div class="centered-header">
@@ -107,11 +108,33 @@ add_stylesheet('<link rel="stylesheet" href="' . $menu_skin_url . '/style.css?v=
                             <?php foreach ((array) $row['sub'] as $row2) {
                                 if (empty($row2))
                                     continue;
+
+                                $has_sub_3rd = (isset($row2['sub']) && is_array($row2['sub']) && count($row2['sub']) > 0);
                                 ?>
-                                <li>
+                                <li style="position:relative;">
                                     <a href="<?php echo $row2['me_link']; ?>" target="_<?php echo $row2['me_target']; ?>">
                                         <?php echo $row2['me_name'] ?>
                                     </a>
+                                    <?php if ($has_sub_3rd) { ?>
+                                        <button type="button" class="btn_3rd_toggle"
+                                            style="position:absolute; right:0; top:0; width:50px; height:100%; border:none; background:none; color:#fff; cursor:pointer; z-index:10;">
+                                            <i class="fa fa-chevron-down"></i>
+                                        </button>
+                                        <ul class="gnb_3rd_mobile"
+                                            style="display:none; background:rgba(255,255,255,0.05); padding:10px 0;">
+                                            <?php foreach ($row2['sub'] as $row3) {
+                                                if (empty($row3))
+                                                    continue;
+                                                ?>
+                                                <li>
+                                                    <a href="<?php echo $row3['me_link']; ?>" target="<?php echo $row3['me_target']; ?>"
+                                                        style="padding-left:30px; font-size:13px; color:#aaa;">
+                                                        - <?php echo $row3['me_name'] ?>
+                                                    </a>
+                                                </li>
+                                            <?php } ?>
+                                        </ul>
+                                    <?php } ?>
                                 </li>
                             <?php } ?>
                         </ul>
@@ -137,6 +160,13 @@ add_stylesheet('<link rel="stylesheet" href="' . $menu_skin_url . '/style.css?v=
         $(".gnb_close_btn").click(function () {
             $("#gnb_all").fadeOut(300);
             $("body").css("overflow", "");
+        });
+
+        // [NEW] 3rd Depth Accordion
+        $(".btn_3rd_toggle").click(function(e){
+            e.preventDefault();
+            $(this).next(".gnb_3rd_mobile").slideToggle();
+            $(this).find("i").toggleClass("fa-chevron-down fa-chevron-up");
         });
     });
 </script>

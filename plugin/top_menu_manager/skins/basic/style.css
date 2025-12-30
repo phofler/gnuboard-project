@@ -3,6 +3,9 @@
 /* Modern Full Mega Menu Style (Dark) */
 
 /* 
+   [FIX] Restore default variables for independent rendering 
+   This ensures the menu looks correct even if theme CSS is loaded late.
+*/
 :root {
    --color-bg-dark: #121212;
    --color-text-primary: #e0e0e0;
@@ -11,8 +14,8 @@
    --font-heading: 'Playfair Display', serif;
    --font-body: 'Inter', sans-serif;
    --header-height: 90px;
-} 
-*/
+}
+
 
 /* Hide Hamburger on Desktop */
 @media (min-width: 1025px) {
@@ -141,9 +144,14 @@
 #gnb_mega_panel {
    position: absolute;
    top: 100%;
-   /* Below header */
-   left: 0;
-   width: 100%;
+
+   /* [Key technique for Full Width Breakout] */
+   width: 100vw;
+   left: 50%;
+   margin-left: -50vw;
+   /* This forces the element to span the full viewport width relative to the document,
+      ignoring the parent container's width, assuming body/html is the offset container. */
+
    background: #1a1a1a;
    border-top: 1px solid #333;
    border-bottom: 1px solid #333;
@@ -173,16 +181,14 @@
 /* Show Mega Menu when hovering UL or Panel itself */
 #gnb_1dul:hover~#gnb_mega_panel,
 #gnb_mega_panel:hover {
-   /* Instant Hitbox - No height restriction */
-   height: auto;
-   /* min-height: 400px; */
-
    /* Animation State: Visible */
    opacity: 1;
    visibility: visible;
-   transform: translateY(0);
-   transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s linear 0s;
 
+   /* Keep horizontal alignment (none needed with margin approach) but handle vertical slide */
+   transform: translateY(0);
+
+   transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s linear 0s;
    border-bottom: 1px solid var(--color-accent-gold);
 }
 

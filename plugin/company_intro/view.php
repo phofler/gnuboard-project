@@ -127,11 +127,10 @@ if (file_exists($skin_file)) {
     $bg_color = 'var(--color-bg-dark, #000)'; // Force Theme Color
 
     echo '<div style="background-color:' . $bg_color . ';">';
-    echo '<div class="sub-layout-width-height">';
+    // [FIX] Removed duplicate wrapper .sub-layout-width-height
     // echo get_view_thumbnail($co_row['co_content']); 
     // [FIX] Output modified content (with Map injected)
     echo get_view_thumbnail($co_row['co_content']);
-    echo '</div>';
     echo '</div>';
 } else {
     echo '<div id="sub_container" class="sub-wrapper">';

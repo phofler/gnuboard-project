@@ -9,6 +9,9 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">
 
 <!-- 게시판 목록 시작 { -->
 <!-- Product Layout Wrapper -->
+<?php
+
+?>
 <style>
     .product-layout-container {
         display: flex;
@@ -27,6 +30,62 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">
         flex: 1;
         min-width: 0;
         /* Fix flex overflow issues */
+    }
+
+    /* Mobile Responsive Logic */
+    @media (max-width: 1024px) {
+        .product-layout-container {
+            display: block;
+            /* Stack vertically */
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .product-sidebar-area {
+            width: 100% !important;
+            margin-bottom: 30px;
+            display: none;
+            /* User Request: Usually sidebars are hidden or become dropdowns on mobile. 
+                              However, user just asked "how to handle responsive". 
+                              Often we keep it or make it an accordion. 
+                              Let's just stack it first. */
+            display: block;
+        }
+
+        /* Gallery Responsive */
+        .featured-gallery-container {
+            flex-direction: column;
+            /* Stack main image and thumbs if they are flex */
+            display: block;
+            /* Ensure block if not flex */
+        }
+
+        .fg-main-stage {
+            width: 100% !important;
+            min-height: auto !important;
+            /* Reset constrained height */
+        }
+
+        #fg_main_img {
+            width: 100%;
+            height: auto;
+            max-width: 100%;
+        }
+
+        .fg-thumbnails {
+            width: 100% !important;
+            display: flex;
+            overflow-x: auto;
+            /* Horizontal scroll for thumbs */
+            margin-top: 10px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .product-layout-container {
+            padding: 10px;
+            /* Less padding on small mobile */
+        }
     }
 </style>
 
@@ -120,6 +179,35 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">
                                 <?php } ?>
 
                                 <?php
+                                // [User Request] Inquiry Button (Center Bottom)
+                                $contact_url = '/contact.php?product_inquiry=1';
+
+                                // Resolve Category Name (Tree Category Logic: wr_1 holds code)
+                                $inquiry_cat_name = isset($row_prod['ca_name']) ? $row_prod['ca_name'] : '';
+                                if (!$inquiry_cat_name && isset($row_prod['wr_1']) && $row_prod['wr_1']) {
+                                    // Try to find name from tree categories
+                                    if (!function_exists('get_tree_categories')) {
+                                        @include_once(G5_PLUGIN_PATH . '/tree_category/lib.php');
+                                    }
+                                    if (function_exists('get_tree_categories')) {
+                                        $tree_cats = get_tree_categories();
+                                        foreach ($tree_cats as $tc) {
+                                            if ($tc['tc_code'] === $row_prod['wr_1']) {
+                                                $inquiry_cat_name = $tc['tc_name'];
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                $contact_url .= '&p_cat=' . urlencode($inquiry_cat_name);
+                                $contact_url .= '&p_name=' . urlencode($row_prod['wr_subject']);
+                                ?>
+                                <div class="fg-inquiry-overlay">
+                                    <a href="<?php echo $contact_url; ?>" class="btn_inquiry">문의하기</a>
+                                </div>
+
+                                <?php
                                 // [Admin/Author Only] Edit Button for Featured Product
                                 $is_edit_authorized = false;
                                 if ($is_admin == 'super' || $is_auth) {
@@ -162,7 +250,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">
 
                         <!-- [3] Product Specs & Content -->
                         <div class="product-spec-table">
-                            <?php echo nl2br($featured_view['wr_1']); ?>
+                            <?php echo nl2br($featured_view['wr_10']); ?>
                         </div>
 
                         <div id="bo_v_con" style="margin-bottom:30px; display:none;">
@@ -224,6 +312,37 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">
                         }
 
                         /* Right Thumbnails */
+                        .fg-inquiry-overlay {
+                            position: absolute;
+                            bottom: 20px;
+                            left: 50%;
+                            transform: translateX(-50%);
+                            z-index: 10;
+                        }
+
+                        .btn_inquiry {
+                            background: #d4af37;
+                            color: #000;
+                            font-weight: 700;
+                            padding: 0 40px;
+                            height: 50px;
+                            line-height: 50px;
+                            border-radius: 6px;
+                            border: none;
+                            transition: all 0.3s ease;
+                            display: inline-block;
+                            text-decoration: none;
+                            font-size: 16px;
+                            /* Explicit size */
+                            letter-spacing: -0.5px;
+                        }
+
+                        .btn_inquiry:hover {
+                            background: #c5a02c;
+                            transform: translateY(-2px);
+                            color: #000;
+                        }
+
                         .fg-edit-overlay {
                             position: absolute;
                             bottom: 20px;
@@ -414,6 +533,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">
                                                 onclick="document.pressed=this.value"><i class="fa fa-trash-o"
                                                     aria-hidden="true"></i>
                                                 선택삭제</button></li>
+                                        <!--
                                         <li><button type="submit" name="btn_submit" value="선택복사"
                                                 onclick="document.pressed=this.value"><i class="fa fa-files-o"
                                                     aria-hidden="true"></i>
@@ -422,6 +542,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">
                                                 onclick="document.pressed=this.value"><i class="fa fa-arrows"
                                                     aria-hidden="true"></i>
                                                 선택이동</button></li>
+                                        -->
                                     </ul>
                                 <?php } ?>
                             </li>
@@ -457,6 +578,12 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">
                             $highlight_href .= '&cate=' . urlencode($_GET['cate']);
                         $highlight_href .= '&highlight_wr_id=' . $list[$i]['wr_id'];
                         $highlight_href .= '#page_start';
+                        ?>
+                        <?php
+                        // Check if this item matches the currently featured item
+                        if (isset($row_prod['wr_id']) && $list[$i]['wr_id'] == $row_prod['wr_id']) {
+                            $classes[] = 'is-featured-active';
+                        }
                         ?>
                         <li class="gallery-item-view <?php echo implode(' ', $classes); ?>">
                             <a href="<?php echo $highlight_href; ?>">
@@ -521,6 +648,19 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">
 
                     .gallery-item-view:hover .thumb {
                         border-color: var(--color-accent-gold);
+                    }
+
+                    /* Featured Active Item Styling */
+                    .gallery-item-view.is-featured-active .thumb {
+                        border: 3px solid var(--color-accent-gold);
+                        box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+                        /* Gold Glow */
+                        position: relative;
+                    }
+
+                    .gallery-item-view.is-featured-active .title {
+                        color: var(--color-accent-gold);
+                        font-weight: 700;
                     }
 
                     .gallery-item-view .gallery-info .title {

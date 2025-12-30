@@ -21,7 +21,13 @@
     - [x] Implement Business Area Skins (Grid A, Zigzag B, Overlay C)
     - [x] Implement Recruitment Skins (Standard A, Card B, Minimal C)
     - [x] Refine Typography & Icons (Bold Branding)
-    - [ ] Final Layout Verification
+    - [x] Implement Menu Exposure Control (Show/Hide) for Pro Menu & Tree Category
+    - [x] Change Default Menu Exposure to 'Hidden' (0) for New Items
+    - [x] **Fix Menu Preview & Style**
+        - [x] Preview: Load Real Data (Merge Pro Menu & Tree Category)
+        - [x] Frontend: Restore CSS Variables in `style.css`
+    - [x] Fix 'Undefined array key' warnings in GNB display
+    - [x] Final Layout Verification (Full Width Header & Cleanup)
 - [x] **Product Board Skin Implementation**
     - [x] Create sophisticated Product List Skin (`list.skin.php`)
     - [x] Implement Category Tree Sidebar (`sidebar.product.php`)
@@ -31,7 +37,7 @@
     - [x] Implement 'cate' URL auto-selection for Write Page
     - [x] Preserve 'cate' parameter in Featured Product Edit link
 - [ ] **Debugging & Optimization (Tomorrow)**
-    - [ ] Debug any issues arising from new menu skin integration
+    - [x] Debug any issues arising from new menu skin integration
     - [ ] Refine Theme CSS Rules & Inheritance logic (`default.css`)
 
 ## Project Status

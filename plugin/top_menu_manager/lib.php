@@ -10,7 +10,7 @@ function display_top_menu()
     $setting_file = $plugin_path . '/setting.php';
 
     // Default skin
-    $top_menu_skin = 'basic_light';
+    $top_menu_skin = 'basic';
 
     // Load saved setting if exists
     if (file_exists($setting_file)) {

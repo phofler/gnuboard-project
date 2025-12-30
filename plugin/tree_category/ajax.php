@@ -30,6 +30,7 @@ if ($w == 'c' || $w == 'u') {
     $tc_target = isset($_POST['tc_target']) ? $_POST['tc_target'] : '';
     $tc_order = (int) $_POST['tc_order'];
     $tc_use = (int) $_POST['tc_use'];
+    $tc_menu_use = (int) $_POST['tc_menu_use']; // [NEW]
 
     if (!$tc_code)
         die(json_encode(['error' => '코드가 없습니다.']));
@@ -58,8 +59,19 @@ if ($w == 'c') {
                     tc_target = '{$tc_target}',
                     tc_order = '{$tc_order}',
                     tc_use = '{$tc_use}',
+                    tc_menu_use = '{$tc_menu_use}',
                     tc_regdt = '" . G5_TIME_YMDHIS . "' ";
     sql_query($sql);
+
+    // [SYNC] Core Menu Link Synchronization
+    if (isset($g5['menu_table']) && $tc_link) {
+        $sync_link = $tc_link;
+        if (strpos($sync_link, 'board.php') !== false && strpos($sync_link, 'cate=') === false) {
+            $sep = (strpos($sync_link, '?') !== false) ? '&' : '?';
+            $sync_link .= $sep . 'cate=' . $tc_code;
+        }
+        sql_query(" update {$g5['menu_table']} set me_link = '{$sync_link}' where me_name = '{$tc_name}' ");
+    }
     echo json_encode(['success' => true, 'msg' => '추가되었습니다.']);
 
 } else if ($w == 'u') {
@@ -68,9 +80,20 @@ if ($w == 'c') {
                     tc_link = '{$tc_link}',
                     tc_target = '{$tc_target}',
                     tc_order = '{$tc_order}',
-                    tc_use = '{$tc_use}'
+                    tc_use = '{$tc_use}',
+                    tc_menu_use = '{$tc_menu_use}'
                 where tc_code = '{$tc_code}' ";
     sql_query($sql);
+
+    // [SYNC] Core Menu Link Synchronization
+    if (isset($g5['menu_table']) && $tc_link) {
+        $sync_link = $tc_link;
+        if (strpos($sync_link, 'board.php') !== false && strpos($sync_link, 'cate=') === false) {
+            $sep = (strpos($sync_link, '?') !== false) ? '&' : '?';
+            $sync_link .= $sep . 'cate=' . $tc_code;
+        }
+        sql_query(" update {$g5['menu_table']} set me_link = '{$sync_link}' where me_name = '{$tc_name}' ");
+    }
     echo json_encode(['success' => true, 'msg' => '수정되었습니다.']);
 
 } else if ($w == 'd') {

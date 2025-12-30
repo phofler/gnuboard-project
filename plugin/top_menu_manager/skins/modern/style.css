@@ -241,3 +241,46 @@
         display: none !important;
     }
 }
+
+/* 3rd Depth Flyout Menu (Side Layer) */
+.gnb_2dul>li {
+    position: relative;
+    /* Context for flyout */
+}
+
+.gnb_3dul {
+    display: none;
+    /* Initially hidden */
+    position: absolute;
+    left: 100%;
+    /* Move to right side */
+    top: 0;
+    min-width: 180px;
+    background: #1a1b20;
+    border: 1px solid var(--modern-border);
+    border-radius: 4px;
+    padding: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    z-index: 10000;
+}
+
+/* Show on hover */
+.gnb_2dul>li:hover>.gnb_3dul {
+    display: block;
+}
+
+/* Style 3rd depth links */
+.gnb_3dul li a {
+    display: block;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: #8892b0;
+    text-decoration: none;
+    transition: 0.2s;
+    border-radius: 4px;
+}
+
+.gnb_3dul li a:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+}

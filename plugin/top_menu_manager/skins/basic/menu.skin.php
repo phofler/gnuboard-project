@@ -2,12 +2,11 @@
 if (!defined('_GNUBOARD_'))
     exit;
 
-// Menu Data Load
-// Menu Data Load
-$menu_datas = get_menu_db(0, true);
+// Menu Data Load (Supplied by display_pro_menu)
+// $menu_datas = get_menu_db(0, true);
 
-// [FIX] Load Skin CSS (Required for Live Site)
-$menu_skin_url = str_replace(G5_PATH, G5_URL, dirname(__FILE__));
+// [FIX] Load Skin CSS (Reliable Path)
+$menu_skin_url = G5_PLUGIN_URL . '/top_menu_manager/skins/basic';
 add_stylesheet('<link rel="stylesheet" href="' . $menu_skin_url . '/style.css?v=' . time() . '">', 0);
 ?>
 
@@ -21,8 +20,16 @@ add_stylesheet('<link rel="stylesheet" href="' . $menu_skin_url . '/style.css?v=
             <?php
             // Custom Logo Logic (Dark Mode)
             $logo_src = G5_IMG_URL . '/logo.png';
-            if (defined('G5_DATA_PATH') && file_exists(G5_DATA_PATH . '/common/top_logo_dark.png')) {
-                $logo_src = G5_DATA_URL . '/common/top_logo_dark.png?v=' . time(); // Cache busting
+            $custom_logo_path = G5_DATA_PATH . '/common/top_logo_dark.png';
+
+            if (file_exists($custom_logo_path)) {
+                $logo_src = G5_DATA_URL . '/common/top_logo_dark.png?v=' . time();
+            } else {
+                // Fallback debug: check alternative slash consistency just in case
+                $custom_logo_path_win = str_replace('/', '\\', $custom_logo_path);
+                if (file_exists($custom_logo_path_win)) {
+                    $logo_src = G5_DATA_URL . '/common/top_logo_dark.png?v=' . time();
+                }
             }
             ?>
             <img src="<?php echo $logo_src; ?>" alt="<?php echo $config['cf_title']; ?>">
@@ -72,6 +79,27 @@ add_stylesheet('<link rel="stylesheet" href="' . $menu_skin_url . '/style.css?v=
                                         <a href="<?php echo $row2['me_link']; ?>" target="_<?php echo $row2['me_target']; ?>">
                                             <?php echo $row2['me_name'] ?>
                                         </a>
+                                        <!-- [FIX] 3rd Depth Display (Indented with Dot) -->
+                                        <?php
+                                        if (isset($row2['sub']) && is_array($row2['sub']) && count($row2['sub']) > 0) {
+                                            echo '<ul class="gnb_3dul" style="padding-left: 15px; margin-top: 5px; list-style: none;">';
+                                            foreach ($row2['sub'] as $row3) {
+                                                if (empty($row3))
+                                                    continue;
+                                                ?>
+                                            <li style="margin-bottom: 3px;">
+                                                <a href="<?php echo $row3['me_link']; ?>" target="<?php echo $row3['me_target']; ?>"
+                                                    style="font-size: 13px; color: #888; display: flex; align-items: center;">
+                                                    <span
+                                                        style="font-size: 6px; margin-right: 8px; color: var(--color-accent-gold);">●</span>
+                                                    <?php echo $row3['me_name'] ?>
+                                                </a>
+                                            </li>
+                                            <?php
+                                            }
+                                            echo '</ul>';
+                                        }
+                                        ?>
                                     </li>
                                 <?php } ?>
                             </ul>
@@ -142,11 +170,33 @@ add_stylesheet('<link rel="stylesheet" href="' . $menu_skin_url . '/style.css?v=
                             <?php foreach ((array) $row['sub'] as $row2) {
                                 if (empty($row2))
                                     continue;
+
+                                $has_sub_3rd = (isset($row2['sub']) && is_array($row2['sub']) && count($row2['sub']) > 0);
                                 ?>
-                                <li>
-                                    <a href="<?php echo $row2['me_link']; ?>" target="_<?php echo $row2['me_target']; ?>">
+                                <li style="position:relative;">
+                                    <a href="<?php echo $row2['me_link']; ?>" target="_<?php echo $row2['me_target']; ?>"
+                                        style="display:inline-block; width: <?php echo $has_sub_3rd ? '85%' : '100%'; ?>;">
                                         <?php echo $row2['me_name'] ?>
                                     </a>
+                                    <?php if ($has_sub_3rd) { ?>
+                                        <button type="button" class="btn_3rd_toggle"
+                                            style="position:absolute; right:0; top:0; width:15%; height:100%; border:none; background:none; color:#fff; cursor:pointer;">
+                                            <i class="fa fa-chevron-down"></i>
+                                        </button>
+                                        <ul class="gnb_3rd_mobile" style="display:none; background:rgba(0,0,0,0.3); padding:10px 0;">
+                                            <?php foreach ($row2['sub'] as $row3) {
+                                                if (empty($row3))
+                                                    continue;
+                                                ?>
+                                                <li>
+                                                    <a href="<?php echo $row3['me_link']; ?>" target="<?php echo $row3['me_target']; ?>"
+                                                        style="padding-left:30px; font-size:13px; color:#ccc;">
+                                                        - <?php echo $row3['me_name'] ?>
+                                                    </a>
+                                                </li>
+                                            <?php } ?>
+                                        </ul>
+                                    <?php } ?>
                                 </li>
                             <?php } ?>
                         </ul>
@@ -154,26 +204,30 @@ add_stylesheet('<link rel="stylesheet" href="' . $menu_skin_url . '/style.css?v=
                 </li>
             <?php } ?>
         </ul>
-
-
     </div>
 </div>
 
 <script>
     $(function () {
-        // [IMPORTANT] Move the mobile menu to the body tag to avoid Z-index/Transform issues
-        // caused by the header or wrapper layout. This fixes the transparency/cut-off bug.
+        // [IMPORTANT] Move the mobile menu to the body tag
         $("#gnb_all").appendTo("body");
 
         // Toggle Mobile Menu
         $(".gnb_menu_btn").click(function () {
             $("#gnb_all").fadeIn(300);
-            $("body").css("overflow", "hidden"); // Prevent background scrolling
+            $("body").css("overflow", "hidden");
         });
 
         $(".gnb_close_btn").click(function () {
             $("#gnb_all").fadeOut(300);
             $("body").css("overflow", "");
+        });
+
+        // [NEW] 3rd Depth Accordion
+        $(".btn_3rd_toggle").click(function (e) {
+            e.preventDefault();
+            $(this).next(".gnb_3rd_mobile").slideToggle();
+            $(this).find("i").toggleClass("fa-chevron-down fa-chevron-up");
         });
     });
 </script>

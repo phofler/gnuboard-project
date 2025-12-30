@@ -18,24 +18,24 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">
         <article id="bo_v">
             <header>
                 <h2 id="bo_v_title">
-                    <span class="bo_v_tit"><?php echo cut_str(get_text($view['wr_subject']), 255); ?></span>
+                    <span class="bo_v_tit sound_only"><?php echo cut_str(get_text($view['wr_subject']), 255); ?></span>
                 </h2>
             </header>
 
             <!-- [1] Product Main Image Area -->
-            <div class="product-view-image">
-                <?php
-                if ($view['file'] && count($view['file'])) {
-                    echo '<div id="bo_v_img">';
-                    foreach ($view['file'] as $view_file) {
-                        if (isset($view_file['view']) && $view_file['view']) {
-                            echo get_view_thumbnail($view_file['view']);
-                        }
+            <?php
+            if ($view['file'] && count($view['file'])) {
+                echo '<div class="product-view-image">';
+                echo '<div id="bo_v_img">';
+                foreach ($view['file'] as $view_file) {
+                    if (isset($view_file['view']) && $view_file['view']) {
+                        echo get_view_thumbnail($view_file['view']);
                     }
-                    echo '</div>';
                 }
-                ?>
-            </div>
+                echo '</div>';
+                echo '</div>';
+            }
+            ?>
 
             <!-- [2] Product Title Bar -->
             <div class="product-title-bar">
@@ -46,9 +46,9 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">
             <section id="bo_v_atc">
                 <h2 class="sound_only">본문</h2>
 
-                <?php if ($view['wr_1']) { ?>
+                <?php if ($view['wr_10']) { ?>
                     <div class="product-spec-table">
-                        <?php echo nl2br($view['wr_1']); ?>
+                        <?php echo nl2br($view['wr_10']); ?>
                     </div>
                 <?php } ?>
 

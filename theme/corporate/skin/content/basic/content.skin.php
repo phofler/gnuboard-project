@@ -19,13 +19,20 @@ add_stylesheet('<link rel="stylesheet" href="' . $content_skin_url . '/style.css
 
 
 <article id="ctt" class="ctt_<?php echo $co_id; ?>">
+    <!-- DEBUG: SKIN LOADED - theme/corporate/skin/content/basic/content.skin.php -->
     <header>
         <h1><?php echo $g5['title']; ?></h1>
     </header>
 
     <div id="ctt_con"
         style="background-color:<?php echo (isset($plugin_co) && $plugin_co['co_bgcolor']) ? $plugin_co['co_bgcolor'] : 'transparent'; ?>;">
-        <?php echo $str; ?>
+        <?php
+        // [FIX] Force remove duplicate wrapper class if present in saved content
+        // This prevents double padding issue even if user cannot find the div in editor
+        $str = preg_replace('/class=["\'][^"\']*sub-layout-width-height[^"\']*["\']/', '', $str);
+
+        echo $str;
+        ?>
     </div>
 
 </article>

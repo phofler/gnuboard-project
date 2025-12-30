@@ -3,6 +3,7 @@ $menu['menu800'] = array(
     array('800000', '테마관리', G5_ADMIN_URL . '/theme.php', 'theme'),
     array('800100', '테마설정', G5_ADMIN_URL . '/theme.php', 'theme_config'),
     array('800150', '상단메뉴스킨관리', G5_PLUGIN_URL . '/top_menu_manager/admin.php', 'top_menu_manager'),
+    array('800160', '메뉴관리', G5_PLUGIN_URL . '/pro_menu_manager/admin.php', 'pro_menu_manager'),
     array('800180', '메인 이미지 관리', G5_PLUGIN_URL . '/main_image_manager/adm/list.php', 'main_image_manager'),
     array('800190', '메인 컨텐츠관리', G5_PLUGIN_URL . '/main_content_manager/adm/list.php', 'main_content_manager'),
     array('800200', '서브디자인관리', G5_PLUGIN_URL . '/sub_design/adm/list.php', 'sub_design'),

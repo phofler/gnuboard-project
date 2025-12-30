@@ -130,7 +130,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">
                     }
 
                     /* Fix: Override global board text-area style (min-height: 400px) for Spec field */
-                    #bo_w textarea#wr_1 {
+                    #bo_w textarea#wr_10 {
                         min-height: 0 !important;
                         height: 150px !important;
                         line-height: 1.5;
@@ -157,6 +157,14 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">
                 <!-- Hidden Input for Gnuboard -->
                 <input type="hidden" name="ca_name" id="ca_name"
                     value="<?php echo isset($write['ca_name']) ? $write['ca_name'] : ''; ?>">
+                <!-- [NEW] Hidden Input for Category Code (wr_1) -->
+                <input type="hidden" name="wr_1" id="wr_1_code"
+                    value="<?php echo isset($write['wr_1']) ? $write['wr_1'] : ''; ?>">
+
+                <!-- [NEW] Hidden Input for Category Code (cate) to persist URL param -->
+                <input type="hidden" name="cate" value="<?php echo isset($_GET['cate']) ? $_GET['cate'] : ''; ?>">
+                <!-- [NEW] Hidden Input for Highlight ID -->
+                <input type="hidden" name="highlight_wr_id" value="<?php echo isset($_GET['highlight_wr_id']) ? $_GET['highlight_wr_id'] : ''; ?>">
 
                 <div class="category-wrapper" id="category_container">
                     <select data-depth="1" class="frm_input product-category-select dynamic-cate">
@@ -267,6 +275,18 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">
                                 }
                             });
                             $("#ca_name").val(finalName);
+
+                            // [NEW] Update wr_1 with the last selected code
+                            var finalCode = "";
+                            $(".dynamic-cate").each(function () {
+                                var code = $(this).val();
+                                if (code) {
+                                    finalCode = code;
+                                }
+                            });
+                            // If no specific code selected (only root?), logic might need refinement,
+                            // but generally the last valid val() is the deepest code.
+                            $("#wr_1_code").val(finalCode);
                         }
                     });
                 </script>
@@ -299,13 +319,13 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">
                 </div>
             </div> <!-- End bo_w_tit -->
 
-            <!-- Product Specifications (wr_1) -->
+            <!-- Product Specifications (wr_10) -->
             <div class="write_div">
-                <label for="wr_1" class="sound_only">제품 사양</label>
-                <textarea name="wr_1" id="wr_1" class="frm_input full_input" rows="5" placeholder="제품 사양을 입력해주세요. (줄바꿈 구분)
+                <label for="wr_10" class="sound_only">제품 사양</label>
+                <textarea name="wr_10" id="wr_10" class="frm_input full_input" rows="5" placeholder="제품 사양을 입력해주세요. (줄바꿈 구분)
 예:
 - 재질/설치타입 협의
-- 목재 협의 가능"><?php echo isset($write['wr_1']) ? $write['wr_1'] : ''; ?></textarea>
+- 목재 협의 가능"><?php echo isset($write['wr_10']) ? $write['wr_10'] : ''; ?></textarea>
             </div>
 
             <div class="write_div">

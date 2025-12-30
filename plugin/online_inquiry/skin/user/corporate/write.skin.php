@@ -16,9 +16,24 @@ if (!defined('_GNUBOARD_'))
         <!-- Email field added for completeness although not in original screenshot, keeping hidden or minimal if desired. Original didn't have it visible? Let's check. 
              Original code had: Name, Contact, Message. No Email. I'll stick to original inputs but keep hidden email or just omit. 
              Wait, the plugin logic MIGHT expect email. write_update.php says email is optional. I will omit it to match design exactly. -->
+        <?php
+        // [Inquiry Pre-fill Logic]
+        $start_content = '';
+        if (isset($_GET['product_inquiry']) && $_GET['product_inquiry']) {
+            $p_cat = isset($_GET['p_cat']) ? strip_tags($_GET['p_cat']) : '';
+            $p_name = isset($_GET['p_name']) ? strip_tags($_GET['p_name']) : '';
+
+            $start_content = "[제품 문의]\n";
+            if ($p_cat)
+                $start_content .= "카테고리: " . $p_cat . "\n";
+            if ($p_name)
+                $start_content .= "제품명: " . $p_name . "\n";
+            $start_content .= "--------------------------------\n\n문의내용을 입력해주세요.";
+        }
+        ?>
         <div class="form-group">
             <textarea class="form-control" name="content" id="reg_content" rows="5" required
-                placeholder="Message"></textarea>
+                placeholder="Message"><?php echo $start_content; ?></textarea>
             <!-- Mapping 'content' to 'Message' -->
         </div>
 
