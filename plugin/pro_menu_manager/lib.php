@@ -3,9 +3,15 @@ if (!defined('_GNUBOARD_'))
     exit;
 
 // Fetch all custom menus sorted by order
-function get_pro_menu_list($table = 'g5_write_menu_pdc')
+// Fetch all custom menus sorted by order
+function get_pro_menu_list($table = '')
 {
     global $g5;
+
+    // [NEW] Dynamic Table Support via Global Constant
+    if (!$table) {
+        $table = defined('G5_PRO_MENU_TABLE') ? G5_PRO_MENU_TABLE : 'g5_write_menu_pdc';
+    }
 
     // Check table existence first to avoid errors during install
     $check = sql_fetch(" SHOW TABLES LIKE '{$table}' ");
@@ -187,8 +193,8 @@ function render_pro_menu_admin_tree($menus, $parent_code = '')
     return $html;
 }
 
-// Frontend Display Function (Now restores Skin-based rendering)
-function display_pro_menu()
+// Frontend Display Function (Refactored for Theme Control)
+function display_pro_menu($skin_name = 'basic')
 {
     global $g5, $config, $is_member, $is_admin;
 
@@ -234,22 +240,33 @@ function display_pro_menu()
         $menu_datas[] = $root_mapped;
     }
 
-    // 3. Detect Active Skin
+    // 3. Set Active Skin (Method B: Admin-First Priority)
+    $top_menu_skin = '';
+
+    // Priority 1: Check Admin Setting (setting.php)
+    $setting_file = G5_PLUGIN_PATH . '/top_menu_manager/setting.php';
+    if (file_exists($setting_file)) {
+        include($setting_file); // This provides $top_menu_skin if exists
+    }
+
+    // Priority 2: Use Theme Argument if Admin setting is empty
+    if (!$top_menu_skin && $skin_name) {
+        $top_menu_skin = $skin_name;
+    }
+
+    // Priority 3: Global Fallback
+    if (!$top_menu_skin) {
+        $top_menu_skin = 'basic';
+    }
+
     $base_plugin_path = G5_PLUGIN_PATH . '/top_menu_manager';
     $base_plugin_url = G5_PLUGIN_URL . '/top_menu_manager';
-    $setting_file = $base_plugin_path . '/setting.php';
-    $top_menu_skin = 'basic'; // Default
-
-    if (file_exists($setting_file)) {
-        include($setting_file);
-        echo "<!-- DEBUG: Loaded Skin = " . $top_menu_skin . " -->";
-    }
 
     $skin_path = $base_plugin_path . '/skins/' . $top_menu_skin;
     $skin_url = $base_plugin_url . '/skins/' . $top_menu_skin;
 
     if (!file_exists($skin_path . '/menu.skin.php')) {
-        echo '<!-- Selected Skin (' . $top_menu_skin . ') not found. -->';
+        echo '<!-- Skin "' . $top_menu_skin . '" not found in ' . $skin_path . ' -->';
         return;
     }
 

@@ -7,8 +7,9 @@ if (!$is_admin) {
 }
 
 // Directory Setup
-$upload_dir = G5_DATA_PATH . '/company_intro/';
-$upload_url = G5_DATA_URL . '/company_intro/';
+// Directory Setup (Shared Assets)
+$upload_dir = G5_DATA_PATH . '/common_assets/';
+$upload_url = G5_DATA_URL . '/common_assets/';
 
 if (!is_dir($upload_dir)) {
     @mkdir($upload_dir, G5_DIR_PERMISSION, true);

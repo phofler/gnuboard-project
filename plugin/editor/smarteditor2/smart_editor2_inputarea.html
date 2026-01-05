@@ -4,7 +4,34 @@
 <head>
     <meta charset="utf-8">
     <title>Smart Editor&#8482; WYSIWYG Mode</title>
-    <link rel="stylesheet" href="../../../theme/corporate/css/default.css">
+    <script>
+        (function () {
+            // URL 파라미터에서 테마와 배경색 추출
+            const urlParams = new URLSearchParams(window.location.search);
+            const theme = urlParams.get('theme');
+            const bgcolor = urlParams.get('bgcolor');
+
+            // 1. 테마 전용 CSS 로드 (예: corporate 또는 corporate_light)
+            if (theme) {
+                const link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = '../../../theme/' + theme + '/css/default.css';
+                document.head.appendChild(link);
+            }
+
+            // 2. 배경색 및 CSS 변수 실시간 적용
+            window.addEventListener('DOMContentLoaded', () => {
+                console.log('SE2 Debug: Theme=', theme, 'Bgcolor=', bgcolor);
+                if (bgcolor) {
+                    console.log('SE2 Debug: Applying bgcolor:', bgcolor);
+                    document.body.style.backgroundColor = bgcolor;
+                    document.body.style.setProperty('--cp-bg', bgcolor);
+                } else {
+                    console.log('SE2 Debug: No bgcolor provided');
+                }
+            });
+        })();
+    </script>
 </head>
 
 <body class="se2_inputarea" style="height:0;-webkit-nbsp-mode:normal"></body>

@@ -45,23 +45,36 @@ include_once(G5_PLUGIN_PATH . '/sub_design/lib/design.lib.php');
 // 1. Detect ME_CODE
 $current_me_code = '';
 
-// Priority 0: Explicit URL Parameter (User Request)
-if (isset($_GET['me_code']) && $_GET['me_code']) {
-    $current_me_code = clean_xss_tags($_GET['me_code']);
+// Determine Menu Table (Pro Menu Manager support)
+$sd_lang = (defined('G5_LANG')) ? G5_LANG : 'kr';
+$menu_table = ($sd_lang == 'kr') ? "g5_write_menu_pdc" : "g5_write_menu_pdc_" . $sd_lang;
+$check = sql_fetch(" SHOW TABLES LIKE '$menu_table' ");
+$col_prefix = 'ma';
+if (!$check) {
+    $menu_table = $g5['menu_table']; // Fallback to default
+    $col_prefix = 'me';
+}
+$code_col = $col_prefix . '_code';
+$link_col = $col_prefix . '_link';
+$name_col = $col_prefix . '_name';
+
+// Priority 1: Tree Category Page (cate match) - Most Specific
+if (!$current_me_code && isset($_GET['cate']) && $_GET['cate']) {
+    $current_me_code = 'TC' . clean_xss_tags($_GET['cate']);
 }
 
-// Priority 1: Content Page (co_id match)
+// Priority 2: Content Page (co_id match)
 if (!$current_me_code && isset($co_id) && $co_id) {
     // Find menu by link
-    $sql = " SELECT me_code FROM {$g5['menu_table']} WHERE me_link LIKE '%co_id={$co_id}%' ORDER BY length(me_code) DESC LIMIT 1 ";
+    $sql = " SELECT $code_col as me_code FROM $menu_table WHERE $link_col LIKE '%co_id={$co_id}%' ORDER BY length($code_col) DESC LIMIT 1 ";
     $row = sql_fetch($sql);
     if ($row)
         $current_me_code = $row['me_code'];
 }
 
-// Priority 2: Board Page (bo_table match)
+// Priority 3: Board Page (bo_table match)
 if (!$current_me_code && isset($bo_table) && $bo_table) {
-    $sql = " SELECT me_code FROM {$g5['menu_table']} WHERE me_link LIKE '%bo_table={$bo_table}%' ORDER BY length(me_code) DESC LIMIT 1 ";
+    $sql = " SELECT $code_col as me_code FROM $menu_table WHERE $link_col LIKE '%bo_table={$bo_table}%' ORDER BY length($code_col) DESC LIMIT 1 ";
     $row = sql_fetch($sql);
     if ($row)
         $current_me_code = $row['me_code'];
@@ -70,18 +83,21 @@ if (!$current_me_code && isset($bo_table) && $bo_table) {
 // 2. Fetch Design Data
 $sub_design = array();
 if ($current_me_code) {
-    $sub_design = get_sub_design($current_me_code);
+    // Construct sd_id (Theme + Lang)
+    $sd_id = $config['cf_theme'];
+    $sd_lang = (defined('G5_LANG')) ? G5_LANG : 'kr';
+    if ($sd_lang != 'kr') {
+        $sd_id .= '_' . $sd_lang;
+    }
+
+    $sub_design = get_sub_design($sd_id, $current_me_code);
     if (!is_array($sub_design))
         $sub_design = array();
 }
 
-// 3. Defaults if no data found (Optional: Set default image/text)
-// 3. Defaults if no data found (Optional: Set default image/text)
-// [FIX] Only apply fallback if BOTH image file and external URL are missing
+// 3. Fallback/Defaults
 if (empty($sub_design['sd_visual_img']) && empty($sub_design['sd_visual_url'])) {
-    // Fallback for pages without explicit menu connection (like plugin pages)
-    // Use an existing image from data/sub_visual/
-    $sub_design['sd_visual_img'] = 'sub_visual_1020_1765854659.png';
+    $sub_design['sd_visual_url'] = 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1920&auto=format&fit=crop';
     if (empty($sub_design['sd_main_text'])) {
         $sub_design['sd_main_text'] = $g5['title'];
     }
@@ -99,15 +115,23 @@ if (!defined('_INDEX_')) {
     if (isset($current_me_code) && $current_me_code) {
         $code_1st = substr($current_me_code, 0, 2);
         // Fetch 1st depth name
-        $row_1st = sql_fetch(" SELECT me_name FROM {$g5['menu_table']} WHERE me_code = '{$code_1st}' ");
+        $row_1st = sql_fetch(" SELECT $name_col as me_name FROM $menu_table WHERE $code_col = '{$code_1st}' ");
         if ($row_1st['me_name'])
             $nav_1st_name = $row_1st['me_name'];
 
-        // Fetch 2nd depth name if difference
+        // Fetch 2nd depth name
         if (strlen($current_me_code) >= 4) {
-            $row_2nd = sql_fetch(" SELECT me_name FROM {$g5['menu_table']} WHERE me_code = '{$current_me_code}' ");
+            $code_2nd = substr($current_me_code, 0, 4);
+            $row_2nd = sql_fetch(" SELECT $name_col as me_name FROM $menu_table WHERE $code_col = '{$code_2nd}' ");
             if ($row_2nd['me_name'])
                 $nav_2nd_name = $row_2nd['me_name'];
+        }
+
+        // Fetch 3rd depth name if applicable
+        if (strlen($current_me_code) >= 6) {
+            $row_3rd = sql_fetch(" SELECT $name_col as me_name FROM $menu_table WHERE $code_col = '{$current_me_code}' ");
+            if ($row_3rd['me_name'])
+                $nav_3rd_name = $row_3rd['me_name']; // Optional: Handle 3-depth breadcrumb later
         }
     } else {
         // Fallback for pages not in menu (e.g. Member pages, Search)
@@ -124,39 +148,29 @@ if (!defined('_INDEX_')) {
         $hero_title = $nav_1st_name;
     }
 
-    $sd_img_url = '';
+    // Render Sub Design with Skin System
+    $sd_skin = isset($sub_design['sd_skin']) ? $sub_design['sd_skin'] : 'standard';
+    $skin_path = G5_PLUGIN_PATH . '/sub_design/skins/' . $sd_skin . '/main.skin.php';
 
-    // Validate image path
-    if (isset($sub_design['sd_visual_img']) && $sub_design['sd_visual_img']) {
-        $check_path = G5_DATA_PATH . '/sub_visual/' . $sub_design['sd_visual_img'];
-        if (file_exists($check_path)) {
-            $sd_img_url = G5_DATA_URL . '/sub_visual/' . $sub_design['sd_visual_img'];
-        }
-    }
+    // Mock item for skin (compatibility with existing skin vars)
+    $item = $sub_design;
+    $item['sd_main_text'] = $hero_title; // Use calculated hero title
 
-    // [FIX] If no file image found, check for external URL
-    if (!$sd_img_url && isset($sub_design['sd_visual_url']) && $sub_design['sd_visual_url']) {
-        $sd_img_url = $sub_design['sd_visual_url'];
-    }
-
-    // Final Fallback if everything failed (should be caught by step 3 but double check)
-    if (!$sd_img_url) {
-        $sd_img_url = G5_DATA_URL . '/sub_visual/sub_visual_1020_1765854659.png';
-    }
-
-    if ($sd_img_url) {
+    if (file_exists($skin_path)) {
+        include($skin_path);
+    } else {
+        // Fallback to internal rendering if skin missing
+        $sd_img_url = $sub_design['sd_visual_url'] ? $sub_design['sd_visual_url'] : G5_DATA_URL . '/sub_visual/' . $sub_design['sd_visual_img'];
+        if (!$sd_img_url)
+            $sd_img_url = 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1920&auto=format&fit=crop';
         ?>
         <section class="sub-hero">
             <div class="sub-hero-bg" style="background-image: url('<?php echo $sd_img_url; ?>');"></div>
             <div class="sub-hero-content" data-aos="fade-up" data-aos-duration="1000">
                 <?php if (isset($sub_design['sd_sub_text']) && $sub_design['sd_sub_text']) { ?>
-                    <p class="sub-hero-subtitle">
-                        <?php echo $sub_design['sd_sub_text']; ?>
-                    </p>
+                    <p class="sub-hero-subtitle"><?php echo $sub_design['sd_sub_text']; ?></p>
                 <?php } ?>
-                <h1 class="sub-hero-title">
-                    <?php echo $hero_title; ?>
-                </h1>
+                <h1 class="sub-hero-title"><?php echo $hero_title; ?></h1>
             </div>
         </section>
         <?php
@@ -168,10 +182,15 @@ if (!defined('_INDEX_')) {
             <span>Home</span>
             <?php
             if ($nav_1st_name) {
-                echo ' &gt; <span>' . $nav_1st_name . '</span>';
+                $class = (!$nav_2nd_name && !$nav_3rd_name) ? 'class="current"' : '';
+                echo ' &gt; <span ' . $class . '>' . $nav_1st_name . '</span>';
             }
             if ($nav_2nd_name) {
-                echo ' &gt; <span class="current">' . $nav_2nd_name . '</span>';
+                $class = (!$nav_3rd_name) ? 'class="current"' : '';
+                echo ' &gt; <span ' . $class . '>' . $nav_2nd_name . '</span>';
+            }
+            if (isset($nav_3rd_name) && $nav_3rd_name) {
+                echo ' &gt; <span class="current">' . $nav_3rd_name . '</span>';
             }
             ?>
         </div>

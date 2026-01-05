@@ -93,12 +93,11 @@ add_stylesheet('<link rel="stylesheet" href="' . $menu_skin_url . '/style.css?v=
 
     <!-- Right Side Actions -->
     <div class="hd_right" style="display: flex; align-items: center; gap: 20px;">
-        <div class="hd_login_simple" style="font-size: 13px; color: #8892b0; display: flex; gap: 15px;">
+        <div class="hd_login_simple">
             <?php if ($is_member) { ?>
                 <a href="<?php echo G5_BBS_URL ?>/logout.php">LOGOUT</a>
                 <?php if ($is_admin) { ?>
-                    <a href="<?php echo correct_goto_url(G5_ADMIN_URL); ?>"
-                        style="color:var(--modern-gold); font-weight:600;">ADMIN</a>
+                    <a href="<?php echo correct_goto_url(G5_ADMIN_URL); ?>" class="hd_admin_link">ADMIN</a>
                 <?php } ?>
             <?php } else { ?>
                 <a href="<?php echo G5_BBS_URL ?>/login.php">LOGIN</a>
@@ -118,8 +117,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $menu_skin_url . '/style.css?v=
             style="position: relative; height: 60px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid rgba(255,255,255,0.05);">
 
             <!-- Centered Utility Links -->
-            <div class="hd_login_mobile"
-                style="display: flex; gap: 20px; font-size: 14px; color: #a0a0a0; font-weight: 500;">
+            <div class="hd_login_mobile">
                 <?php if ($is_member) { ?>
                     <a href="<?php echo G5_BBS_URL ?>/logout.php" style="color:inherit;">LOGOUT</a>
                     <?php if ($is_admin) { ?>

@@ -122,9 +122,8 @@ if (file_exists($skin_file)) {
     // The content in DB ($co_row['co_content']) already includes the skin structure (HTML + CSS)
     // because the editor initializes with the skin template.
     // So we just output the content directly.
-    // [FIX] Apply Background Color from Admin Setting -> Standardized to Theme Variable
-    // $bg_color = isset($co_row['co_bgcolor']) && $co_row['co_bgcolor'] ? $co_row['co_bgcolor'] : 'transparent';
-    $bg_color = 'var(--color-bg-dark, #000)'; // Force Theme Color
+    // [FIX] Apply Background Color from Admin Setting
+    $bg_color = isset($co_row['co_bgcolor']) && $co_row['co_bgcolor'] ? $co_row['co_bgcolor'] : 'transparent';
 
     echo '<div style="background-color:' . $bg_color . ';">';
     // [FIX] Removed duplicate wrapper .sub-layout-width-height

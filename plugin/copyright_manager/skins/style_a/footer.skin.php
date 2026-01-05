@@ -1,6 +1,12 @@
 <?php
 if (!defined('_GNUBOARD_'))
     exit;
+
+// If editor content exists, prioritize it for maximum flexibility
+if (trim($cp['processed_content'])) {
+    echo $cp['processed_content'] . PHP_EOL;
+    return;
+}
 ?>
 <div class="footer-skin-a">
     <div class="footer-container">

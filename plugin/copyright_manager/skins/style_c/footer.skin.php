@@ -1,6 +1,12 @@
 <?php
 if (!defined('_GNUBOARD_'))
     exit;
+
+// If editor content exists, prioritize it for maximum flexibility
+if (trim($cp['processed_content'])) {
+    echo $cp['processed_content'] . PHP_EOL;
+    return;
+}
 ?>
 <div class="footer-skin-c">
     <div class="footer-container">
@@ -18,18 +24,26 @@ if (!defined('_GNUBOARD_'))
             <div class="grid-item contact">
                 <h3>Contact</h3>
                 <div class="info-group">
-                    <div class="info-item">
-                        <span class="label"><?php echo $cp['tel_label']; ?></span>
-                        <span class="value"><?php echo $cp['tel_val']; ?></span>
-                    </div>
-                    <div class="info-item">
-                        <span class="label"><?php echo $cp['fax_label']; ?></span>
-                        <span class="value"><?php echo $cp['fax_val']; ?></span>
-                    </div>
-                    <div class="info-item">
-                        <span class="label"><?php echo $cp['email_label']; ?></span>
-                        <span class="value"><?php echo $cp['email_val']; ?></span>
-                    </div>
+                    <?php if ($cp['tel_val']) { ?>
+                        <div class="info-item">
+                            <span class="label"><?php echo $cp['tel_label']; ?></span>
+                            <span class="value"><a
+                                    href="tel:<?php echo $cp['tel_val']; ?>"><?php echo $cp['tel_val']; ?></a></span>
+                        </div>
+                    <?php } ?>
+                    <?php if ($cp['fax_val']) { ?>
+                        <div class="info-item">
+                            <span class="label"><?php echo $cp['fax_label']; ?></span>
+                            <span class="value"><?php echo $cp['fax_val']; ?></span>
+                        </div>
+                    <?php } ?>
+                    <?php if ($cp['email_val']) { ?>
+                        <div class="info-item">
+                            <span class="label"><?php echo $cp['email_label']; ?></span>
+                            <span class="value"><a
+                                    href="mailto:<?php echo $cp['email_val']; ?>"><?php echo $cp['email_val']; ?></a></span>
+                        </div>
+                    <?php } ?>
                 </div>
             </div>
 

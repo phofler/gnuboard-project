@@ -1,4 +1,4 @@
 <?php
-$active_style = 'B';
+$active_style = 'A';
 $section_title = 'PRODUCT1 COLLECTION1';
 ?>

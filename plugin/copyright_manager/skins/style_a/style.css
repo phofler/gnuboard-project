@@ -2,7 +2,7 @@
     padding: 80px 0;
     text-align: center;
     background-color: transparent;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    /* border-top removed per request */
 }
 
 .footer-skin-a .footer-container {
@@ -35,7 +35,8 @@
 .footer-skin-a .label {
     font-family: var(--font-body);
     font-weight: 400;
-    color: rgba(255, 255, 255, 0.3);
+    color: var(--color-text-secondary);
+    opacity: 0.5;
     margin-right: 8px;
     font-size: 0.8rem;
 }
@@ -50,7 +51,8 @@
 
 .footer-skin-a .footer-copyright {
     font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--color-text-secondary);
+    opacity: 0.5;
     margin-bottom: 40px;
 }
 
@@ -60,7 +62,8 @@
     gap: 25px;
     flex-wrap: wrap;
     padding-top: 30px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid #1f1f1f;
+    /* Lighter opacity 0.1 -> 0.05 */
 }
 
 .footer-skin-a .footer-links a {

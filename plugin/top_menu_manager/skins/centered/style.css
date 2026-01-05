@@ -2,13 +2,7 @@
 
 /* Centered Skin CSS */
 
-:root {
-    /* Theme Inheritance */
-    --centered-bg: var(--color-bg-dark);
-    --centered-text: var(--color-text-primary);
-    --centered-accent: var(--color-accent-gold);
-    --centered-header-h: var(--header-height, 90px);
-}
+/* [SOVEREIGNTY] Using Theme Variables */
 
 /* [FIX] Override Theme's Fixed Header Height */
 #hd {
@@ -31,11 +25,11 @@
 /* Centered Header */
 .centered-header {
     width: 100%;
-    min-height: var(--centered-header-h);
+    min-height: var(--header-height, 90px);
     /* Flexible height */
     padding: 30px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    background: var(--centered-bg);
+    background: var(--color-menu-bg, var(--color-bg-dark));
     display: flex;
     justify-content: center;
     align-items: center;
@@ -88,7 +82,7 @@
 .gnb_1da {
     font-size: 15px;
     font-weight: 500;
-    color: var(--color-text-secondary);
+    color: var(--color-menu-text);
     text-decoration: none;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -104,7 +98,7 @@
 }
 
 .gnb_1dli:hover .gnb_1da {
-    color: var(--centered-accent);
+    color: var(--color-menu-text-hover);
 }
 
 /* Underline Effect */
@@ -117,7 +111,7 @@
     transform: translateX(-50%);
     width: 0;
     height: 2px;
-    background: var(--centered-accent);
+    background: var(--color-menu-text-hover);
     transition: 0.3s;
 }
 
@@ -191,7 +185,7 @@
     display: block;
     padding: 8px 20px;
     font-size: 13px;
-    color: var(--color-text-secondary);
+    color: var(--color-menu-text);
     text-decoration: none;
     transition: 0.2s;
 
@@ -208,8 +202,8 @@
 }
 
 .gnb_2da:hover {
-    color: var(--centered-accent);
-    background: rgba(255, 255, 255, 0.05);
+    color: var(--color-menu-hover-text);
+    background: var(--color-menu-hover-bg);
 }
 
 @media (max-width: 1024px) {
@@ -270,7 +264,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: var(--centered-bg, #1a1a1a);
+    background: var(--color-menu-bg, #1a1a1a);
     /* Dark Background */
     z-index: 99999;
     overflow-y: auto;

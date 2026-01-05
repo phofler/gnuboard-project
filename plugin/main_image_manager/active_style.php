@@ -1,3 +1,1 @@
-<?php
-$active_style = 'A';
-?>
+ultimate_hero

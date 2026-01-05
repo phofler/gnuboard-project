@@ -2,12 +2,14 @@
 if (!defined('_GNUBOARD_'))
     exit;
 
-// Menu Data Load (Supplied by display_pro_menu)
-// $menu_datas = get_menu_db(0, true);
+// Menu Data Load (Fallback if not provided by controller)
+if (!isset($menu_datas) || empty($menu_datas)) {
+    $menu_datas = get_menu_db(0, true);
+}
 
-// [FIX] Load Skin CSS (Reliable Path)
+// [FIX] Load Skin CSS (Direct Echo required because head is already closed)
 $menu_skin_url = G5_PLUGIN_URL . '/top_menu_manager/skins/basic';
-add_stylesheet('<link rel="stylesheet" href="' . $menu_skin_url . '/style.css?v=' . time() . '">', 0);
+echo '<link rel="stylesheet" href="' . $menu_skin_url . '/style.css?v=' . time() . '">';
 ?>
 
 <!-- Mega Menu Skin (Basic Dark - Strict Match to menu_mega.html) -->
@@ -18,11 +20,14 @@ add_stylesheet('<link rel="stylesheet" href="' . $menu_skin_url . '/style.css?v=
     <div id="logo">
         <a href="<?php echo G5_URL ?>">
             <?php
-            // Custom Logo Logic (Dark Mode)
+            // Custom Logo Logic (Dynamic)
             $logo_src = G5_IMG_URL . '/logo.png';
             $custom_logo_path = G5_DATA_PATH . '/common/top_logo_dark.png';
 
-            if (file_exists($custom_logo_path)) {
+            if (isset($top_logo_pc) && $top_logo_pc) {
+                // Use Configured Logo
+                $logo_src = $top_logo_pc . '?v=' . time();
+            } else if (file_exists($custom_logo_path)) {
                 $logo_src = G5_DATA_URL . '/common/top_logo_dark.png?v=' . time();
             } else {
                 // Fallback debug: check alternative slash consistency just in case
@@ -116,7 +121,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $menu_skin_url . '/style.css?v=
     </button>
 
     <!-- Right Side Icons (Login/Admin) -->
-    <div class="hd_login" style="display: flex; gap: 20px; font-size: 13px; font-weight: 500; color: #666;">
+    <div class="hd_login">
         <?php if ($is_member) { ?>
             <a href="<?php echo G5_BBS_URL ?>/logout.php" style="color:inherit;">LOGOUT</a>
             <?php if ($is_admin) { ?>

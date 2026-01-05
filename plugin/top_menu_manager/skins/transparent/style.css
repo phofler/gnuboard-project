@@ -2,11 +2,7 @@
 
 /* Transparent Skin CSS */
 
-:root {
-    /* Theme Inheritance */
-    --transparent-accent: var(--color-accent-gold);
-    --transparent-header-h: var(--header-height, 90px);
-}
+/* [SOVEREIGNTY] Using Theme Variables */
 
 /* Transparent Header */
 .transparent-header {
@@ -14,7 +10,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: var(--transparent-header-h);
+    height: var(--header-height, 90px);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -29,7 +25,7 @@
 .transparent-header.scrolled {
     background: var(--color-bg-panel);
     /* Dark background on scroll */
-    height: calc(var(--transparent-header-h) - 10px);
+    height: calc(var(--header-height, 90px) - 10px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -77,7 +73,7 @@
 
 .gnb_1da {
     display: inline-block;
-    color: #fff;
+    color: var(--color-menu-text);
     text-decoration: none;
     font-size: 14px;
     font-weight: 500;
@@ -96,7 +92,7 @@
 
 .gnb_1dli:hover .gnb_1da {
     opacity: 1;
-    color: var(--transparent-accent);
+    color: var(--color-menu-text-hover);
 }
 
 /* Dropdown Submenu */
@@ -160,15 +156,36 @@
 }
 
 .gnb_2da:hover {
-    color: var(--transparent-accent);
-    background: rgba(255, 255, 255, 0.1);
+    color: var(--color-menu-hover-text);
+    background: var(--color-menu-hover-bg);
+}
+
+.hd_login {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    margin-right: 20px;
+}
+
+.hd_login a {
+    color: var(--color-menu-text);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.hd_login a:hover {
+    color: var(--color-menu-text-hover);
 }
 
 /* Inquiry Button */
 .btn-inquiry {
     padding: 10px 25px;
-    border: 1px solid #fff;
-    color: #fff;
+    border: 1px solid var(--color-menu-text);
+    color: var(--color-menu-text);
     text-decoration: none;
     border-radius: 50px;
     font-size: 13px;
@@ -177,8 +194,9 @@
 }
 
 .btn-inquiry:hover {
-    background: #fff;
-    color: #000;
+    background: var(--color-menu-hover-bg);
+    color: var(--color-menu-hover-text);
+    border-color: var(--color-menu-hover-bg);
 }
 
 /* ----------------------------------------------------
@@ -334,6 +352,6 @@
 }
 
 .gnb_al_li ul li a:hover {
-    color: var(--transparent-accent);
+    color: var(--color-accent-gold);
     background: rgba(255, 255, 255, 0.05);
 }

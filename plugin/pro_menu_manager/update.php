@@ -5,11 +5,28 @@ if (!$is_admin) {
     alert('관리자만 접근 가능합니다.');
 }
 
-$table_name = "g5_write_menu_pdc";
+$menu_set = isset($_REQUEST['menu_set']) ? preg_replace('/[^a-zA-Z0-9_]/', '', $_REQUEST['menu_set']) : '';
+$table_suffix = $menu_set ? '_' . $menu_set : '';
+$table_name = "g5_write_menu_pdc" . $table_suffix;
 
 // [NUCLEAR OPTION] Delete Process
 // Standard GnuBoard pattern: Delete All -> Re-Insert All
 sql_query(" delete from {$table_name} ");
+
+// [NEW] Save Skin Setting
+if (isset($_POST['top_menu_skin']) && $_POST['top_menu_skin']) {
+    $new_skin = trim($_POST['top_menu_skin']);
+    $setting_file = G5_PLUGIN_PATH . '/top_menu_manager/setting.php';
+
+    // Create or Update setting.php
+    $content = "<?php\nif (!defined('_GNUBOARD_')) exit;\n\$top_menu_skin = '{$new_skin}';\n?>";
+
+    $fp = fopen($setting_file, 'w');
+    if ($fp) {
+        fwrite($fp, $content);
+        fclose($fp);
+    }
+}
 
 // Check if any data was submitted
 // If table is empty on form submit, $_POST['ma_name'] might not be set.
@@ -86,5 +103,6 @@ if (isset($_POST['ma_name']) && is_array($_POST['ma_name'])) {
     }
 }
 
-alert("성공적으로 업데이트 되었습니다.", "./admin.php");
+$qstr = $menu_set ? "?menu_set=" . $menu_set : "";
+alert("성공적으로 업데이트 되었습니다.", "./admin.php" . $qstr);
 ?>

@@ -7,8 +7,12 @@ if (!$is_admin) {
 
 $sub_menu = '800160';
 
-// [AUTO INSTALL] Table Check & Create
-$table_name = "g5_write_menu_pdc";
+// [NEW] Menu Set (Language) Selection
+$menu_set = isset($_REQUEST['menu_set']) ? preg_replace('/[^a-zA-Z0-9_]/', '', $_REQUEST['menu_set']) : '';
+$table_suffix = $menu_set ? '_' . $menu_set : '';
+$table_name = "g5_write_menu_pdc" . $table_suffix;
+
+// [AUTO INSTALL] Table Check & Create for Dynamic Menu Sets
 if (!sql_query(" DESCRIBE {$table_name} ", false)) {
     $sql = " CREATE TABLE IF NOT EXISTS `{$table_name}` (
       `ma_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -28,7 +32,7 @@ if (!sql_query(" DESCRIBE {$table_name} ", false)) {
     sql_query($sql);
 }
 
-// Column Auto Add (Migration)
+// Column Migration Check
 $row = sql_fetch(" SHOW COLUMNS FROM {$table_name} LIKE 'ma_menu_use' ");
 if (!$row) {
     sql_query(" ALTER TABLE {$table_name} ADD COLUMN `ma_menu_use` tinyint(4) NOT NULL DEFAULT '1' AFTER `ma_mobile_use` ", false);
@@ -36,23 +40,92 @@ if (!$row) {
 
 include_once(dirname(__FILE__) . '/lib.php');
 
-$g5['title'] = "Pro 상단 메뉴 관리 (Customize)";
+$g5['title'] = "Pro 상단 메뉴 관리 (Customize) - " . ($menu_set ? strtoupper($menu_set) : "DEFAULT");
 include_once(G5_ADMIN_PATH . '/admin.head.php');
 
 $menus = get_pro_menu_list($table_name);
-$menus = build_pro_menu_tree($menus, false); // Do not inject categories in Admin view
+$menus = build_pro_menu_tree($menus, false);
 ?>
 
 <div class="local_desc01 local_desc">
     <p>
         <strong>Pro Menu Manager</strong><br>
-        3단계 이상의 깊이(Depth)를 지원하며, 독립적인 테이블(<?php echo $table_name; ?>)을 사용하여 안전하게 관리할 수 있습니다.<br>
-        메뉴 순서는 각 단계별로 코드순으로 정렬됩니다.
+        3단계 이상(Depth) 지원, 독립 테이블(<?php echo $table_name; ?>) 사용.<br>
+        다국어 확장을 위해 <strong>메뉴 세트(Menu Set)</strong>를 선택하여 관리할 수 있습니다.
     </p>
+</div>
+
+<!-- Menu Set Tabs -->
+<div style="margin-bottom: 20px;">
+    <style>
+        .menu-set-tabs {
+            display: flex;
+            gap: 5px;
+            border-bottom: 2px solid #333;
+        }
+
+        .menu-set-tab {
+            padding: 10px 20px;
+            background: #f1f1f1;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            cursor: pointer;
+            text-decoration: none;
+            color: #555;
+            font-weight: bold;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .menu-set-tab.active {
+            background: #333;
+            color: #fff;
+            border-color: #333;
+        }
+
+        .menu-set-tab:hover {
+            background: #e9e9e9;
+        }
+
+        .menu-set-tab.active:hover {
+            background: #333;
+        }
+
+        .add-set-btn {
+            padding: 10px 15px;
+            background: #fff;
+            border: 1px dashed #aaa;
+            cursor: pointer;
+            color: #888;
+            font-size: 0.9em;
+        }
+    </style>
+    <div class="menu-set-tabs">
+        <a href="./admin.php" class="menu-set-tab <?php echo $menu_set == '' ? 'active' : ''; ?>">기본 (Default)</a>
+        <a href="./admin.php?menu_set=en" class="menu-set-tab <?php echo $menu_set == 'en' ? 'active' : ''; ?>">영어
+            (English)</a>
+        <a href="./admin.php?menu_set=jp" class="menu-set-tab <?php echo $menu_set == 'jp' ? 'active' : ''; ?>">일본어
+            (Japanese)</a>
+        <a href="./admin.php?menu_set=cn" class="menu-set-tab <?php echo $menu_set == 'cn' ? 'active' : ''; ?>">중국어
+            (Chinese)</a>
+        <button type="button" class="add-set-btn" onclick="addNewMenuSet()">+ 언어 추가</button>
+    </div>
+    <script>
+        function addNewMenuSet() {
+            var newSet = prompt("추가할 언어 코드(접미사)를 입력하세요.\n(예: vn, ru, fr 등 영문 소문자만 가능)");
+            if (newSet) {
+                newSet = newSet.replace(/[^a-z0-9]/g, '');
+                if (newSet) {
+                    location.href = './admin.php?menu_set=' + newSet;
+                }
+            }
+        }
+    </script>
 </div>
 
 <form name="fmenulist" id="fmenulist" method="post" action="./update.php" onsubmit="return fmenulist_submit(this);">
     <input type="hidden" name="token" value="<?php echo get_admin_token(); ?>">
+    <input type="hidden" name="menu_set" value="<?php echo $menu_set; ?>">moved (Controlled by Theme) -->
+
 
     <div class="tbl_head01 tbl_wrap">
         <table>

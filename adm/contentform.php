@@ -58,7 +58,8 @@ if ($w == "u") {
         alert('등록된 자료가 없습니다.');
     }
 
-    if (function_exists('check_case_exist_title')) check_case_exist_title($co, G5_CONTENT_DIR, false);
+    if (function_exists('check_case_exist_title'))
+        check_case_exist_title($co, G5_CONTENT_DIR, false);
 
 } else {
     $html_title .= ' 입력';
@@ -79,7 +80,120 @@ if ($w == "u") {
 require_once G5_ADMIN_PATH . '/admin.head.php';
 ?>
 
-<form name="frmcontentform" action="./contentformupdate.php" onsubmit="return frmcontentform_check(this);" method="post" enctype="MULTIPART/FORM-DATA">
+<style>
+    /* Unsplash Modal Styles */
+    #unsplash_modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 9999;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #unsplash_modal_content {
+        width: 90%;
+        max-width: 1200px;
+        height: 90%;
+        max-height: 900px;
+        background: #fff;
+        position: relative;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    #unsplash_iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+    .close-modal {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 24px;
+        color: #333;
+        cursor: pointer;
+        z-index: 10000;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+    }
+
+    /* Image Picker Styles */
+    #img_picker_modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 10000;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .img-picker-item {
+        cursor: pointer;
+        border: 2px solid #ddd;
+        border-radius: 4px;
+        overflow: hidden;
+        transition: all 0.2s;
+        background: #fff;
+    }
+
+    .img-picker-item:hover {
+        border-color: #d4af37;
+        transform: translateY(-2px);
+    }
+
+    .img-picker-item img {
+        width: 100%;
+        height: 120px;
+        object-fit: contain;
+        background: #f5f5f5;
+    }
+
+    .img-picker-info {
+        padding: 5px;
+        font-size: 11px;
+        color: #666;
+        text-align: center;
+    }
+</style>
+
+<div id="unsplash_modal">
+    <div id="unsplash_modal_content">
+        <span class="close-modal" onclick="closeUnsplashModal()">&times;</span>
+        <iframe id="unsplash_iframe" src=""></iframe>
+    </div>
+</div>
+
+<div id="img_picker_modal">
+    <div
+        style="background:#fff; width:600px; max-height:80%; padding:20px; border-radius:8px; display:flex; flex-direction:column;">
+        <h3 style="margin:0 0 20px; font-size:16px; border-bottom:1px solid #eee; padding-bottom:10px;">교체할 이미지를 선택해주세요
+        </h3>
+        <div id="img_picker_list"
+            style="flex:1; overflow-y:auto; display:grid; grid-template-columns:repeat(2, 1fr); gap:15px;"></div>
+        <div style="margin-top:20px; text-align:right;">
+            <button type="button" class="btn btn_02" onclick="$('#img_picker_modal').hide();">취소</button>
+        </div>
+    </div>
+</div>
+
+<form name="frmcontentform" action="./contentformupdate.php" onsubmit="return frmcontentform_check(this);" method="post"
+    enctype="MULTIPART/FORM-DATA">
     <input type="hidden" name="w" value="<?php echo $w; ?>">
     <input type="hidden" name="co_html" value="1">
     <input type="hidden" name="token" value="">
@@ -96,21 +210,36 @@ require_once G5_ADMIN_PATH . '/admin.head.php';
                     <th scope="row"><label for="co_id">ID</label></th>
                     <td>
                         <?php echo help('20자 이내의 영문자, 숫자, _ 만 가능합니다.'); ?>
-                        <input type="text" value="<?php echo $co['co_id']; ?>" name="co_id" id="co_id" required <?php echo $readonly; ?> class="required <?php echo $readonly; ?> frm_input" size="20" maxlength="20">
-                        <?php if ($w == 'u') { ?><a href="<?php echo get_pretty_url('content', $co_id); ?>" class="btn_frmline">내용확인</a><?php } ?>
+                        <input type="text" value="<?php echo $co['co_id']; ?>" name="co_id" id="co_id" required <?php echo $readonly; ?> class="required <?php echo $readonly; ?> frm_input" size="20"
+                            maxlength="20">
+                        <?php if ($w == 'u') { ?><a href="<?php echo get_pretty_url('content', $co_id); ?>"
+                                class="btn_frmline">내용확인</a><?php } ?>
                     </td>
                 </tr>
                 <tr>
                     <th scope="row"><label for="co_subject">제목</label></th>
-                    <td><input type="text" name="co_subject" value="<?php echo htmlspecialchars2($co['co_subject']); ?>" id="co_subject" required class="frm_input required" size="90"></td>
+                    <td><input type="text" name="co_subject" value="<?php echo htmlspecialchars2($co['co_subject']); ?>"
+                            id="co_subject" required class="frm_input required" size="90"></td>
                 </tr>
                 <tr>
                     <th scope="row">내용</th>
-                    <td><?php echo editor_html('co_content', get_text(html_purifier($co['co_content']), 0)); ?></td>
+                    <td>
+                        <div style="margin-bottom:10px;">
+                            <button type="button" class="btn btn_03" onclick="openUnsplashPopup('co_content');">Unsplash
+                                이미지 교체 (PC)</button>
+                        </div>
+                        <?php echo editor_html('co_content', get_text(html_purifier($co['co_content']), 0)); ?>
+                    </td>
                 </tr>
                 <tr>
                     <th scope="row">모바일 내용</th>
-                    <td><?php echo editor_html('co_mobile_content', get_text(html_purifier($co['co_mobile_content']), 0)); ?></td>
+                    <td>
+                        <div style="margin-bottom:10px;">
+                            <button type="button" class="btn btn_03"
+                                onclick="openUnsplashPopup('co_mobile_content');">Unsplash 이미지 교체 (모바일)</button>
+                        </div>
+                        <?php echo editor_html('co_mobile_content', get_text(html_purifier($co['co_mobile_content']), 0)); ?>
+                    </td>
                 </tr>
                 <tr>
                     <th scope="row"><label for="co_skin">스킨 디렉토리<strong class="sound_only">필수</strong></label></th>
@@ -119,7 +248,8 @@ require_once G5_ADMIN_PATH . '/admin.head.php';
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row"><label for="co_mobile_skin">모바일스킨 디렉토리<strong class="sound_only">필수</strong></label></th>
+                    <th scope="row"><label for="co_mobile_skin">모바일스킨 디렉토리<strong class="sound_only">필수</strong></label>
+                    </th>
                     <td>
                         <?php echo get_mobile_skin_select('content', 'co_mobile_skin', 'co_mobile_skin', $co['co_mobile_skin'], 'required'); ?>
                     </td>
@@ -140,14 +270,18 @@ require_once G5_ADMIN_PATH . '/admin.head.php';
                     <th scope="row"><label for="co_include_head">상단 파일 경로</label></th>
                     <td>
                         <?php echo help("설정값이 없으면 기본 상단 파일을 사용합니다."); ?>
-                        <input type="text" name="co_include_head" value="<?php echo get_sanitize_input($co['co_include_head']); ?>" id="co_include_head" class="frm_input" size="60">
+                        <input type="text" name="co_include_head"
+                            value="<?php echo get_sanitize_input($co['co_include_head']); ?>" id="co_include_head"
+                            class="frm_input" size="60">
                     </td>
                 </tr>
                 <tr>
                     <th scope="row"><label for="co_include_tail">하단 파일 경로</label></th>
                     <td>
                         <?php echo help("설정값이 없으면 기본 하단 파일을 사용합니다."); ?>
-                        <input type="text" name="co_include_tail" value="<?php echo get_sanitize_input($co['co_include_tail']); ?>" id="co_include_tail" class="frm_input" size="60">
+                        <input type="text" name="co_include_tail"
+                            value="<?php echo get_sanitize_input($co['co_include_tail']); ?>" id="co_include_tail"
+                            class="frm_input" size="60">
                     </td>
                 </tr>
                 <tr id="admin_captcha_box" style="display:none;">
@@ -158,7 +292,7 @@ require_once G5_ADMIN_PATH . '/admin.head.php';
 
                         require_once G5_CAPTCHA_PATH . '/captcha.lib.php';
                         $captcha_html = captcha_html();
-                        $captcha_js   = chk_captcha_js();
+                        $captcha_js = chk_captcha_js();
                         echo $captcha_html;
                         ?>
                         <script>
@@ -245,7 +379,7 @@ require_once G5_ADMIN_PATH . '/admin.head.php';
             cache: false,
             async: false,
             dataType: "json",
-            success: function(data) {}
+            success: function (data) { }
         });
     }
 
@@ -270,9 +404,9 @@ require_once G5_ADMIN_PATH . '/admin.head.php';
         return true;
     }
 
-    jQuery(function($) {
+    jQuery(function ($) {
         if (window.self !== window.top) { // frame 또는 iframe을 사용할 경우 체크
-            $("#co_include_head, #co_include_tail").on("change paste keyup", function(e) {
+            $("#co_include_head, #co_include_tail").on("change paste keyup", function (e) {
                 frm_check_file();
             });
 
@@ -304,6 +438,79 @@ require_once G5_ADMIN_PATH . '/admin.head.php';
 
         return true;
     }
+
+    // [Unsplash Integration for Static Pages]
+    var current_editor_id = '';
+    var targetImageIndex = -1;
+
+    function openUnsplashPopup(editor_id) {
+        current_editor_id = editor_id;
+        if (typeof oEditors === 'undefined' || !oEditors.getById[current_editor_id]) {
+            alert("에디터가 로드되지 않았습니다.");
+            return;
+        }
+
+        var doc = oEditors.getById[current_editor_id].getWYSIWYGDocument();
+        var imgs = doc.body.querySelectorAll("img");
+
+        if (imgs.length > 1) {
+            showImagePicker(imgs);
+        } else if (imgs.length === 1) {
+            selectTargetImage(0);
+        } else {
+            targetImageIndex = -1;
+            openRealPopup(0, 0);
+        }
+    }
+
+    function showImagePicker(imgs) {
+        var html = '';
+        for (var i = 0; i < imgs.length; i++) {
+            html += '<div class="img-picker-item" onclick="selectTargetImage(' + i + ')">';
+            html += '<img src="' + imgs[i].src + '">';
+            html += '<div class="img-picker-info">이미지 #' + (i + 1) + '</div>';
+            html += '</div>';
+        }
+        $('#img_picker_list').html(html);
+        $('#img_picker_modal').css('display', 'flex');
+    }
+
+    function selectTargetImage(index) {
+        $('#img_picker_modal').hide();
+        targetImageIndex = index;
+        var doc = oEditors.getById[current_editor_id].getWYSIWYGDocument();
+        var img = doc.body.querySelectorAll("img")[index];
+        var w = parseInt(img.getAttribute("width")) || parseInt(img.style.width) || img.naturalWidth || 0;
+        var h = parseInt(img.getAttribute("height")) || parseInt(img.style.height) || img.naturalHeight || 0;
+        openRealPopup(w, h);
+    }
+
+    function openRealPopup(w, h) {
+        var url = '<?php echo G5_PLUGIN_URL; ?>/main_content_manager/adm/image_manager.php?v=' + Date.now();
+        if (w > 0 && h > 0) url += '&w=' + w + '&h=' + h;
+        document.getElementById('unsplash_iframe').src = url;
+        document.getElementById('unsplash_modal').style.display = 'flex';
+    }
+
+    function closeUnsplashModal() {
+        document.getElementById('unsplash_modal').style.display = 'none';
+        document.getElementById('unsplash_iframe').src = '';
+    }
+
+    function receiveImageUrl(url) {
+        closeUnsplashModal();
+        var doc = oEditors.getById[current_editor_id].getWYSIWYGDocument();
+        if (targetImageIndex >= 0) {
+            var imgs = doc.body.querySelectorAll("img");
+            if (imgs[targetImageIndex]) imgs[targetImageIndex].src = url;
+        } else {
+            var newHtml = '<img src="' + url + '" style="max-width:100%;">';
+            oEditors.getById[current_editor_id].exec("PASTE_HTML", [newHtml]);
+        }
+    }
+
+    // Alias for compatibility
+    function receiveUnsplashUrl(url) { receiveImageUrl(url); }
 </script>
 
 <?php

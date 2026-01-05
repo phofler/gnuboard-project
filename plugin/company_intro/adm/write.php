@@ -48,10 +48,10 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
     }
 
     #unsplash_modal_content {
-        width: 90%;
-        max-width: 1200px;
-        height: 90%;
-        max-height: 900px;
+        width: 98%;
+        max-width: 1800px;
+        height: 96%;
+        max-height: 1200px;
         background: #fff;
         position: relative;
         border-radius: 8px;
@@ -166,7 +166,8 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
 <form name="fcompanyform" id="fcompanyform" action="./write_update.php" onsubmit="return fcompanyform_submit(this);"
     method="post" enctype="multipart/form-data">
     <input type="hidden" name="w" value="<?php echo $w ?>">
-    <input type="hidden" name="token" value="">
+    <input type="hidden" name="old_co_id" value="<?php echo $co['co_id']; ?>">
+    <input type="hidden" name="token" value="<?php echo get_admin_token(); ?>">
 
     <div class="tbl_frm01 tbl_wrap">
         <table>
@@ -176,15 +177,71 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                 <col>
             </colgroup>
             <tbody>
+                <?php
+                // Theme List
+                $themes = array();
+                $theme_dir = G5_PATH . '/theme';
+                if (is_dir($theme_dir)) {
+                    $handle = opendir($theme_dir);
+                    while ($file = readdir($handle)) {
+                        if ($file == "." || $file == ".." || !is_dir($theme_dir . "/" . $file))
+                            continue;
+                        $themes[] = $file;
+                    }
+                    closedir($handle);
+                }
+
+                // Standard Parsing Logic
+                $sel_theme = isset($co['co_theme']) ? $co['co_theme'] : '';
+                $sel_lang = isset($co['co_lang']) ? $co['co_lang'] : 'kr';
+                $sel_custom = '';
+
+                if ($w == 'u' && $co['co_id']) {
+                    $parts = explode('_', $co['co_id']);
+                    if (isset($parts[0]) && in_array($parts[0], $themes)) {
+                        $sel_theme = $parts[0];
+                        if (isset($parts[1]) && in_array($parts[1], array('kr', 'en', 'jp', 'cn'))) {
+                            $sel_lang = $parts[1];
+                            if (isset($parts[2])) {
+                                array_shift($parts);
+                                array_shift($parts);
+                                $sel_custom = implode('_', $parts);
+                            }
+                        }
+                    }
+                }
+                ?>
                 <tr>
-                    <th scope="row"><label for="co_id">ID (식별코드)</label></th>
+                    <th scope="row">설정 대상 (Theme & Lang)</th>
                     <td>
-                        <input type="text" name="co_id" value="<?php echo $co['co_id']; ?>" id="co_id" required
-                            class="frm_input <?php echo $readonly ? 'readonly' : ''; ?>" <?php echo $readonly; ?>
-                            size="20">
-                        <?php if ($w == '')
-                            echo '<span class="frm_info">중복되지 않는 영문 코드를 입력하세요. 예) greeting, history</span>'; ?>
-                        <span id="msg_co_id" style="margin-left: 10px; font-weight: bold;"></span>
+                        <div style="display:flex; gap:10px; align-items:center;">
+                            <select name="co_theme" id="co_theme" class="frm_input" onchange="generate_co_id()"
+                                required>
+                                <option value="">테마 선택</option>
+                                <?php foreach ($themes as $theme) {
+                                    $selected = ($theme == $sel_theme) ? 'selected' : '';
+                                    echo '<option value="' . $theme . '" ' . $selected . '>' . $theme . '</option>';
+                                } ?>
+                            </select>
+                            <select name="co_lang" id="co_lang" class="frm_input" onchange="generate_co_id()">
+                                <option value="kr" <?php echo ($sel_lang == 'kr' ? 'selected' : ''); ?>>한국어 (기본)</option>
+                                <option value="en" <?php echo ($sel_lang == 'en' ? 'selected' : ''); ?>>English (EN)
+                                </option>
+                                <option value="jp" <?php echo ($sel_lang == 'jp' ? 'selected' : ''); ?>>Japanese (JP)
+                                </option>
+                                <option value="cn" <?php echo ($sel_lang == 'cn' ? 'selected' : ''); ?>>Chinese (CN)
+                                </option>
+                            </select>
+                            <input type="text" name="co_custom" id="co_custom" value="<?php echo $sel_custom; ?>"
+                                class="frm_input" placeholder="커스텀 이름 (선택)" onkeyup="generate_co_id()">
+                        </div>
+                        <div style="margin-top:8px; font-size:12px; color:#666;">
+                            생성된 식별코드(ID): <strong id="generated_id_display"
+                                style="color:#d4af37;"><?php echo $co['co_id']; ?></strong>
+                            <p style="margin-top:5px; color:#888;">테마와 언어를 선택하면 식별코드가 자동으로 생성됩니다. (예:
+                                corporate_en_history)</p>
+                        </div>
+                        <input type="hidden" name="co_id" id="co_id" value="<?php echo $co['co_id']; ?>">
                     </td>
                 </tr>
                 <tr>
@@ -195,245 +252,239 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                     </td>
                 </tr>
                 <tr>
-                    <style>
-                        .skin-group {
-                            border: 1px solid #ddd;
-                            border-radius: 5px;
-                            padding: 15px;
-                            margin-bottom: 10px;
-                            background: #f9f9f9;
-                            transition: background 0.2s;
-                        }
-
-                        .skin-group:hover {
-                            background: #f0f0f0;
-                            border-color: #bbb;
-                        }
-
-                        .skin-group h4 {
-                            margin: 0 0 10px;
-                            font-size: 14px;
-                            color: #333;
-                            border-bottom: 2px solid #555;
-                            padding-bottom: 5px;
-                            display: inline-block;
-                        }
-
-                        /* 3x3 Grid Layout */
-                        .skin-list {
-                            display: grid;
-                            grid-template-columns: repeat(3, 1fr);
-                            gap: 12px;
-                        }
-
-                        /* 2-Column Grid Layout */
-                        .skin-list-2 {
-                            display: grid;
-                            grid-template-columns: repeat(2, 1fr);
-                            gap: 12px;
-                        }
-
-                        .skin-list label {
-                            display: block;
-                            width: 100%;
-                            box-sizing: border-box;
-                            padding: 12px;
-                            border: 1px solid #ddd;
-                            border-radius: 4px;
-                            background: #fff;
-                            cursor: pointer;
-                            transition: all 0.2s;
-                        }
-
-                        .skin-list-2 label {
-                            display: block;
-                            width: 100%;
-                            box-sizing: border-box;
-                            padding: 12px;
-                            border: 1px solid #ddd;
-                            border-radius: 4px;
-                            background: #fff;
-                            cursor: pointer;
-                            transition: all 0.2s;
-                        }
-
-                        .skin-list label:hover,
-                        .skin-list-2 label:hover {
-                            border-color: #666;
-                            background: #fafafa;
-                        }
-
-                        .skin-list label input,
-                        .skin-list-2 label input {
-                            margin-right: 6px;
-                            vertical-align: middle;
-                        }
-
-                        /* Highlight for Vision/CEO items */
-                        .skin-premium {
-                            border-left: 3px solid #d4af37 !important;
-                            background: #fffdf5 !important;
-                        }
-
-                        .skin-list label span,
-                        .skin-list-2 label span {
-                            vertical-align: middle;
-                            font-size: 13px;
-                        }
-
-                        .skin-premium {
-                            color: #d4af37;
-                            font-weight: bold;
-                        }
-                    </style>
 
                     <th scope="row">스킨 선택</th>
                     <td>
                         <?php if ($w == 'u') { ?>
-                            <!-- 수정 모드: 현재 스킨 표시 -->
-                            <input type="hidden" name="co_skin" value="<?php echo $co['co_skin']; ?>">
-                            <div style="padding:10px; background:#f5f5f5; border-radius:4px; border:1px solid #ddd;">
-                                <strong style="font-size:15px; color:#000;">
-                                    <?php
-                                    $skin_names = array(
-                                        'type_a' => 'Type A (이미지 / 텍스트)',
-                                        'type_a_1' => 'Type A-1 (이미지 / 텍스트 - CEO)',
-                                        'type_a_2' => 'Type A-2 (이미지 / 텍스트 - 비젼)',
-                                        'type_b' => 'Type B (텍스트 / 이미지)',
-                                        'type_b_1' => 'Type B-1 (텍스트 / 이미지 - CEO)',
-                                        'type_b_2' => 'Type B-2 (텍스트 / 이미지 - 비젼)',
-                                        'type_c' => 'Type C (중앙정렬)',
-                                        'type_c_1' => 'Type C-1 (중앙정렬 - CEO)',
-                                        'type_c_2' => 'Type C-2 (중앙정렬 - 비젼)',
-
-                                        // History Skins
-                                        'history_photo' => '연혁 (포토 갤러리)',
-                                        'history_simple' => '연혁 (심플 리스트)',
-                                        'history_timeline' => '연혁 (타임라인)',
-
-                                        // Performance Skins
-                                        'performance_gallery' => '실적 (포토 갤러리)',
-                                        'performance_simple' => '실적 (심플 리스트)',
-                                        'performance_timeline' => '실적 (타임라인)',
-
-                                        // Certificate Skins
-                                        'cert_a' => '인증서 (갤러리)',
-                                        'cert_b' => '인증서 (심플 리스트)',
-                                        'cert_c' => '인증서 (상세/카드)',
-
-                                        'org_a' => '조직도 A (이미지/좌측)',
-                                        'org_b' => '조직도 B (이미지/중앙)',
-                                        'biz_a' => '사업분야 A (Grid)',
-                                        'biz_b' => '사업분야 B (지그재그)',
-                                        'biz_c' => '사업분야 C (오버레이)',
-                                        'recruit_a' => '채용정보 A (표준형)',
-                                        'recruit_b' => '채용정보 B (카드형)',
-                                        'recruit_c' => '채용정보 C (분할형)',
-                                        'location' => '오시는 길 A (표준형/하단지도)',
-                                        'location_b' => '오시는 길 B (좌우분할)',
-                                        'location_c' => '오시는 길 C (오버레이)',
-                                    );
-                                    echo isset($skin_names[$co['co_skin']]) ? $skin_names[$co['co_skin']] : $co['co_skin'];
-                                    ?>
-                                </strong>
-                                <p class="frm_info" style="margin:5px 0 0;">※ 데이터 보호를 위해 수정 모드에서는 스킨 변경이 제한됩니다.</p>
+                            <!-- 수정 모드: 현재 스킨 표시 (Premium Info Card) -->
+                            <input type="hidden" name="co_skin" id="co_skin" value="<?php echo $co['co_skin']; ?>">
+                            <div
+                                style="padding:24px; background:linear-gradient(135deg, #f8f9fa 0%, #edf2f7 100%); border-radius:15px; border:2px solid #e2e8f0; display:flex; align-items:center; gap:25px; max-width:650px; box-shadow: 0 4px 6px rgba(0,0,0,0.02);">
+                                <div
+                                    style="width:70px; height:70px; background:linear-gradient(135deg, #3498db, #2980b9); border-radius:18px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:28px; box-shadow: 0 8px 15px rgba(52, 152, 219, 0.25);">
+                                    <i class="fa fa-paint-brush"></i>
+                                </div>
+                                <div style="flex:1;">
+                                    <div
+                                        style="font-size:12px; color:#718096; margin-bottom:5px; font-weight:800; letter-spacing:1px; text-transform:uppercase;">
+                                        Active Skin Configuration</div>
+                                    <strong
+                                        style="font-size:20px; color:#1a202c; display:block; margin-bottom:6px; letter-spacing:-0.5px;">
+                                        <?php
+                                        $skin_names = array(
+                                            'type_a' => 'Type A (이미지 / 텍스트)',
+                                            'type_a_1' => 'Type A-1 (CEO)',
+                                            'type_a_2' => 'Type A-2 (비젼)',
+                                            'type_b' => 'Type B (텍스트 / 이미지)',
+                                            'type_b_1' => 'Type B-1 (CEO)',
+                                            'type_b_2' => 'Type B-2 (비젼)',
+                                            'type_c' => 'Type C (중앙정렬)',
+                                            'type_c_1' => 'Type C-1 (CEO)',
+                                            'type_c_2' => 'Type C-2 (비젼)',
+                                            'history_photo' => '연혁 (포토)',
+                                            'history_simple' => '연혁 (심플)',
+                                            'history_timeline' => '연혁 (타임라인)',
+                                            'performance_gallery' => '실적 (갤러리)',
+                                            'performance_simple' => '실적 (심플)',
+                                            'performance_timeline' => '실적 (타임라인)',
+                                            'cert_a' => '인증서 (갤러리)',
+                                            'cert_b' => '인증서 (심플)',
+                                            'cert_c' => '인증서 (카드)',
+                                            'org_a' => '조직도 A',
+                                            'org_b' => '조직도 B',
+                                            'biz_a' => '사업분야 A',
+                                            'biz_b' => '사업분야 B',
+                                            'biz_c' => '사업분야 C',
+                                            'recruit_a' => '채용정보 A',
+                                            'recruit_b' => '채용정보 B',
+                                            'recruit_c' => '채용정보 C',
+                                            'location' => '오시는 길 A',
+                                            'location_b' => '오시는 길 B',
+                                            'location_c' => '오시는 길 C',
+                                        );
+                                        echo isset($skin_names[$co['co_skin']]) ? $skin_names[$co['co_skin']] : $co['co_skin'];
+                                        ?>
+                                    </strong>
+                                    <p
+                                        style="margin:0; font-size:12px; color:#a0aec0; display:flex; align-items:center; gap:5px;">
+                                        <i class="fa fa-lock" style="font-size:10px;"></i> 컨텐츠 무결성을 위해 수정 모드에서는 스킨 변경이
+                                        제한됩니다.
+                                    </p>
+                                </div>
                             </div>
                         <?php } else { ?>
-                            <!-- 입력 모드: 카테고리별 선택 -->
+                            <!-- 입력 모드: 카테고리별 프리미엄 카드 선택 -->
+                            <style>
+                                .skin-selector-container {
+                                    display: grid;
+                                    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                                    gap: 10px;
+                                    margin-bottom: 25px;
+                                }
 
-                            <!-- 1. 회사소개 / 인사말 / 비전 -->
-                            <div class="skin-group">
-                                <h4>회사개요 / 인사말 / 비젼</h4>
-                                <div class="skin-list">
-                                    <label><input type="radio" name="co_skin" value="type_a" <?php echo ($co['co_skin'] == 'type_a') ? 'checked' : ''; ?>
-                                            onclick="change_skin(this.value);"> <span>Type A (이미지 / 텍스트)</span></label>
-                                    <label class="skin-premium"><input type="radio" name="co_skin" value="type_a_1" <?php echo ($co['co_skin'] == 'type_a_1') ? 'checked' : ''; ?>
-                                            onclick="change_skin(this.value);"> <span>Type A-1 (이미지 / 텍스트 -
-                                            CEO)</span></label>
-                                    <label class="skin-premium"><input type="radio" name="co_skin" value="type_a_2" <?php echo ($co['co_skin'] == 'type_a_2') ? 'checked' : ''; ?>
-                                            onclick="change_skin(this.value);"> <span>Type A-2 (이미지 / 텍스트 -
-                                            비젼)</span></label>
-                                    <label><input type="radio" name="co_skin" value="type_b" <?php echo ($co['co_skin'] == 'type_b') ? 'checked' : ''; ?>
-                                            onclick="change_skin(this.value);"> <span>Type B (텍스트 / 이미지)</span></label>
-                                    <label class="skin-premium"><input type="radio" name="co_skin" value="type_b_1" <?php echo ($co['co_skin'] == 'type_b_1') ? 'checked' : ''; ?>
-                                            onclick="change_skin(this.value);"> <span>Type B-1 (텍스트 / 이미지 -
-                                            CEO)</span></label>
-                                    <label class="skin-premium"><input type="radio" name="co_skin" value="type_b_2" <?php echo ($co['co_skin'] == 'type_b_2') ? 'checked' : ''; ?>
-                                            onclick="change_skin(this.value);"> <span>Type B-2 (텍스트 / 이미지 -
-                                            비젼)</span></label>
-                                    <label><input type="radio" name="co_skin" value="type_c" <?php echo ($co['co_skin'] == 'type_c') ? 'checked' : ''; ?>
-                                            onclick="change_skin(this.value);"> <span>Type C (중앙정렬)</span></label>
-                                    <label class="skin-premium"><input type="radio" name="co_skin" value="type_c_1" <?php echo ($co['co_skin'] == 'type_c_1') ? 'checked' : ''; ?>
-                                            onclick="change_skin(this.value);"> <span>Type C-1 (중앙정렬 - CEO)</span></label>
-                                    <label class="skin-premium"><input type="radio" name="co_skin" value="type_c_2" <?php echo ($co['co_skin'] == 'type_c_2') ? 'checked' : ''; ?>
-                                            onclick="change_skin(this.value);"> <span>Type C-2 (중앙정렬 - 비젼)</span></label>
-                                </div>
+                                .skin-card {
+                                    border: 1px solid #e2e8f0;
+                                    border-radius: 8px;
+                                    padding: 8px 12px;
+                                    cursor: pointer;
+                                    transition: all 0.2s ease;
+                                    background: #fff;
+                                    display: flex;
+                                    flex-direction: row;
+                                    align-items: center;
+                                    gap: 12px;
+                                    min-height: 48px;
+                                    position: relative;
+                                }
+
+                                .skin-card:hover {
+                                    border-color: #3498db;
+                                    background: #f8fafc;
+                                }
+
+                                .skin-card.active {
+                                    border-color: #3498db;
+                                    background: #f0f7ff;
+                                }
+
+                                .skin-card i {
+                                    font-size: 18px;
+                                    color: #cbd5e0;
+                                    width: 24px;
+                                    text-align: center;
+                                    transition: color 0.3s;
+                                }
+
+                                .skin-card.active i {
+                                    color: #3498db;
+                                }
+
+                                .skin-card .skin-name {
+                                    font-size: 13px;
+                                    font-weight: 600;
+                                    color: #4a5568;
+                                }
+
+                                .skin-card.active .skin-name {
+                                    color: #2b6cb0;
+                                }
+
+                                .skin-card .skin-badge {
+                                    position: absolute;
+                                    top: 50%;
+                                    right: 12px;
+                                    transform: translateY(-50%);
+                                    width: 16px;
+                                    height: 16px;
+                                    border-radius: 50%;
+                                    border: 1px solid #e2e8f0;
+                                    background: #fff;
+                                }
+
+                                .skin-card.active .skin-badge {
+                                    border-color: #3498db;
+                                    background: #3498db;
+                                }
+
+                                .skin-card.active .skin-badge::after {
+                                    content: '';
+                                    position: absolute;
+                                    top: 3px;
+                                    left: 3px;
+                                    width: 7px;
+                                    height: 3px;
+                                    border-left: 2px solid #fff;
+                                    border-bottom: 2px solid #fff;
+                                    transform: rotate(-45deg);
+                                }
+
+                                .skin-category-title {
+                                    font-size: 14px;
+                                    font-weight: 700;
+                                    color: #1a202c;
+                                    margin: 25px 0 10px;
+                                    padding-left: 10px;
+                                    border-left: 4px solid #3498db;
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 8px;
+                                }
+                            </style>
+                            <input type="hidden" name="co_skin" id="co_skin" value="<?php echo $co['co_skin']; ?>">
+
+                            <div class="skin-category-title"><i class="fa fa-building" style="color:#3498db;"></i> 회사개요 /
+                                인사말 / 비젼</div>
+                            <div class="skin-selector-container">
+                                <?php
+                                $skins_v1 = array(
+                                    'type_a' => array('Type A', 'fa-id-card'),
+                                    'type_a_1' => array('Type A-1 (CEO)', 'fa-user-tie'),
+                                    'type_a_2' => array('Type A-2 (Vision)', 'fa-lightbulb'),
+                                    'type_b' => array('Type B', 'fa-id-card'),
+                                    'type_b_1' => array('Type B-1 (CEO)', 'fa-user-tie'),
+                                    'type_b_2' => array('Type B-2 (Vision)', 'fa-lightbulb'),
+                                    'type_c' => array('Type C', 'fa-align-center'),
+                                    'type_c_1' => array('Type C-1 (CEO)', 'fa-user-tie'),
+                                    'type_c_2' => array('Type C-2 (Vision)', 'fa-lightbulb'),
+                                );
+                                foreach ($skins_v1 as $sk => $sd) {
+                                    $act = ($co['co_skin'] == $sk) ? 'active' : '';
+                                    echo '<div class="skin-card ' . $act . '" onclick="select_ci_skin(\'' . $sk . '\', this)"><div class="skin-badge"></div><i class="fa ' . $sd[1] . '"></i><div class="skin-name">' . $sd[0] . '</div></div>';
+                                }
+                                ?>
                             </div>
 
-                            <!-- 2. 연혁 / 실적 / 인증서 (3-Column Layout) -->
-                            <div class="skin-group">
-                                <h4>연혁 / 실적 / 인증서</h4>
-                                <!-- Changed class to skin-list for 3 columns -->
-                                <div class="skin-list">
-                                    <!-- Row 1 -->
-                                    <label><input type="radio" name="co_skin" value="history_photo" <?php echo ($co['co_skin'] == 'history_photo') ? 'checked' : ''; ?>
-                                            onclick="change_skin(this.value);"> <span>연혁 (포토)</span></label>
-                                    <label><input type="radio" name="co_skin" value="performance_gallery" <?php echo ($co['co_skin'] == 'performance_gallery') ? 'checked' : ''; ?>
-                                            onclick="change_skin(this.value);"> <span>실적 (포토/갤러리)</span></label>
-                                    <label><input type="radio" name="co_skin" value="cert_a" <?php echo ($co['co_skin'] == 'cert_a') ? 'checked' : ''; ?>
-                                            onclick="change_skin(this.value);"> <span>인증서 (갤러리)</span></label>
-
-                                    <!-- Row 2 -->
-                                    <label><input type="radio" name="co_skin" value="history_simple" <?php echo ($co['co_skin'] == 'history_simple') ? 'checked' : ''; ?>
-                                            onclick="change_skin(this.value);"> <span>연혁 (심플리스트)</span></label>
-                                    <label><input type="radio" name="co_skin" value="performance_simple" <?php echo ($co['co_skin'] == 'performance_simple') ? 'checked' : ''; ?>
-                                            onclick="change_skin(this.value);"> <span>실적 (심플리스트)</span></label>
-                                    <label><input type="radio" name="co_skin" value="cert_b" <?php echo ($co['co_skin'] == 'cert_b') ? 'checked' : ''; ?>
-                                            onclick="change_skin(this.value);"> <span>인증서 (심플리스트)</span></label>
-
-                                    <!-- Row 3 -->
-                                    <label><input type="radio" name="co_skin" value="history_timeline" <?php echo ($co['co_skin'] == 'history_timeline') ? 'checked' : ''; ?>
-                                            onclick="change_skin(this.value);"> <span>연혁 (타임라인)</span></label>
-                                    <label><input type="radio" name="co_skin" value="performance_timeline" <?php echo ($co['co_skin'] == 'performance_timeline') ? 'checked' : ''; ?>
-                                            onclick="change_skin(this.value);"> <span>실적 (타임라인)</span></label>
-                                    <label><input type="radio" name="co_skin" value="cert_c" <?php echo ($co['co_skin'] == 'cert_c') ? 'checked' : ''; ?>
-                                            onclick="change_skin(this.value);"> <span>인증서 (상세/카드)</span></label>
-                                </div>
+                            <div class="skin-category-title"><i class="fa fa-history" style="color:#e67e22;"></i> 연혁 / 실적 /
+                                인증서</div>
+                            <div class="skin-selector-container">
+                                <?php
+                                $skins_v2 = array(
+                                    'history_photo' => array('연혁 (포토)', 'fa-camera'),
+                                    'history_simple' => array('연혁 (심플)', 'fa-list-ul'),
+                                    'history_timeline' => array('연혁 (타임라인)', 'fa-stream'),
+                                    'performance_gallery' => array('실적 (갤러리)', 'fa-trophy'),
+                                    'performance_simple' => array('실적 (심플)', 'fa-list-ol'),
+                                    'performance_timeline' => array('실적 (타임라인)', 'fa-chart-line'),
+                                    'cert_a' => array('인증서 (갤러리)', 'fa-certificate'),
+                                    'cert_b' => array('인증서 (심플)', 'fa-file-signature'),
+                                    'cert_c' => array('인증서 (카드)', 'fa-address-card'),
+                                );
+                                foreach ($skins_v2 as $sk => $sd) {
+                                    $act = ($co['co_skin'] == $sk) ? 'active' : '';
+                                    echo '<div class="skin-card ' . $act . '" onclick="select_ci_skin(\'' . $sk . '\', this)"><div class="skin-badge"></div><i class="fa ' . $sd[1] . '"></i><div class="skin-name">' . $sd[0] . '</div></div>';
+                                }
+                                ?>
                             </div>
 
-                            <!-- 3. 조직 / 사업 / 채용 / 오시는 길 -->
-                            <div class="skin-group">
-                                <h4>조직 / 사업 / 채용 / 오시는 길</h4>
-                                <div class="skin-list">
-                                    <label><input type="radio" name="co_skin" value="org_a" <?php echo ($co['co_skin'] == 'org_a') ? 'checked' : ''; ?>
-                                            onclick="change_skin(this.value);"> <span>조직도 A (이미지/좌측)</span></label>
-                                    <label><input type="radio" name="co_skin" value="org_b" <?php echo ($co['co_skin'] == 'org_b') ? 'checked' : ''; ?>
-                                            onclick="change_skin(this.value);"> <span>조직도 B (이미지/중앙)</span></label>
-                                    
-                                    <label><input type="radio" name="co_skin" value="biz_a" <?php echo ($co['co_skin'] == 'biz_a') ? 'checked' : ''; ?>
-                                            onclick="change_skin(this.value);"> <span>사업분야 A (Grid)</span></label>
-                                    <label><input type="radio" name="co_skin" value="biz_b" <?php echo ($co['co_skin'] == 'biz_b') ? 'checked' : ''; ?>
-                                            onclick="change_skin(this.value);"> <span>사업분야 B (지그재그)</span></label>
-                                    <label><input type="radio" name="co_skin" value="biz_c" <?php echo ($co['co_skin'] == 'biz_c') ? 'checked' : ''; ?>
-                                            onclick="change_skin(this.value);"> <span>사업분야 C (오버레이)</span></label>
-                                    <label><input type="radio" name="co_skin" value="recruit_a" <?php echo ($co['co_skin'] == 'recruit_a') ? 'checked' : ''; ?>
-                                            onclick="change_skin(this.value);"> <span>채용정보 A (표준형)</span></label>
-                                    <label><input type="radio" name="co_skin" value="recruit_b" <?php echo ($co['co_skin'] == 'recruit_b') ? 'checked' : ''; ?>
-                                            onclick="change_skin(this.value);"> <span>채용정보 B (카드형)</span></label>
-                                    <label><input type="radio" name="co_skin" value="recruit_c" <?php echo ($co['co_skin'] == 'recruit_c') ? 'checked' : ''; ?>
-                                            onclick="change_skin(this.value);"> <span>채용정보 C (분할형)</span></label>
-                                    
-                                    <label><input type="radio" name="co_skin" value="location" <?php echo ($co['co_skin'] == 'location') ? 'checked' : ''; ?>
-                                            onclick="change_skin(this.value);"> <span>오시는 길 A (표준형)</span></label>
-                                    <label><input type="radio" name="co_skin" value="location_b" <?php echo ($co['co_skin'] == 'location_b') ? 'checked' : ''; ?>
-                                            onclick="change_skin(this.value);"> <span>오시는 길 B (좌우분할)</span></label>
-                                    <label><input type="radio" name="co_skin" value="location_c" <?php echo ($co['co_skin'] == 'location_c') ? 'checked' : ''; ?>
-                                            onclick="change_skin(this.value);"> <span>오시는 길 C (오버레이)</span></label>
-                                </div>
+                            <div class="skin-category-title"><i class="fa fa-map-marker-alt" style="color:#2ecc71;"></i> 조직
+                                / 사업 / 채용 / 오시는 길</div>
+                            <div class="skin-selector-container">
+                                <?php
+                                $skins_v3 = array(
+                                    'org_a' => array('조직도 A', 'fa-sitemap'),
+                                    'org_b' => array('조직도 B', 'fa-users'),
+                                    'biz_a' => array('사업분야 A', 'fa-briefcase'),
+                                    'biz_b' => array('사업분야 B', 'fa-project-diagram'),
+                                    'biz_c' => array('사업분야 C', 'fa-layer-group'),
+                                    'recruit_a' => array('채용정보 A', 'fa-user-plus'),
+                                    'recruit_b' => array('채용정보 B', 'fa-id-badge'),
+                                    'recruit_c' => array('채용정보 C', 'fa-handshake'),
+                                    'location' => array('오시는 길 A', 'fa-map-marked'),
+                                    'location_b' => array('오시는 길 B', 'fa-directions'),
+                                    'location_c' => array('오시는 길 C', 'fa-street-view'),
+                                );
+                                foreach ($skins_v3 as $sk => $sd) {
+                                    $act = ($co['co_skin'] == $sk) ? 'active' : '';
+                                    echo '<div class="skin-card ' . $act . '" onclick="select_ci_skin(\'' . $sk . '\', this)"><div class="skin-badge"></div><i class="fa ' . $sd[1] . '"></i><div class="skin-name">' . $sd[0] . '</div></div>';
+                                }
+                                ?>
                             </div>
 
-                            <div class="frm_info" style="color:red; margin-top:5px;">
-                                ※ 스킨을 선택하면 기본 양식이 에디터에 자동으로 입력됩니다.
+                            <div
+                                style="background:#fffcf5; border:1px solid #ffeeba; padding:15px; border-radius:12px; display:flex; align-items:center; gap:12px; margin-top:10px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                                <i class="fa fa-exclamation-triangle" style="color:#f39c12; font-size:20px;"></i>
+                                <div style="color:#856404; font-size:13px; font-weight:600;">스킨을 선택하면 기본 양식이 에디터에 자동으로
+                                    입력됩니다. 기존 내용은 삭제되니 주의하세요.</div>
                             </div>
                         <?php } ?>
                     </td>
@@ -648,6 +699,13 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
         }
     }
 
+    function select_ci_skin(skin_name, el) {
+        $('.skin-card').removeClass('active');
+        $(el).addClass('active');
+        $('#co_skin').val(skin_name);
+        change_skin(skin_name);
+    }
+
     // Alias for compatibility if needed
     function receiveUnsplashUrl(url) {
         receiveImageUrl(url);
@@ -656,6 +714,24 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
     function pasteNewImage(url) {
         var newHtml = '<img src="' + url + '" style="max-width:100%;">';
         oEditors.getById["co_content"].exec("PASTE_HTML", [newHtml]);
+    }
+
+    function generate_co_id() {
+        var theme = $('#co_theme').val();
+        var lang = $('#co_lang').val();
+        var custom = $('#co_custom').val();
+
+        if (!theme) {
+            $('#generated_id_display').text('-');
+            return;
+        }
+
+        var id = theme;
+        if (lang && lang != 'kr') id += '_' + lang;
+        if (custom) id += '_' + custom;
+
+        $('#generated_id_display').text(id);
+        $('#co_id').val(id).trigger('blur');
     }
 
     function fcompanyform_submit(f) {

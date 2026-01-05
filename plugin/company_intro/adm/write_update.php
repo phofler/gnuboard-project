@@ -2,6 +2,17 @@
 include_once('./_common.php');
 check_admin_token();
 
+$co_id = isset($_POST['co_id']) ? clean_xss_tags($_POST['co_id']) : '';
+$old_co_id = isset($_POST['old_co_id']) ? clean_xss_tags($_POST['old_co_id']) : '';
+$co_theme = isset($_POST['co_theme']) ? clean_xss_tags($_POST['co_theme']) : '';
+$co_lang = isset($_POST['co_lang']) ? clean_xss_tags($_POST['co_lang']) : 'kr';
+
+// [ONE-TIME MIGRATION]
+$check_col = sql_fetch(" SHOW COLUMNS FROM " . G5_TABLE_PREFIX . "plugin_company_add LIKE 'co_theme' ");
+if (!$check_col) {
+    sql_query(" ALTER TABLE " . G5_TABLE_PREFIX . "plugin_company_add ADD COLUMN co_theme VARCHAR(100) NOT NULL AFTER co_id ");
+    sql_query(" ALTER TABLE " . G5_TABLE_PREFIX . "plugin_company_add ADD COLUMN co_lang VARCHAR(20) NOT NULL AFTER co_theme ");
+}
 
 if ($w == 'u' || $w == '') {
     if ($co_id == '')
@@ -22,6 +33,8 @@ if ($w == '') {
 
     $sql = " insert into " . G5_TABLE_PREFIX . "plugin_company_add
                 set co_id = '{$co_id}',
+                    co_theme = '{$co_theme}',
+                    co_lang = '{$co_lang}',
                     co_subject = '{$co_subject}',
                     co_content = '{$co_content}',
                     co_skin = '{$co_skin}',
@@ -30,12 +43,15 @@ if ($w == '') {
     sql_query($sql);
 } else if ($w == 'u') {
     $sql = " update " . G5_TABLE_PREFIX . "plugin_company_add
-                set co_subject = '{$co_subject}',
+                set co_id = '{$co_id}',
+                    co_theme = '{$co_theme}',
+                    co_lang = '{$co_lang}',
+                    co_subject = '{$co_subject}',
                     co_content = '{$co_content}',
                     co_skin = '{$co_skin}',
                     co_bgcolor = '{$co_bgcolor}',
                     co_datetime = '" . G5_TIME_YMDHIS . "' 
-                where co_id = '{$co_id}' ";
+                where co_id = '{$old_co_id}' ";
     sql_query($sql);
 }
 

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subpage Header Variations</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@200;300;400;500;600;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --c-text: #050505;
+            --c-brand: #FF3B30;
+            --c-gray: #f3f3f3;
+            --f-display: 'Italiana', serif;
+            --f-body: 'Manrope', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--f-body);
+            color: var(--c-text);
+            background: #fff;
+            padding-bottom: 200px;
+        }
+
+        .variation-label {
+            background: #000;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 800;
+            text-transform: uppercase;
+            display: inline-block;
+            margin: 40px 4vw 20px;
+        }
+
+        /* ----------------------------------------------------
+           OPTION 1: THE OVERLAP (Artistic & Fluid)
+           ---------------------------------------------------- */
+        .opt-1-wrap {
+            padding: 100px 4vw;
+            position: relative;
+        }
+
+        .opt-1-grid {
+            display: flex;
+            align-items: center;
+        }
+
+        .opt-1-img {
+            width: 45vw;
+            height: 600px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .opt-1-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+        }
+
+        .opt-1-text {
+            width: 50vw;
+            margin-left: -5vw;
+            /* Overlap */
+            z-index: 2;
+            mix-blend-mode: difference;
+            /* Critical for readability over image if needed, or just z-index */
+            color: var(--c-text);
+        }
+
+        .opt-1-title {
+            font-family: var(--f-display);
+            font-size: 10vw;
+            line-height: 0.85;
+            color: #000;
+        }
+
+        .opt-1-title span {
+            display: block;
+            margin-left: 2vw;
+            font-style: italic;
+            color: var(--c-brand);
+        }
+
+        .opt-1-desc {
+            margin-top: 30px;
+            margin-left: 2vw;
+            font-size: 18px;
+            max-width: 400px;
+            line-height: 1.6;
+            background: #fff;
+            /* Boxed for readability */
+            padding: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ----------------------------------------------------
+           OPTION 2: THE GRID (Architectural & Structured)
+           ---------------------------------------------------- */
+        .opt-2-wrap {
+            border-top: 1px solid #000;
+            border-bottom: 1px solid #000;
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            min-height: 500px;
+        }
+
+        .opt-2-img {
+            border-right: 1px solid #000;
+            position: relative;
+        }
+
+        .opt-2-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+        }
+
+        .opt-2-img .badge {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--c-brand);
+            color: #fff;
+            padding: 5px 10px;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        .opt-2-content {
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .opt-2-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+
+        .opt-2-title {
+            font-family: var(--f-display);
+            font-size: 80px;
+            line-height: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .opt-2-sub {
+            font-family: var(--f-body);
+            font-size: 16px;
+            color: #666;
+            max-width: 500px;
+        }
+
+        /* ----------------------------------------------------
+           OPTION 3: THE MAGAZINE (Clean & Floating)
+           ---------------------------------------------------- */
+        .opt-3-wrap {
+            padding: 150px 4vw;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 100px;
+            align-items: end;
+        }
+
+        .opt-3-text {
+            text-align: right;
+        }
+
+        .opt-3-title {
+            font-family: var(--f-display);
+            font-size: 120px;
+            line-height: 0.8;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .opt-3-title::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            right: 0;
+            width: 100px;
+            height: 5px;
+            background: var(--c-brand);
+        }
+
+        .opt-3-img {
+            width: 100%;
+            height: 600px;
+            transform: translateY(50px);
+            box-shadow: -30px -30px 0 #f0f0f0;
+        }
+
+        .opt-3-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: sepia(20%);
+        }
+    </style>
+</head>
+
+<body>
+
+    <br><br>
+    <div class="variation-label">Option 1: The Overlap (Artistic)</div>
+    <!-- OPTION 1 -->
+    <section class="opt-1-wrap">
+        <div class="opt-1-grid">
+            <div class="opt-1-img">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=2564&auto=format&fit=crop"
+                    alt="Model">
+            </div>
+            <div class="opt-1-text">
+                <div class="opt-1-title">
+                    Digital<br><span>Instinct.</span>
+                </div>
+                <div class="opt-1-desc">
+                    Layout that breaks the grid. The text overlaps the image to create depth and connection.
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <br><br><br>
+    <div class="variation-label">Option 2: The Grid (Architectural)</div>
+    <!-- OPTION 2 -->
+    <section class="opt-2-wrap">
+        <div class="opt-2-img">
+            <span class="badge">EST. 2025</span>
+            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2670&auto=format&fit=crop"
+                alt="Building">
+        </div>
+        <div class="opt-2-content">
+            <div class="opt-2-meta">
+                <span>01. Philosophy</span>
+                <span>Scroll Down ↓</span>
+            </div>
+            <div>
+                <h1 class="opt-2-title">Defined by<br>Logic & Chaos</h1>
+                <p class="opt-2-sub">
+                    A strictly structured layout with visible borders.
+                    Perfect for a corporate yet modern look.
+                </p>
+            </div>
+        </div>
+    </section>
+
+
+    <br><br><br>
+    <div class="variation-label">Option 3: The Magazine (Editorial)</div>
+    <!-- OPTION 3 -->
+    <section class="opt-3-wrap">
+        <div class="opt-3-text">
+            <h1 class="opt-3-title">True<br>Luxury</h1>
+            <p style="font-size:20px; color:#555;">
+                We create silence in a world of noise.
+            </p>
+        </div>
+        <div class="opt-3-img">
+            <img src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?q=80&w=2668&auto=format&fit=crop"
+                alt="Magazine">
+        </div>
+    </section>
+
+</body>
+
+</html>

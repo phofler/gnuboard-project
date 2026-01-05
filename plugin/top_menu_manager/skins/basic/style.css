@@ -3,18 +3,10 @@
 /* Modern Full Mega Menu Style (Dark) */
 
 /* 
-   [FIX] Restore default variables for independent rendering 
-   This ensures the menu looks correct even if theme CSS is loaded late.
+   [AUTONOMY & SOVEREIGNTY]
+   Variables are now inherited from the theme's default.css 
+   to ensure visual consistency (Light/Dark mode compliance).
 */
-:root {
-   --color-bg-dark: #121212;
-   --color-text-primary: #e0e0e0;
-   --color-text-secondary: #a0a0a0;
-   --color-accent-gold: #d4af37;
-   --font-heading: 'Playfair Display', serif;
-   --font-body: 'Inter', sans-serif;
-   --header-height: 90px;
-}
 
 
 /* Hide Hamburger on Desktop */
@@ -56,30 +48,7 @@
    height: 100%;
 }
 
-#logo {
-   /* Auto width */
-}
-
-/* Login/Search Icons */
-.hd_login {
-   display: flex;
-   gap: 20px;
-   font-size: 13px;
-   font-weight: 500;
-   list-style: none;
-   margin: 0;
-   padding: 0;
-}
-
-.hd_login li a {
-   color: var(--color-text-secondary);
-   text-decoration: none;
-}
-
-.hd_login li a:hover {
-   color: var(--color-accent-gold);
-}
-
+/* Logo Styles */
 #logo img {
    height: auto;
    max-height: 65px;
@@ -103,7 +72,7 @@
 .gnb_1da {
    font-size: 16px;
    font-weight: 500;
-   color: var(--color-text-primary);
+   color: var(--color-menu-text);
    text-transform: uppercase;
    letter-spacing: 1px;
    position: relative;
@@ -119,7 +88,7 @@
 }
 
 .gnb_1da:hover {
-   color: var(--color-accent-gold);
+   color: var(--color-menu-text-hover);
 }
 
 /* Hover Line Effect */
@@ -152,9 +121,11 @@
    /* This forces the element to span the full viewport width relative to the document,
       ignoring the parent container's width, assuming body/html is the offset container. */
 
-   background: #1a1a1a;
-   border-top: 1px solid #333;
-   border-bottom: 1px solid #333;
+   background: var(--color-menu-bg, #ffffff);
+   backdrop-filter: blur(15px);
+   -webkit-backdrop-filter: blur(15px);
+   border-top: 1px solid var(--color-menu-border);
+   border-bottom: 1px solid var(--color-menu-border);
 
    /* Animation State: Hidden */
    opacity: 0;
@@ -178,8 +149,8 @@
    z-index: 10000;
 }
 
-/* Show Mega Menu when hovering UL or Panel itself */
-#gnb_1dul:hover~#gnb_mega_panel,
+/* [MODIFIED] Show Mega Menu when hovering ANYWHERE in the Top Bar (.gnb_wrap) */
+.gnb_wrap:hover #gnb_mega_panel,
 #gnb_mega_panel:hover {
    /* Animation State: Visible */
    opacity: 1;
@@ -208,7 +179,7 @@
    flex: 1;
    min-width: 150px;
    padding: 0 20px;
-   border-left: 1px solid rgba(255, 255, 255, 0.05);
+   border-left: 1px solid var(--color-menu-border);
 }
 
 .mega_col:first-child {
@@ -223,7 +194,7 @@
    color: var(--color-accent-gold);
    margin-bottom: 25px;
    padding-bottom: 15px;
-   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+   border-bottom: 1px solid var(--color-menu-border);
    text-transform: uppercase;
 
    /* Truncation Logic */
@@ -239,7 +210,7 @@
 
 .mega_col ul li a {
    font-size: 14px;
-   color: #888;
+   color: var(--color-menu-subtext);
    display: block;
    transition: transform 0.2s, color 0.2s;
    text-decoration: none;
@@ -252,8 +223,27 @@
 }
 
 .mega_col ul li a:hover {
-   color: #fff;
+   color: var(--color-menu-text-hover);
    transform: translateX(5px);
+}
+
+/* Right Side Utility Links (Variable Sovereignty) */
+.hd_login {
+   display: flex;
+   gap: 20px;
+   font-size: 13px;
+   font-weight: 500;
+   color: var(--color-menu-text);
+}
+
+.hd_login a {
+   color: inherit;
+   text-decoration: none;
+   transition: color 0.2s;
+}
+
+.hd_login a:hover {
+   color: var(--color-menu-text-hover);
 }
 
 /* Mobile basic hidden (assuming theme handles mobile separately) */
@@ -261,5 +251,81 @@
    .gnb_wrap {
       /* display: none; REMOVED to allow mobile menu to show */
       padding: 0 20px;
+   }
+}
+
+/* [AUTONOMY] Mobile Overlay Menu (gnb_all) 
+   Moved from theme/corporate_light/css/default.css 
+*/
+@media (max-width: 1024px) {
+   .gnb_wrap {
+      padding: 0 20px;
+   }
+
+   #gnb_mega_panel {
+      display: none !important;
+   }
+
+   /* GNB Button (Hamburger) - Ensure visible on mobile */
+   .gnb_menu_btn,
+   #gnb_menu_btn {
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      background: transparent;
+      border: none;
+      color: var(--color-text-primary);
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 1001;
+   }
+
+   #gnb_all {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(10, 10, 10, 0.98);
+      z-index: 99999;
+      backdrop-filter: blur(15px);
+      overflow-y: auto;
+   }
+
+   .gnb_al_ul {
+      padding: 100px 40px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+   }
+
+   .gnb_al_a {
+      font-size: 1.5rem;
+      color: #fff;
+      font-weight: 700;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 10px;
+      display: block;
+   }
+
+   .gnb_al_li ul {
+      padding: 10px 0 20px 20px;
+   }
+
+   .gnb_al_li ul li a {
+      font-size: 1.1rem;
+      color: #aaa;
+      padding: 8px 0;
+      display: block;
+   }
+
+   /* 3rd Depth for Mobile */
+   .gnb_3rd_mobile {
+      border-left: 1px solid var(--color-accent-gold);
+      margin-left: 10px;
    }
 }

@@ -1,0 +1,175 @@
+/* Vertical Fade Hero Style */
+/* [SOVEREIGNTY] Using Theme Variables */
+
+.hero-section.hero-style-c {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--color-bg-dark);
+}
+
+.hero-style-c .swiper {
+    width: 100%;
+    height: 100%;
+}
+
+.hero-style-c .hero-full {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.hero-style-c .hero-bg-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+    filter: brightness(0.6);
+}
+
+.hero-style-c .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 2;
+}
+
+@keyframes kenburnsZoomC {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1.12);
+    }
+}
+
+.hero-style-c .swiper-slide-active .hero-bg-inner {
+    animation: kenburnsZoomC 12s ease-out forwards;
+}
+
+.hero-style-c .hero-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-align: center;
+    z-index: 3;
+    padding: 0 20px;
+    box-sizing: border-box;
+    pointer-events: none;
+}
+
+.hero-style-c .hero-content h2 {
+    font-family: var(--font-heading);
+    font-size: 4.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    letter-spacing: -2px;
+    line-height: 1.1;
+}
+
+.hero-style-c .hero-content p {
+    font-family: var(--font-body);
+    font-size: 1.3rem;
+    line-height: 1.6;
+    margin-bottom: 40px;
+    opacity: 0.8;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-style-c .text-wrap {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.9);
+    transition: all 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    pointer-events: auto;
+}
+
+.hero-style-c .swiper-slide-active .text-wrap {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+}
+
+/* Time Bar */
+.hero-style-c .time-bar-container {
+    position: absolute;
+    bottom: 85px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 220px;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 2px;
+    z-index: 999;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.hero-style-c .time-bar {
+    width: 0%;
+    height: 100%;
+    background: #ffffff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+@keyframes timeFlowC {
+    from {
+        width: 0%;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+
+.hero-style-c .swiper-slide-active .time-bar {
+    animation: timeFlowC 6s linear forwards;
+}
+
+/* Scroll Arrow */
+.hero-style-c .scroll-arrow {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 10;
+    text-align: center;
+    text-decoration: none;
+}
+
+.hero-style-c .scroll-arrow span {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+    opacity: 0.8;
+    text-transform: uppercase;
+}
+
+.hero-style-c .scroll-arrow i {
+    display: block;
+    animation: bounce 2s infinite;
+    font-style: normal;
+}

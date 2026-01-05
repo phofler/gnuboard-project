@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corporate Ultimate Light</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@200;300;400;500;600;800&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --c-bg: #F3F3F3;
+            --c-text: #050505;
+            --c-sub: #555555;
+            --c-border: #D1D1D1;
+
+            /* POINT COLOR: Electric Red */
+            --c-brand: #FF3B30;
+
+            --f-display: 'Italiana', serif;
+            --f-body: 'Manrope', 'Noto Sans KR', sans-serif;
+            --f-kor: 'Noto Sans KR', sans-serif;
+            /* New Gothic Var */
+        }
+
+        /* RESET */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--c-bg);
+            color: var(--c-text);
+            font-family: var(--f-body);
+            overflow-x: hidden;
+            /* cursor: none;  Disabled for better usability during dev */
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* TYPOGRAPHY SYSTEM */
+        h1,
+        h2,
+        h3,
+        .serif {
+            font-family: var(--f-display);
+            font-weight: 400;
+        }
+
+        .t-mega {
+            font-size: clamp(80px, 13vw, 250px);
+            line-height: 0.8;
+            text-transform: uppercase;
+            letter-spacing: -0.04em;
+        }
+
+        .t-h1 {
+            font-size: clamp(40px, 6vw, 100px);
+            line-height: 1.1;
+            font-weight: 400;
+        }
+
+        .t-h2 {
+            font-size: clamp(24px, 3vw, 48px);
+            font-weight: 400;
+            margin-bottom: 2rem;
+        }
+
+        .t-body {
+            font-size: 1.125rem;
+            line-height: 1.7;
+            color: var(--c-sub);
+        }
+
+        .container {
+            width: 100%;
+            padding: 0 4vw;
+            max-width: 1920px;
+            margin: 0 auto;
+        }
+
+        /* UTILS */
+        .u-line {
+            width: 100%;
+            height: 1px;
+            background: var(--c-border);
+            margin: 6vh 0;
+        }
+
+        .u-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .u-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4vw;
+        }
+
+        /* ---- COMPONENTS ---- */
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 30px 4vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 900;
+            mix-blend-mode: exclusion;
+            color: #fff;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 24px;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+        }
+
+        /* HERO */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10vh 0;
+            overflow: hidden;
+        }
+
+        .hero-title {
+            position: relative;
+            z-index: 10;
+            text-align: left;
+            /* Changed from center */
+            padding-left: 4vw;
+            /* Align with layout */
+            mix-blend-mode: exclusion;
+            color: #fff;
+        }
+
+        .hero-img-wrap {
+            position: absolute;
+            top: 50%;
+            left: 20%;
+            /* Adjusted from 50% to align closer to left but keep balance */
+            transform: translateY(-50%);
+            /* Removed translateX */
+            width: 50vw;
+            height: 70vh;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .hero-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+            animation: zoomOut 10s infinite alternate;
+        }
+
+        @keyframes zoomOut {
+            from {
+                transform: scale(1.2);
+            }
+
+            to {
+                transform: scale(1.0);
+            }
+        }
+
+        .hero-copy {
+            position: absolute;
+            bottom: 5vh;
+            left: 4vw;
+            max-width: 400px;
+            z-index: 10;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            line-height: 1.5;
+            letter-spacing: 0.5px;
+        }
+
+        /* MANIFESTO SECTION */
+        .sec-manifesto {
+            padding: 15vh 0;
+        }
+
+        .manifesto-text {
+            font-family: var(--f-kor);
+            font-size: clamp(32px, 4vw, 32px);
+            line-height: 2;
+            max-width: 90%;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            word-break: keep-all;
+        }
+
+        .manifesto-text span {
+            color: var(--c-brand);
+            font-style: normal;
+        }
+
+        /* SERVICES LIST */
+        .sec-services {
+            padding-bottom: 15vh;
+        }
+
+        .service-list {
+            border-top: 1px solid var(--c-text);
+        }
+
+        .service-item {
+            border-bottom: 1px solid var(--c-text);
+            padding: 4vh 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            cursor: pointer;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .service-item:hover {
+            color: var(--c-brand);
+            padding-left: 20px;
+        }
+
+        .svc-num {
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .svc-name {
+            font-size: clamp(40px, 6vw, 100px);
+            font-family: var(--f-display);
+            text-transform: uppercase;
+        }
+
+        .svc-desc {
+            max-width: 300px;
+            font-size: 14px;
+            color: var(--c-sub);
+            text-align: right;
+        }
+
+        /* WORKS (Marquee) */
+        .sec-works {
+            background: #000;
+            color: #fff;
+            padding: 10vh 0;
+            overflow: hidden;
+        }
+
+        .marquee-track {
+            display: flex;
+            gap: 2vw;
+            width: max-content;
+            animation: slide 30s linear infinite;
+        }
+
+        @keyframes slide {
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        .marquee-track:hover {
+            animation-play-state: paused;
+        }
+
+        .work-card {
+            width: 30vw;
+            flex-shrink: 0;
+        }
+
+        .work-card img {
+            width: 100%;
+            height: 40vw;
+            /* Tall */
+            object-fit: cover;
+            margin-bottom: 1rem;
+            filter: grayscale(100%);
+            transition: 0.5s;
+        }
+
+        .work-card:hover img {
+            filter: grayscale(0%);
+        }
+
+        .work-meta h3 {
+            font-size: 24px;
+            font-family: var(--f-display);
+            margin-bottom: 5px;
+        }
+
+        .work-meta p {
+            font-size: 14px;
+            color: #888;
+            text-transform: uppercase;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--c-brand);
+            color: #fff;
+            padding: 10vh 4vw 5vh;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .footer-big {
+            font-size: 15vw;
+            line-height: 0.8;
+            font-weight: 800;
+            letter-spacing: -5px;
+            margin-bottom: 5vh;
+        }
+
+        .footer-grid {
+            display: flex;
+            gap: 10vw;
+            font-size: 18px;
+            line-height: 2;
+        }
+
+        .footer-grid span {
+            display: block;
+            opacity: 0.7;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav data-aos="fade-down">
+        <div class="logo">Antigravity</div>
+        <div>MENU</div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero">
+        <h1 class="t-mega hero-title" data-aos="zoom-in" data-aos-duration="1500">
+            Digital<br>Obsession
+        </h1>
+        <div class="hero-img-wrap">
+            <!-- Image 1: Female Model (Grayscale) -->
+            <img class="hero-img active" data-style="mono"
+                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=2564&auto=format&fit=crop"
+                alt="Model">
+
+            <!-- Image 2: Perfume Product (Color) -->
+            <img class="hero-img" data-style="color"
+                src="https://images.unsplash.com/photo-1541643600914-78b084683601?q=80&w=2504&auto=format&fit=crop"
+                alt="Perfume">
+        </div>
+
+        <style>
+            .hero-img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                opacity: 0;
+                transition: opacity 1.5s ease;
+                /* Default mono for model */
+                filter: grayscale(100%);
+                animation: zoomOut 10s infinite alternate;
+            }
+
+            .hero-img[data-style="color"] {
+                filter: grayscale(0%) contrast(1.1);
+            }
+
+            .hero-img.active {
+                opacity: 1;
+                z-index: 2;
+            }
+        </style>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const images = document.querySelectorAll('.hero-img');
+                let currentIndex = 0;
+
+                setInterval(() => {
+                    images[currentIndex].classList.remove('active');
+                    currentIndex = (currentIndex + 1) % images.length;
+                    images[currentIndex].classList.add('active');
+                }, 4000); // Change every 4 seconds
+            });
+        </script>
+
+    </header>
+
+    <!-- SLOGAN BLOCK (Isolated to prevent breaks) -->
+    <div class="container" style="padding-top: 15vh;">
+        <div
+            style="max-width: 450px; font-size: 15px; font-weight: 800; text-transform: uppercase; line-height: 1.6; color: var(--c-text);">
+            우리는 단순히 웹사이트를 만들지 않습니다. <br>
+            당신의 기억에 영원히 남을 <span style="color:var(--c-brand)">디지털 감동</span>을 설계합니다.
+        </div>
+    </div>
+
+    <!-- MANIFESTO SECTION -->
+    <!-- MANIFESTO SECTION -->
+    <section class="container sec-manifesto" data-aos="fade-up" style="padding-top: 15vh; padding-bottom: 15vh;">
+        <div style="display: grid; grid-template-columns: 180px 1fr; gap: 0; align-items: flex-start;">
+            <!-- Vertical Label Column -->
+            <div style="display: flex; justify-content: flex-start; padding-top: 13px;">
+                <div
+                    style="font-size: 14px; font-weight: 800; color: var(--c-brand); writing-mode: horizontal-tb; white-space: nowrap; letter-spacing: 2.5px;">
+                    [ OUR PHILOSOPHY ]
+                </div>
+            </div>
+
+            <!-- Manifesto Body Column -->
+            <div class="manifesto-text"
+                style="font-family: var(--f-kor); font-size: clamp(30px, 3.5vw, 45px); line-height: 1.45; font-weight: 600; color: var(--c-text); word-break: keep-all; letter-spacing: -0.02em;">
+                완벽함이란 더 이상 더할 것이 없을 때가 아니라, <span style="color:var(--c-brand)">더 이상 뺄 것이 없을 때</span> 완성됩니다. 우리는 끊임없이
+                변화하는 디지털의 흐름 속에서도 변하지 않는 본질적 가치를
+                탐구합니다. 복잡함을 걷어내고 브랜드의 핵심만을 명료하게 드러냄으로써, 사용자들의 마음속 깊은 곳에 잊혀지기 않는 강력한 울림과 감각적인 경험을 선사하는 당신만의 고유한 이야기를 완성해
+                나갑니다.
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="container sec-services">
+        <div class="t-h2" style="margin-bottom:4rem;">What We Do</div>
+
+        <div class="service-list">
+            <div class="service-item" data-aos="fade-up">
+                <span class="svc-num">01</span>
+                <span class="svc-name">Digital Strategy</span>
+                <div class="svc-desc">디지털 로드맵 설계<br>성장 전략 제안<br>데이터 분석</div>
+            </div>
+            <div class="service-item" data-aos="fade-up" data-aos-delay="100">
+                <span class="svc-num">02</span>
+                <span class="svc-name">Visual Identity</span>
+                <div class="svc-desc">강렬한 비주얼 언어<br>로고 & 가이드라인<br>아트 디렉션</div>
+            </div>
+            <div class="service-item" data-aos="fade-up" data-aos-delay="200">
+                <span class="svc-num">03</span>
+                <span class="svc-name">Web Experience</span>
+                <div class="svc-desc">사용자 경험 중심 구축<br>반응형 웹 디자인<br>모션 인터랙션</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SELECTED WORKS -->
+    <section class="sec-works">
+        <div class="container"
+            style="margin-bottom: 40px; display:flex; justify-content:space-between; align-items:end;">
+            <h2 class="t-h2" style="color:#fff; margin:0;">Selected Works</h2>
+            <div style="font-size:14px; opacity:0.6;">VIEW DETAIL -></div>
+        </div>
+
+        <div class="marquee-track">
+            <!-- Items duplicated for loop -->
+            <div class="work-card">
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop"
+                    alt="Work">
+                <div class="work-meta">
+                    <h3>Liquid Metal</h3>
+                    <p>3D Art Direction</p>
+                </div>
+            </div>
+            <div class="work-card">
+                <img src="https://images.unsplash.com/photo-1594938298603-c8148c47e356?q=80&w=2524&auto=format&fit=crop"
+                    alt="Work">
+                <div class="work-meta">
+                    <h3>Consumer Silence</h3>
+                    <p>Ecommerce Platform</p>
+                </div>
+            </div>
+            <div class="work-card">
+                <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2670&auto=format&fit=crop"
+                    alt="Work">
+                <div class="work-meta">
+                    <h3>Cyber Tokyo</h3>
+                    <p>Immersive Web</p>
+                </div>
+            </div>
+            <div class="work-card">
+                <img src="https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=2670&auto=format&fit=crop"
+                    alt="Work">
+                <div class="work-meta">
+                    <h3>Neon Dreams</h3>
+                    <p>Motion Graphics</p>
+                </div>
+            </div>
+            <!-- Duplicate for loop feel (simple css animation) -->
+            <div class="work-card">
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop"
+                    alt="Work">
+                <div class="work-meta">
+                    <h3>Liquid Metal</h3>
+                    <p>3D Art Direction</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="u-flex">
+            <div class="logo">ANTIGRAVITY</div>
+            <div>SCROLL TO TOP ↑</div>
+        </div>
+
+        <div>
+            <div class="footer-big">LET'S TALK.</div>
+            <div class="footer-grid">
+                <div>
+                    <span>CONTACT</span>
+                    hello@antigravity.kr<br>
+                    02-1234-5678
+                </div>
+                <div>
+                    <span>ADDRESS</span>
+                    서울시 강남구 테헤란로 123<br>
+                    앤티그래비티 빌딩 4층
+                </div>
+                <div>
+                    <span>SOCIAL</span>
+                    Instagram<br>
+                    Behance
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        AOS.init();
+    </script>
+</body>
+
+</html>

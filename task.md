@@ -6,6 +6,14 @@
     - [x] Create new skins (`Centered`, `Transparent`, `Minimal`) from HTML samples
     - [x] Implement Live Preview system (`preview.php` + Modal iframe)
     - [x] Apply Theme Inheritance (Color vars & Height) to all skins
+- [x] **4. Theme Synchronization (Editorial Palette)**
+    - [x] Set Global variable `--color-header-bg: #F3F3F3`
+    - [x] Set Global variable `--color-bg: #F3F3F3`
+    - [x] Resolve Layered Color Distortion (Overlay Audit)
+    - [x] Sync `mobile.css` background with theme palette
+- [ ] **5. Final Documentation & Handover**
+    - [x] Update `테마스킨.md` with header variables
+    - [ ] Update `walkthrough.md` with before/after of color sync
 - [x] **Tree Category Plugin Completion**
     - [x] Implement HTML Replacement AJAX for Admin Tree
     - [x] Fix "Administrator Access Only" Error
@@ -28,6 +36,7 @@
         - [x] Frontend: Restore CSS Variables in `style.css`
     - [x] Fix 'Undefined array key' warnings in GNB display
     - [x] Final Layout Verification (Full Width Header & Cleanup)
+    - [x] **Document Principles & Improvements** (`테마스킨.md`)
 - [x] **Product Board Skin Implementation**
     - [x] Create sophisticated Product List Skin (`list.skin.php`)
     - [x] Implement Category Tree Sidebar (`sidebar.product.php`)
@@ -36,15 +45,17 @@
     - [x] Standardize Product View Layout & Aesthetics
     - [x] Implement 'cate' URL auto-selection for Write Page
     - [x] Preserve 'cate' parameter in Featured Product Edit link
-- [ ] **Debugging & Optimization (Tomorrow)**
+- [ ] **Debugging & Optimization**
     - [x] Debug any issues arising from new menu skin integration
     - [ ] Refine Theme CSS Rules & Inheritance logic (`default.css`)
 
 ## Project Status
 
-- [ ] **프로젝트 원칙 문서화** <!-- id: 0 -->
+- [x] **프로젝트 원칙 문서화** <!-- id: 0 -->
     - [x] 개발 원칙 정리 및 `project_rules.md` 생성 <!-- id: 1 -->
     - [x] 서브 비주얼(Hero) 작업 규칙 문서화 (`작업시유의사항.md`) <!-- id: 18 -->
+    - [x] **테마스킨 매뉴얼 기록 및 원칙 확립** (`테마스킨.md`)
+    - [x] **[NEW] 플러그인 스킨 통합 원칙 확립** (테마 직접 수정 금지, 관리자 제어 필수)
 - [x] **관리자 페이지 개선** <!-- id: 2 -->
     - [x] 온라인 문의 리스트 기능 구현 (`theme/corporate/skin/adm/inquiry_list.php`) <!-- id: 3 -->
     - [x] 관리자 메뉴에 '온라인 문의' 연동 (`adm/inquiry_list.php` 래퍼 생성) <!-- id: 4 -->
@@ -58,3 +69,57 @@
 - [x] **Phase 7: 관리자 페이지 경험 개선 (Company Intro)**
     - [x] 회사소개 스킨 그룹화 및 선택 UI 개선 (`adm/write.php`)
     - [x] 신규 스킨 대거 추가 및 디자인 고도화
+- [x] **Ultimate Light Theme Integration**
+    - [x] Prototype Main Page (`index_ko.html`)
+    - [x] Design Verification (Fonts & Layout)
+    - [x] **Phase 1: New Theme Setup (Method 2)**
+        - [x] Duplicate `corporate` to `corporate_light`
+        - [x] Configure `theme.config.php` (Ultimate Light)
+        - [x] Set Light Mode Defaults in `default.css`
+    - [x] **Phase 2: Ultimate Light Theme Roadmap** (User Requested Order)
+        - [x] **1. Top Menu Skin Management** (`plugin/top_menu_manager`)
+            - [x] Verify `Minimal` Skin (Logo + MENU Text)
+            - [x] Ensure integration with `corporate_light` theme
+            - [x] **Refactor to ID-Based Config (List/Write)** for Multi-Language Support
+            - [x] **Quick Logo Management** on List Page
+        - [x] **2. Menu Management** (`plugin/pro_menu_manager`)
+            - [x] Verify structure and exposure settings (Refactored to Theme-Controlled Skin Selection)
+            - [x] **Refactor Admin for Multi-Language Sets** (Single Page + Tab Interface)
+            - [x] **Separate Data Tables** (e.g. `g5_write_menu_pdc_en`) connected via ID
+        - [x] **4. Main Content Management** (`plugin/main_content_manager`)
+            - [x] **Add Language Field** (DB Schema Update)
+            - [x] **Admin UI for Language Selection** (KR/EN/etc.)
+            - [x] **Frontend Filtering** (`display_main_content` accepts lang param)
+            - [x] Restore Preview Functionality (Modal + Sample Data)
+        - [x] **4. Main Content Management** (`plugin/main_content_manager`)
+            - [x] Refactor to support `skins/` directory & Global Design Tokens
+
+    - [x] **Phase 5: Plugin Standardization (Multi-Language & Theme Consistency)**
+        - [x] **1. Top Menu Manager**: Apply Pattern A (Ui Standardized + Fallback Logic)
+            - [x] Automated Menu Source Selection (Hidden Logic)
+            - [x] Fixed "Token Invalid" Deletion Error (List-based Pattern)
+        - [ ] **2. Copyright Manager**: Apply Pattern A (Config ID + Suffix)
+        - [ ] **Company Intro**: Apply Pattern A
+        - [ ] **Board Skin Manager**: Apply Pattern B (Columns for Theme/Lang)
+        - [ ] **Sub Design Manager**: Fix Menu Source Connection (Pattern C)
+        - [ ] **Online Inquiry**: Move Config to DB (Pattern A)
+        - [ ] **Verification**: Ensure all 11 plugins share consistent Admin UI for Theme/Lang selection.
+            - [x] Update `테마스킨.md` with inheritance principles (Sovereignty of default.css)
+            - [x] Create `philosophy_light` Skin (Left label + Bold text)
+                - [x] **Constraint**: Maximize Negative Space (여백의 미) as per prototype
+                - [x] **Fix**: Change Label to Horizontal & Top Align Content (Fixed per user feedback)
+            - [x] Create `list_modern` Skin (Services / Style D)
+                - [x] Admin Link Support
+                - [x] Hover color sync (Red/Gold)
+            - [x] Create `works_dark` skin for Board Skin Manager
+                - [x] Integrate with `board_skin_manager` plugin
+                - [x] Resolve `bo_use_list_view` and variable scope issues
+                - [x] **Design**: Dark Background + Serif Title + Horizontal Scroll (Swiper)
+                - [x] **Marquee Effect**: Implement CSS-like smooth scrolling (Speed 5000, Linear)
+        - [x] **5. Copyright Management**
+            - [x] Refactor Footer to be manageable (Plugin or Config)
+        - [x] **6. Sub Design Management**
+            - [x] Standardize `sub_page` layout
+        - [x] **8. Online Inquiry Management** (`plugin/contact_form`)
+            - [x] (Already Implemented)
+

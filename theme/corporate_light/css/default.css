@@ -1,0 +1,1156 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500;700&family=Italiana&family=Manrope:wght@200;300;400;500;600;800&display=swap');
+
+:root {
+    /* [MENU PALETTE] Defined by Theme */
+    --color-header-bg: #F3F3F3;
+    /* Forced Match for Prototype */
+    --color-header-border: transparent;
+    /* Remove visible edge */
+    --color-menu-bg: #FFFFFF;
+    --color-menu-text: #1a1a1a;
+    --color-menu-text-hover: #000000;
+    --color-menu-hover-bg: rgba(0, 0, 0, 0.02);
+    --color-menu-hover-text: #000000;
+    --color-menu-subtext: #666666;
+    --color-menu-border: rgba(0, 0, 0, 0.05);
+
+    /* [ULTIMATE LIGHT PALETTE] */
+    --color-bg: #F3F3F3;
+    /* Base Body Color */
+    --color-bg-panel: #FFFFFF;
+    --color-text-primary: #050505;
+    --color-text-secondary: #555555;
+
+    /* [INVERT/EDGE PALETTE] For dark sections in light theme */
+    --color-bg-invert: #000000;
+    --color-text-invert: #FFFFFF;
+
+    /* Legacy mapping for skin compatibility */
+    --color-bg-dark: var(--color-bg);
+
+    /* [SMART INHERITANCE] RGB definitions for Opacity Control */
+    --color-accent-gold: #FF3B30;
+    /* Electric Red for Light Theme */
+    --color-accent-gold-rgb: 255, 59, 48;
+    /* For rgba(var(--...), 0.x) */
+
+    --color-accent-gold-hover: #D32F2F;
+    /* Darker Gold */
+    --color-metal-light: #4a4a4a;
+    --color-metal-dark: #2c2c2c;
+    --color-wood: #3e2723;
+
+    /* Gradients (Removed for Minimal Look) */
+    --gradient-metal: none;
+    --gradient-gold: none;
+
+    /* Typography */
+    --font-serif: 'Italiana', serif;
+    --font-en: 'Manrope', sans-serif;
+    --font-heading: var(--font-serif);
+    --font-body: var(--font-en), 'Noto Sans KR', sans-serif;
+
+    /* Spacing */
+    --spacing-container: 1400px;
+    --spacing-section: 60px;
+    --header-height: 90px;
+    --sub-hero-height: 60vh;
+
+    /* [EDITORIAL DESIGN SYSTEM] for Main Content Manager */
+    --mc-section-padding: 100px;
+    /* Vertical breathing room */
+    --mc-item-gutter: 50px;
+    /* Gap between image and text */
+    --mc-list-gap: 80px;
+    /* Spacing between multiple items */
+
+    --mc-title-size: 3rem;
+    /* Section main title size */
+    --mc-item-title-size: 2rem;
+    /* Individual item title size */
+    --mc-desc-line-height: 1.8;
+    /* Readability for descriptions */
+
+    --mc-border-radius: 4px;
+    /* Subtle rounding for images */
+    --mc-transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Professional movement */
+
+    --mc-btn-padding: 14px 40px;
+    /* Standard Button Size */
+    --mc-btn-weight: 700;
+    /* Boldness */
+    --mc-btn-letter-spacing: 0.15em;
+    /* Editorial spreading */
+    --mc-btn-text: "VIEW DETAIL";
+    /* [GLOBAL BUTTON LABEL] */
+}
+
+
+
+/* Reset & Base */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Sub Layout (Light Theme for Editor Compatibility) */
+#wrapper.sub-layout-light {
+    color: var(--color-text-primary);
+    min-height: 100vh;
+    width: 100%;
+    position: relative;
+    z-index: 10;
+}
+
+#wrapper.sub-layout-light h1,
+#wrapper.sub-layout-light h2,
+#wrapper.sub-layout-light h3,
+#wrapper.sub-layout-light h4,
+#wrapper.sub-layout-light h5,
+#wrapper.sub-layout-light h6 {
+    color: var(--color-text-primary);
+}
+
+#wrapper.sub-layout-light p {
+    color: var(--color-text-secondary);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease;
+}
+
+ul,
+li {
+    list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Noto Sans KR', 'Malgun Gothic', 'Dotum', sans-serif;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+
+.sound_only {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 0;
+    line-height: 0;
+    border: 0;
+    overflow: hidden;
+}
+
+/* Utility Classes */
+.container {
+    max-width: var(--spacing-container);
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Master Sub-page Content Gutter (Hub) */
+/* Master Sub-page Content Gutter (Hub) */
+.sub-layout-width-height {
+    width: 100%;
+    max-width: var(--spacing-container, 1400px);
+    /* Enforce Inheritance */
+    margin: 0 auto;
+    padding: var(--spacing-section, 60px) 20px;
+    /* Standardize vertical spacing */
+    box-sizing: border-box;
+}
+
+/* Fix: Homepage Full Width Reset */
+#wrapper:not(.sub-layout-light) #container,
+#wrapper:not(.sub-layout-light) #container_wr {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: auto !important;
+}
+
+.btn-luxury {
+    display: inline-block;
+    padding: 12px 30px;
+    background: transparent;
+    border: 1px solid #D4AF37;
+    color: #D4AF37;
+    font-family: var(--font-body);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.btn-luxury:hover {
+    background: #D4AF37;
+    color: #121212;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+}
+
+/* [EDITORIAL BUTTON SYSTEM] */
+.mc-btn {
+    display: inline-block;
+    padding: var(--mc-btn-padding);
+    font-family: var(--mc-font-heading, var(--font-heading, sans-serif));
+    font-weight: var(--mc-btn-weight);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: var(--mc-btn-letter-spacing);
+    text-decoration: none;
+    text-align: center;
+    transition: var(--mc-transition);
+    border-radius: var(--mc-border-radius);
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.mc-btn::after {
+    content: var(--mc-btn-text);
+}
+
+/* Primary Style (Solid) */
+.mc-btn-primary {
+    background: var(--mc-accent);
+    color: #fff !important;
+    border: 1px solid var(--mc-accent);
+}
+
+.mc-btn-primary:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 5px 15px rgba(var(--color-accent-gold-rgb), 0.3);
+}
+
+/* Outline Style (Editorial) */
+.mc-btn-outline {
+    background: transparent;
+    color: var(--mc-accent);
+    border: 1px solid var(--mc-accent);
+}
+
+.mc-btn-outline:hover {
+    background: var(--mc-accent);
+    color: #fff !important;
+}
+
+/* Breadcrumb Truncation */
+.breadcrumb-inner {
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+    min-width: 0;
+    /* Flexbox trick */
+}
+
+.breadcrumb-inner span {
+    display: block;
+    /* Ensure it takes width */
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Header & Navigation */
+#hd {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--header-height);
+    background: var(--color-header-bg);
+    backdrop-filter: none;
+    /* Flat Editorial Look */
+    border-bottom: 1px solid var(--color-header-border);
+    z-index: 1000;
+    display: block;
+    /* Ensure children can center via margin: auto */
+    transition: all 0.3s ease;
+}
+
+/* 
+   [AUTONOMY] GNB Styles moved to plugin skins (basic, minimal, etc.)
+   The following styles are removed from the theme to prevent conflicts.
+*/
+#hd_wrapper {
+    width: 100%;
+    max-width: var(--spacing-container);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+}
+
+#logo a {
+    font-family: var(--font-heading);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+}
+
+#logo img {
+    height: 70px;
+    width: auto;
+    object-fit: contain;
+}
+
+/* 
+   GNB_ALL and GNB_1DLI styles removed from theme. 
+   Managed by plugin/top_menu_manager/skins/
+*/
+
+.force-hidden {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+}
+
+/* Hero Section */
+.hero-section {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    padding-top: 0;
+    /* Removed padding to allow full coverage behind header */
+    background: var(--color-bg-dark);
+    overflow: hidden;
+}
+
+.mySwiper {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper-slide {
+    width: 100%;
+    height: 100%;
+}
+
+.hero-collage {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.hero-item {
+    /* flex: 1; Removed for Swiper */
+    position: relative;
+    overflow: hidden;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    /* transition: flex 0.5s ease; Removed */
+    height: 100%;
+    /* Ensure full height in swiper */
+}
+
+/* 
+.hero-item:hover {
+    flex: 1.5; 
+} Removed 
+*/
+
+.hero-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.7) grayscale(0.2);
+    transition: transform 0.8s ease, filter 0.5s ease;
+}
+
+.hero-item:hover img {
+    transform: scale(1.05);
+    /* Keep zoom effect */
+    filter: brightness(1) grayscale(0);
+}
+
+.hero-content {
+    position: absolute;
+    bottom: 60px;
+    left: 40px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.hero-content h2 {
+    font-family: 'Nanum Gothic', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+    font-size: 2.5rem;
+    color: var(--color-text-primary);
+    margin-bottom: 10px;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    opacity: 0.9;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+}
+
+.hero-item:hover .hero-content h2 {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent 40%);
+    z-index: 1;
+}
+
+/* Footer structure for now is simple */
+#ft {
+    background: #0a0a0a;
+    border-top: 1px solid #333;
+    padding: 60px 0;
+    text-align: center;
+    color: var(--color-text-secondary);
+}
+
+#ft p {
+    font-size: 14px;
+    opacity: 0.7;
+}
+
+/* Main Content Sections */
+section {
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Fix: Reset section padding for sub-pages to avoid excessive gap */
+#wrapper.sub-layout-light section {
+    padding: 0;
+}
+
+section h2 {
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 60px;
+    color: var(--color-accent-gold);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Product Section */
+.sec-product {
+    background: transparent;
+    /* Follows body background */
+}
+
+.product-list {
+    display: flex;
+    flex-direction: column;
+    gap: 100px;
+}
+
+.product-item {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+.product-item:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+.product-image {
+    flex: 1;
+    overflow: hidden;
+    border: 1px solid #333;
+}
+
+.product-image img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.product-image:hover img {
+    transform: scale(1.05);
+}
+
+.product-info {
+    flex: 1;
+}
+
+.product-info h3 {
+    font-size: 2rem;
+    color: var(--color-text-primary);
+    margin-bottom: 20px;
+}
+
+.product-info p {
+    color: var(--color-text-secondary);
+    margin-bottom: 30px;
+    line-height: 1.8;
+}
+
+/* Portfolio Section */
+.sec-portfolio {
+    background: var(--color-bg-dark);
+}
+
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.portfolio-item {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+}
+
+.portfolio-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.portfolio-item:hover img {
+    transform: scale(1.1);
+}
+
+.portfolio-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.portfolio-item:hover .portfolio-overlay {
+    transform: translateY(0);
+}
+
+/* Inquiry Section */
+.sec-inquiry {
+    background: var(--color-bg-panel);
+}
+
+.inquiry-wrapper {
+    display: flex;
+    gap: 50px;
+    background: #222;
+    padding: 50px;
+    border: 1px solid #333;
+}
+
+.inquiry-info {
+    flex: 1;
+    border-right: 1px solid #333;
+    padding-right: 50px;
+}
+
+.inquiry-form {
+    flex: 1.5;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 15px;
+    background: #111;
+    border: 1px solid #333;
+    color: #fff;
+    font-family: var(--font-body);
+}
+
+.form-control:focus {
+    border-color: var(--color-accent-gold);
+    outline: none;
+}
+
+/* News Section */
+.sec-news {
+    background: var(--color-bg-dark);
+}
+
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+}
+
+/* Company Section */
+.sec-company {
+    background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80');
+    background-attachment: fixed;
+    background-size: cover;
+    position: relative;
+    padding: 150px 0;
+}
+
+.company-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 1;
+}
+
+.company-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.company-content p {
+    font-size: 1.1rem;
+    line-height: 2;
+    margin-bottom: 30px;
+    color: #ddd;
+}
+
+/* Location Section */
+.sec-location {
+    background: #111;
+    padding-bottom: 0;
+}
+
+.location-info {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.location-info p {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #ccc;
+}
+
+.map-container {
+    height: 500px;
+    background: #222;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #555;
+    font-size: 1.5rem;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    overflow: hidden;
+}
+
+.map-container #map {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Helper for mobile menu (simple hide for now, needs JS for toggle) */
+.hd_sch_wr,
+#tnb {
+    display: none;
+}
+
+/* Responsive */
+/* Responsive */
+@media (max-width: 1024px) {
+    .inquiry-wrapper {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .inquiry-info {
+        border-right: none;
+        border-bottom: 1px solid #333;
+        padding-bottom: 30px;
+        padding-right: 0;
+    }
+
+    .inquiry-form {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .product-item {
+        flex-direction: column !important;
+    }
+
+    .map-container {
+        height: 350px;
+    }
+}
+
+/* Vertical Split Hero */
+.hero-split {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    margin-top: 0;
+}
+
+/* Sub Content Responsive System (sub_con_**) */
+.sub_con_wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* [WARNING] Code from original lines 801-1159 was lost here during update.   */
+/* You may need to restore site-specific styles below this point manually.      */
+/* -------------------------------------------------------------------------- */
+
+/* Styles moved to sub_common.css and sub_style.css */
+
+/* -------------------------------------------------------------------------- */
+/* [GLOBAL STANDARD] Subpage Edge Styles (Inherited by Admin & Frontend)      */
+/* -------------------------------------------------------------------------- */
+
+/* 1. Common Content Wrapper */
+.content-wrapper,
+.sub-wrapper {
+    max-width: 1200px;
+    margin: 80px auto;
+    padding: 0 20px;
+    position: relative;
+    box-sizing: border-box;
+}
+
+/* 2. Section Header (Gold Edge Design) */
+/* 2. Section Header (Gold Edge Design) */
+.section-header {
+    margin-bottom: 60px;
+    text-align: left;
+    /* [MOVED] Edge Style applied to Container to wrap Title & Subtitle */
+    border-left: 4px solid var(--color-accent-gold);
+    padding-left: 25px;
+}
+
+.section-header h2 {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    color: var(--color-text-primary);
+    margin-bottom: 10px;
+    /* Reduced margin */
+    position: relative;
+    line-height: 1.2;
+    /* Removed individual border/padding */
+}
+
+.section-header p {
+    color: var(--color-accent-gold);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.section-header p::before {
+    display: none;
+}
+
+/* 3. Breadcrumb & Navigation Bar (Transparent Edge) */
+.breadcrumb {
+    background-color: transparent !important;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    /* Subtle Gold Line */
+}
+
+.breadcrumb-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: flex-end;
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    font-family: 'Inter', sans-serif;
+}
+
+.breadcrumb span {
+    margin: 0 5px;
+}
+
+.breadcrumb .current {
+    color: var(--color-accent-gold);
+    font-weight: 700;
+}
+
+/* 4. Responsive adjustments for Sub Standard */
+@media (max-width: 991px) {
+
+    .content-wrapper,
+    .sub-wrapper {
+        margin: 40px auto;
+        padding: 0 15px;
+    }
+}
+
+/* 5. Sub Hero Section (Visual Banner) - Global Standard */
+.sub-hero {
+    position: relative;
+    height: var(--sub-hero-height);
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #000;
+}
+
+.sub-hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Background image is set inline via PHP for dynamic control */
+    background-size: cover;
+    background-position: center;
+    opacity: 0.4;
+    transform: scale(1.1);
+    transition: transform 10s ease;
+}
+
+.sub-hero:hover .sub-hero-bg {
+    transform: scale(1.0);
+}
+
+.sub-hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 800px;
+    padding: 0 20px;
+}
+
+.sub-hero-title {
+    font-family: var(--font-heading);
+    font-size: calc(3.5rem - 5px);
+    font-weight: 700;
+    color: #ffffff;
+    margin-top: 10px;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.sub-hero-subtitle {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+.sub-hero-subtitle::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background-color: var(--color-accent-gold);
+}
+
+/* Breadcrumb Truncation */
+.breadcrumb-inner {
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+    min-width: 0;
+    /* Flexbox trick */
+}
+
+.breadcrumb-inner span {
+    display: block;
+    /* Ensure it takes width */
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Sub Layout with Sidebar (Edge Bar) */
+.sub-layout-body {
+    display: flex;
+    max-width: var(--spacing-container);
+    margin: 0 auto;
+    padding: 60px 30px;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.sub-sidebar {
+    width: 250px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 100px;
+    display: none;
+    overflow: hidden;
+    /* Prevent spill */
+}
+
+@media(min-width: 1024px) {
+    .sub-sidebar {
+        display: block;
+        max-width: 100%;
+    }
+
+    .breadcrumb-inner span {
+        display: inline-block;
+        max-width: 300px;
+        /* Limit width */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        vertical-align: middle;
+    }
+}
+
+/* ================= ULTIMATE LIGHT THEME EXTENSION ================= */
+
+/* Light Theme Variables Override */
+.theme-light {
+    --color-bg-dark: #F9FAFB;
+    --color-bg-panel: #FFFFFF;
+    --color-text-primary: #111827;
+    --color-text-secondary: #4B5563;
+    --color-text-muted: #9CA3AF;
+    --color-accent-gold: #FF3B30;
+    /* Electric Red Override */
+    --color-border: #e5e5e5;
+
+    /* Updated Font Stack */
+    --font-display: 'Italiana', 'Noto Sans KR', serif;
+    --font-body: 'Manrope', 'Noto Sans KR', sans-serif;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+}
+
+/* Apply Base Styles when .theme-light is active */
+.theme-light body {
+    background-color: var(--color-bg-dark);
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+}
+
+/* Typography Utilities */
+.theme-light .t-mega {
+    font-family: var(--font-display);
+    font-size: clamp(80px, 13vw, 220px);
+    font-weight: 400;
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    color: var(--color-text-primary);
+    word-break: keep-all;
+}
+
+.theme-light .t-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 5vw, 80px);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--color-text-primary);
+    margin-bottom: 2rem;
+    word-break: keep-all;
+}
+
+.theme-light .big-lead {
+    font-size: clamp(24px, 2.5vw, 40px);
+    font-weight: 300;
+    line-height: 1.5;
+    color: var(--color-text-primary);
+    word-break: keep-all;
+}
+
+.theme-light .big-lead b {
+    font-weight: 700;
+    color: var(--color-accent-gold);
+}
+
+/* HERO Components */
+.theme-light .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    padding-top: 100px;
+    background-color: var(--color-bg-dark);
+}
+
+.theme-light .hero-title {
+    position: relative;
+    z-index: 10;
+    margin-left: 5vw;
+    mix-blend-mode: difference;
+    color: #fff;
+    font-family: 'Italiana', serif;
+    /* Force English Font */
+}
+
+.theme-light .hero-img-wrap {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50vw;
+    height: 100vh;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.theme-light .hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* SubPage Split Grid Header */
+.theme-light .sub-hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 60vh;
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg-white);
+}
+
+.theme-light .sub-hero-left {
+    padding: 80px 5vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 1px solid var(--color-border);
+}
+
+.theme-light .sub-hero-right {
+    position: relative;
+    overflow: hidden;
+}
+
+.theme-light .sub-hero-img-box {
+    width: 100%;
+    height: 100%;
+}
+
+.theme-light .sub-hero-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%);
+    transition: filter 0.5s ease;
+}
+
+.theme-light .sub-hero-img-box:hover img {
+    filter: grayscale(0%);
+}
+
+.theme-light .breadcrumb-wrapper {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-text-secondary);
+}
+
+/* Section Spacing */
+.theme-light .section-padding {
+    padding: 15vh 0;
+}
+
+/* Marquee */
+.theme-light .marquee-wrap {
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 5vh 0;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.theme-light .marquee-track {
+    display: inline-block;
+    animation: marquee 20s linear infinite;
+}
+
+.theme-light .marquee-item {
+    font-family: var(--font-display);
+    font-size: 8vw;
+    margin-right: 4vw;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--color-text-primary);
+    transition: 0.3s;
+}
+
+.theme-light .marquee-item:hover {
+    color: var(--color-accent-gold);
+    -webkit-text-stroke: 0px;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Footer Override */
+.theme-light .footer {
+    background: #111;
+    color: #fff;
+    padding: 10vh 5vw 5vh;
+}

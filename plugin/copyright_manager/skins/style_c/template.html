@@ -1,0 +1,138 @@
+<style>
+    /* Style C: Cinematic Grid Premium */
+    .footer-skin-c {
+        padding: 100px 0 50px;
+        background-color: var(--cp-bg, #111);
+        color: #eee;
+        /* border: 2px dashed #d4af37; Removed per user request */
+        margin: 20px 0;
+    }
+
+    .footer-skin-c .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .footer-skin-c .footer-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 40px;
+        margin-bottom: 80px;
+    }
+
+    .footer-skin-c .grid-item h3 {
+        font-size: 1.1rem;
+        color: #d4af37;
+        margin-bottom: 30px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .footer-skin-c .branding .footer-logo {
+        height: 40px;
+        margin-bottom: 25px;
+    }
+
+    .footer-skin-c .brand-desc {
+        color: #999;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        max-width: 300px;
+    }
+
+    .footer-skin-c .info-item {
+        margin-bottom: 20px;
+    }
+
+    .footer-skin-c .value,
+    .footer-skin-c .address-text {
+        color: #eee;
+        font-size: 1rem;
+    }
+
+    .footer-skin-c .value a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .footer-skin-c .value a:hover {
+        text-decoration: underline;
+    }
+
+    .footer-skin-c .footer-nav {
+        list-style: none;
+        padding: 0;
+    }
+
+    .footer-skin-c .footer-nav li {
+        margin-bottom: 12px;
+    }
+
+    .footer-skin-c .footer-nav a {
+        color: #999;
+        text-decoration: none;
+    }
+
+    .footer-skin-c .footer-bottom {
+        padding-top: 40px;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        text-align: center;
+    }
+
+    .footer-skin-c .footer-copyright {
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.2);
+    }
+</style>
+
+<div class="footer-skin-c">
+    <div class="footer-container">
+        <div class="footer-grid">
+            <div class="grid-item branding">
+                {logo}
+                <p class="brand-desc">{slogan}</p>
+            </div>
+
+            <div class="grid-item contact">
+                <h3>Contact</h3>
+                <div class="info-group">
+                    <div class="info-item">
+                        <span class="label">{tel_name}</span>
+                        <span class="value"><a href="tel:{tel}">{tel}</a></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">{fax_name}</span>
+                        <span class="value">{fax}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">{email_name}</span>
+                        <span class="value"><a href="mailto:{email}">{email}</a></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-item location">
+                <h3>Location</h3>
+                <div class="info-item">
+                    <span class="label">{addr_name}</span>
+                    <p class="address-text">{addr}</p>
+                </div>
+            </div>
+
+            <div class="grid-item links">
+                <h3>Explore</h3>
+                <ul class="footer-nav">
+                    <li>{link1}</li>
+                    <li>{link2}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-copyright">
+                {copyright}
+            </div>
+        </div>
+    </div>
+</div>

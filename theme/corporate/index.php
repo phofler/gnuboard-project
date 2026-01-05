@@ -14,16 +14,29 @@ if (G5_COMMUNITY_USE === false) {
     return;
 }
 
+// [Multi-Language Support]
+// 1. Detect Language
+$lang = isset($_GET['lang']) ? $_GET['lang'] : 'kr';
+if (!defined('G5_LANG'))
+    define('G5_LANG', $lang);
+
 include_once(G5_THEME_PATH . '/head.php');
 include_once(G5_PLUGIN_PATH . '/main_image_manager/lib/main.lib.php');
 include_once(G5_PLUGIN_PATH . '/copyright_manager/lib.php');
 $cp_config = function_exists('get_copyright_config') ? get_copyright_config() : array();
+
+// 2. Construct Dynamic IDs
+// Main Visual: corporate (default) / corporate_en / corporate_jp
+$visual_id = $config['cf_theme'];
+if (G5_LANG != 'kr') {
+    $visual_id .= '_' . G5_LANG;
+}
 ?>
 
 <!-- Hero Section (Split Slider) -->
 <?php
 if (function_exists('display_main_visual')) {
-    display_main_visual();
+    display_main_visual($visual_id);
 }
 ?>
 
@@ -31,7 +44,8 @@ if (function_exists('display_main_visual')) {
 <?php
 include_once(G5_PLUGIN_PATH . '/main_content_manager/lib/main_content.lib.php');
 if (function_exists('display_main_content')) {
-    display_main_content();
+    // Pass Language Code to filter sections
+    display_main_content(G5_LANG);
 } else {
     ?>
     <section class="sec-product" id="product">
@@ -96,9 +110,14 @@ if (function_exists('display_main_content')) {
     <div class="container">
         <h2 data-aos="fade-up">Construction Case</h2>
         <?php
-        // 최신글 스킨: portfolio (Construction Case)
-        // latest('스킨명', '게시판ID', 출력개수, 제목길이);
-        echo latest('theme/portfolio', 'chamcode_gallery', 4, 30);
+        // [Plugin] Board Skin Manager - Widget ID 1 (Construction Case)
+        include_once(G5_PLUGIN_PATH . '/board_skin_manager/lib/board_skin.lib.php');
+        if (function_exists('display_board_skin_by_id')) {
+            display_board_skin_by_id(1);
+        } else {
+            // Fallback if plugin is missing
+            echo latest('theme/portfolio', 'chamcode_gallery', 4, 30);
+        }
         ?>
     </div>
 </section>

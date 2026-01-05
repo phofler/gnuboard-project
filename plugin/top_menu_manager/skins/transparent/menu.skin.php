@@ -59,20 +59,15 @@ add_stylesheet('<link rel="stylesheet" href="' . $menu_skin_url . '/style.css?v=
     </nav>
 
     <!-- Desktop Login/Utility Links -->
-    <ul class="hd_login"
-        style="display:flex; gap:20px; align-items:center; list-style:none; margin:0; padding:0; margin-right:20px;">
+    <ul class="hd_login">
         <?php if ($is_member) { ?>
-            <li><a href="<?php echo G5_BBS_URL ?>/logout.php"
-                    style="color:#fff; text-decoration:none; font-size:14px; font-weight:500;">LOGOUT</a></li>
+            <li><a href="<?php echo G5_BBS_URL ?>/logout.php">LOGOUT</a></li>
             <?php if ($is_admin) { ?>
-                <li><a href="<?php echo correct_goto_url(G5_ADMIN_URL); ?>"
-                        style="color:#fff; text-decoration:none; font-size:14px; font-weight:500;">ADMIN</a></li>
+                <li><a href="<?php echo correct_goto_url(G5_ADMIN_URL); ?>">ADMIN</a></li>
             <?php } ?>
         <?php } else { ?>
-            <li><a href="<?php echo G5_BBS_URL ?>/login.php"
-                    style="color:#fff; text-decoration:none; font-size:14px; font-weight:500;">LOGIN</a></li>
-            <li><a href="<?php echo G5_BBS_URL ?>/register.php"
-                    style="color:#fff; text-decoration:none; font-size:14px; font-weight:500;">JOIN</a></li>
+            <li><a href="<?php echo G5_BBS_URL ?>/login.php">LOGIN</a></li>
+            <li><a href="<?php echo G5_BBS_URL ?>/register.php">JOIN</a></li>
         <?php } ?>
     </ul>
 
