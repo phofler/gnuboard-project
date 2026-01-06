@@ -111,6 +111,7 @@ if (!defined('_INDEX_')) {
     // ------------------------------------------------------------------------
     $nav_1st_name = '';
     $nav_2nd_name = '';
+    $nav_3rd_name = '';
 
     if (isset($current_me_code) && $current_me_code) {
         $code_1st = substr($current_me_code, 0, 2);

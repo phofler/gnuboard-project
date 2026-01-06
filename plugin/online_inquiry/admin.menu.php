@@ -7,7 +7,7 @@ if (!defined('_GNUBOARD_'))
 if (isset($menu['menu300'])) {
 
     // 메뉴 아이디 생성 (중복 방지)
-    $menu_id = '300910';
+    $menu_id = '800300';
 
     // 메뉴 추가
     // array(메뉴ID, 메뉴명, 링크, 권한체크ID)

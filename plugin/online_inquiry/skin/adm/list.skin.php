@@ -14,21 +14,10 @@ $listall = '<a href="' . $_SERVER['SCRIPT_NAME'] . '" class="ov_listall">전체�
             class="ov_num"><?php echo number_format($total_count) ?>건</span></span>
 </div>
 
-<!-- Skin Selection Form -->
-<form name="fskin" method="post" action="./list.php"
-    style="margin:10px 0; padding:15px; border:1px solid #ddd; background:#f9f9f9;">
-    <input type="hidden" name="mode" value="save_skin">
-    <label for="skin" style="font-weight:bold; margin-right:10px;">사용자 스킨 선택:</label>
-    <select name="skin" id="skin" style="padding:5px;">
-        <?php foreach ($skins as $sk) { ?>
-            <option value="<?php echo $sk; ?>" <?php echo ($conf['skin'] == $sk) ? 'selected' : ''; ?>>
-                <?php echo $sk; ?>
-            </option>
-        <?php } ?>
-    </select>
-    <input type="submit" value="설정 저장" class="btn_submit" style="padding:5px 10px; margin-left:5px;">
-    <span style="color:#888; font-size:0.9em; margin-left:10px;">(현재: <?php echo $conf['skin']; ?>)</span>
-</form>
+<div class="btn_fixed_top">
+    <a href="./skin_list.php" class="btn_submit btn"
+        style="background-color:#ff3061; border-color:#ff3061; color:#fff;">스킨 관리/수정</a>
+</div>
 
 <form name="fsearch" id="fsearch" class="local_sch01 local_sch" method="get">
     <div class="sch_last">
@@ -41,20 +30,15 @@ $listall = '<a href="' . $_SERVER['SCRIPT_NAME'] . '" class="ov_listall">전체�
         <label for="stx" class="sound_only">검색어<strong class="sound_only"> 필수</strong></label>
         <input type="text" name="stx" value="<?php echo $stx ?>" id="stx" required class="required frm_input">
         <input type="submit" class="btn_submit" value="검색">
+
+        <input type="submit" form="fonline_inquiry_list" name="act_button" value="선택삭제"
+            onclick="document.pressed=this.value" class="btn btn_02" style="margin-left:5px; vertical-align:top;">
     </div>
 </form>
 
 <form name="fonline_inquiry_list" id="fonline_inquiry_list" action="./list_update.php"
     onsubmit="return fonline_inquiry_list_submit(this);" method="post">
     <input type="hidden" name="token" value="<?php echo get_admin_token(); ?>">
-
-    <div class="btn_fixed_top">
-        <!-- 삭제 버튼을 관리 버튼 위쪽(우측 상단)에 위치 -->
-        <div style="float:right; margin-bottom:5px;">
-            <input type="submit" name="act_button" value="선택삭제" onclick="document.pressed=this.value"
-                class="btn btn_02">
-        </div>
-    </div>
 
     <div class="tbl_head01 tbl_wrap">
         <table>
@@ -66,6 +50,7 @@ $listall = '<a href="' . $_SERVER['SCRIPT_NAME'] . '" class="ov_listall">전체�
                         <input type="checkbox" name="chkall" value="1" id="chkall" onclick="check_all(this.form)">
                     </th>
                     <th scope="col" style="width: 50px;">번호</th>
+                    <th scope="col" style="width: 120px;">출처 (테마/언어)</th>
                     <th scope="col" style="width: 100px;">이름</th>
                     <th scope="col" style="width: 150px;">연락처</th>
                     <th scope="col">제목</th>
@@ -87,6 +72,19 @@ $listall = '<a href="' . $_SERVER['SCRIPT_NAME'] . '" class="ov_listall">전체�
                                 id="chk_<?php echo $i; ?>">
                         </td>
                         <td class="td_num"><?php echo $row['id']; ?></td>
+                        <td class="td_center">
+                            <?php
+                            $th = isset($row['theme']) ? $row['theme'] : '';
+                            $lg = isset($row['lang']) ? $row['lang'] : '';
+
+                            if ($th)
+                                echo '<span style="font-weight:bold;">' . $th . '</span>';
+                            if ($lg)
+                                echo ' <span style="font-size:11px; color:#888;">(' . strtoupper($lg) . ')</span>';
+                            if (!$th && !$lg)
+                                echo '-';
+                            ?>
+                        </td>
                         <td class="td_left"><?php echo get_text($row['name']); ?></td>
                         <td class="td_left"><?php echo get_text($row['contact']); ?></td>
                         <td class="td_left"><?php echo get_text($row['subject']); ?></td>

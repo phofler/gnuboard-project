@@ -139,7 +139,7 @@ if (function_exists('display_main_content')) {
             </div>
             <div class="inquiry-form">
                 <?php
-                $online_inquiry_skin = 'corporate'; // 테마 전용 스킨 사용
+                // 스킨 설정은 관리자 페이지의 설정을 따름
                 include_once(G5_PLUGIN_PATH . '/online_inquiry/form.php');
                 ?>
             </div>

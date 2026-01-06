@@ -53,6 +53,8 @@ if ($w == '') {
                     co_datetime = '" . G5_TIME_YMDHIS . "' 
                 where co_id = '{$old_co_id}' ";
     sql_query($sql);
+
+    sql_query($sql);
 }
 
 goto_url('./write.php?w=u&co_id=' . $co_id);

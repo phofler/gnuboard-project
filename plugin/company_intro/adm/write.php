@@ -235,12 +235,13 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                             <input type="text" name="co_custom" id="co_custom" value="<?php echo $sel_custom; ?>"
                                 class="frm_input" placeholder="커스텀 이름 (선택)" onkeyup="generate_co_id()">
                         </div>
-                        <div style="margin-top:8px; font-size:12px; color:#666;">
+                        <div
+                            style="margin-top:8px; font-size:12px; color:#666; padding:10px; background:#f9f9f9; border:1px solid #eee; display:inline-block;">
                             생성된 식별코드(ID): <strong id="generated_id_display"
-                                style="color:#d4af37;"><?php echo $co['co_id']; ?></strong>
-                            <p style="margin-top:5px; color:#888;">테마와 언어를 선택하면 식별코드가 자동으로 생성됩니다. (예:
-                                corporate_en_history)</p>
+                                style="color:#d4af37; font-size:1.1em;"><?php echo $co['co_id'] ? $co['co_id'] : '-'; ?></strong>
                         </div>
+                        <p style="margin-top:5px; color:#888; font-size:12px;">테마와 언어를 선택하면 식별코드가 자동으로 생성됩니다. (예:
+                            corporate_en_history)</p>
                         <input type="hidden" name="co_id" id="co_id" value="<?php echo $co['co_id']; ?>">
                     </td>
                 </tr>
@@ -413,7 +414,11 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                             <input type="hidden" name="co_skin" id="co_skin" value="<?php echo $co['co_skin']; ?>">
 
                             <div class="skin-category-title"><i class="fa fa-building" style="color:#3498db;"></i> 회사개요 /
-                                인사말 / 비젼</div>
+                                인사말 / 비젼
+                                <a href="../?co_id=<?php echo $co['co_id']; ?>" target="_blank" class="btn btn_02"
+                                    style="float:right; font-weight:normal; font-size:12px; padding:5px 10px;">페이지 보기 <i
+                                        class="fa fa-external-link-alt"></i></a>
+                            </div>
                             <div class="skin-selector-container">
                                 <?php
                                 $skins_v1 = array(
@@ -489,19 +494,20 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                         <?php } ?>
                     </td>
                 </tr>
-                <!-- [HIDDEN] Background Color Selection: Forced to Theme Inheritance
                 <tr>
                     <th scope="row"><label for="co_bgcolor">배경색 선택</label></th>
                     <td>
-                        <div class="color_picker_wrapper">
-                            <input type="color" name="co_bgcolor"
+                        <div class="color_picker_wrapper" style="display:flex; align-items:center; gap:10px;">
+                            <input type="color" id="co_bgcolor_picker"
                                 value="<?php echo $co['co_bgcolor'] ? $co['co_bgcolor'] : '#000000'; ?>"
-                                id="co_bgcolor">
+                                onchange="$('#co_bgcolor').val(this.value); update_editor_background(this.value);">
+                            <input type="text" name="co_bgcolor" value="<?php echo $co['co_bgcolor']; ?>"
+                                id="co_bgcolor" class="frm_input" size="10" placeholder="기본값 (Transparent)">
+                            <button type="button" class="btn btn_02 btn_sm" onclick="reset_bgcolor()">기본값으로 복원</button>
                         </div>
-                        <span class="frm_info">이 페이지의 배경색을 선택하세요. 본문 글자색은 배경색에 따라 자동(흰색/검정)으로 보정되거나 스킨 스타일을 따릅니다.</span>
+                        <span class="frm_info">이 페이지의 배경색을 선택하세요. '기본값으로 복원'을 누르면 테마의 기본 배경색(투명/PC설정)을 따릅니다.</span>
                     </td>
                 </tr>
-                -->
                 <tr>
                     <th scope="row">이미지 교체</th>
                     <td>
@@ -529,21 +535,26 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
 
 <script>
     // 에디터 배경색 실시간 변경 (전역 함수로 정의 - onclick 호출 가능하도록)
+    // 에디터 배경색 실시간 변경 (전역 함수로 정의 - onclick 호출 가능하도록)
     function update_editor_background(color) {
         if (typeof oEditors !== 'undefined' && oEditors.getById["co_content"]) {
             try {
                 // SmartEditor2의 편집 영역(iframe 내부 body) 접근
                 var doc = oEditors.getById["co_content"].getWYSIWYGDocument();
 
-                // 1. Background Color - [FORCE THEME DARK]
-                // 사용자가 선택한 색상이 있어도 '일관성'을 위해 테마 기본색을 우선시하거나,
-                // 입력폼에서 투명하게 처리하고 여기서 강제할 수 있습니다.
-                // 여기서는 인자로 넘어온 color를 무시하고 테마색을 적용합니다. (사용자 요청 반영)
-                var themeColor = "#121212";
-                doc.body.style.backgroundColor = themeColor;
+                // 1. Background Color Logic
+                var targetColor = color;
+
+                // If color is empty or null, we treat it as 'Theme Default'
+                if (!targetColor) {
+                    // [FIX] Use #121212 (Dark Theme Default) for preview instead of transparent
+                    // This ensures WYSIWYG matches the frontend where body bg is dark
+                    targetColor = "#121212";
+                }
+
+                doc.body.style.backgroundColor = targetColor;
 
                 // 2. Inject Theme CSS (For Variables & Fonts)
-                // Avoid Duplicate Injection
                 if (!doc.getElementById('theme_css_injection')) {
                     var link = doc.createElement('link');
                     link.id = 'theme_css_injection';
@@ -552,7 +563,7 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                     doc.head.appendChild(link);
                 }
 
-                // 3. Inject Font CSS (If separate)
+                // 3. Inject Font CSS
                 if (!doc.getElementById('font_css_injection')) {
                     var link = doc.createElement('link');
                     link.id = 'font_css_injection';
@@ -561,13 +572,28 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                     doc.head.appendChild(link);
                 }
 
-                // 4. Force Text Color for Visibility
-                doc.body.style.color = "#e0e0e0";
+                // 4. Adjust Text Color based on background brightness (Simple check)
+                // If specific color set (not transparent/default)
+                if (targetColor !== 'transparent' && targetColor.indexOf('#') === 0) {
+                    // Simple logic: if user picks color, we rely on them to pick text color or skin handles it.
+                    // But for preview, let's reset to a readable default if it was black
+                    doc.body.style.color = "#e0e0e0";
+                } else {
+                    // Default theme mode
+                    doc.body.style.color = ""; // Reset to CSS default
+                }
 
             } catch (e) {
                 console.log("에디터 로딩 중이거나 접근 불가: " + e);
             }
         }
+    }
+
+    function reset_bgcolor() {
+        $('#co_bgcolor').val('');
+        // [FIX] Reset visual to Theme Default (Dark: #121212)
+        $('#co_bgcolor_picker').val('#121212');
+        update_editor_background('');
     }
 
     function change_skin(skin_name) {
@@ -719,19 +745,21 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
     function generate_co_id() {
         var theme = $('#co_theme').val();
         var lang = $('#co_lang').val();
-        var custom = $('#co_custom').val();
+        var custom = $('#co_custom').val().trim();
 
         if (!theme) {
             $('#generated_id_display').text('-');
+            $('#co_id').val('');
             return;
         }
 
         var id = theme;
         if (lang && lang != 'kr') id += '_' + lang;
-        if (custom) id += '_' + custom;
+        if (custom) id += '_' + custom.replace(/[^a-z0-9_]/gi, '');
 
         $('#generated_id_display').text(id);
         $('#co_id').val(id).trigger('blur');
+        is_checked_id = true; // Auto-generated ID is considered checked
     }
 
     function fcompanyform_submit(f) {
@@ -748,7 +776,7 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
 
     $(document).ready(function () {
         $('#co_bgcolor').on('input change', function () {
-            update_editor_background(); // Ignore value, enforce theme
+            update_editor_background($(this).val());
         });
 
         // [Editor Height Resize] 에디터 높이 3배(1000px) 확장 - 강력 적용 (내부 요소까지)
@@ -780,7 +808,7 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
         }
 
         // 반복 시도
-        setTimeout(function () { update_editor_background(); forceResizeEditor(); }, 500);
+        setTimeout(function () { update_editor_background($('#co_bgcolor').val()); forceResizeEditor(); }, 500);
         setTimeout(forceResizeEditor, 1500);
         setTimeout(forceResizeEditor, 3000);
 
@@ -811,6 +839,15 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                 }
             });
         });
+        // [Fix] ID Generation Listeners
+        $('#co_theme, #co_lang, #co_custom').on('change keyup input', function () {
+            generate_co_id();
+        });
+
+        // Initialize on load if ID is empty (New Mode)
+        if ($('#co_id').val() == '') {
+            generate_co_id();
+        }
     });
 </script>
 

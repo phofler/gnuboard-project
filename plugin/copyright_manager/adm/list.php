@@ -32,7 +32,8 @@ $result = sql_query($sql);
 </div>
 
 <div class="btn_fixed_top">
-    <a href="./write.php" class="btn btn_01">카피라이트 추가</a>
+    <a href="./write.php" class="btn_submit btn"
+        style="background-color:#ff3061; border-color:#ff3061; color:#fff;">카피라이트 추가</a>
 </div>
 
 <div class="tbl_head01 tbl_wrap">
@@ -84,125 +85,6 @@ $result = sql_query($sql);
         </tbody>
     </table>
 </div>
-
-<?php
-// Fetch Default data for Quick Info Manager
-$default = sql_fetch(" select * from {$table_name} where cp_id = 'default' ");
-?>
-
-<h2 class="h2_frm" style="margin-top:30px;">하단 정보 관리 (개별 항목) <span class="frm_info"
-        style="font-weight:normal; font-size:12px; margin-left:10px;">ID: default 데이터가 반영됩니다.</span></h2>
-<form name="fquickconfig" id="fquickconfig" action="./list_update.php" method="post" enctype="multipart/form-data">
-    <div class="tbl_frm01 tbl_wrap">
-        <table>
-            <colgroup>
-                <col class="grid_4">
-                <col>
-            </colgroup>
-            <tbody>
-                <tr>
-                    <th scope="row">하단 로고</th>
-                    <td>
-                        <input type="file" name="logo_file" id="logo_file">
-                        <span class="frm_info">권장: PNG 투명 배경. (기존 로고를 유지하려면 비워두세요)</span>
-                        <?php if ($default['logo_url']) { ?>
-                            <div style="margin-top:10px; background:#333; padding:10px; display:inline-block;">
-                                <img src="<?php echo $default['logo_url']; ?>?v=<?php echo time(); ?>"
-                                    style="max-height:40px;">
-                            </div>
-                        <?php } ?>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">사훈 (슬로건)</th>
-                    <td>
-                        <input type="text" name="slogan" value="<?php echo $default['slogan']; ?>" id="slogan"
-                            class="frm_input" style="width:100%;">
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">주소 (Address)</th>
-                    <td>
-                        <label for="addr_label">명칭</label>
-                        <input type="text" name="addr_label" value="<?php echo $default['addr_label']; ?>"
-                            id="addr_label" class="frm_input" size="15">
-                        <label for="addr_val" style="margin-left:20px;">내용</label>
-                        <input type="text" name="addr_val" value="<?php echo $default['addr_val']; ?>" id="addr_val"
-                            class="frm_input" size="60">
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">연락처 (Tel)</th>
-                    <td>
-                        <label for="tel_label">명칭</label>
-                        <input type="text" name="tel_label" value="<?php echo $default['tel_label']; ?>" id="tel_label"
-                            class="frm_input" size="15">
-                        <label for="tel_val" style="margin-left:20px;">내용</label>
-                        <input type="text" name="tel_val" value="<?php echo $default['tel_val']; ?>" id="tel_val"
-                            class="frm_input" size="60">
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">팩스 (Fax)</th>
-                    <td>
-                        <label for="fax_label">명칭</label>
-                        <input type="text" name="fax_label" value="<?php echo $default['fax_label']; ?>" id="fax_label"
-                            class="frm_input" size="15">
-                        <label for="fax_val" style="margin-left:20px;">내용</label>
-                        <input type="text" name="fax_val" value="<?php echo $default['fax_val']; ?>" id="fax_val"
-                            class="frm_input" size="60">
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">이메일 (Email)</th>
-                    <td>
-                        <label for="email_label">명칭</label>
-                        <input type="text" name="email_label" value="<?php echo $default['email_label']; ?>"
-                            id="email_label" class="frm_input" size="15">
-                        <label for="email_val" style="margin-left:20px;">내용</label>
-                        <input type="text" name="email_val" value="<?php echo $default['email_val']; ?>" id="email_val"
-                            class="frm_input" size="60">
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">링크 1 (Link 1)</th>
-                    <td>
-                        <label for="link1_name">명칭</label>
-                        <input type="text" name="link1_name" value="<?php echo $default['link1_name']; ?>"
-                            id="link1_name" class="frm_input" size="15">
-                        <label for="link1_url" style="margin-left:20px;">URL</label>
-                        <input type="text" name="link1_url" value="<?php echo $default['link1_url']; ?>" id="link1_url"
-                            class="frm_input" size="60">
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">링크 2 (Link 2)</th>
-                    <td>
-                        <label for="link2_name">명칭</label>
-                        <input type="text" name="link2_name" value="<?php echo $default['link2_name']; ?>"
-                            id="link2_name" class="frm_input" size="15">
-                        <label for="link2_url" style="margin-left:20px;">URL</label>
-                        <input type="text" name="link2_url" value="<?php echo $default['link2_url']; ?>" id="link2_url"
-                            class="frm_input" size="60">
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">카피라이트 (Copyright)</th>
-                    <td>
-                        <textarea name="copyright" id="copyright" class="frm_input"
-                            style="width:100%; height:80px;"><?php echo $default['copyright']; ?></textarea>
-                    </td>
-                </tr>
-
-                <input type="hidden" name="cp_content" value="<?php echo htmlspecialchars($default['cp_content']); ?>">
-            </tbody>
-        </table>
-    </div>
-
-    <div class="btn_confirm01 btn_confirm">
-        <input type="submit" value="하단 정보 일괄 저장" class="btn_submit">
-    </div>
-</form>
 
 <script>
     function delete_confirm(el) {

@@ -34,10 +34,7 @@ $result = sql_query($sql);
 </div>
 
 <div class="btn_fixed_top">
-    <a href="./write.php" class="btn btn_01"
-        style="background:#ff3061; color:#fff; border:none; padding:10px 20px; border-radius:4px; font-weight:800;">
-        <i class="fa fa-plus"></i> 회사소개 추가
-    </a>
+    <a href="./write.php" class="btn_submit btn">회사소개 추가</a>
 </div>
 
 <div class="tbl_head01 tbl_wrap">
@@ -70,12 +67,16 @@ $result = sql_query($sql);
                     <td class="td_id" style="font-weight:bold; color:#777;"><?php echo $row['co_id']; ?></td>
                     <td class="td_subject" style="padding-left:15px;"><?php echo $row['co_subject']; ?></td>
                     <td class="td_category td_center" style="text-transform:uppercase; font-size:11px;">
-                        <?php echo $row['co_skin']; ?></td>
+                        <?php echo $row['co_skin']; ?>
+                    </td>
                     <td class="td_datetime td_center"><?php echo $row['co_datetime']; ?></td>
                     <td class="td_mng td_center">
-                        <a href="<?php echo $update_href; ?>" class="btn btn_03">수정</a>
-                        <a href="<?php echo $delete_href; ?>" onclick="return delete_confirm(this);"
-                            class="btn btn_02">삭제</a>
+                        <a href="../?co_id=<?php echo $row['co_id']; ?>" target="_blank" class="btn btn_02"
+                            style="font-size:11px; padding:3px 8px;">보기</a>
+                        <a href="<?php echo $update_href; ?>" class="btn btn_03"
+                            style="font-size:11px; padding:3px 8px;">수정</a>
+                        <a href="<?php echo $delete_href; ?>" onclick="return delete_confirm(this);" class="btn btn_02"
+                            style="font-size:11px; padding:3px 8px;">삭제</a>
                     </td>
                 </tr>
                 <?php

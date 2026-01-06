@@ -3,10 +3,11 @@ include_once('./_common.php');
 
 $table_name = G5_TABLE_PREFIX . 'plugin_copyright';
 
-if ($w == 'u') {
-    $cp_id = $_POST['cp_id'];
-} else {
-    $cp_id = $_POST['cp_id'];
+$cp_id = isset($_POST['cp_id']) ? clean_xss_tags($_POST['cp_id']) : '';
+if (!$cp_id)
+    alert('ID가 전달되지 않았습니다.');
+
+if ($w != 'u') {
     // Check for duplicate ID
     $row = sql_fetch(" select count(*) as cnt from {$table_name} where cp_id = '{$cp_id}' ");
     if ($row['cnt'] > 0) {
@@ -14,7 +15,7 @@ if ($w == 'u') {
     }
 }
 
-$logo_url = $_POST['logo_url'];
+$logo_url = isset($_POST['logo_url']) ? $_POST['logo_url'] : '';
 
 // Logo Upload
 if (isset($_FILES['logo_file']['name']) && is_uploaded_file($_FILES['logo_file']['tmp_name'])) {
@@ -25,7 +26,7 @@ if (isset($_FILES['logo_file']['name']) && is_uploaded_file($_FILES['logo_file']
     }
 
     if (preg_match("/\.(jpg|jpeg|gif|png)$/i", $_FILES['logo_file']['name'])) {
-        $filename = 'footer_logo_' . $cp_id . '.' . pathinfo($_FILES['logo_file']['name'], PATHINFO_EXTENSION);
+        $filename = 'footer_logo_' . preg_replace("/[^a-z0-9_]/i", "", $cp_id) . '.' . pathinfo($_FILES['logo_file']['name'], PATHINFO_EXTENSION);
         $dest_file = $data_path . '/' . $filename;
         move_uploaded_file($_FILES['logo_file']['tmp_name'], $dest_file);
         chmod($dest_file, G5_FILE_PERMISSION);
@@ -33,38 +34,26 @@ if (isset($_FILES['logo_file']['name']) && is_uploaded_file($_FILES['logo_file']
     }
 }
 
-$sql_common = " cp_subject = '{$_POST['cp_subject']}',
-                logo_url = '{$logo_url}',
-                cp_content = '{$_POST['cp_content']}',
-                cp_skin = '{$_POST['cp_skin']}',
-                cp_bgcolor = '{$_POST['cp_bgcolor']}',
+$sql_common = " cp_subject = '" . addslashes($_POST['cp_subject']) . "',
+                logo_url = '" . addslashes($logo_url) . "',
+                slogan = '" . addslashes($_POST['slogan']) . "',
+                addr_label = '" . addslashes($_POST['addr_label']) . "',
+                addr_val = '" . addslashes($_POST['addr_val']) . "',
+                tel_label = '" . addslashes($_POST['tel_label']) . "',
+                tel_val = '" . addslashes($_POST['tel_val']) . "',
+                fax_label = '" . addslashes($_POST['fax_label']) . "',
+                fax_val = '" . addslashes($_POST['fax_val']) . "',
+                email_label = '" . addslashes($_POST['email_label']) . "',
+                email_val = '" . addslashes($_POST['email_val']) . "',
+                link1_name = '" . addslashes($_POST['link1_name']) . "',
+                link1_url = '" . addslashes($_POST['link1_url']) . "',
+                link2_name = '" . addslashes($_POST['link2_name']) . "',
+                link2_url = '" . addslashes($_POST['link2_url']) . "',
+                copyright = '" . addslashes($_POST['copyright']) . "',
+                cp_content = '" . addslashes($_POST['cp_content']) . "',
+                cp_skin = '" . addslashes($_POST['cp_skin']) . "',
+                cp_bgcolor = '" . addslashes($_POST['cp_bgcolor']) . "',
                 cp_datetime = '" . G5_TIME_YMDHIS . "' ";
-
-// Only update structured fields if they exist in the POST (to support both consolidated and streamlined views)
-if (isset($_POST['addr_val'])) {
-    $sql_common .= ", addr_label = '{$_POST['addr_label']}', addr_val = '{$_POST['addr_val']}' ";
-}
-if (isset($_POST['tel_val'])) {
-    $sql_common .= ", tel_label = '{$_POST['tel_label']}', tel_val = '{$_POST['tel_val']}' ";
-}
-if (isset($_POST['fax_val'])) {
-    $sql_common .= ", fax_label = '{$_POST['fax_label']}', fax_val = '{$_POST['fax_val']}' ";
-}
-if (isset($_POST['email_val'])) {
-    $sql_common .= ", email_label = '{$_POST['email_label']}', email_val = '{$_POST['email_val']}' ";
-}
-if (isset($_POST['slogan'])) {
-    $sql_common .= ", slogan = '{$_POST['slogan']}' ";
-}
-if (isset($_POST['copyright'])) {
-    $sql_common .= ", copyright = '{$_POST['copyright']}' ";
-}
-if (isset($_POST['link1_name'])) {
-    $sql_common .= ", link1_name = '{$_POST['link1_name']}', link1_url = '{$_POST['link1_url']}' ";
-}
-if (isset($_POST['link2_name'])) {
-    $sql_common .= ", link2_name = '{$_POST['link2_name']}', link2_url = '{$_POST['link2_url']}' ";
-}
 
 if ($w == 'u') {
     $sql = " update {$table_name} set {$sql_common} where cp_id = '{$cp_id}' ";

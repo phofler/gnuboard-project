@@ -7,49 +7,16 @@ if (!defined('G5_ADMIN_PATH')) {
     define('G5_ADMIN_PATH', G5_PATH . '/adm');
 }
 include_once(G5_ADMIN_PATH . '/admin.lib.php');
+include_once(dirname(__FILE__) . '/../install.php'); // Ensure DB tables/columns exist
 
 auth_check_menu($auth, $sub_menu, 'r');
 
 $g5['title'] = '온라인 문의 관리';
 
-// --- SKIN CONFIGURATION LOGIC ---
-$config_file = dirname(__FILE__) . '/../config.php';
-
-// Save
-if (isset($_POST['mode']) && $_POST['mode'] == 'save_skin') {
-    $skin_val = isset($_POST['skin']) ? trim($_POST['skin']) : 'basic';
-    $content = "<?php\nif (!defined('_GNUBOARD_')) exit;\n\$online_inquiry_conf = array('skin' => '" . $skin_val . "');\n";
-    $fp = fopen($config_file, 'w');
-    fwrite($fp, $content);
-    fclose($fp);
-    // Safe Alert & Redirect
-    echo "<script>alert('스킨 설정이 저장되었습니다.'); location.href='./list.php';</script>";
-    exit;
-}
-
-// Load
-$conf = array('skin' => 'basic');
-if (file_exists($config_file)) {
-    include($config_file);
-    if (isset($online_inquiry_conf))
-        $conf = $online_inquiry_conf;
-}
-
-// Scan
-$skin_dir = dirname(__FILE__) . '/../skin/user';
-$skins = array();
-if (is_dir($skin_dir)) {
-    $dir = dir($skin_dir);
-    while ($entry = $dir->read()) {
-        if ($entry != '.' && $entry != '..') {
-            if (is_dir($skin_dir . '/' . $entry))
-                $skins[] = $entry;
-        }
-    }
-    $dir->close();
-}
-sort($skins);
+// --- SKIN CONFIGURATION ---
+// Configuration is now managed in skin_list.php
 // --------------------------------
+
 
 // DB 테이블
 $write_table = G5_PLUGIN_ONLINE_INQUIRY_TABLE;

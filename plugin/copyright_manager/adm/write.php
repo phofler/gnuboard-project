@@ -1,5 +1,6 @@
 <?php
 include_once('./_common.php');
+include_once('../lib.php');
 include_once(G5_EDITOR_LIB);
 
 $sub_menu = "800350";
@@ -87,13 +88,54 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
             </colgroup>
             <tbody>
                 <tr>
-                    <th scope="row"><label for="cp_id">ID (식별코드)</label></th>
+                    <th scope="row">식별코드 (ID)</th>
                     <td>
-                        <input type="text" name="cp_id" value="<?php echo $cp['cp_id']; ?>" id="cp_id" required
-                            class="frm_input <?php echo $readonly ? 'readonly' : ''; ?>" <?php echo $readonly; ?>
-                            size="20">
-                        <?php if ($w == '')
-                            echo '<span class="frm_info">중복되지 않는 영문 코드를 입력하세요. <strong>팁: 사용 중인 테마명(예: corporate, corporate_light)과 똑같이 만들면 해당 테마에서 자동으로 매칭됩니다.</strong></span>'; ?>
+                        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                            <?php
+                            $theme_name = (isset($config['cf_theme']) && $config['cf_theme']) ? $config['cf_theme'] : 'default';
+                            // Extract components if already exists
+                            $current_id = $cp['cp_id'];
+                            $sel_theme = '';
+                            $sel_lang = '';
+                            $sel_id = '';
+
+                            if ($current_id == 'default') {
+                                $sel_id = 'default';
+                            } else {
+                                // Simple extraction for defaults
+                                if (strpos($current_id, $theme_name) === 0) {
+                                    $sel_theme = $theme_name;
+                                    $after_theme = substr($current_id, strlen($theme_name) + 1);
+                                    if ($after_theme == 'ko' || $after_theme == 'en') {
+                                        $sel_lang = $after_theme;
+                                    } else {
+                                        $sel_id = $current_id;
+                                    }
+                                } else {
+                                    $sel_id = $current_id;
+                                }
+                            }
+                            ?>
+                            <select id="theme_select" class="frm_input" onchange="generate_id()" <?php echo $readonly ? 'disabled' : ''; ?>>
+                                <option value="">테마 선택</option>
+                                <option value="<?php echo $theme_name; ?>" <?php echo ($sel_theme == $theme_name) ? 'selected' : ''; ?>>현재 테마 (<?php echo $theme_name; ?>)</option>
+                                <option value="custom" <?php echo ($sel_id && $sel_id != 'default' && !$sel_theme) ? 'selected' : ''; ?>>직접 입력</option>
+                            </select>
+
+                            <select id="lang_select" class="frm_input" onchange="generate_id()" <?php echo $readonly ? 'disabled' : ''; ?>>
+                                <option value="">언어 선택</option>
+                                <option value="ko" <?php echo $sel_lang == 'ko' ? 'selected' : ''; ?>>한국어 (KR)</option>
+                                <option value="en" <?php echo $sel_lang == 'en' ? 'selected' : ''; ?>>영어 (EN)</option>
+                            </select>
+
+                            <input type="text" name="cp_id" value="<?php echo $current_id; ?>" id="cp_id" required
+                                class="frm_input <?php echo $readonly ? 'readonly' : ''; ?>" <?php echo $readonly; ?>
+                                size="20" placeholder="결과 ID">
+
+                            <?php if ($w == ''): ?>
+                                <span class="frm_info">테마와 언어를 선택하면 ID가 자동 생성됩니다.</span>
+                            <?php endif; ?>
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -101,6 +143,108 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                     <td>
                         <input type="text" name="cp_subject" value="<?php echo $cp['cp_subject']; ?>" id="cp_subject"
                             required class="frm_input" size="60">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th scope="row">하단 정보 (Quick Info)</th>
+                    <td>
+                        <div style="background:#f9f9f9; padding:20px; border-radius:8px; border:1px solid #eee;">
+                            <div style="margin-bottom:15px;">
+                                <label style="display:inline-block; width:120px; font-weight:bold;">하단 로고</label>
+                                <input type="file" name="logo_file" id="logo_file" class="frm_input">
+                                <?php if ($cp['logo_url']): ?>
+                                    <div
+                                        style="margin-top:5px; background:#333; display:inline-block; padding:5px; border-radius:4px;">
+                                        <img src="<?php echo $cp['logo_url']; ?>" style="max-height:30px;">
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+
+                            <div style="margin-bottom:15px;">
+                                <label for="slogan"
+                                    style="display:inline-block; width:120px; font-weight:bold;">슬로건</label>
+                                <input type="text" name="slogan" value="<?php echo $cp['slogan'] ?? ''; ?>" id="slogan"
+                                    class="frm_input" size="60">
+                            </div>
+
+                            <div style="display:flex; gap:20px; margin-bottom:15px;">
+                                <div style="flex:1;">
+                                    <label for="addr_val" style="display:block; font-weight:bold; margin-bottom:5px;">주소
+                                        (Address)</label>
+                                    <input type="text" name="addr_label"
+                                        value="<?php echo ($cp['addr_label'] ?? '') ?: 'ADD'; ?>" class="frm_input"
+                                        size="10" placeholder="라벨">
+                                    <input type="text" name="addr_val" value="<?php echo $cp['addr_val'] ?? ''; ?>"
+                                        id="addr_val" class="frm_input" style="width:calc(100% - 100px);"
+                                        placeholder="내용">
+                                </div>
+                                <div style="flex:1;">
+                                    <label for="tel_val" style="display:block; font-weight:bold; margin-bottom:5px;">연락처
+                                        (Tel)</label>
+                                    <input type="text" name="tel_label"
+                                        value="<?php echo ($cp['tel_label'] ?? '') ?: 'TEL'; ?>" class="frm_input"
+                                        size="10" placeholder="라벨">
+                                    <input type="text" name="tel_val" value="<?php echo $cp['tel_val'] ?? ''; ?>"
+                                        id="tel_val" class="frm_input" style="width:calc(100% - 100px);"
+                                        placeholder="내용">
+                                </div>
+                            </div>
+
+                            <div style="display:flex; gap:20px; margin-bottom:15px;">
+                                <div style="flex:1;">
+                                    <label for="fax_val" style="display:block; font-weight:bold; margin-bottom:5px;">팩스
+                                        (Fax)</label>
+                                    <input type="text" name="fax_label"
+                                        value="<?php echo ($cp['fax_label'] ?? '') ?: 'FAX'; ?>" class="frm_input"
+                                        size="10" placeholder="라벨">
+                                    <input type="text" name="fax_val" value="<?php echo $cp['fax_val'] ?? ''; ?>"
+                                        id="fax_val" class="frm_input" style="width:calc(100% - 100px);"
+                                        placeholder="내용">
+                                </div>
+                                <div style="flex:1;">
+                                    <label for="email_val"
+                                        style="display:block; font-weight:bold; margin-bottom:5px;">이메일 (Email)</label>
+                                    <input type="text" name="email_label"
+                                        value="<?php echo ($cp['email_label'] ?? '') ?: 'EMAIL'; ?>" class="frm_input"
+                                        size="10" placeholder="라벨">
+                                    <input type="text" name="email_val" value="<?php echo $cp['email_val'] ?? ''; ?>"
+                                        id="email_val" class="frm_input" style="width:calc(100% - 100px);"
+                                        placeholder="내용">
+                                </div>
+                            </div>
+
+                            <div style="display:flex; gap:20px;">
+                                <div style="flex:1;">
+                                    <label for="link1_url"
+                                        style="display:block; font-weight:bold; margin-bottom:5px;">링크 1 (Privacy Policy
+                                        등)</label>
+                                    <input type="text" name="link1_name" value="<?php echo $cp['link1_name'] ?? ''; ?>"
+                                        class="frm_input" size="15" placeholder="링크명">
+                                    <input type="text" name="link1_url" value="<?php echo $cp['link1_url'] ?? ''; ?>"
+                                        id="link1_url" class="frm_input" style="width:calc(100% - 140px);"
+                                        placeholder="URL">
+                                </div>
+                                <div style="flex:1;">
+                                    <label for="link2_url"
+                                        style="display:block; font-weight:bold; margin-bottom:5px;">링크 2 (Terms
+                                        등)</label>
+                                    <input type="text" name="link2_name" value="<?php echo $cp['link2_name'] ?? ''; ?>"
+                                        class="frm_input" size="15" placeholder="링크명">
+                                    <input type="text" name="link2_url" value="<?php echo $cp['link2_url'] ?? ''; ?>"
+                                        id="link2_url" class="frm_input" style="width:calc(100% - 140px);"
+                                        placeholder="URL">
+                                </div>
+                            </div>
+
+                            <div style="margin-top:15px;">
+                                <label for="copyright"
+                                    style="display:inline-block; width:120px; font-weight:bold;">카피라이트 문구</label>
+                                <input type="text" name="copyright" value="<?php echo $cp['copyright'] ?? ''; ?>"
+                                    id="copyright" class="frm_input" size="80">
+                            </div>
+                            <input type="hidden" name="logo_url" value="<?php echo $cp['logo_url'] ?? ''; ?>">
+                        </div>
                     </td>
                 </tr>
 
@@ -203,7 +347,8 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                         onchange="load_template(this.value)">
                                     <label for="skin_d">
                                         <span class="skin-name">Style D</span>
-                                        <span class="skin-desc" style="color:#ff3b30; font-weight:bold;">Editorial Bold</span>
+                                        <span class="skin-desc" style="color:#ff3b30; font-weight:bold;">Editorial
+                                            Bold</span>
                                     </label>
                                 </div>
                             </div>
@@ -248,61 +393,11 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                 <tr>
                     <th scope="row">에디터 내용</th>
                     <td>
-                        <div class="frm_info" style="margin-bottom:10px;">
-                            <strong>TIP</strong>: [리스트 페이지] 하단의 '하단 정보 관리'에서 설정한 내용을 자동으로 가져오려면 다음 치환자를 사용하세요.<br>
-                            주소: {addr} | 연락처: {tel} | 팩스: {fax} | 이메일: {email} | 로고: {logo} | 카피라이트: {copyright} | 링크:
-                            {link1}, {link2}<br>
-                            <span style="color:#3498db;">※ 현재 활성화된 테마(<?php echo $config['cf_theme']; ?>)와 동일한 ID로 생성하면
-                                별도 설정 없이 자동으로 노출됩니다.</span>
+                        <div class="frm_info" style="margin-bottom:10px; color:#2980b9;">
+                            ※ 위 하단 정보(Quick Info)에 입력한 내용은 <strong>{addr}, {tel}, {fax}, {email}, {logo}, {copyright},
+                                {link1}, {link2}</strong> 치환자로 자동 치환되어 에디터에 로드됩니다.
                         </div>
-                        <?php
-                        // Fetch Default Config for Substitution
-                        $default_cp = sql_fetch(" select * from {$table_name} where cp_id = 'default' ");
-
-                        // Content to be displayed in Editor
-                        $editor_content = $cp['cp_content'];
-
-                        // If it's a new entry (w=''), start with default content if valid
-                        if ($w == '' && $default_cp['cp_content']) {
-                            $editor_content = $default_cp['cp_content'];
-                        }
-
-                        // Variable Substitution Logic (User Request: Show actual values in editor)
-                        if ($default_cp) {
-                            $replacements = array(
-                                '{addr}' => $default_cp['addr_val'],
-                                '{tel}' => $default_cp['tel_val'],
-                                '{fax}' => $default_cp['fax_val'],
-                                '{email}' => $default_cp['email_val'],
-                                '{addr_name}' => $default_cp['addr_label'],
-                                '{tel_name}' => $default_cp['tel_label'],
-                                '{fax_name}' => $default_cp['fax_label'],
-                                '{email_name}' => $default_cp['email_label'],
-                                '{addr_label}' => $default_cp['addr_label'],
-                                '{tel_label}' => $default_cp['tel_label'],
-                                '{fax_label}' => $default_cp['fax_label'],
-                                '{email_label}' => $default_cp['email_label'],
-                                '{copyright}' => $default_cp['copyright'],
-                                '{slogan}' => $default_cp['slogan'],
-                                '{link1_name}' => $default_cp['link1_name'],
-                                '{link1_url}' => $default_cp['link1_url'],
-                                '{link2_name}' => $default_cp['link2_name'],
-                                '{link2_url}' => $default_cp['link2_url'],
-                                '{logo}' => ($default_cp['logo_url'] ? '<img src="' . $default_cp['logo_url'] . '" class="footer-logo">' : '')
-                            );
-
-                            // Also handle link tags
-                            $replacements['{link1}'] = ($default_cp['link1_url'] ? '<a href="' . $default_cp['link1_url'] . '">' . $default_cp['link1_name'] . '</a>' : '');
-                            $replacements['{link2}'] = ($default_cp['link2_url'] ? '<a href="' . $default_cp['link2_url'] . '">' . $default_cp['link2_name'] . '</a>' : '');
-
-                            // Perform Substitution
-                            foreach ($replacements as $key => $val) {
-                                $editor_content = str_replace($key, $val, $editor_content);
-                            }
-                        }
-
-                        echo editor_html('cp_content', get_text($editor_content, 0));
-                        ?>
+                        <?php echo editor_html('cp_content', get_text($cp['cp_content'], 0)); ?>
                     </td>
                 </tr>
             </tbody>
@@ -319,51 +414,86 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
 </form>
 
 <script>
-    // Pass PHP replacements to JS for dynamic skin loading
-    var default_replacements = <?php echo json_encode($replacements ? $replacements : (object) array()); ?>;
+    // Pattern A: Dynamic ID Generation
+    function generate_id() {
+        var theme = $('#theme_select').val();
+        var lang = $('#lang_select').val();
+        var $id_input = $('#cp_id');
 
-    function load_template(skin) {
-        if (!confirm('현재 에디터 내용이 소실됩니다. 진행하시겠습니까?')) return;
+        if ($id_input.hasClass('readonly')) return;
 
-        // Auto-switch background color based on skin
-        var skin_colors = {
-            'style_a': '#ffffff',
-            'style_b': '#1a1a1a',
-            'style_c': '#111111',
-            'style_d': '#ff3b30'
-        };
-        if (skin_colors[skin]) {
-            $('#cp_bgcolor').val(skin_colors[skin]);
-            $('#cp_bgcolor_picker').val(skin_colors[skin]);
+        if (theme === 'custom') {
+            $id_input.prop('readonly', false).removeClass('readonly').focus();
+            return;
         }
 
+        var new_id = '';
+        if (theme) {
+            new_id = theme;
+            if (lang) {
+                new_id += '_' + lang;
+            }
+        }
+
+        $id_input.val(new_id);
+    }
+
+    function load_template(skin) {
+        if (!confirm('현재 에디터의 내용이 삭제되고 선택한 스킨의 기본 템플릿으로 변경됩니다. 계속하시겠습니까?')) return;
+
+        // Collect Quick Info for live replacement
+        // Collect Quick Info for live replacement (matching template.html placeholders)
+        var replacements = {
+            '{addr}': $('#addr_val').val(),
+            '{tel}': $('#tel_val').val(),
+            '{fax}': $('#fax_val').val(),
+            '{email}': $('#email_val').val(),
+            '{addr_name}': $('input[name="addr_label"]').val(),
+            '{tel_name}': $('input[name="tel_label"]').val(),
+            '{fax_name}': $('input[name="fax_label"]').val(),
+            '{email_name}': $('input[name="email_label"]').val(),
+            '{logo}': $('input[name="logo_url"]').val() ? '<img src="' + $('input[name="logo_url"]').val() + '" class="footer-logo">' : '',
+            '{copyright}': $('#copyright').val(),
+            '{slogan}': $('#slogan').val()
+        };
+
         $.ajax({
-            url: '<?php echo G5_PLUGIN_URL; ?>/copyright_manager/adm/ajax.load_template.php',
-            type: 'GET',
+            url: './ajax.load_template.php',
+            type: 'POST',
             data: {
-                skin: skin,
-                cp_id: '<?php echo $cp_id; ?>'
+                skin: skin
             },
-            success: function (data) {
-                // Perform substitution in JS before pasting
-                var content = data;
-                if (default_replacements) {
-                    for (var key in default_replacements) {
-                        // Global replace using regex with escaped key
-                        var escapedKey = key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-                        var regex = new RegExp(escapedKey, 'g');
-                        content = content.replace(regex, default_replacements[key]);
-                    }
+            dataType: 'json',
+            success: function (res) {
+                if (res.error) {
+                    alert(res.error);
+                    return;
+                }
+
+                var content = res.template;
+
+                // Add link 1 & 2 replacements if provided
+                var link1_name = $('input[name="link1_name"]').val();
+                var link1_url = $('#link1_url').val();
+                var link2_name = $('input[name="link2_name"]').val();
+                var link2_url = $('#link2_url').val();
+
+                replacements['{link1}'] = link1_name ? '<a href="' + link1_url + '">' + link1_name + '</a>' : '';
+                replacements['{link2}'] = link2_name ? '<a href="' + link2_url + '">' + link2_name + '</a>' : '';
+
+                // Substitute values
+                for (var key in replacements) {
+                    var regex = new RegExp(key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+                    content = content.replace(regex, replacements[key]);
                 }
 
                 if (typeof oEditors !== 'undefined' && oEditors.getById["cp_content"]) {
-                    oEditors.getById["cp_content"].exec("SET_IR", [""]); // Clear existing content
-                    oEditors.getById["cp_content"].exec("PASTE_HTML", [content]); // Insert user-friendly substituted HTML
+                    oEditors.getById["cp_content"].exec("SET_IR", [content]); // Replace content directly
 
-                    // 스킨 로드 후 배경색 동기화 (company_intro 방식)
+                    // Sync background color after load
                     setTimeout(function () {
                         update_editor_background($('#cp_bgcolor').val());
-                    }, 500);
+                    }, 300);
                 } else {
                     alert('에디터 객체를 찾을 수 없습니다.');
                 }
@@ -376,24 +506,22 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
 
     // 에디터 배경색 실시간 변경 (company_intro 벤치마킹)
     function update_editor_background(color) {
+        if (!color) return;
         if (typeof oEditors !== 'undefined' && oEditors.getById["cp_content"]) {
             try {
-                // SmartEditor2의 편집 영역 접근
                 var doc = oEditors.getById["cp_content"].getWYSIWYGDocument();
-
-                // 1. Background Color
-                if (color) {
+                if (doc && doc.body) {
                     doc.body.style.backgroundColor = color;
                     doc.body.style.setProperty('--cp-bg', color);
 
-                    // Footer Skin Specific Background
-                    var footer = doc.querySelector('.footer-skin-a, .footer-skin-b, .footer-skin-c');
-                    if (footer) {
-                        footer.style.backgroundColor = color;
-                    }
+                    // Try to find any container and force background
+                    var containers = doc.querySelectorAll('.footer-skin-a, .footer-skin-b, .footer-skin-c, .footer-skin-d');
+                    containers.forEach(function (el) {
+                        el.style.backgroundColor = color;
+                    });
                 }
             } catch (e) {
-                console.log("Editor access error: " + e);
+                console.log("Editor Background Sync Error: " + e);
             }
         }
     }

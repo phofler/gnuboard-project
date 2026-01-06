@@ -18,6 +18,11 @@ $contact = addslashes($contact);
 $email = addslashes($email);
 $subject = addslashes($subject);
 
+$theme = isset($_POST['theme']) ? clean_xss_tags($_POST['theme'], 1, 1) : '';
+$lang = isset($_POST['lang']) ? clean_xss_tags($_POST['lang'], 1, 1) : '';
+$theme = addslashes($theme);
+$lang = addslashes($lang);
+
 if (!$name || !$contact || !$subject || !$content) {
     alert('필수 입력값이 누락되었습니다.');
 }
@@ -34,7 +39,9 @@ $sql = " insert into {$write_table}
                 content = '{$content}',
                 ip = '{$_SERVER['REMOTE_ADDR']}',
                 reg_date = '" . G5_TIME_YMDHIS . "',
-                state = '접수' ";
+                state = '접수',
+                theme = '{$theme}',
+                lang = '{$lang}' ";
 sql_query($sql);
 
 $wr_id = sql_insert_id();

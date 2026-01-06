@@ -7,11 +7,12 @@ if (!defined('_GNUBOARD_'))
     <form name="fquestion" id="fquestion" action="<?php echo ONLINE_INQUIRY_URL; ?>/action/write_update.php"
         onsubmit="return fquestion_submit(this);" method="post" autocomplete="off">
         <div class="form-group">
-            <input type="text" class="form-control" name="name" id="reg_name" required placeholder="Name">
+            <input type="text" class="form-control" name="name" id="reg_name" required
+                placeholder="<?php echo $label_name; ?>">
         </div>
         <div class="form-group">
             <input type="text" class="form-control" name="contact" id="reg_contact" required
-                placeholder="Contact Number">
+                placeholder="<?php echo $label_phone; ?>">
         </div>
         <!-- Email field added for completeness although not in original screenshot, keeping hidden or minimal if desired. Original didn't have it visible? Let's check. 
              Original code had: Name, Contact, Message. No Email. I'll stick to original inputs but keep hidden email or just omit. 
@@ -33,7 +34,7 @@ if (!defined('_GNUBOARD_'))
         ?>
         <div class="form-group">
             <textarea class="form-control" name="content" id="reg_content" rows="5" required
-                placeholder="Message"><?php echo $start_content; ?></textarea>
+                placeholder="<?php echo $label_msg; ?>"><?php echo $start_content; ?></textarea>
             <!-- Mapping 'content' to 'Message' -->
         </div>
 
@@ -41,7 +42,7 @@ if (!defined('_GNUBOARD_'))
              I must provide a subject. I'll make it a hidden field "Online Inquiry". -->
         <input type="hidden" name="subject" value="Online Inquiry">
 
-        <button type="submit" class="btn-luxury">SEND MESSAGE</button>
+        <button type="submit" class="btn-luxury"><?php echo $label_submit; ?></button>
     </form>
 </div>
 

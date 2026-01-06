@@ -5,8 +5,21 @@ if (!defined('_GNUBOARD_'))
 ?>
 
 <div class="online_inquiry_wrap">
-    <form name="fquestion" id="fquestion" action="<?php echo ONLINE_INQUIRY_URL; ?>/action/write_update.php" onsubmit="return fquestion_submit(this);" method="post" autocomplete="off">
-        
+    <?php if ($page_subject) { ?>
+        <h2 class="page_title"><?php echo $page_subject; ?></h2>
+    <?php } ?>
+
+    <?php if ($page_content) { ?>
+        <div class="page_content" style="margin-bottom:30px;">
+            <?php echo $page_content; ?>
+        </div>
+    <?php } ?>
+
+    <form name="fquestion" id="fquestion" action="<?php echo ONLINE_INQUIRY_URL; ?>/action/write_update.php"
+        onsubmit="return fquestion_submit(this);" method="post" autocomplete="off">
+        <input type="hidden" name="theme" value="<?php echo isset($theme) ? $theme : ''; ?>">
+        <input type="hidden" name="lang" value="<?php echo isset($lang) ? $lang : ''; ?>">
+
         <table class="tbl_input">
             <caption>온라인 문의 입력</caption>
             <colgroup>
@@ -15,30 +28,38 @@ if (!defined('_GNUBOARD_'))
             </colgroup>
             <tbody>
                 <tr>
-                    <th scope="row"><label for="reg_name">성함<strong class="sound_only">필수</strong></label></th>
-                    <td><input type="text" name="name" id="reg_name" required class="frm_input full_input" size="50" placeholder="성함"></td>
+                    <th scope="row"><label for="reg_name"><?php echo $label_name; ?><strong
+                                class="sound_only">필수</strong></label></th>
+                    <td><input type="text" name="name" id="reg_name" required class="frm_input full_input" size="50"
+                            placeholder="<?php echo $label_name; ?>"></td>
                 </tr>
                 <tr>
-                    <th scope="row"><label for="reg_contact">연락처<strong class="sound_only">필수</strong></label></th>
-                    <td><input type="text" name="contact" id="reg_contact" required class="frm_input full_input" size="50" placeholder="연락처"></td>
+                    <th scope="row"><label for="reg_contact"><?php echo $label_phone; ?><strong
+                                class="sound_only">필수</strong></label></th>
+                    <td><input type="text" name="contact" id="reg_contact" required class="frm_input full_input"
+                            size="50" placeholder="<?php echo $label_phone; ?>"></td>
                 </tr>
                 <tr>
                     <th scope="row"><label for="reg_email">이메일</label></th>
-                    <td><input type="text" name="email" id="reg_email" class="frm_input full_input" size="50" placeholder="이메일 (선택)"></td>
+                    <td><input type="text" name="email" id="reg_email" class="frm_input full_input" size="50"
+                            placeholder="이메일 (선택)"></td>
                 </tr>
                 <tr>
                     <th scope="row"><label for="reg_subject">제목<strong class="sound_only">필수</strong></label></th>
-                    <td><input type="text" name="subject" id="reg_subject" required class="frm_input full_input" size="50" placeholder="제목"></td>
+                    <td><input type="text" name="subject" id="reg_subject" required class="frm_input full_input"
+                            size="50" placeholder="제목"></td>
                 </tr>
                 <tr>
-                    <th scope="row"><label for="reg_content">문의내용<strong class="sound_only">필수</strong></label></th>
-                    <td><textarea name="content" id="reg_content" required class="frm_input" placeholder="문의내용을 입력해주세요."></textarea></td>
+                    <th scope="row"><label for="reg_content"><?php echo $label_msg; ?><strong
+                                class="sound_only">필수</strong></label></th>
+                    <td><textarea name="content" id="reg_content" required class="frm_input"
+                            placeholder="<?php echo $label_msg; ?>"></textarea></td>
                 </tr>
             </tbody>
         </table>
 
         <div class="btn_confirm">
-            <input type="submit" value="문의하기" class="btn_submit">
+            <input type="submit" value="<?php echo $label_submit; ?>" class="btn_submit">
         </div>
     </form>
 </div>
