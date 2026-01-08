@@ -88,4 +88,9 @@ if (!$row) {
     sql_query(" ALTER TABLE `{$config_table}` ADD `label_msg` varchar(100) NOT NULL DEFAULT 'Message' AFTER `label_phone` ");
     sql_query(" ALTER TABLE `{$config_table}` ADD `label_submit` varchar(100) NOT NULL DEFAULT 'Submit' AFTER `label_msg` ");
 }
+// 5. Upgrade Config Table (Add Background Color)
+$row = sql_fetch(" SHOW COLUMNS FROM `{$config_table}` LIKE 'oi_bgcolor' ");
+if (!$row) {
+    sql_query(" ALTER TABLE `{$config_table}` ADD `oi_bgcolor` varchar(20) NOT NULL DEFAULT '' AFTER `skin` ");
+}
 ?>

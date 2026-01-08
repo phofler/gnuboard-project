@@ -2,6 +2,8 @@
 if (!defined('_GNUBOARD_'))
     exit;
 // Style A: Basic (Split Layout)
+
+include_once(G5_PLUGIN_PATH . '/main_image_manager/skins/skin.head.php');
 ?>
 <div class="hero-section hero-style-a">
     <div class="swiper mySwiper">
@@ -11,18 +13,20 @@ if (!defined('_GNUBOARD_'))
                     <div class="hero-bg" style="background-image: url('<?php echo $row['img_url']; ?>');"></div>
                     <div class="hero-overlay"></div>
                     <div class="hero-content">
-                        <?php if ($row['mi_title']) { ?>
+                        <?php if ($row['title']) { ?>
                             <h2>
-                                <?php echo nl2br($row['mi_title']); ?>
+                                <?php echo $row['title']; ?>
                             </h2>
                         <?php } ?>
-                        <?php if ($row['mi_desc']) { ?>
+                        <?php if ($row['desc']) { ?>
                             <p>
-                                <?php echo nl2br($row['mi_desc']); ?>
+                                <?php echo $row['desc']; ?>
                             </p>
                         <?php } ?>
-                        <a href="<?php echo $row['mi_link'] ? $row['mi_link'] : '#'; ?>"
-                            target="<?php echo $row['mi_target']; ?>" class="btn-luxury">VIEW MORE</a>
+                        <?php if ($row['mi_link']) { ?>
+                            <a href="<?php echo $row['mi_link']; ?>" target="<?php echo $row['mi_target']; ?>"
+                                class="btn-luxury"><?php echo $row['btn_text']; ?></a>
+                        <?php } ?>
                     </div>
                 </div>
             <?php } ?>

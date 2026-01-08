@@ -1,20 +1,19 @@
 <?php
 if (!defined('_GNUBOARD_'))
     exit;
+
+include(G5_PLUGIN_PATH . '/main_content_manager/skins/skin.head.php');
 ?>
 <section class="sec-services-modern">
     <style>
-        :root {
-            /* Fallback Variables for Skin D */
+        .sec-services-modern {
             --mc-section-padding: 12vh;
             --mc-transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-            --mc-accent: var(--color-accent-gold, #d4af37);
-            --mc-font-heading: var(--font-heading, 'Inter', sans-serif);
-        }
 
-        .sec-services-modern {
             padding: var(--mc-section-padding) 0;
-            background: var(--color-bg-dark, #fff);
+            background:
+                <?php echo $mc_bg_var; ?>
+            ;
             /* INHERIT THEME BG */
             transition: var(--mc-transition);
         }
@@ -30,11 +29,10 @@ if (!defined('_GNUBOARD_'))
             display: flex;
             justify-content: space-between;
             align-items: center;
-            /* V-Center */
             cursor: pointer;
             transition: var(--mc-transition);
             position: relative;
-            color: var(--color-text-primary, #000);
+            color: <?php echo $mc_text_primary; ?>;
             text-decoration: none;
         }
 
@@ -63,7 +61,7 @@ if (!defined('_GNUBOARD_'))
         .svc-desc {
             max-width: 350px;
             font-size: 1rem;
-            color: var(--color-text-secondary, #666);
+            color: <?php echo $mc_text_secondary; ?>;
             text-align: right;
             line-height: 1.6;
             margin-left: 4vw;
@@ -104,16 +102,15 @@ if (!defined('_GNUBOARD_'))
         <div class="svc-modern-list">
             <?php foreach ($items as $k => $item) {
                 $link_url = $item['mc_link'] ? $item['mc_link'] : 'javascript:void(0);';
-                $target_attr = $item['mc_target'] ? 'target="' . $item['mc_target'] . '"' : '';
                 $tag_name = $item['mc_link'] ? 'a' : 'div';
-                $href_attr = $item['mc_link'] ? 'href="' . $link_url . '" ' . $target_attr : '';
+                $href_attr = $item['mc_link'] ? 'href="' . $link_url . '" target="' . $item['mc_target'] . '"' : '';
                 ?>
                 <<?php echo $tag_name; ?>     <?php echo $href_attr; ?> class="svc-modern-item" data-aos="fade-up"
                     data-aos-delay="<?php echo $k * 100; ?>">
                     <span class="svc-num"><?php echo sprintf("%02d", $k + 1); ?></span>
                     <span class="svc-name"><?php echo $item['mc_title']; ?></span>
                     <div class="svc-desc">
-                        <?php echo nl2br($item['mc_desc']); ?>
+                        <?php echo $item['desc']; ?>
                     </div>
                 </<?php echo $tag_name; ?>>
             <?php } ?>

@@ -1,6 +1,8 @@
 <?php
 include_once('./_common.php');
+include_once(G5_ADMIN_PATH . '/admin.lib.php');
 include_once(G5_EDITOR_LIB);
+include_once(G5_PATH . '/lib/theme_css.lib.php');
 
 $html_title = '회사소개';
 $readonly = '';
@@ -27,6 +29,11 @@ if ($w == 'u') {
         'co_bgcolor' => '#000000'
     );
 }
+
+// [DYNAMIC THEME BG] Always prioritize ACTIVE SITE THEME for the "Absolute Default" reference
+$theme_bg_default = get_theme_css_value($config['cf_theme'], array('--color-bg', '--color-bg-dark'), '#121212');
+$theme_text_default = get_theme_css_value($config['cf_theme'], array('--color-text-primary'), '#e0e0e0');
+$preview_bg = (isset($co['co_bgcolor']) && $co['co_bgcolor']) ? $co['co_bgcolor'] : $theme_bg_default;
 
 $g5['title'] = $html_title;
 include_once(G5_ADMIN_PATH . '/admin.head.php');
@@ -215,12 +222,28 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                     <th scope="row">설정 대상 (Theme & Lang)</th>
                     <td>
                         <div style="display:flex; gap:10px; align-items:center;">
-                            <select name="co_theme" id="co_theme" class="frm_input" onchange="generate_co_id()"
-                                required>
+                            <select name="co_theme" id="co_theme" class="frm_input" required
+                                onchange="update_theme_defaults()">
                                 <option value="">테마 선택</option>
-                                <?php foreach ($themes as $theme) {
+                                <?php
+                                $themes = array();
+                                $theme_dir = G5_PATH . '/theme';
+                                if (is_dir($theme_dir)) {
+                                    $tdir = dir($theme_dir);
+                                    while ($entry = $tdir->read()) {
+                                        if ($entry == '.' || $entry == '..')
+                                            continue;
+                                        if (is_dir($theme_dir . '/' . $entry))
+                                            $themes[] = $entry;
+                                    }
+                                    $tdir->close();
+                                }
+                                sort($themes);
+                                foreach ($themes as $theme) {
                                     $selected = ($theme == $sel_theme) ? 'selected' : '';
-                                    echo '<option value="' . $theme . '" ' . $selected . '>' . $theme . '</option>';
+                                    $t_bg = get_theme_css_value($theme, array('--color-bg', '--color-bg-dark'), '#121212');
+                                    $t_text = get_theme_css_value($theme, array('--color-text-primary'), '#e0e0e0');
+                                    echo '<option value="' . $theme . '" ' . $selected . ' data-bg="' . $t_bg . '" data-text="' . $t_text . '">' . $theme . '</option>';
                                 } ?>
                             </select>
                             <select name="co_lang" id="co_lang" class="frm_input" onchange="generate_co_id()">
@@ -497,15 +520,16 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                 <tr>
                     <th scope="row"><label for="co_bgcolor">배경색 선택</label></th>
                     <td>
-                        <div class="color_picker_wrapper" style="display:flex; align-items:center; gap:10px;">
-                            <input type="color" id="co_bgcolor_picker"
-                                value="<?php echo $co['co_bgcolor'] ? $co['co_bgcolor'] : '#000000'; ?>"
+                        <div class="color_picker_grid" style="display:flex; align-items:center; gap:10px;">
+                            <input type="color" id="co_bgcolor_picker" value="<?php echo $preview_bg; ?>"
                                 onchange="$('#co_bgcolor').val(this.value); update_editor_background(this.value);">
                             <input type="text" name="co_bgcolor" value="<?php echo $co['co_bgcolor']; ?>"
-                                id="co_bgcolor" class="frm_input" size="10" placeholder="기본값 (Transparent)">
-                            <button type="button" class="btn btn_02 btn_sm" onclick="reset_bgcolor()">기본값으로 복원</button>
+                                id="co_bgcolor" class="frm_input" size="10"
+                                placeholder="기본값 (<?php echo $theme_bg_default; ?>)">
+                            <button type="button" class="btn btn_02" onclick="reset_bgcolor()">기본값으로 복원</button>
                         </div>
-                        <span class="frm_info">이 페이지의 배경색을 선택하세요. '기본값으로 복원'을 누르면 테마의 기본 배경색(투명/PC설정)을 따릅니다.</span>
+                        <span class="frm_info">이 회사소개 페이지의 배경색을 선택하세요. 기본값은 테마의 <strong
+                                id="theme_bg_label"><?php echo $theme_bg_default; ?></strong> 입니다.</span>
                     </td>
                 </tr>
                 <tr>
@@ -547,9 +571,7 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
 
                 // If color is empty or null, we treat it as 'Theme Default'
                 if (!targetColor) {
-                    // [FIX] Use #121212 (Dark Theme Default) for preview instead of transparent
-                    // This ensures WYSIWYG matches the frontend where body bg is dark
-                    targetColor = "#121212";
+                    targetColor = theme_bg_default;
                 }
 
                 doc.body.style.backgroundColor = targetColor;
@@ -575,12 +597,17 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                 // 4. Adjust Text Color based on background brightness (Simple check)
                 // If specific color set (not transparent/default)
                 if (targetColor !== 'transparent' && targetColor.indexOf('#') === 0) {
-                    // Simple logic: if user picks color, we rely on them to pick text color or skin handles it.
-                    // But for preview, let's reset to a readable default if it was black
-                    doc.body.style.color = "#e0e0e0";
+                    // Simple logic: if user picks color, we try to maintain readability
+                    if (targetColor.toLowerCase() == '#ffffff' || targetColor.toLowerCase() == '#f3f3f3') {
+                        doc.body.style.color = "#121212";
+                    } else if (targetColor.toLowerCase() == '#121212' || targetColor.toLowerCase() == '#000000') {
+                        doc.body.style.color = "#ffffff";
+                    } else {
+                        doc.body.style.color = "<?php echo $theme_text_default; ?>";
+                    }
                 } else {
                     // Default theme mode
-                    doc.body.style.color = ""; // Reset to CSS default
+                    doc.body.style.color = "<?php echo $theme_text_default; ?>";
                 }
 
             } catch (e) {
@@ -589,10 +616,32 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
         }
     }
 
+    var theme_bg_default = '<?php echo $theme_bg_default; ?>';
+    var theme_text_default = '<?php echo $theme_text_default; ?>';
+
+    function update_theme_defaults() {
+        var selected_opt = $('#co_theme option:selected');
+        var selected_bg = selected_opt.data('bg');
+        var selected_text = selected_opt.data('text');
+
+        if (selected_bg) {
+            theme_bg_default = selected_bg;
+            if (selected_text) theme_text_default = selected_text;
+
+            $('#theme_bg_label').text(selected_bg);
+            $('#co_bgcolor').attr('placeholder', '기본값 (' + selected_bg + ')');
+
+            if (!$('#co_bgcolor').val()) {
+                $('#co_bgcolor_picker').val(selected_bg);
+                update_editor_background('');
+            }
+        }
+    }
+
     function reset_bgcolor() {
         $('#co_bgcolor').val('');
-        // [FIX] Reset visual to Theme Default (Dark: #121212)
-        $('#co_bgcolor_picker').val('#121212');
+        // [FIX] Reset visual to Theme Default
+        $('#co_bgcolor_picker').val(theme_bg_default);
         update_editor_background('');
     }
 

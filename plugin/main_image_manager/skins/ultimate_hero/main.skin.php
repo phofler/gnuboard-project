@@ -3,6 +3,8 @@ if (!defined('_GNUBOARD_'))
     exit;
 // Ultimate Hero Skin (Light Theme Specialized)
 // Features: Full screen video/image, Elegant Typography, Scroll Interaction
+
+include_once(G5_PLUGIN_PATH . '/main_image_manager/skins/skin.head.php');
 ?>
 
 <div class="mi_ultimate_hero">
@@ -11,7 +13,7 @@ if (!defined('_GNUBOARD_'))
             <?php foreach ($slides as $row) { ?>
                 <div class="swiper-slide hero_slide">
                     <div class="hero_bg_wrap">
-                        <?php if ($row['mi_video']) { ?>
+                        <?php if (isset($row['mi_video']) && $row['mi_video']) { ?>
                             <div class="hero_video">
                                 <video src="<?php echo $row['mi_video']; ?>" autoplay loop muted playsinline></video>
                             </div>
@@ -21,20 +23,19 @@ if (!defined('_GNUBOARD_'))
                         <div class="video_overlay"></div>
                     </div>
                     <div class="hero_content">
-                        <?php if ($row['mi_title']) { ?>
+                        <?php if ($row['title']) { ?>
                             <h2>
-                                <?php echo nl2br($row['mi_title']); ?>
+                                <?php echo $row['title']; ?>
                             </h2>
                         <?php } ?>
-                        <?php if ($row['mi_desc']) { ?>
+                        <?php if ($row['desc']) { ?>
                             <p>
-                                <?php echo nl2br($row['mi_desc']); ?>
+                                <?php echo $row['desc']; ?>
                             </p>
                         <?php } ?>
                         <?php if ($row['mi_link']) { ?>
-                            <a href="<?php echo $row['mi_link']; ?>"
-                                target="<?php echo $row['mi_target'] ? $row['mi_target'] : '_self'; ?>"
-                                class="btn_hero">Discover More</a>
+                            <a href="<?php echo $row['mi_link']; ?>" target="<?php echo $row['mi_target']; ?>"
+                                class="btn_hero"><?php echo $row['btn_text']; ?></a>
                         <?php } ?>
                     </div>
                 </div>

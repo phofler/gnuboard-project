@@ -1,241 +1,147 @@
 <?php
 if (!defined('_GNUBOARD_'))
     exit;
+
+include(G5_PLUGIN_PATH . '/main_content_manager/skins/skin.head.php');
 ?>
+<style>
+    .sec-works-dark {
+        padding: 12vh 0;
+        background:
+            <?php echo $mc_bg_var; ?>
+        ;
+        overflow: hidden;
+    }
 
-<section class="sec-works-dark" id="works_dark_<?php echo $section_id; ?>">
-    <style>
-        .sec-works-dark {
-            padding: 100px 0;
-            background-color: var(--color-bg-dark, #121212);
-            color: #fff;
-            overflow: hidden;
-            position: relative;
-        }
+    .works-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 60px;
+    }
 
-        .sec-works-dark .works-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
+    .works-title {
+        font-family: var(--mc-font-heading);
+        font-size: clamp(40px, 6vw, 90px);
+        line-height: 1;
+        color: <?php echo $mc_text_primary; ?>;
+        text-transform: uppercase;
+        font-weight: 300;
+        margin: 0;
+    }
 
-        .sec-works-dark .works-title {
-            font-family: var(--mc-font-heading, 'Playfair Display', serif);
-            font-size: 3rem;
-            color: #fff;
-            margin-bottom: 20px;
-            letter-spacing: 1px;
-        }
+    .works-swiper-container {
+        padding: 0 50px;
+        position: relative;
+    }
 
-        .sec-works-dark .works-subtitle {
-            font-size: 1.1rem;
-            color: var(--color-text-secondary, #888);
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
+    .works-item {
+        display: block;
+        height: 600px;
+        position: relative;
+        overflow: hidden;
+        transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        text-decoration: none;
+    }
 
-        /* Swiper Customization */
-        .sec-works-dark .swiper-container {
-            width: 100%;
-            padding-bottom: 50px;
-            /* Space for pagination/scrollbar */
-            overflow: visible;
-            /* Allow slides to peek */
-        }
+    .works-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: 0.8s;
+        filter: grayscale(100%) brightness(0.7);
+    }
 
-        .sec-works-dark .swiper-slide {
-            width: 400px;
-            /* Fixed width cards */
-            height: 500px;
-            transition: transform 0.3s ease;
-            opacity: 0.4;
-            /* Fade out non-active */
-        }
+    .works-item:hover .works-image {
+        transform: scale(1.1);
+        filter: grayscale(0%) brightness(1);
+    }
 
-        .sec-works-dark .swiper-slide-active {
-            opacity: 1;
-            transform: scale(1.05);
-            /* Highlight active */
-            z-index: 2;
-        }
+    .works-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 40px;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+        transform: translateY(20px);
+        opacity: 0;
+        transition: 0.6s;
+    }
 
-        /* Work Card */
-        .work-card {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background: #000;
-        }
+    .works-item:hover .works-overlay {
+        transform: translateY(0);
+        opacity: 1;
+    }
 
-        .work-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s ease;
-            filter: grayscale(100%);
-        }
+    .works-item-title {
+        font-family: var(--mc-font-heading);
+        font-size: 2rem;
+        color: #fff;
+        margin-bottom: 10px;
+    }
 
-        .sec-works-dark .swiper-slide-active .work-card img {
-            filter: grayscale(0%);
-        }
+    .works-item-desc {
+        font-size: 0.95rem;
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 25px;
+        word-break: keep-all;
+    }
 
-        .work-card:hover img {
-            transform: scale(1.1);
-        }
+    .mc-btn-more {
+        display: inline-block;
+        color: var(--mc-accent);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: 13px;
+    }
+</style>
 
-        .work-info {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 30px;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
-            transform: translateY(20px);
-            opacity: 0;
-            transition: all 0.4s ease;
-        }
+<section class="sec-works-dark">
+    <div class="container-fluid">
+        <div class="works-header container">
+            <h2 class="works-title" data-aos="fade-left"><?php echo $section_title; ?></h2>
+        </div>
 
-        .sec-works-dark .swiper-slide-active .work-info {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .work-info h3 {
-            font-family: var(--mc-font-heading, serif);
-            font-size: 1.8rem;
-            color: #fff;
-            margin-bottom: 10px;
-        }
-
-        .work-info p {
-            color: var(--color-text-secondary, #ccc);
-            font-size: 0.95rem;
-            margin-bottom: 20px;
-        }
-
-        /* Navigation Buttons (Custom) */
-        .works-nav {
-            position: absolute;
-            top: 50%;
-            width: 100%;
-            z-index: 10;
-            pointer-events: none;
-            /* Let clicks pass through center */
-        }
-
-        .works-prev,
-        .works-next {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 60px;
-            height: 60px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            cursor: pointer;
-            pointer-events: auto;
-            /* Re-enable clicks */
-            transition: all 0.3s ease;
-            background: rgba(0, 0, 0, 0.5);
-        }
-
-        .works-prev:hover,
-        .works-next:hover {
-            background: #fff;
-            color: #000;
-            border-color: #fff;
-        }
-
-        .works-prev {
-            left: 5%;
-        }
-
-        .works-next {
-            right: 5%;
-        }
-
-        @media (max-width: 768px) {
-            .sec-works-dark .swiper-slide {
-                width: 80vw;
-                height: 400px;
-            }
-
-            .works-prev,
-            .works-next {
-                display: none;
-                /* Touch swipe only on mobile */
-            }
-        }
-    </style>
-
-    <div class="container works-header">
-        <?php if ($show_title) { ?>
-            <h2 class="works-title" data-aos="fade-up">
-                <?php echo get_text($section_title); ?>
-            </h2>
-        <?php } ?>
-        <p class="works-subtitle" data-aos="fade-up" data-aos-delay="100">
-            Selected projects that define our philosophy.
-        </p>
-    </div>
-
-    <!-- Swiper -->
-    <div class="swiper-container works-swiper-<?php echo $section_id; ?>">
-        <div class="swiper-wrapper">
-            <?php foreach ($items as $i => $row) { ?>
-                <div class="swiper-slide">
-                    <div class="work-card">
-                        <img src="<?php echo $row['img_url']; ?>" alt="<?php echo get_text($row['mc_title']); ?>">
-                        <div class="work-info">
-                            <h3>
-                                <?php echo get_text($row['mc_title']); ?>
-                            </h3>
-                            <p>
-                                <?php echo get_text($row['mc_desc']); ?>
-                            </p>
-                            <?php if ($row['mc_link']) { ?>
-                                <a href="<?php echo $row['mc_link']; ?>" class="mc-btn mc-btn-outline">VIEW PROJECT</a>
-                            <?php } ?>
+        <div class="works-swiper-container">
+            <div class="swiper worksSwiper">
+                <div class="swiper-wrapper">
+                    <?php foreach ($items as $row) { ?>
+                        <div class="swiper-slide">
+                            <a href="<?php echo $row['mc_link']; ?>" target="<?php echo $row['mc_target']; ?>"
+                                class="works-item">
+                                <img src="<?php echo $row['img_url']; ?>" alt="<?php echo get_text($row['title']); ?>"
+                                    class="works-image">
+                                <div class="works-overlay">
+                                    <h3 class="works-item-title"><?php echo $row['title']; ?></h3>
+                                    <p class="works-item-desc"><?php echo $row['desc']; ?></p>
+                                    <span class="mc-btn-more"><?php echo $row['btn_text']; ?> →</span>
+                                </div>
+                            </a>
                         </div>
-                    </div>
+                    <?php } ?>
                 </div>
-            <?php } ?>
-        </div>
-
-        <!-- Navigation -->
-        <div class="works-nav">
-            <div class="works-prev works-prev-<?php echo $section_id; ?>"><i class="fa fa-angle-left"></i></div>
-            <div class="works-next works-next-<?php echo $section_id; ?>"><i class="fa fa-angle-right"></i></div>
+            </div>
         </div>
     </div>
-
-    <script>
-        $(document).ready(function () {
-            var worksSwiper = new Swiper('.works-swiper-<?php echo $section_id; ?>', {
-                slidesPerView: 'auto',
-                centeredSlides: true,
-                spaceBetween: 30,
-                loop: true,
-                speed: 800,
-                autoplay: {
-                    delay: 5000,
-                    disableOnInteraction: false,
-                },
-                navigation: {
-                    nextEl: '.works-next-<?php echo $section_id; ?>',
-                    prevEl: '.works-prev-<?php echo $section_id; ?>',
-                },
-                breakpoints: {
-                    768: {
-                        spaceBetween: 50,
-                    }
-                }
-            });
-        });
-    </script>
 </section>
+
+<script>
+    var worksSwiper = new Swiper(".worksSwiper", {
+        slidesPerView: 1.2,
+        spaceBetween: 30,
+        centeredSlides: true,
+        loop: true,
+        speed: 1000,
+        autoplay: {
+            delay: 4000,
+            disableOnInteraction: false,
+        },
+        breakpoints: {
+            768: { slidesPerView: 2.5 },
+            1200: { slidesPerView: 3.5 },
+            1600: { slidesPerView: 4.5 }
+        }
+    });
+</script>

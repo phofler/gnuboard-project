@@ -1,28 +1,26 @@
 <?php
 if (!defined('_GNUBOARD_'))
     exit;
+
+include(G5_PLUGIN_PATH . '/main_content_manager/skins/skin.head.php');
 ?>
 <section class="sec-product" id="product">
     <style>
-        :root {
-            /* Better Fallbacks for Skin A */
+        .sec-product {
             --mc-section-padding: 120px;
             --mc-item-gutter: 80px;
             --mc-list-gap: 120px;
             --mc-border-radius: 4px;
-            /* Previous stable style might have had sharper corners */
             --mc-item-title-size: 2.5rem;
             --mc-desc-line-height: 1.8;
             --mc-transition: all 0.5s ease;
-            --mc-accent: var(--color-accent-gold, #d4af37);
-            --mc-font-heading: var(--font-heading, 'Inter', sans-serif);
-        }
 
-        .sec-product {
             padding: var(--mc-section-padding) 0;
             overflow: hidden;
-            background: var(--color-bg-dark, #fff);
-            /* SMART INHERITANCE: Uses theme bg if dark, or white if light */
+            background:
+                <?php echo $mc_bg_var; ?>
+            ;
+            /* SMART INHERITANCE */
             transition: var(--mc-transition);
         }
 
@@ -30,7 +28,6 @@ if (!defined('_GNUBOARD_'))
             display: flex;
             gap: var(--mc-item-gutter);
             align-items: center;
-            /* V-Center content */
             margin-bottom: var(--mc-list-gap);
         }
 
@@ -40,19 +37,16 @@ if (!defined('_GNUBOARD_'))
 
         .sec-product .product-image {
             flex: 0 0 55%;
-            /* Previous stable ratio: image slightly larger than text */
             overflow: hidden;
         }
 
         .sec-product .product-image img {
             width: 100%;
             height: 480px;
-            /* Fixed height for better alignment consistency */
             object-fit: cover;
             display: block;
             border-radius: var(--mc-border-radius);
             transition: var(--mc-transition);
-            /* Removed heavy shadow to match editorial look */
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
@@ -63,15 +57,13 @@ if (!defined('_GNUBOARD_'))
         .sec-product .product-info {
             flex: 1;
             padding: 0;
-            /* Align tightly */
         }
 
         .sec-product .product-info h3 {
             margin-top: 0;
             font-size: var(--mc-item-title-size);
             font-weight: 700;
-            color: var(--color-text-primary, #000);
-            /* INHERIT: White in Dark mode, Black in Light mode */
+            color: <?php echo $mc_text_primary; ?>;
             font-family: var(--mc-font-heading);
             margin-bottom: 30px;
             line-height: 1.2;
@@ -81,8 +73,7 @@ if (!defined('_GNUBOARD_'))
             font-size: 1.15rem;
             margin-bottom: 50px;
             line-height: var(--mc-desc-line-height);
-            color: var(--color-text-secondary, #666);
-            /* INHERIT: Grey in both dark/light */
+            color: <?php echo $mc_text_secondary; ?>;
             word-break: keep-all;
         }
 
@@ -96,6 +87,7 @@ if (!defined('_GNUBOARD_'))
             font-weight: 600;
             font-size: 13px;
             transition: 0.3s;
+            text-decoration: none;
         }
 
         .mc-btn-outline:hover {
@@ -137,18 +129,18 @@ if (!defined('_GNUBOARD_'))
                 ?>
                 <div class="product-item" data-aos="<?php echo $aos_effect; ?>">
                     <div class="product-image">
-                        <img src="<?php echo $row['img_url']; ?>" alt="<?php echo get_text($row['mc_title']); ?>">
+                        <img src="<?php echo $row['img_url']; ?>" alt="<?php echo get_text($row['title']); ?>">
                     </div>
                     <div class="product-info">
                         <h3>
-                            <?php echo nl2br(get_text($row['mc_title'])); ?>
+                            <?php echo $row['title']; ?>
                         </h3>
                         <p>
-                            <?php echo nl2br($row['mc_desc']); ?>
+                            <?php echo $row['desc']; ?>
                         </p>
                         <?php if ($row['mc_link']) { ?>
                             <a href="<?php echo $row['mc_link']; ?>" target="<?php echo $row['mc_target']; ?>"
-                                class="mc-btn-outline">VIEW PROJECT</a>
+                                class="mc-btn-outline"><?php echo $row['btn_text']; ?></a>
                         <?php } ?>
                     </div>
                 </div>

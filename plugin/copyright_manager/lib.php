@@ -23,6 +23,17 @@ function get_copyright_config($cp_id = '')
     if (!$cp_id) {
         $theme_name = (isset($config['cf_theme']) && $config['cf_theme']) ? $config['cf_theme'] : 'default';
         $cp_id = $theme_name;
+
+        // [Fix] Try to find specific lang ID (e.g. corporate_ko) if base name doesn't exist
+        $row_check = sql_fetch(" select count(*) as cnt from {$table_name} where cp_id = '{$cp_id}' ");
+        if (!$row_check['cnt']) {
+            // Try adding _ko suffix as primary default
+            $chk_id = $cp_id . '_ko';
+            $row_check_ko = sql_fetch(" select count(*) as cnt from {$table_name} where cp_id = '{$chk_id}' ");
+            if ($row_check_ko['cnt']) {
+                $cp_id = $chk_id;
+            }
+        }
     }
 
     // Check if table exists
@@ -88,6 +99,14 @@ function display_footer_info($cp_id = '')
 
     // Process Shortcodes in Content
     $content = $cp['cp_content'];
+
+    // [Fix] Auto-recover polluted DB status (Auto-Decode)
+    if (preg_match('/^\s*&lt;[a-z]+/', $content) || preg_match('/^\s*&amp;lt;/', $content)) {
+        $content = html_entity_decode($content);
+        if (preg_match('/^\s*&lt;[a-z]+/', $content)) {
+            $content = html_entity_decode($content);
+        }
+    }
 
     // Values
     $content = str_replace('{addr}', $cp['addr_val'], $content);

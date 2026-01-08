@@ -1,27 +1,25 @@
 <?php
 if (!defined('_GNUBOARD_'))
     exit;
+
+include(G5_PLUGIN_PATH . '/main_content_manager/skins/skin.head.php');
 ?>
 <section class="sec-product style-c" id="product">
     <style>
-        :root {
-            /* Better Fallbacks for Skin C */
+        .style-c {
             --mc-section-padding: 100px;
             --mc-item-gutter: 100px;
             --mc-list-gap: 120px;
             --mc-border-radius: 0;
-            /* Modern sharp look for C */
             --mc-item-title-size: 2.8rem;
             --mc-desc-line-height: 1.8;
             --mc-transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-            --mc-accent: var(--color-accent-gold, #d4af37);
-            --mc-font-heading: var(--font-heading, 'Inter', sans-serif);
-        }
 
-        .style-c {
             padding: var(--mc-section-padding) 0;
             overflow: hidden;
-            background: var(--color-bg-dark, #fff);
+            background:
+                <?php echo $mc_bg_var; ?>
+            ;
             /* SMART INHERITANCE */
             transition: var(--mc-transition);
         }
@@ -60,7 +58,6 @@ if (!defined('_GNUBOARD_'))
         .style-c .product-image img {
             width: 100%;
             height: 550px;
-            /* Taller for Skin C (Cinema Style) */
             object-fit: cover;
             transition: var(--mc-transition);
             filter: brightness(0.85);
@@ -80,7 +77,7 @@ if (!defined('_GNUBOARD_'))
             font-size: var(--mc-item-title-size);
             font-weight: 700;
             margin-bottom: 25px;
-            color: var(--color-text-primary, #000);
+            color: <?php echo $mc_text_primary; ?>;
             font-family: var(--mc-font-heading);
             line-height: 1.2;
         }
@@ -88,7 +85,7 @@ if (!defined('_GNUBOARD_'))
         .style-c .product-info p {
             font-size: 1.15rem;
             line-height: var(--mc-desc-line-height);
-            color: var(--color-text-secondary, #666);
+            color: <?php echo $mc_text_secondary; ?>;
             margin-bottom: 40px;
             word-break: keep-all;
         }
@@ -143,18 +140,18 @@ if (!defined('_GNUBOARD_'))
             <?php foreach ($items as $i => $row) { ?>
                 <div class="product-item">
                     <div class="product-image" data-aos="fade-up">
-                        <img src="<?php echo $row['img_url']; ?>" alt="<?php echo get_text($row['mc_title']); ?>">
+                        <img src="<?php echo $row['img_url']; ?>" alt="<?php echo get_text($row['title']); ?>">
                     </div>
                     <div class="product-info" data-aos="fade-up" data-aos-delay="200">
                         <h3>
-                            <?php echo nl2br(get_text($row['mc_title'])); ?>
+                            <?php echo $row['title']; ?>
                         </h3>
                         <p>
-                            <?php echo nl2br($row['mc_desc']); ?>
+                            <?php echo $row['desc']; ?>
                         </p>
                         <?php if ($row['mc_link']) { ?>
                             <a href="<?php echo $row['mc_link']; ?>" target="<?php echo $row['mc_target']; ?>"
-                                class="mc-btn-outline">VIEW PROJECT</a>
+                                class="mc-btn-outline"><?php echo $row['btn_text']; ?></a>
                         <?php } ?>
                     </div>
                 </div>

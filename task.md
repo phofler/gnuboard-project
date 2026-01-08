@@ -1,6 +1,24 @@
 # Tasks
 
 ## 🚀 Current Priorities (Immediate Fixes)
+- [ ] **🛑 MySQL Startup Error (Emergency)**
+    - [ ] **Diagnose Port 3306 Conflict**
+    - [x] **Check MySQL Error Logs** (Done: Found abrupt stop)
+    - [x] **Attempt Log Reset** (Done: `aria_log_control` & `ib_logfile` reset)
+    - [ ] **Uninstall Conflicting Software** (MySQL Server 8.0)
+    - [ ] **Resolve Service Conflict (MySQL80 vs XAMPP)**
+- [ ] **📅 Tomorrow's Focus (2026-01-08)**
+    - [ ] **Background Sync Verification**
+        - [ ] Verify Company Intro frontend background across themes
+        - [ ] Verify Main Content Manager frontend/swatch consistency
+    - [ ] **Map API Plugin Standardization (`plugin/map_api`)**
+        - [ ] Refactor Admin (`config_form.php`) to Theme/Lang-based management (Pattern A)
+        - [ ] Standardize List & Write pages with automated ID generation
+        - [ ] Apply CSS Extraction logic for background/text colors
+- [x] **Theme Background Restoration (Completed Today)**
+    - [x] Implement dynamic CSS extraction (`lib/theme_css.lib.php`)
+    - [x] Fix "Restore to Default" logic across Online Inquiry, Company Intro, Main Content
+    - [x] Ensure frontend synchronization for all inquiry skins
 - [x] **Top Menu Manager Improvement**
     - [x] Refactor skin structure (Delete old _dark/_light, Unify to 5 core skins)
     - [x] Create new skins (`Centered`, `Transparent`, `Minimal`) from HTML samples
@@ -93,17 +111,32 @@
             - [x] Restore Preview Functionality (Modal + Sample Data)
         - [x] **4. Main Content Management** (`plugin/main_content_manager`)
             - [x] Refactor to support `skins/` directory & Global Design Tokens
-
     - [x] **Phase 5: Plugin Standardization (Multi-Language & Theme Consistency)**
         - [x] **1. Top Menu Manager**: Apply Pattern A (Ui Standardized + Fallback Logic)
             - [x] Automated Menu Source Selection (Hidden Logic)
             - [x] Fixed "Token Invalid" Deletion Error (List-based Pattern)
-        - [ ] **2. Copyright Manager**: Apply Pattern A (Config ID + Suffix)
-        - [ ] **Company Intro**: Apply Pattern A
+        - [x] **2. Copyright Manager**: Apply Pattern A (Config ID + Suffix)
+        - [x] **Company Intro**: Apply Pattern A
         - [ ] **Board Skin Manager**: Apply Pattern B (Columns for Theme/Lang)
-        - [ ] **Sub Design Manager**: Fix Menu Source Connection (Pattern C)
-        - [ ] **Online Inquiry**: Move Config to DB (Pattern A)
-        - [ ] **Verification**: Ensure all 11 plugins share consistent Admin UI for Theme/Lang selection.
+        - [ ] **Sub Design Manager**: Fix Menu### Plugin Standardization (Company Intro) <!-- id: 46 -->
+- [x] **Analysis**: Identify duplicated logic in `company_intro` skins. <!-- id: 47 -->
+- [x] **Implementation**: Create `skin.head.php` for Company Intro to handle `co_id`, decoding, and headers. <!-- id: 48 -->
+- [x] **Refactoring**: Update `view.php` to use the shared header. <!-- id: 49 -->
+- [x] **Debug**: Fix ID mismatch (`corporate` vs `corporate_ceo`) in DB. <!-- id: 50 -->
+
+- [x] **Refactoring**: Ensure all skins inherit from shared logic. <!-- id: 54 -->
+- [x] **Background Management**: Add common background selector to admin and skins. <!-- id: 64 -->
+- [x] **Background Synchronization**: Unify UI and fix theme-aware defaults across Main Content & Company Intro. <!-- id: 65 -->
+
+### Plugin Standardization (Main Image Manager) <!-- id: 55 -->
+- [x] **Analysis**: Check `plugin/main_image_manager` for skin logic. <!-- id: 56 -->
+- [x] **Library Update**: Update `main.lib.php` for `common_assets` and standard vars. <!-- id: 57 -->
+- [x] **Shared Header**: Create `skin.head.php`. <!-- id: 62 -->
+- [x] **Skin Refactoring**: Update all skins to use the shared header and theme variables. <!-- id: 63 -->
+
+### Plugin Standardization (Sub Design Manager) <!-- id: 58 -->
+- [ ] **Analysis**: Analyze `plugin/sub_design` structure. <!-- id: 59 -->
+- [ ] **Implementation**: Standardize skin loading and header injection. <!-- id: 60 -->(Sovereignty of default.css)
             - [x] Update `테마스킨.md` with inheritance principles (Sovereignty of default.css)
             - [x] Create `philosophy_light` Skin (Left label + Bold text)
                 - [x] **Constraint**: Maximize Negative Space (여백의 미) as per prototype
@@ -122,4 +155,3 @@
             - [x] Standardize `sub_page` layout
         - [x] **8. Online Inquiry Management** (`plugin/contact_form`)
             - [x] (Already Implemented)
-

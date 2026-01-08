@@ -29,10 +29,14 @@ if ($w == '' || ($w == 'u' && $oi_id !== $old_oi_id)) {
     }
 }
 
+// 25.01.07 Added Background Color Support
+$oi_bgcolor = clean_xss_tags($_POST['oi_bgcolor']);
+
 $sql_common = " oi_id = '{$oi_id}',
                 theme = '{$theme}',
                 lang = '{$lang}',
                 skin = '{$skin}',
+                oi_bgcolor = '{$oi_bgcolor}',
                 subject = '{$subject}',
                 content = '" . addslashes($content) . "',
                 label_name = '{$label_name}',

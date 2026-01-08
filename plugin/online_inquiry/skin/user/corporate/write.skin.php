@@ -2,8 +2,14 @@
 if (!defined('_GNUBOARD_'))
     exit;
 // Corporate Theme Style Skin for Online Inquiry Plugin
+
+// Corporate Theme Style Skin for Online Inquiry Plugin
+include_once(ONLINE_INQUIRY_PATH . '/skin.head.php');
 ?>
+
 <div class="inquiry-form corporate-inquiry-skin">
+    <!-- Content is now handled by skin.head.php -->
+
     <form name="fquestion" id="fquestion" action="<?php echo ONLINE_INQUIRY_URL; ?>/action/write_update.php"
         onsubmit="return fquestion_submit(this);" method="post" autocomplete="off">
         <div class="form-group">

@@ -1,13 +1,17 @@
 <?php
 if (!defined('_GNUBOARD_'))
     exit;
+
+include(G5_PLUGIN_PATH . '/main_content_manager/skins/skin.head.php');
 ?>
 <section class="sec-product style-b" id="product">
     <style>
         .style-b {
             padding: var(--mc-section-padding, 80px) 0 0;
             overflow: hidden;
-            background: var(--color-bg-dark, #121212);
+            background:
+                <?php echo $mc_bg_var; ?>
+            ;
             transition: var(--mc-transition, all 0.5s ease);
         }
 
@@ -18,15 +22,14 @@ if (!defined('_GNUBOARD_'))
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 2px;
-            color: var(--mc-accent, var(--color-accent-gold, #d4af37));
-            font-family: var(--mc-font-heading, var(--font-heading, sans-serif));
+            color: var(--mc-accent);
+            font-family: var(--mc-font-heading);
         }
 
         .style-b .product-item {
             display: flex;
             align-items: center;
             min-height: 500px;
-            /* Reduced from 600px for better density */
             position: relative;
         }
 
@@ -54,7 +57,6 @@ if (!defined('_GNUBOARD_'))
         .style-b .product-info {
             flex: 0 0 50%;
             padding: 0 80px;
-            /* Increased padding for better balance */
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
@@ -76,14 +78,14 @@ if (!defined('_GNUBOARD_'))
             font-weight: 700;
             margin-bottom: 25px;
             line-height: 1.2;
-            color: var(--color-text-primary, #fff);
+            color: <?php echo $mc_text_primary; ?>;
             font-family: var(--mc-font-heading);
         }
 
         .style-b .product-info p {
             font-size: 1.1rem;
             line-height: var(--mc-desc-line-height, 1.7);
-            color: var(--color-text-secondary, #ccc);
+            color: <?php echo $mc_text_secondary; ?>;
             margin-bottom: 40px;
             max-width: 550px;
         }
@@ -91,8 +93,8 @@ if (!defined('_GNUBOARD_'))
         .btn-luxury-outline {
             display: inline-block;
             padding: 15px 45px;
-            border: 2px solid var(--mc-accent, #d4af37);
-            color: #fff;
+            border: 2px solid var(--mc-accent);
+            color: var(--color-text-primary, #fff);
             text-decoration: none;
             font-weight: 700;
             text-transform: uppercase;
@@ -101,7 +103,7 @@ if (!defined('_GNUBOARD_'))
         }
 
         .btn-luxury-outline:hover {
-            background: var(--mc-accent, #d4af37);
+            background: var(--mc-accent);
             color: #000 !important;
         }
 
@@ -121,7 +123,6 @@ if (!defined('_GNUBOARD_'))
 
             .style-b .product-image img {
                 height: 400px;
-                /* Fixed height for mobile consistency */
             }
 
             .style-b .product-info {
@@ -129,7 +130,6 @@ if (!defined('_GNUBOARD_'))
                 width: 100%;
                 padding: 40px 20px;
                 text-align: center !important;
-                /* Force center on mobile */
                 align-items: center !important;
                 margin-top: 0;
             }
@@ -154,18 +154,18 @@ if (!defined('_GNUBOARD_'))
             ?>
             <div class="product-item">
                 <div class="product-image" data-aos="<?php echo $img_aos; ?>">
-                    <img src="<?php echo $row['img_url']; ?>" alt="<?php echo get_text($row['mc_title']); ?>">
+                    <img src="<?php echo $row['img_url']; ?>" alt="<?php echo get_text($row['title']); ?>">
                 </div>
                 <div class="product-info" data-aos="<?php echo $txt_aos; ?>" data-aos-delay="200">
                     <h3>
-                        <?php echo nl2br(get_text($row['mc_title'])); ?>
+                        <?php echo $row['title']; ?>
                     </h3>
                     <p>
-                        <?php echo nl2br($row['mc_desc']); ?>
+                        <?php echo $row['desc']; ?>
                     </p>
                     <?php if ($row['mc_link']) { ?>
                         <a href="<?php echo $row['mc_link']; ?>" target="<?php echo $row['mc_target']; ?>"
-                            class="btn-luxury-outline">VIEW PROJECT</a>
+                            class="btn-luxury-outline"><?php echo $row['btn_text']; ?></a>
                     <?php } ?>
                 </div>
             </div>

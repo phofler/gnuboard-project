@@ -75,20 +75,11 @@ function render_main_section($ms)
     // [New Standard] Load External Skin if it exists
     if (file_exists($skin_file)) {
         if (file_exists($css_file)) {
-            echo '<link rel="stylesheet" href="' . $skin_url . '/style.css?v=' . time() . '">';
+            add_stylesheet('<link rel="stylesheet" href="' . $skin_url . '/style.css?v=' . time() . '">', 0);
         }
         include($skin_file);
     } else {
-        // [Legacy/Fallback] Hardcoded Styles
-        if ($style == 'A') {
-            include(G5_PLUGIN_PATH . '/main_content_manager/lib/legacy_style_a.php');
-        } else if ($style == 'B') {
-            include(G5_PLUGIN_PATH . '/main_content_manager/lib/legacy_style_b.php');
-        } else if ($style == 'C') {
-            include(G5_PLUGIN_PATH . '/main_content_manager/lib/legacy_style_c.php');
-        } else {
-            echo "<!-- Skin not found: {$style} -->";
-        }
+        echo "<!-- Main Content Skin not found: {$style} -->";
     }
 
     echo '</div>';

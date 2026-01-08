@@ -90,58 +90,87 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                 <tr>
                     <th scope="row">식별코드 (ID)</th>
                     <td>
-                        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-                            <?php
-                            $theme_name = (isset($config['cf_theme']) && $config['cf_theme']) ? $config['cf_theme'] : 'default';
-                            // Extract components if already exists
-                            $current_id = $cp['cp_id'];
-                            $sel_theme = '';
-                            $sel_lang = '';
-                            $sel_id = '';
+                        <?php
+                        // Theme Discovery (Standard Pattern A)
+                        $themes = array();
+                        $theme_dir = G5_PATH . '/theme';
+                        if (is_dir($theme_dir)) {
+                            $tdir = dir($theme_dir);
+                            while ($entry = $tdir->read()) {
+                                if ($entry == '.' || $entry == '..')
+                                    continue;
+                                if (is_dir($theme_dir . '/' . $entry))
+                                    $themes[] = $entry;
+                            }
+                            $tdir->close();
+                        }
+                        sort($themes);
 
-                            if ($current_id == 'default') {
-                                $sel_id = 'default';
-                            } else {
-                                // Simple extraction for defaults
-                                if (strpos($current_id, $theme_name) === 0) {
-                                    $sel_theme = $theme_name;
-                                    $after_theme = substr($current_id, strlen($theme_name) + 1);
-                                    if ($after_theme == 'ko' || $after_theme == 'en') {
-                                        $sel_lang = $after_theme;
-                                    } else {
-                                        $sel_id = $current_id;
+                        // ID Parsing
+                        $sel_theme = (isset($config['cf_theme']) && $config['cf_theme']) ? $config['cf_theme'] : '';
+                        $sel_lang = 'ko';
+                        $sel_custom = '';
+
+                        if ($w == 'u' && isset($cp['cp_id']) && $cp['cp_id']) {
+                            $parts = explode('_', $cp['cp_id']);
+                            if (isset($parts[0]) && in_array($parts[0], $themes)) {
+                                $sel_theme = $parts[0];
+                                if (isset($parts[1]) && in_array($parts[1], array('ko', 'en', 'jp', 'cn'))) {
+                                    $sel_lang = $parts[1];
+                                    if (isset($parts[2])) {
+                                        array_shift($parts);
+                                        array_shift($parts);
+                                        $sel_custom = implode('_', $parts);
                                     }
                                 } else {
-                                    $sel_id = $current_id;
+                                    if (isset($parts[1])) {
+                                        array_shift($parts);
+                                        $sel_custom = implode('_', $parts);
+                                    }
                                 }
+                            } else if ($cp['cp_id'] == 'default') {
+                                $sel_theme = '';
+                                $sel_custom = 'default';
+                            } else {
+                                $sel_theme = '';
+                                $sel_custom = $cp['cp_id'];
                             }
-                            ?>
-                            <select id="theme_select" class="frm_input" onchange="generate_id()" <?php echo $readonly ? 'disabled' : ''; ?>>
+                        }
+                        ?>
+                        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                            <select name="cp_theme" id="cp_theme" class="frm_input" onchange="generate_id()" <?php echo $readonly ? 'disabled' : ''; ?>>
                                 <option value="">테마 선택</option>
-                                <option value="<?php echo $theme_name; ?>" <?php echo ($sel_theme == $theme_name) ? 'selected' : ''; ?>>현재 테마 (<?php echo $theme_name; ?>)</option>
-                                <option value="custom" <?php echo ($sel_id && $sel_id != 'default' && !$sel_theme) ? 'selected' : ''; ?>>직접 입력</option>
+                                <?php foreach ($themes as $theme) {
+                                    $selected = ($theme == $sel_theme) ? 'selected' : '';
+                                    echo '<option value="' . $theme . '" ' . $selected . '>' . $theme . '</option>';
+                                } ?>
                             </select>
-
-                            <select id="lang_select" class="frm_input" onchange="generate_id()" <?php echo $readonly ? 'disabled' : ''; ?>>
-                                <option value="">언어 선택</option>
-                                <option value="ko" <?php echo $sel_lang == 'ko' ? 'selected' : ''; ?>>한국어 (KR)</option>
-                                <option value="en" <?php echo $sel_lang == 'en' ? 'selected' : ''; ?>>영어 (EN)</option>
+                            <select name="cp_lang" id="cp_lang" class="frm_input" onchange="generate_id()" <?php echo $readonly ? 'disabled' : ''; ?>>
+                                <option value="ko" <?php echo ($sel_lang == 'ko' ? 'selected' : ''); ?>>한국어 (KR)</option>
+                                <option value="en" <?php echo ($sel_lang == 'en' ? 'selected' : ''); ?>>English (EN)
+                                </option>
+                                <option value="jp" <?php echo ($sel_lang == 'jp' ? 'selected' : ''); ?>>Japanese (JP)
+                                </option>
+                                <option value="cn" <?php echo ($sel_lang == 'cn' ? 'selected' : ''); ?>>Chinese (CN)
+                                </option>
                             </select>
-
-                            <input type="text" name="cp_id" value="<?php echo $current_id; ?>" id="cp_id" required
-                                class="frm_input <?php echo $readonly ? 'readonly' : ''; ?>" <?php echo $readonly; ?>
-                                size="20" placeholder="결과 ID">
-
-                            <?php if ($w == ''): ?>
-                                <span class="frm_info">테마와 언어를 선택하면 ID가 자동 생성됩니다.</span>
-                            <?php endif; ?>
+                            <input type="text" name="cp_custom" id="cp_custom" value="<?php echo $sel_custom; ?>"
+                                class="frm_input" placeholder="커스텀 이름 (선택)" onkeyup="generate_id()" <?php echo $readonly ? 'readonly' : ''; ?>>
                         </div>
+                        <div
+                            style="margin-top:8px; font-size:12px; color:#666; padding:10px; background:#f9f9f9; border:1px solid #eee; display:inline-block;">
+                            생성된 식별코드(ID): <strong id="generated_id_display"
+                                style="color:#d4af37; font-size:1.1em;"><?php echo isset($cp['cp_id']) ? $cp['cp_id'] : '-'; ?></strong>
+                        </div>
+                        <p class="frm_info" style="margin-top:5px;">테마와 언어를 선택하면 식별코드가 자동으로 생성됩니다.</p>
+                        <input type="hidden" name="cp_id" id="cp_id"
+                            value="<?php echo isset($cp['cp_id']) ? $cp['cp_id'] : ''; ?>">
                     </td>
                 </tr>
                 <tr>
                     <th scope="row"><label for="cp_subject">제목 (관리용)</label></th>
                     <td>
-                        <input type="text" name="cp_subject" value="<?php echo $cp['cp_subject']; ?>" id="cp_subject"
+                        <input type="text" name="cp_subject" value="<?php echo get_text($cp['cp_subject']); ?>" id="cp_subject"
                             required class="frm_input" size="60">
                     </td>
                 </tr>
@@ -164,7 +193,7 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                             <div style="margin-bottom:15px;">
                                 <label for="slogan"
                                     style="display:inline-block; width:120px; font-weight:bold;">슬로건</label>
-                                <input type="text" name="slogan" value="<?php echo $cp['slogan'] ?? ''; ?>" id="slogan"
+                                <input type="text" name="slogan" value="<?php echo get_text($cp['slogan'] ?? ''); ?>" id="slogan"
                                     class="frm_input" size="60">
                             </div>
 
@@ -173,9 +202,9 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                     <label for="addr_val" style="display:block; font-weight:bold; margin-bottom:5px;">주소
                                         (Address)</label>
                                     <input type="text" name="addr_label"
-                                        value="<?php echo ($cp['addr_label'] ?? '') ?: 'ADD'; ?>" class="frm_input"
+                                        value="<?php echo get_text(($cp['addr_label'] ?? '') ?: 'ADD'); ?>" class="frm_input"
                                         size="10" placeholder="라벨">
-                                    <input type="text" name="addr_val" value="<?php echo $cp['addr_val'] ?? ''; ?>"
+                                    <input type="text" name="addr_val" value="<?php echo get_text($cp['addr_val'] ?? ''); ?>"
                                         id="addr_val" class="frm_input" style="width:calc(100% - 100px);"
                                         placeholder="내용">
                                 </div>
@@ -183,9 +212,9 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                     <label for="tel_val" style="display:block; font-weight:bold; margin-bottom:5px;">연락처
                                         (Tel)</label>
                                     <input type="text" name="tel_label"
-                                        value="<?php echo ($cp['tel_label'] ?? '') ?: 'TEL'; ?>" class="frm_input"
+                                        value="<?php echo get_text(($cp['tel_label'] ?? '') ?: 'TEL'); ?>" class="frm_input"
                                         size="10" placeholder="라벨">
-                                    <input type="text" name="tel_val" value="<?php echo $cp['tel_val'] ?? ''; ?>"
+                                    <input type="text" name="tel_val" value="<?php echo get_text($cp['tel_val'] ?? ''); ?>"
                                         id="tel_val" class="frm_input" style="width:calc(100% - 100px);"
                                         placeholder="내용">
                                 </div>
@@ -196,9 +225,9 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                     <label for="fax_val" style="display:block; font-weight:bold; margin-bottom:5px;">팩스
                                         (Fax)</label>
                                     <input type="text" name="fax_label"
-                                        value="<?php echo ($cp['fax_label'] ?? '') ?: 'FAX'; ?>" class="frm_input"
+                                        value="<?php echo get_text(($cp['fax_label'] ?? '') ?: 'FAX'); ?>" class="frm_input"
                                         size="10" placeholder="라벨">
-                                    <input type="text" name="fax_val" value="<?php echo $cp['fax_val'] ?? ''; ?>"
+                                    <input type="text" name="fax_val" value="<?php echo get_text($cp['fax_val'] ?? ''); ?>"
                                         id="fax_val" class="frm_input" style="width:calc(100% - 100px);"
                                         placeholder="내용">
                                 </div>
@@ -206,9 +235,9 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                     <label for="email_val"
                                         style="display:block; font-weight:bold; margin-bottom:5px;">이메일 (Email)</label>
                                     <input type="text" name="email_label"
-                                        value="<?php echo ($cp['email_label'] ?? '') ?: 'EMAIL'; ?>" class="frm_input"
+                                        value="<?php echo get_text(($cp['email_label'] ?? '') ?: 'EMAIL'); ?>" class="frm_input"
                                         size="10" placeholder="라벨">
-                                    <input type="text" name="email_val" value="<?php echo $cp['email_val'] ?? ''; ?>"
+                                    <input type="text" name="email_val" value="<?php echo get_text($cp['email_val'] ?? ''); ?>"
                                         id="email_val" class="frm_input" style="width:calc(100% - 100px);"
                                         placeholder="내용">
                                 </div>
@@ -219,9 +248,9 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                     <label for="link1_url"
                                         style="display:block; font-weight:bold; margin-bottom:5px;">링크 1 (Privacy Policy
                                         등)</label>
-                                    <input type="text" name="link1_name" value="<?php echo $cp['link1_name'] ?? ''; ?>"
+                                    <input type="text" name="link1_name" value="<?php echo get_text($cp['link1_name'] ?? ''); ?>"
                                         class="frm_input" size="15" placeholder="링크명">
-                                    <input type="text" name="link1_url" value="<?php echo $cp['link1_url'] ?? ''; ?>"
+                                    <input type="text" name="link1_url" value="<?php echo get_text($cp['link1_url'] ?? ''); ?>"
                                         id="link1_url" class="frm_input" style="width:calc(100% - 140px);"
                                         placeholder="URL">
                                 </div>
@@ -229,9 +258,9 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                     <label for="link2_url"
                                         style="display:block; font-weight:bold; margin-bottom:5px;">링크 2 (Terms
                                         등)</label>
-                                    <input type="text" name="link2_name" value="<?php echo $cp['link2_name'] ?? ''; ?>"
+                                    <input type="text" name="link2_name" value="<?php echo get_text($cp['link2_name'] ?? ''); ?>"
                                         class="frm_input" size="15" placeholder="링크명">
-                                    <input type="text" name="link2_url" value="<?php echo $cp['link2_url'] ?? ''; ?>"
+                                    <input type="text" name="link2_url" value="<?php echo get_text($cp['link2_url'] ?? ''); ?>"
                                         id="link2_url" class="frm_input" style="width:calc(100% - 140px);"
                                         placeholder="URL">
                                 </div>
@@ -240,7 +269,7 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                             <div style="margin-top:15px;">
                                 <label for="copyright"
                                     style="display:inline-block; width:120px; font-weight:bold;">카피라이트 문구</label>
-                                <input type="text" name="copyright" value="<?php echo $cp['copyright'] ?? ''; ?>"
+                                <input type="text" name="copyright" value="<?php echo get_text($cp['copyright'] ?? ''); ?>"
                                     id="copyright" class="frm_input" size="80">
                             </div>
                             <input type="hidden" name="logo_url" value="<?php echo $cp['logo_url'] ?? ''; ?>">
@@ -397,7 +426,21 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                             ※ 위 하단 정보(Quick Info)에 입력한 내용은 <strong>{addr}, {tel}, {fax}, {email}, {logo}, {copyright},
                                 {link1}, {link2}</strong> 치환자로 자동 치환되어 에디터에 로드됩니다.
                         </div>
-                        <?php echo editor_html('cp_content', get_text($cp['cp_content'], 0)); ?>
+                        <?php 
+                        $content = isset($cp['cp_content']) ? $cp['cp_content'] : '';
+                        
+                        // Auto-recovery: If content starts with escaped HTML tag (e.g. &lt;div, &lt;p), decode it
+                        // This handles the "corrupted" DB data case
+                        if (preg_match('/^\s*&lt;[a-z]+/', $content) || preg_match('/^\s*&amp;lt;/', $content)) {
+                            $content = html_entity_decode($content);
+                            // Double decode check for &amp;lt; case
+                            if (preg_match('/^\s*&lt;[a-z]+/', $content)) {
+                                $content = html_entity_decode($content);
+                            }
+                        }
+                        
+                        echo editor_html('cp_content', $content); 
+                        ?>
                     </td>
                 </tr>
             </tbody>
@@ -414,29 +457,48 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
 </form>
 
 <script>
-    // Pattern A: Dynamic ID Generation
+    // Pattern A: Dynamic ID Generation (Standardized)
     function generate_id() {
-        var theme = $('#theme_select').val();
-        var lang = $('#lang_select').val();
-        var $id_input = $('#cp_id');
+        var theme = $('#cp_theme').val();
+        var lang = $('#cp_lang').val();
+        var custom = $('#cp_custom').val().trim();
 
-        if ($id_input.hasClass('readonly')) return;
-
-        if (theme === 'custom') {
-            $id_input.prop('readonly', false).removeClass('readonly').focus();
+        if (custom === 'default') {
+            $('#generated_id_display').text('default');
+            $('#cp_id').val('default');
             return;
         }
 
-        var new_id = '';
-        if (theme) {
-            new_id = theme;
-            if (lang) {
-                new_id += '_' + lang;
+        if (!theme) {
+            // If custom input exists but no theme, use custom as ID (Legacy support or Pure Custom)
+            if (custom) {
+                $('#generated_id_display').text(custom);
+                $('#cp_id').val(custom);
+            } else {
+                $('#generated_id_display').text('-');
+                $('#cp_id').val('');
             }
+            return;
         }
 
-        $id_input.val(new_id);
+        var new_id = theme;
+        if (lang) {
+            new_id += '_' + lang;
+        }
+        if (custom) {
+            new_id += '_' + custom;
+        }
+
+        $('#generated_id_display').text(new_id);
+        $('#cp_id').val(new_id);
     }
+
+    // Initial ID Generation trigger if in write mode
+    $(document).ready(function () {
+        if ($('input[name="w"]').val() == '') {
+            generate_id();
+        }
+    });
 
     function load_template(skin) {
         if (!confirm('현재 에디터의 내용이 삭제되고 선택한 스킨의 기본 템플릿으로 변경됩니다. 계속하시겠습니까?')) return;

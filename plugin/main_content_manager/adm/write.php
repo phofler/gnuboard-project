@@ -4,6 +4,7 @@ include_once('./_common.php');
 include_once(G5_EDITOR_LIB);
 define('G5_IS_ADMIN', true);
 include_once(G5_ADMIN_PATH . '/admin.lib.php');
+include_once(G5_PATH . '/lib/theme_css.lib.php');
 
 $ms_id = isset($_GET['ms_id']) ? (int) $_GET['ms_id'] : 0;
 $w = isset($_GET['w']) ? $_GET['w'] : '';
@@ -214,11 +215,19 @@ if (count($items) < 1) {
                                 $tdir->close();
                             }
                             sort($themes);
+
+                            // [DYNAMIC THEME BG] Always prioritize ACTIVE SITE THEME for "Default" reference
+                            $theme_bg_default = get_theme_css_value($config['cf_theme'], array('--color-bg', '--color-bg-dark'), '#121212');
                             ?>
                             <select name="ms_theme" id="ms_theme" class="frm_input" onchange="generate_ms_key();">
                                 <option value="">테마 선택</option>
-                                <?php foreach ($themes as $t) { ?>
-                                    <option value="<?php echo $t; ?>" <?php echo ($ms['ms_theme'] == $t) ? 'selected' : ''; ?>><?php echo $t; ?></option>
+                                <?php foreach ($themes as $t) {
+                                    $t_bg = get_theme_css_value($t, array('--color-bg', '--color-bg-dark'), '#121212');
+                                    $t_text = get_theme_css_value($t, array('--color-text-primary'), '#e0e0e0');
+                                    ?>
+                                    <option value="<?php echo $t; ?>" <?php echo ($ms['ms_theme'] == $t) ? 'selected' : ''; ?>
+                                        data-bg="<?php echo $t_bg; ?>" data-text="<?php echo $t_text; ?>"><?php echo $t; ?>
+                                    </option>
                                 <?php } ?>
                             </select>
                             <select name="ms_lang" id="ms_lang" class="frm_input" onchange="generate_ms_key();">
@@ -250,6 +259,59 @@ if (count($items) < 1) {
                         <input type="text" name="ms_title" value="<?php echo get_text($ms['ms_title']); ?>"
                             id="ms_title" class="frm_input" style="width:100%; max-width:400px; font-weight:bold;">
                         <label style="margin-left:15px;"><input type="checkbox" name="ms_show_title" value="1" <?php echo $ms['ms_show_title'] ? 'checked' : ''; ?>> 사용자 페이지 제목 출력</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">배경 디자인</th>
+                    <td>
+                        <?php
+                        $ms_bg_mode = isset($ms['ms_bg_mode']) ? $ms['ms_bg_mode'] : 'default';
+                        $bg_options = array(
+                            'default' => '기본 (Theme Default)',
+                            'white' => '심플 (White)',
+                            'accent' => '포인트 (Accent Gold)',
+                            'deep' => '어두움 (Deep Panel)'
+                        );
+                        ?>
+                        <div class="bg-mode-selector">
+                            <?php foreach ($bg_options as $key => $label) { ?>
+                                <label
+                                    style="margin-right:20px; cursor:pointer; display:inline-flex; align-items:center; gap:5px;">
+                                    <input type="radio" name="ms_bg_mode" value="<?php echo $key; ?>" <?php echo ($ms_bg_mode == $key) ? 'checked' : ''; ?>>
+                                    <span class="bg-swatch bg-<?php echo $key; ?>"></span>
+                                    <?php echo $label; ?>
+                                </label>
+                            <?php } ?>
+                        </div>
+                        <style>
+                            .bg-swatch {
+                                width: 16px;
+                                height: 16px;
+                                border: 1px solid #ccc;
+                                display: inline-block;
+                                vertical-align: middle;
+                                border-radius: 3px;
+                            }
+
+                            .bg-default {
+                                background:
+                                    <?php echo $theme_bg_default; ?>
+                                ;
+                            }
+
+                            .bg-white {
+                                background: #ffffff;
+                            }
+
+                            .bg-accent {
+                                background: #d4af37;
+                            }
+
+                            .bg-deep {
+                                background: #1e1e1e;
+                            }
+                        </style>
+                        <div class="frm_info">이 섹션의 배경 스타일을 선택하세요. 테마 디자인 토큰에 따라 자동으로 색상이 적용됩니다.</div>
                     </td>
                 </tr>
                 <tr>
@@ -477,16 +539,31 @@ if (count($items) < 1) {
     }
 
     function generate_ms_key() {
-        var lang = $('#ms_lang').val();
         var theme = $('#ms_theme').val();
+        var lang = $('#ms_lang').val();
         var custom = $('#ms_key_custom').val().trim();
         var ms_id = '<?php echo $ms_id; ?>';
 
-        var key = theme;
-        if (lang !== 'kr') {
-            key += '_' + lang;
+        if (!theme) {
+            $('#ms_key_display').text('-');
+            $('#ms_key').val('');
+            return;
         }
 
+        // Standardize: Update visual swatches for the selected theme
+        var selected_opt = $('#ms_theme option:selected');
+        var selected_bg = selected_opt.data('bg');
+        var selected_text = selected_opt.data('text'); // Get data-text
+        if (selected_bg) {
+            $('.bg-default').css('background-color', selected_bg);
+        }
+        if (selected_text) { // Update text color if data-text exists
+            $('.bg-default').css('color', selected_text);
+        }
+
+
+        var key = theme;
+        if (lang && lang != 'kr') key += '_' + lang;
         if (custom) {
             key += '_' + custom.replace(/[^a-z0-9_]/gi, '');
         } else if (!ms_id || ms_id == '0') {

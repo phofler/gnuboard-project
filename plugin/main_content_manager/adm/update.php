@@ -52,9 +52,14 @@ $ms_active = isset($_POST['ms_active']) ? 1 : 0;
 $ms_show_title = isset($_POST['ms_show_title']) ? 1 : 0;
 $ms_accent_color = sql_real_escape_string($_POST['ms_accent_color']);
 $ms_font_mode = sql_real_escape_string($_POST['ms_font_mode']);
+$ms_bg_mode = sql_real_escape_string($_POST['ms_bg_mode']);
+
+// [MIGRATION] Auto-add column if not exists
+sql_query(" ALTER TABLE g5_plugin_main_content_sections ADD IF NOT EXISTS ms_bg_mode varchar(20) DEFAULT 'default' AFTER ms_skin ", false);
 
 $sql_common = " ms_title = '{$ms_title}',
                 ms_skin = '{$ms_skin}',
+                ms_bg_mode = '{$ms_bg_mode}',
                 ms_sort = '{$ms_sort}',
                 ms_active = '{$ms_active}',
                 ms_show_title = '{$ms_show_title}',

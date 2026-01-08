@@ -4,7 +4,7 @@ if (!defined('_GNUBOARD_'))
 // $skin_url, $skin_path 는 form.php 에서 정의됨
 ?>
 
-<div class="online_inquiry_wrap">
+<div class="online_inquiry_wrap" <?php echo (isset($oi_bgcolor) && $oi_bgcolor) ? 'style="background-color:' . $oi_bgcolor . ';"' : ''; ?>>
     <?php if ($page_subject) { ?>
         <h2 class="page_title"><?php echo $page_subject; ?></h2>
     <?php } ?>

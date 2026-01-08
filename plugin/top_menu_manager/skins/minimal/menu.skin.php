@@ -3,7 +3,7 @@ if (!defined('_GNUBOARD_'))
     exit;
 
 // Menu Data Load (Already supplied by display_pro_menu in lib.php)
-// $menu_datas = get_menu_db(0, true);
+include_once(G5_PLUGIN_PATH . '/top_menu_manager/skin.head.php');
 
 // [FIX] Load Skin CSS (Handled by lib.php)
 // $menu_skin_url = G5_PLUGIN_URL . '/top_menu_manager/skins/minimal';
@@ -14,24 +14,7 @@ if (!defined('_GNUBOARD_'))
     <!-- Logo -->
     <div id="logo">
         <a href="<?php echo G5_URL ?>">
-            <?php
-            // Custom Logo Logic (Dynamic)
-            $logo_src = G5_IMG_URL . '/logo.png';
-            $custom_logo_path = G5_DATA_PATH . '/common/top_logo_dark.png'; // Minimal prefers dark/clean logo
-            
-            if (isset($top_logo_pc) && $top_logo_pc) {
-                // Use Configured Logo
-                $logo_src = $top_logo_pc . '?v=' . time();
-            } else if (file_exists($custom_logo_path)) {
-                $logo_src = G5_DATA_URL . '/common/top_logo_dark.png?v=' . time();
-            } else {
-                // Windows Path Fix (from Basic Skin)
-                $custom_logo_path_win = str_replace('/', '\\', $custom_logo_path);
-                if (file_exists($custom_logo_path_win)) {
-                    $logo_src = G5_DATA_URL . '/common/top_logo_dark.png?v=' . time();
-                }
-            }
-            ?>
+            <img src="<?php echo $logo_src; ?>" alt="<?php echo $config['cf_title']; ?>">
             <img src="<?php echo $logo_src; ?>" alt="<?php echo $config['cf_title']; ?>">
         </a>
     </div>

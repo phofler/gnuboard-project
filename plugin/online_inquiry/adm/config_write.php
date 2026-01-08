@@ -8,6 +8,7 @@ if (!defined('G5_ADMIN_PATH')) {
 }
 include_once(G5_ADMIN_PATH . '/admin.lib.php');
 include_once(G5_EDITOR_LIB);
+include_once(G5_PATH . '/lib/theme_css.lib.php');
 
 auth_check_menu($auth, $sub_menu, 'w');
 
@@ -152,7 +153,7 @@ $w = isset($_REQUEST['w']) ? $_REQUEST['w'] : '';
 
 $row = array(
     'oi_id' => '',
-    'theme' => 'corporate',
+    'theme' => $config['cf_theme'],
     'lang' => 'kr',
     'skin' => 'basic',
     'subject' => '',
@@ -160,7 +161,8 @@ $row = array(
     'label_name' => 'Name',
     'label_phone' => 'Phone',
     'label_msg' => 'Message',
-    'label_submit' => 'Submit'
+    'label_submit' => 'Submit',
+    'oi_bgcolor' => ''
 );
 
 if ($w == 'u' && $oi_id) {
@@ -224,6 +226,13 @@ if ($w == 'u' && $row['oi_id']) {
         }
     }
 }
+
+// [DYNAMIC THEME BG] Always prioritize ACTIVE SITE THEME for the "Absolute Default" reference
+$theme_bg_default = get_theme_css_value($config['cf_theme'], array('--color-bg', '--color-bg-dark'), '#121212');
+$theme_text_default = get_theme_css_value($config['cf_theme'], array('--color-text-primary'), '#e0e0e0');
+
+// Preview logic: if stored bgcolor exists, use it; otherwise use the site's default
+$preview_bg = (isset($row['oi_bgcolor']) && $row['oi_bgcolor']) ? $row['oi_bgcolor'] : $theme_bg_default;
 ?>
 
 <form name="fconfigform" method="post" action="./config_update.php" onsubmit="return fconfigform_submit(this);"
@@ -250,7 +259,9 @@ if ($w == 'u' && $row['oi_id']) {
                                 <option value="">테마 선택</option>
                                 <?php foreach ($themes as $theme) {
                                     $selected = ($theme == $sel_theme) ? 'selected' : '';
-                                    echo '<option value="' . $theme . '" ' . $selected . '>' . $theme . '</option>';
+                                    $t_bg = get_theme_css_value($theme, array('--color-bg', '--color-bg-dark'), '#121212');
+                                    $t_text = get_theme_css_value($theme, array('--color-text-primary'), '#e0e0e0');
+                                    echo '<option value="' . $theme . '" ' . $selected . ' data-bg="' . $t_bg . '" data-text="' . $t_text . '">' . $theme . '</option>';
                                 } ?>
                             </select>
                             <select name="oi_lang" id="oi_lang" class="frm_input" onchange="generate_oi_id()">
@@ -283,7 +294,8 @@ if ($w == 'u' && $row['oi_id']) {
                             <?php
                             $skin_info = array(
                                 'basic' => array('Classic Basic', 'fa-align-left', '표준형 입력 폼'),
-                                'corporate' => array('Premium Editorial', 'fa-building', '테마 맞춤형 디자인')
+                                'corporate' => array('Premium Editorial', 'fa-building', '테마 맞춤형 디자인'),
+                                'modern' => array('Modern Minimal', 'fa-cube', '세련된 미니멀 디자인')
                             );
 
                             foreach ($skins as $sk) {
@@ -319,6 +331,38 @@ if ($w == 'u' && $row['oi_id']) {
                             <div style="color:#856404; font-size:13px; font-weight:600;">스킨을 선택하면 기본 양식이 에디터에 자동으로
                                 입력됩니다. 기존 내용은 삭제되니 주의하세요.</div>
                         </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th scope="row"><label for="oi_bgcolor">배경색 선택</label></th>
+                    <td>
+                        <style>
+                            .color_picker_wrapper {
+                                display: inline-block;
+                                vertical-align: middle;
+                                margin-right: 10px;
+                            }
+
+                            .color_picker_wrapper input[type="color"] {
+                                width: 50px;
+                                height: 30px;
+                                border: none;
+                                padding: 0;
+                                cursor: pointer;
+                            }
+                        </style>
+                        <div class="color_picker_wrapper" style="display:flex; align-items:center; gap:10px;">
+                            <input type="color" id="oi_bgcolor_picker" value="<?php echo $preview_bg; ?>"
+                                onchange="$('#oi_bgcolor').val(this.value); update_editor_bg(this.value);">
+                            <input type="text" name="oi_bgcolor"
+                                value="<?php echo isset($row['oi_bgcolor']) ? $row['oi_bgcolor'] : ''; ?>"
+                                id="oi_bgcolor" class="frm_input" size="10"
+                                placeholder="기본값 (<?php echo $theme_bg_default; ?>)">
+                            <button type="button" class="btn btn_02 btn_sm" onclick="reset_bgcolor()">기본값으로 복원</button>
+                        </div>
+                        <span class="frm_info">이 페이지의 배경색을 선택하세요. 기본값은 테마의
+                            <strong id="theme_bg_label"><?php echo $theme_bg_default; ?></strong> 입니다.</span>
                     </td>
                 </tr>
 
@@ -425,11 +469,17 @@ if ($w == 'u' && $row['oi_id']) {
         if (typeof oEditors !== 'undefined' && oEditors.getById["content"]) {
             try {
                 var doc = oEditors.getById["content"].getWYSIWYGDocument();
-                doc.body.style.backgroundColor = color;
-                if (color == "#121212") {
+
+                var targetColor = color;
+                if (!targetColor) targetColor = theme_bg_default;
+
+                doc.body.style.backgroundColor = targetColor;
+                if (targetColor == theme_bg_default) {
+                    doc.body.style.color = theme_text_default;
+                } else if (targetColor == "#121212" || targetColor == "#000000") {
                     doc.body.style.color = "#eee";
-                } else {
-                    doc.body.style.color = "";
+                } else if (targetColor == "#ffffff" || targetColor == "#f3f3f3") {
+                    doc.body.style.color = "#121212";
                 }
             } catch (e) { }
         }
@@ -446,12 +496,37 @@ if ($w == 'u' && $row['oi_id']) {
             return;
         }
 
+        // Live color update via select attribute (pre-loaded)
+        var selected_opt = $('#oi_theme option:selected');
+        var selected_bg = selected_opt.data('bg');
+        var selected_text = selected_opt.data('text');
+        if (selected_bg) {
+            update_theme_ui(selected_bg, selected_text);
+        }
+
         var id = theme;
         if (lang && lang != 'kr') id += '_' + lang;
         if (custom) id += '_' + custom.replace(/[^a-z0-9_]/gi, '');
 
         $('#generated_id_display').text(id);
         $('#oi_id').val(id);
+    }
+
+    var theme_bg_default = '<?php echo $theme_bg_default; ?>';
+    var theme_text_default = '<?php echo $theme_text_default; ?>';
+
+    function update_theme_ui(bg, text) {
+        theme_bg_default = bg;
+        if (text) theme_text_default = text;
+
+        $('#theme_bg_label').text(bg);
+        $('#oi_bgcolor').attr('placeholder', '기본값 (' + bg + ')');
+
+        // If no custom color is set, update visual preview
+        if (!$('#oi_bgcolor').val()) {
+            $('#oi_bgcolor_picker').val(bg);
+            update_editor_bg(bg);
+        }
     }
 
     function fconfigform_submit(f) {
@@ -464,13 +539,24 @@ if ($w == 'u' && $row['oi_id']) {
         return true;
     }
 
+    function reset_bgcolor() {
+        $('#oi_bgcolor').val('');
+        $('#oi_bgcolor_picker').val(theme_bg_default);
+        update_editor_bg(theme_bg_default);
+    }
+
     $(document).ready(function () {
         if (!$('#oi_id').val()) generate_oi_id();
 
-        // 초기 로드시 스킨에 따른 에디터 배경색 설정
+        $('#oi_bgcolor').on('input change', function () {
+            update_editor_bg($(this).val());
+        });
+
+        // 초기 로드시 스킨/배경색 설정
         setTimeout(function () {
-            var current_skin = $('#skin_id').val();
-            if (current_skin == 'corporate') update_editor_bg("#121212");
+            var current_bg = $('#oi_bgcolor').val();
+            if (!current_bg) current_bg = theme_bg_default;
+            update_editor_bg(current_bg);
         }, 1000);
     });
 </script>

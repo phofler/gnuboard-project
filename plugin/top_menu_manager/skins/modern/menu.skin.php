@@ -3,9 +3,7 @@ if (!defined('_GNUBOARD_'))
     exit;
 
 // Menu Data Load
-// Menu Data Load (Supplied by display_pro_menu)
-// // Menu Data Load (Supplied by display_pro_menu)
-// $menu_datas = get_menu_db(0, true);
+include_once(G5_PLUGIN_PATH . '/top_menu_manager/skin.head.php');
 
 // [FIX] Load Skin CSS (Required for Live Site)
 $menu_skin_url = G5_PLUGIN_URL . '/top_menu_manager/skins/modern';
@@ -18,14 +16,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $menu_skin_url . '/style.css?v=
     <!-- Logo -->
     <div id="logo">
         <a href="<?php echo G5_URL ?>">
-            <?php
-            $logo_path = G5_DATA_PATH . '/common/top_logo_dark.png';
-            if (file_exists($logo_path)) {
-                echo '<img src="' . G5_DATA_URL . '/common/top_logo_dark.png?v=' . time() . '" alt="' . $config['cf_title'] . '">';
-            } else {
-                echo '<img src="' . G5_IMG_URL . '/logo.png" alt="' . $config['cf_title'] . '">';
-            }
-            ?>
+            <img src="<?php echo $logo_src; ?>" alt="<?php echo $config['cf_title']; ?>">
         </a>
     </div>
 

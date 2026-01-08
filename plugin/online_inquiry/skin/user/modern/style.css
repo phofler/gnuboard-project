@@ -1,0 +1,106 @@
+/* Modern Minimal Skin Styles */
+
+.modern-inquiry-skin {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 0;
+    font-family: var(--font-body, 'Noto Sans KR', sans-serif);
+}
+
+.modern-input-group {
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.modern-input,
+.modern-textarea {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+    color: var(--color-text-primary, #333);
+    border: none;
+    border-bottom: 1px solid #ddd;
+    background: transparent;
+    outline: none;
+    transition: 0.3s;
+    border-radius: 0;
+}
+
+/* Dark Mode Support */
+[data-theme="dark"] .modern-input,
+[data-theme="dark"] .modern-textarea {
+    color: #fff;
+    border-bottom-color: #444;
+}
+
+.modern-label {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    font-size: 16px;
+    color: #999;
+    pointer-events: none;
+    transition: 0.3s ease all;
+}
+
+/* Floating Label Logic */
+.modern-input:focus~.modern-label,
+.modern-input:not(:placeholder-shown)~.modern-label,
+.modern-textarea:focus~.modern-label,
+.modern-textarea:not(:placeholder-shown)~.modern-label {
+    top: -20px;
+    font-size: 12px;
+    color: var(--color-accent-gold, #d4af37);
+}
+
+/* Focus Border Animation */
+.focus-border {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-accent-gold, #d4af37);
+    transition: 0.3s;
+}
+
+.modern-input:focus~.focus-border,
+.modern-textarea:focus~.focus-border {
+    width: 100%;
+}
+
+.btn-modern-submit {
+    width: 100%;
+    padding: 18px 0;
+    background: var(--color-text-primary, #333);
+    color: var(--color-bg, #fff);
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-modern-submit:hover {
+    background: var(--color-accent-gold, #d4af37);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark Mode Button */
+[data-theme="dark"] .btn-modern-submit {
+    background: #fff;
+    color: #000;
+}
+
+[data-theme="dark"] .btn-modern-submit:hover {
+    background: var(--color-accent-gold, #d4af37);
+    color: #fff;
+}

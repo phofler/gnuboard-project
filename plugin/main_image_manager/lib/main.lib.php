@@ -47,7 +47,14 @@ function get_main_slides($mi_id)
             if (preg_match("/^(http|https):/i", $row['mi_image'])) {
                 $img_src = $row['mi_image'];
             } else {
-                $img_src = G5_DATA_URL . '/main_visual/' . $row['mi_image'];
+                // Priority: common_assets -> main_visual (legacy)
+                if (file_exists(G5_DATA_PATH . '/common_assets/' . $row['mi_image'])) {
+                    $img_src = G5_DATA_URL . '/common_assets/' . $row['mi_image'];
+                } else if (file_exists(G5_DATA_PATH . '/main_visual/' . $row['mi_image'])) {
+                    $img_src = G5_DATA_URL . '/main_visual/' . $row['mi_image'];
+                } else {
+                    $img_src = G5_DATA_URL . '/common_assets/' . $row['mi_image']; // Fallback
+                }
             }
         }
         $row['img_url'] = $img_src;
@@ -83,7 +90,7 @@ function display_main_visual($mi_id = '')
 
     // 4. Load Skin CSS
     if (file_exists($css_file)) {
-        echo '<link rel="stylesheet" href="' . $skin_url . '/style.css?v=' . time() . '">';
+        add_stylesheet('<link rel="stylesheet" href="' . $skin_url . '/style.css?v=' . time() . '">', 0);
     }
 
     // 5. Include Skin PHP

@@ -2,10 +2,8 @@
 if (!defined('_GNUBOARD_'))
     exit;
 
-// Menu Data Load (Fallback if not provided by controller)
-if (!isset($menu_datas) || empty($menu_datas)) {
-    $menu_datas = get_menu_db(0, true);
-}
+// Shared Header (Logic: Menu Data, Logo Path)
+include_once(G5_PLUGIN_PATH . '/top_menu_manager/skin.head.php');
 
 // [FIX] Load Skin CSS (Direct Echo required because head is already closed)
 $menu_skin_url = G5_PLUGIN_URL . '/top_menu_manager/skins/basic';
@@ -19,24 +17,6 @@ echo '<link rel="stylesheet" href="' . $menu_skin_url . '/style.css?v=' . time()
     <!-- Logo (Dynamic) -->
     <div id="logo">
         <a href="<?php echo G5_URL ?>">
-            <?php
-            // Custom Logo Logic (Dynamic)
-            $logo_src = G5_IMG_URL . '/logo.png';
-            $custom_logo_path = G5_DATA_PATH . '/common/top_logo_dark.png';
-
-            if (isset($top_logo_pc) && $top_logo_pc) {
-                // Use Configured Logo
-                $logo_src = $top_logo_pc . '?v=' . time();
-            } else if (file_exists($custom_logo_path)) {
-                $logo_src = G5_DATA_URL . '/common/top_logo_dark.png?v=' . time();
-            } else {
-                // Fallback debug: check alternative slash consistency just in case
-                $custom_logo_path_win = str_replace('/', '\\', $custom_logo_path);
-                if (file_exists($custom_logo_path_win)) {
-                    $logo_src = G5_DATA_URL . '/common/top_logo_dark.png?v=' . time();
-                }
-            }
-            ?>
             <img src="<?php echo $logo_src; ?>" alt="<?php echo $config['cf_title']; ?>">
         </a>
     </div>

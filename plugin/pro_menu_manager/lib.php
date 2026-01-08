@@ -243,18 +243,33 @@ function display_pro_menu($skin_name = 'basic')
     // 3. Set Active Skin (Method B: Admin-First Priority)
     $top_menu_skin = '';
 
-    // Priority 1: Check Admin Setting (setting.php)
-    $setting_file = G5_PLUGIN_PATH . '/top_menu_manager/setting.php';
-    if (file_exists($setting_file)) {
-        include($setting_file); // This provides $top_menu_skin if exists
+    // Priority 1: Check Database Configuration (Most Dynamic)
+    // Needs to match current theme ID (e.g., 'corporate' or 'corporate_en')
+    $tm_id = $config['cf_theme'];
+    if (defined('G5_LANG') && G5_LANG != 'kr') {
+        $tm_id .= '_' . G5_LANG;
     }
 
-    // Priority 2: Use Theme Argument if Admin setting is empty
+    $sql_tm = " SELECT tm_skin FROM g5_plugin_top_menu_config WHERE tm_id = '{$tm_id}' ";
+    $row_tm = sql_fetch($sql_tm);
+    if ($row_tm && $row_tm['tm_skin']) {
+        $top_menu_skin = $row_tm['tm_skin'];
+    }
+
+    // Priority 2: Use Passed Argument (Theme/DB Config - fallback if DB check fails)
     if (!$top_menu_skin && $skin_name) {
         $top_menu_skin = $skin_name;
     }
 
-    // Priority 3: Global Fallback
+    // Priority 3: Check Static Setting (Fallback)
+    if (!$top_menu_skin) {
+        $setting_file = G5_PLUGIN_PATH . '/top_menu_manager/setting.php';
+        if (file_exists($setting_file)) {
+            include($setting_file);
+        }
+    }
+
+    // Priority 4: Global Fallback
     if (!$top_menu_skin) {
         $top_menu_skin = 'basic';
     }
