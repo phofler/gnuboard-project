@@ -20,16 +20,6 @@ include(G5_PLUGIN_PATH . '/main_content_manager/skins/skin.head.php');
         margin-bottom: 60px;
     }
 
-    .works-title {
-        font-family: var(--mc-font-heading);
-        font-size: clamp(40px, 6vw, 90px);
-        line-height: 1;
-        color: <?php echo $mc_text_primary; ?>;
-        text-transform: uppercase;
-        font-weight: 300;
-        margin: 0;
-    }
-
     .works-swiper-container {
         padding: 0 50px;
         position: relative;
@@ -101,7 +91,7 @@ include(G5_PLUGIN_PATH . '/main_content_manager/skins/skin.head.php');
 <section class="sec-works-dark">
     <div class="container-fluid">
         <div class="works-header container">
-            <h2 class="works-title" data-aos="fade-left"><?php echo $section_title; ?></h2>
+            <h2 class="section-title" data-aos="fade-left"><?php echo $section_title; ?></h2>
         </div>
 
         <div class="works-swiper-container">

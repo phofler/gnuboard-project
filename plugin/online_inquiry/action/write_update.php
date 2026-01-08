@@ -58,7 +58,25 @@ if ($wr_id) {
     );
 
     // hook.php에 정의된 이벤트 호출
-    run_event('online_inquiry_send_email', $wr_id, $hook_data);
+    // [ASYNC EMAIL SENDING]
+    // Instead of waiting for the mailer, we trigger a helper script and exit immediately.
+    $worker_url = G5_PLUGIN_URL . '/online_inquiry/action/email_worker.php';
+    $post_params = array('wr_id' => $wr_id);
+
+    // Use fsockopen for fire-and-forget (Fastest response)
+    $parts = parse_url($worker_url);
+    $fp = fsockopen($parts['host'], isset($parts['port']) ? $parts['port'] : 80, $errno, $errstr, 30);
+
+    if ($fp) {
+        $out = "POST " . $parts['path'] . " HTTP/1.1\r\n";
+        $out .= "Host: " . $parts['host'] . "\r\n";
+        $out .= "Content-Type: application/x-www-form-urlencoded\r\n";
+        $out .= "Content-Length: " . strlen(http_build_query($post_params)) . "\r\n";
+        $out .= "Connection: Close\r\n\r\n";
+        $out .= http_build_query($post_params);
+        fwrite($fp, $out);
+        fclose($fp);
+    }
 
     // alert 함수 호출 전 CWD 변경 (bbs/alert.php 경로 문제 해결)
     chdir(G5_PATH);

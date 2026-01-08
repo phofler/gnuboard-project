@@ -63,7 +63,9 @@ include(G5_PLUGIN_PATH . '/main_content_manager/skins/skin.head.php');
             margin-top: 0;
             font-size: var(--mc-item-title-size);
             font-weight: 700;
-            color: <?php echo $mc_text_primary; ?>;
+            color:
+                <?php echo $mc_text_primary; ?>
+            ;
             font-family: var(--mc-font-heading);
             margin-bottom: 30px;
             line-height: 1.2;
@@ -73,7 +75,9 @@ include(G5_PLUGIN_PATH . '/main_content_manager/skins/skin.head.php');
             font-size: 1.15rem;
             margin-bottom: 50px;
             line-height: var(--mc-desc-line-height);
-            color: <?php echo $mc_text_secondary; ?>;
+            color:
+                <?php echo $mc_text_secondary; ?>
+            ;
             word-break: keep-all;
         }
 
@@ -117,8 +121,7 @@ include(G5_PLUGIN_PATH . '/main_content_manager/skins/skin.head.php');
     </style>
     <div class="container">
         <?php if ($show_title && $section_title) { ?>
-            <h2 data-aos="fade-up"
-                style="color: var(--mc-accent); text-align:center; font-family: var(--mc-font-heading); font-size: 3rem; margin-bottom: 60px; text-transform: uppercase; letter-spacing: 2px;">
+            <h2 class="section-title" data-aos="fade-up">
                 <?php echo get_text($section_title); ?>
             </h2>
         <?php } ?>

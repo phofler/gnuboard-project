@@ -14,13 +14,16 @@ add_replace('admin_menu', 'map_api_admin_menu');
 
 function map_api_admin_menu($menu)
 {
-    // Add under 'Environment Settings' (menu100)
-    $menu['menu100'][] = array(
-        '100900',
+    // [MANAGED BY adm/admin.menu800_theme.php]
+    // Duplicate registration prevented.
+    /*
+    $menu['menu800'][] = array(
+        '800400',
         '지도 API 관리',
-        MAP_API_URL . '/adm/config_form.php',
-        'map_api_config'
+        MAP_API_URL . '/adm/list.php',
+        'map_api_list'
     );
+    */
     return $menu;
 }
 ?>

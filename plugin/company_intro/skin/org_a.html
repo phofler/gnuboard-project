@@ -1,10 +1,14 @@
 <style>
-    /* Organization Chart A - Image Type (Left Edge Style) */
-    .org-section {
+    /* Organization Chart A - Image Type (Left Edge Style)
+     * Standardized for Theme Compatibility
+     */
+
+    /* [Standard] Wrapper Pattern */
+    .ci-skin-wrapper {
         width: 100%;
         max-width: var(--spacing-container, 1200px);
         margin: 0 auto;
-        padding: 0;
+        padding: var(--spacing-section, 60px) 20px;
         box-sizing: border-box;
     }
 
@@ -13,22 +17,26 @@
        Inherits 'Left Edge Bar' from default.css (.section-header)
        We ensure text alignment is left.
     */
-    .org-section .section-header {
+    .ci-skin-wrapper .section-header {
         text-align: left;
         margin-bottom: 60px;
         /* Ensure the global Left Border is visible */
-        border-left: 4px solid var(--color-accent-gold);
+        border-left: 4px solid var(--color-accent-gold, #d4af37);
         padding-left: 25px;
     }
 
-    .org-section .section-header h2 {
+    .ci-skin-wrapper .section-header .section-title {
         font-size: 2.5rem;
+        /* Section Title Rule: Primary Text for Sub Page */
         color: var(--color-text-primary);
         font-family: var(--font-heading);
         margin-bottom: 1rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
     }
 
-    .org-section .section-header p {
+    .ci-skin-wrapper .section-header .section-subtitle {
         color: var(--color-text-secondary);
         display: block;
         /* Left align */
@@ -36,17 +44,17 @@
     }
 
     /* Remove Bottom Bar if it exists from previous CSS */
-    .org-section .section-header::after {
+    .ci-skin-wrapper .section-header::after {
         display: none;
     }
 
     /* Image Container */
     .org-img-container {
         width: 100%;
-        background: rgba(255, 255, 255, 0.03);
+        background: var(--color-bg-panel, rgba(255, 255, 255, 0.03));
         padding: 30px;
         border-radius: 8px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
         text-align: center;
     }
 
@@ -59,11 +67,11 @@
     }
 </style>
 
-<div class="org-section">
+<div class="ci-skin-wrapper">
     <!-- Header: Left Edge Style -->
     <div class="section-header">
-        <h2>ORGANIZATION</h2>
-        <p>체계적인 조직 구조로 최상의 성과를 만들어갑니다.</p>
+        <h2 class="section-title">ORGANIZATION</h2>
+        <p class="section-subtitle">체계적인 조직 구조로 최상의 성과를 만들어갑니다.</p>
     </div>
 
     <!-- Image Area -->

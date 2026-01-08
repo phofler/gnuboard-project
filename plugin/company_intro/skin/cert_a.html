@@ -1,36 +1,44 @@
 <style>
-    /* Certificate Type A - Grid Gallery (Smart Inherited) */
-    .cert-section {
+    /* Certificate Type A - Grid Gallery (Smart Inherited)
+     * Standardized for Theme Compatibility
+     */
+
+    /* [Standard] Wrapper Pattern */
+    .ci-skin-wrapper {
         width: 100%;
         max-width: var(--spacing-container, 1200px);
         margin: 0 auto;
-        padding: 0;
+        padding: var(--spacing-section, 60px) 20px;
         box-sizing: border-box;
     }
 
     /* Header - Center Style (matches Type C & Timelines) */
-    .cert-section .section-header {
+    .ci-skin-wrapper .section-header {
         text-align: center;
         margin-bottom: 50px;
     }
 
     /* Bottom Gold Bar */
-    .cert-section .section-header::after {
+    .ci-skin-wrapper .section-header::after {
         content: '';
         display: block;
         width: 60px;
         height: 4px;
-        background: var(--color-accent-gold);
+        background: var(--color-accent-gold, #d4af37);
         margin: 20px auto 0;
         border-radius: 2px;
     }
 
-    .section-header h2 {
-        color: var(--color-text-primary);
+    .ci-skin-wrapper .section-header h2 {
+        /* Section Title Rule: Accent Color */
+        color: var(--color-accent-gold, #d4af37);
         font-family: var(--font-heading);
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        font-weight: 700;
     }
 
-    .section-header p {
+    .ci-skin-wrapper .section-header p {
         color: var(--color-text-secondary);
         justify-content: center;
     }
@@ -42,9 +50,8 @@
     }
 
     .cert-item {
-        background: rgba(255, 255, 255, 0.03);
-        /* Dark Theme Panel */
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: var(--color-bg-panel, #1e1e1e);
+        border: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
         padding: 20px;
         text-align: center;
         border-radius: 12px;
@@ -53,7 +60,7 @@
 
     .cert-item:hover {
         transform: translateY(-5px);
-        border-color: var(--color-accent-gold);
+        border-color: var(--color-accent-gold, #d4af37);
     }
 
     .cert-img-wrap {
@@ -94,9 +101,9 @@
     }
 </style>
 
-<div class="cert-section">
+<div class="ci-skin-wrapper">
     <div class="section-header text-center mb-5">
-        <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">CERTIFICATES</h2>
+        <h2>CERTIFICATES</h2>
         <p>기술력과 품질을 인증받은 기업입니다.</p>
     </div>
 

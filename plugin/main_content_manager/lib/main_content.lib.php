@@ -68,9 +68,31 @@ function render_main_section($ms)
             --mc-accent: ' . $accent_color . ';
             --mc-font-heading: ' . $font_family . ';
         }
+        #main_section_' . $ms_id . ' .section-title {
+            color: var(--mc-accent);
+            font-family: var(--mc-font-heading);
+            font-size: var(--mc-title-size, 2.5rem);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+            margin-bottom: var(--mc-list-gap, 60px);
+        }
+        #main_section_' . $ms_id . ' .section-subtitle {
+            color: var(--color-text-secondary, #666);
+            font-size: 1.1rem;
+            margin-top: 10px;
+            font-weight: 400;
+        }
     </style>';
 
-    echo '<div id="main_section_' . $ms_id . '" class="main-content-section-wrapper">';
+    // [Background Color]
+    $bg_style = '';
+    if (isset($ms['ms_bg_color']) && $ms['ms_bg_color']) {
+        $bg_style = 'style="background-color: ' . $ms['ms_bg_color'] . ';"';
+    }
+
+    echo '<div id="main_section_' . $ms_id . '" class="main-content-section-wrapper" ' . $bg_style . '>';
 
     // [New Standard] Load External Skin if it exists
     if (file_exists($skin_file)) {

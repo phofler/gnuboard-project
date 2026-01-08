@@ -11,6 +11,7 @@ if (!defined('_GNUBOARD_'))
  */
 
 include_once(G5_PATH . '/lib/theme_css.lib.php');
+global $config; // [Fix] Ensure global config is available in function scope
 
 // 1. Sub Design Integration
 $sd_row = array();
@@ -48,24 +49,57 @@ if (file_exists($skin_file)) {
         }
 
         if (function_exists('get_copyright_config')) {
-            $cp_config = get_copyright_config();
+            // [Fix] Explicitly construct ID from Company Intro settings for accurate matching
+            // Normalize Korean code: Company Intro(kr) -> Copyright Manager(ko)
+            $target_cp_id = '';
+            if (isset($co_row['co_theme']) && isset($co_row['co_lang'])) {
+                $target_lang = ($co_row['co_lang'] == 'kr') ? 'ko' : $co_row['co_lang'];
+                $target_cp_id = $co_row['co_theme'] . '_' . $target_lang;
+            }
+
+            $cp_config = get_copyright_config($target_cp_id);
+
             $replacements = array(
                 '{CP_ADDRESS}' => $cp_config['addr_val'],
                 '{CP_TEL}' => $cp_config['tel_val'],
                 '{CP_FAX}' => $cp_config['fax_val'],
-                '{CP_EMAIL}' => $cp_config['email_val']
+                '{CP_EMAIL}' => $cp_config['email_val'],
+                '{CO_THEME}' => $co_row['co_theme'],
+                '{CO_LANG}' => $co_row['co_lang'],
+                '{ACTION_URL}' => G5_PLUGIN_URL . '/online_inquiry/action/write_update.php'
             );
             $view_content = strtr($view_content, $replacements);
         }
     }
 
     // [MAP API]
+    // 1. Specific ID Shortcode: {MAP_API:corporate_en}
+    if (preg_match_all('/\{MAP_API:([a-zA-Z0-9_]+)\}/', $view_content, $matches)) {
+        $map_lib = G5_PLUGIN_PATH . '/map_api/lib/map.lib.php';
+        if (file_exists($map_lib)) {
+            include_once($map_lib);
+            if (function_exists('display_map_api')) {
+                foreach ($matches[1] as $idx => $map_id) {
+                    $map_html = display_map_api('100%', '100%', $map_id);
+                    $view_content = str_replace($matches[0][$idx], $map_html, $view_content);
+                }
+            }
+        }
+    }
+
+    // 2. Context-Aware Shortcode: {MAP_API_DISPLAY}
     if (strpos($view_content, '{MAP_API_DISPLAY}') !== false) {
         $map_lib = G5_PLUGIN_PATH . '/map_api/lib/map.lib.php';
         if (file_exists($map_lib)) {
             include_once($map_lib);
             if (function_exists('display_map_api')) {
-                $map_html = display_map_api('100%', '100%');
+                // [Fix] Explicitly construct ID for accurate matching
+                if (isset($co_row['co_theme']) && isset($co_row['co_lang'])) {
+                    $target_lang = ($co_row['co_lang'] == 'kr') ? 'ko' : $co_row['co_lang'];
+                    $target_map_id = $co_row['co_theme'] . '_' . $target_lang;
+                }
+
+                $map_html = display_map_api('100%', '100%', $target_map_id);
                 $view_content = str_replace('{MAP_API_DISPLAY}', $map_html, $view_content);
             }
         }

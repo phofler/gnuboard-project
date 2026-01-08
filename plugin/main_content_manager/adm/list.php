@@ -50,6 +50,18 @@ if (!$row) {
     sql_query(" ALTER TABLE g5_plugin_main_content_sections ADD `ms_key` varchar(100) NOT NULL DEFAULT '' AFTER `ms_theme` ");
 }
 
+// [NEW] 외부 컨텐츠 소스 ID (Location 등)
+$row = sql_fetch(" SHOW COLUMNS FROM g5_plugin_main_content_sections LIKE 'ms_content_source' ");
+if (!$row) {
+    sql_query(" ALTER TABLE g5_plugin_main_content_sections ADD `ms_content_source` varchar(50) NOT NULL DEFAULT '' AFTER `ms_key` ");
+}
+
+// [NEW] 배경색 (Custom Color)
+$row = sql_fetch(" SHOW COLUMNS FROM g5_plugin_main_content_sections LIKE 'ms_bg_color' ");
+if (!$row) {
+    sql_query(" ALTER TABLE g5_plugin_main_content_sections ADD `ms_bg_color` varchar(20) NOT NULL DEFAULT '' AFTER `ms_font_mode` ");
+}
+
 // 섹션 목록 가져오기
 $sql = " select * from g5_plugin_main_content_sections order by ms_lang asc, ms_sort asc, ms_id desc ";
 $result = sql_query($sql);

@@ -24,17 +24,6 @@ include(G5_PLUGIN_PATH . '/main_content_manager/skins/skin.head.php');
             transition: var(--mc-transition);
         }
 
-        .style-c .section-title {
-            text-align: center;
-            margin-bottom: var(--mc-list-gap);
-            font-size: var(--mc-title-size, 3rem);
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--mc-accent);
-            font-family: var(--mc-font-heading);
-        }
-
         .style-c .product-item {
             display: flex;
             align-items: center;
@@ -77,7 +66,9 @@ include(G5_PLUGIN_PATH . '/main_content_manager/skins/skin.head.php');
             font-size: var(--mc-item-title-size);
             font-weight: 700;
             margin-bottom: 25px;
-            color: <?php echo $mc_text_primary; ?>;
+            color:
+                <?php echo $mc_text_primary; ?>
+            ;
             font-family: var(--mc-font-heading);
             line-height: 1.2;
         }
@@ -85,7 +76,9 @@ include(G5_PLUGIN_PATH . '/main_content_manager/skins/skin.head.php');
         .style-c .product-info p {
             font-size: 1.15rem;
             line-height: var(--mc-desc-line-height);
-            color: <?php echo $mc_text_secondary; ?>;
+            color:
+                <?php echo $mc_text_secondary; ?>
+            ;
             margin-bottom: 40px;
             word-break: keep-all;
         }

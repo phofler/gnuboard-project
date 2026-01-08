@@ -1,0 +1,231 @@
+<!-- [Infrastructure] Main Inquiry Premium Form Skin - Standardized -->
+<meta charset="utf-8">
+<style>
+    .ci-skin-wrapper.main-inquiry-section {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: var(--spacing-section, 15vh) 0;
+        box-sizing: border-box;
+        background: transparent;
+        position: relative;
+        color: var(--color-text-primary, #fff);
+    }
+
+    .main-inquiry-section .inquiry-container {
+        max-width: var(--spacing-container, 1200px);
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    /* Section Title - Unique Class to Break Inheritance */
+    .main-inquiry-section .inquiry-header-premium {
+        text-align: center;
+        margin-bottom: 80px;
+        border: none !important;
+        padding: 0 !important;
+    }
+
+    .main-inquiry-section .section-title {
+        font-size: 3.5rem;
+        color: var(--color-title-main, #d4af37);
+        font-family: var(--font-heading, "Playfair Display", serif);
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin: 0;
+    }
+
+    /* Grid Layout */
+    .main-inquiry-section .inquiry-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: 80px;
+        align-items: start;
+        text-align: left;
+    }
+
+    /* Left Column: Contact Info */
+    .main-inquiry-section .contact-info-col {
+        padding-right: 40px;
+        border-right: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
+    }
+
+    .main-inquiry-section .contact-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        color: var(--color-text-primary, #fff);
+    }
+
+    .main-inquiry-section .contact-desc {
+        font-size: 1rem;
+        color: var(--color-text-secondary, #a0a0a0);
+        line-height: 1.8;
+        margin-bottom: 40px;
+        word-break: keep-all;
+    }
+
+    .main-inquiry-section .contact-details {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .main-inquiry-section .contact-details li {
+        margin-bottom: 15px;
+        font-size: 1.05rem;
+        display: flex;
+        gap: 12px;
+    }
+
+    .main-inquiry-section .contact-details strong {
+        color: var(--color-accent-gold, #d4af37);
+        min-width: 70px;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+    }
+
+    .main-inquiry-section .contact-details span {
+        color: var(--color-text-primary, #fff);
+    }
+
+    /* Right Column: Form */
+    .main-inquiry-section .inquiry-form-col {
+        width: 100%;
+    }
+
+    .main-inquiry-section .form-group {
+        margin-bottom: 35px;
+        position: relative;
+    }
+
+    .main-inquiry-section .form-label {
+        display: block;
+        font-size: 0.9rem;
+        color: var(--color-text-secondary, #a0a0a0);
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+    }
+
+    .main-inquiry-section .form-input {
+        width: 100%;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid var(--color-border, rgba(255, 255, 255, 0.2));
+        padding: 12px 0;
+        color: #fff;
+        font-size: 1.1rem;
+        outline: none;
+        transition: border-color 0.4s;
+        border-radius: 0;
+    }
+
+    .main-inquiry-section .form-input:focus {
+        border-color: var(--color-accent-gold, #d4af37);
+    }
+
+    .main-inquiry-section textarea.form-input {
+        height: 120px;
+        resize: none;
+    }
+
+    /* Submit Button (Image Match: Gold on Black) */
+    .main-inquiry-section .btn-submit {
+        width: 100%;
+        padding: 24px;
+        background: #000;
+        color: var(--color-accent-gold, #d4af37);
+        border: 1px solid #000;
+        font-size: 1.6rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.25em;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        margin-top: 20px;
+    }
+
+    .main-inquiry-section .btn-submit:hover {
+        background: var(--color-accent-gold, #d4af37);
+        color: #000;
+        border-color: var(--color-accent-gold, #d4af37);
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+        .main-inquiry-section .inquiry-grid {
+            grid-template-columns: 1fr;
+            gap: 60px;
+        }
+
+        .main-inquiry-section .contact-info-col {
+            padding-right: 0;
+            border-right: none;
+            border-bottom: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
+            padding-bottom: 60px;
+        }
+
+        .main-inquiry-section .section-title {
+            font-size: 2.5rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .ci-skin-wrapper.main-inquiry-section {
+            padding: 10vh 0;
+        }
+    }
+</style>
+
+<div class="ci-skin-wrapper main-inquiry-section">
+    <div class="inquiry-container">
+        <!-- Header Part: Use Unique Class -->
+        <div class="inquiry-header-premium">
+            <h2 class="section-title">ONLINE INQUIRY</h2>
+        </div>
+
+        <div class="inquiry-grid">
+            <!-- Left: Info -->
+            <div class="contact-info-col">
+                <h3 class="contact-title">Contact Us</h3>
+                <p class="contact-desc">
+                    궁금하신 사항을 남겨주시면 친절하게 상담해 드립니다. 전문가가 24시간 이내에 최적의 솔루션을 제안해 드립니다.
+                </p>
+                <ul class="contact-details">
+                    <li><strong>Tel:</strong> <span>{CP_TEL}</span></li>
+                    <li><strong>FAX:</strong> <span>{CP_FAX}</span></li>
+                    <li><strong>EMAIL:</strong> <span>{CP_EMAIL}</span></li>
+                </ul>
+            </div>
+
+            <!-- Right: Form Area Area -->
+            <div class="inquiry-form-col">
+                <form action="/plugin/online_inquiry/action/write_update.php" method="post" name="finquiry"
+                    onsubmit="return true;">
+                    <!-- Hidden Fields for Scoping & Integration -->
+                    <input type="hidden" name="subject" value="Online Inquiry from Main Section">
+                    <input type="hidden" name="theme" value="{CO_THEME}">
+                    <input type="hidden" name="lang" value="{CO_LANG}">
+
+                    <div class="form-group">
+                        <label class="form-label">Name</label>
+                        <input type="text" name="name" class="form-input" required placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phone</label>
+                        <input type="text" name="contact" class="form-input" required placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Message</label>
+                        <textarea name="content" class="form-input" required placeholder=""></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">SUBMIT</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

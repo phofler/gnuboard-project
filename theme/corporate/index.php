@@ -208,7 +208,7 @@ if (function_exists('display_main_content')) {
         if (function_exists('display_map_api')) {
             echo display_map_api('100%', '450px');
         } else {
-            echo '<div style="padding:100px; text-align:center; background:#eee;">지도 API 플러그인이 활성화되지 않았습니다.</div>';
+            echo '<div style="padding:100px; text-align:center; background:var(--color-bg-dark); color:var(--color-text-secondary);">지도 API 플러그인이 활성화되지 않았습니다.</div>';
         }
         ?>
     </div>

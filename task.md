@@ -8,13 +8,21 @@
     - [ ] **Uninstall Conflicting Software** (MySQL Server 8.0)
     - [ ] **Resolve Service Conflict (MySQL80 vs XAMPP)**
 - [ ] **📅 Tomorrow's Focus (2026-01-08)**
-    - [ ] **Background Sync Verification**
-        - [ ] Verify Company Intro frontend background across themes
-        - [ ] Verify Main Content Manager frontend/swatch consistency
-    - [ ] **Map API Plugin Standardization (`plugin/map_api`)**
-        - [ ] Refactor Admin (`config_form.php`) to Theme/Lang-based management (Pattern A)
-        - [ ] Standardize List & Write pages with automated ID generation
-        - [ ] Apply CSS Extraction logic for background/text colors
+    - [x] **Background Sync Verification**
+        - [x] Verify Company Intro frontend background across themes
+        - [x] Verify Main Content Manager frontend/swatch consistency
+    - [x] **Map API Plugin Standardization (`plugin/map_api`)**
+        - [x] Refactor Admin (`config_form.php`) to Theme/Lang-based management (Pattern A)
+        - [x] Standardize List & Write pages with automated ID generation
+        - [x] Apply CSS Extraction logic for background/text colors
+        - [ ] **[Deferred]** Troubleshooting Naver Map Auth (User Environment Issue)
+- [/] **Main Page Content Integration**
+    - [x] Choose Approach: Extend `main_content_manager` vs New Plugin
+    - [x] Implementation (Skin/Logic)
+    - [x] **[Enhancement]** Standardize Background Color UI
+    - [x] **[Enhancement]** Refine Skin Selection UI (Categorized & Compact)
+    - [x] Integration with `index.php` (Verified)
+    - [x] **Verification Completed** (Map Logic & UI Display)
 - [x] **Theme Background Restoration (Completed Today)**
     - [x] Implement dynamic CSS extraction (`lib/theme_css.lib.php`)
     - [x] Fix "Restore to Default" logic across Online Inquiry, Company Intro, Main Content

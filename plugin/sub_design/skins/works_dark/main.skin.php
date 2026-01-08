@@ -78,7 +78,8 @@ $sub_text = $item['sd_sub_text'];
 
     .sub-hero-works-dark .sub-hero-subtitle {
         font-size: 11px;
-        color: var(--color-primary, #c8a27c);
+        color: var(--color-accent-gold, #d4af37);
+        /* Sub-hero accent detail */
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.6em;
@@ -88,7 +89,7 @@ $sub_text = $item['sd_sub_text'];
     .sub-hero-works-dark .sub-hero-line {
         width: 120px;
         height: 1px;
-        background: var(--color-primary, #c8a27c);
+        background: var(--color-accent-gold, #d4af37);
         margin-top: 40px;
     }
 

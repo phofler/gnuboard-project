@@ -1,38 +1,45 @@
 <style>
-    /* Business Area Skin (Grid Style) */
-    .biz-section {
+    /* Business Area Skin (Grid Style) 
+     * Standardized for Theme Compatibility
+     */
+
+    /* [Standard] Wrapper Pattern */
+    .ci-skin-wrapper {
         width: 100%;
         max-width: var(--spacing-container, 1200px);
         margin: 0 auto;
-        padding: 0;
+        padding: var(--spacing-section, 60px) 20px;
         box-sizing: border-box;
     }
 
     /* Header */
-    /* Header */
-    .biz-section .section-header {
+    .ci-skin-wrapper .section-header {
         text-align: left;
         margin-bottom: 60px;
         /* Left Edge Bar */
-        border-left: 4px solid var(--color-accent-gold);
+        border-left: 4px solid var(--color-accent-gold, #d4af37);
         padding-left: 25px;
     }
 
-    .biz-section .section-header h2 {
-        font-size: 2.5rem;
+    .ci-skin-wrapper .section-header .section-title {
+        /* Section Title Rule: Primary Text for Sub Page */
         color: var(--color-text-primary);
         font-family: var(--font-heading);
+        font-size: 2.5rem;
         margin-bottom: 1rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
     }
 
-    .biz-section .section-header p {
+    .ci-skin-wrapper .section-header .section-subtitle {
         color: var(--color-text-secondary);
         display: block;
         text-align: left;
     }
 
     /* Remove Bottom Bar */
-    .biz-section .section-header::after {
+    .ci-skin-wrapper .section-header::after {
         display: none;
     }
 
@@ -44,8 +51,8 @@
     }
 
     .biz-card {
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: var(--color-bg-panel, rgba(255, 255, 255, 0.03));
+        border: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
         border-radius: 12px;
         overflow: hidden;
         transition: all 0.3s;
@@ -54,7 +61,7 @@
 
     .biz-card:hover {
         transform: translateY(-10px);
-        border-color: var(--color-accent-gold);
+        border-color: var(--color-accent-gold, #d4af37);
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     }
 
@@ -78,7 +85,7 @@
         font-size: 3.5rem;
         font-weight: 800;
         font-family: var(--font-heading);
-        color: var(--color-accent-gold);
+        color: var(--color-accent-gold, #d4af37);
         margin-bottom: 20px;
         display: inline-block;
         line-height: 1;
@@ -112,10 +119,10 @@
     }
 </style>
 
-<div class="biz-section">
+<div class="ci-skin-wrapper">
     <div class="section-header">
-        <h2>BUSINESS AREA</h2>
-        <p>고객의 가치를 극대화하는 전문 솔루션을 제공합니다.</p>
+        <h2 class="section-title">BUSINESS AREA</h2>
+        <p class="section-subtitle">고객의 가치를 극대화하는 전문 솔루션을 제공합니다.</p>
     </div>
 
     <div class="biz-grid">

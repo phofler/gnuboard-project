@@ -44,6 +44,10 @@
     --gradient-metal: none;
     --gradient-gold: none;
 
+    /* [TYPOGRAPHY Semantic Mapping] Individual Control */
+    --color-title-main: var(--color-accent-gold);
+    --color-title-sub: var(--color-text-primary);
+
     /* Typography */
     --font-serif: 'Italiana', serif;
     --font-en: 'Manrope', sans-serif;

@@ -32,7 +32,9 @@ include(G5_PLUGIN_PATH . '/main_content_manager/skins/skin.head.php');
             cursor: pointer;
             transition: var(--mc-transition);
             position: relative;
-            color: <?php echo $mc_text_primary; ?>;
+            color:
+                <?php echo $mc_text_primary; ?>
+            ;
             text-decoration: none;
         }
 
@@ -61,21 +63,15 @@ include(G5_PLUGIN_PATH . '/main_content_manager/skins/skin.head.php');
         .svc-desc {
             max-width: 350px;
             font-size: 1rem;
-            color: <?php echo $mc_text_secondary; ?>;
+            color:
+                <?php echo $mc_text_secondary; ?>
+            ;
             text-align: right;
             line-height: 1.6;
             margin-left: 4vw;
             word-break: keep-all;
         }
 
-        .t-h2-title {
-            font-size: clamp(24px, 3vw, 42px);
-            font-weight: 400;
-            font-family: var(--mc-font-heading);
-            color: var(--mc-accent);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
 
         @media (max-width: 768px) {
             .svc-modern-item {
@@ -94,9 +90,9 @@ include(G5_PLUGIN_PATH . '/main_content_manager/skins/skin.head.php');
 
     <div class="container">
         <?php if ($section_title) { ?>
-            <div class="t-h2-title" data-aos="fade-up">
+            <h2 class="section-title" data-aos="fade-up">
                 <?php echo $section_title; ?>
-            </div>
+            </h2>
         <?php } ?>
 
         <div class="svc-modern-list">

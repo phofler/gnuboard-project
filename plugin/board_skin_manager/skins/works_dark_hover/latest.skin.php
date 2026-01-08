@@ -5,6 +5,9 @@ include_once(G5_LIB_PATH . '/thumbnail.lib.php');
 
 // Unique ID for Swiper
 $uniqid = uniqid('works_');
+
+// Load shared skin header
+include_once(dirname(__FILE__) . '/../skin.head.php');
 ?>
 
 <section class="sec-works-dark">
@@ -22,23 +25,15 @@ $uniqid = uniqid('works_');
             justify-content: space-between;
             align-items: flex-end;
             margin-bottom: 40px;
-            /* Synchronized with original snippet */
             width: 100%;
             padding: 0 30px;
-            /* Matches GNB/Logo padding */
             box-sizing: border-box;
         }
 
-        .sec-works-dark .works-title {
-            font-family: var(--font-heading);
-            font-size: var(--mc-title-size, 3.5rem);
-            color: #fff;
+        /* Standardized via skin.head.php, local overrides for layout */
+        .sec-works-dark .section-title {
+            text-align: left;
             margin: 0;
-            letter-spacing: -0.02em;
-            /* Tighter for premium look */
-            font-weight: 400;
-            text-transform: none;
-            /* Crucial: Prevent forced Uppercase */
             line-height: 1;
         }
 
@@ -150,7 +145,7 @@ $uniqid = uniqid('works_');
     </style>
 
     <div class="works-header">
-        <h2 class="works-title">
+        <h2 class="section-title">
             Selected Works
         </h2>
         <a href="<?php echo get_pretty_url($bo_table); ?>" class="view-detail-link">

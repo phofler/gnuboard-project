@@ -125,38 +125,34 @@
     position: relative;
 }
 
-/* Section Header (Base: Left Bar) */
+/* Section Header (Section 14 Typography Protocol) */
 .section-header {
     text-align: left;
     margin-bottom: var(--spacing-section, 60px);
-    /* Inherited from default.css */
     padding-left: 20px;
     border-left: 5px solid var(--color-accent-gold, #d4af37);
     position: relative;
 }
 
-.section-header h2 {
+.section-header .section-title {
     font-family: var(--font-heading, serif);
-    font-size: 2.5rem;
-    color: var(--color-text-primary, #e6f1ff);
-    margin-bottom: 20px;
+    font-size: 2.8rem;
+    color: var(--color-title-sub, var(--color-text-primary, #e6f1ff));
+    font-weight: 800;
+    margin-bottom: 10px;
     line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
-.section-header p {
-    color: var(--color-accent-gold, #d4af37);
-    font-weight: 600;
+.section-header .section-subtitle {
+    color: var(--color-text-secondary, #a0a0a0);
+    font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     display: block;
-    /* Stacked */
-    margin-bottom: 10px;
-}
-
-.section-header p::before {
-    display: none;
-    /* Removed old thin line */
+    margin-bottom: 5px;
 }
 
 /* 2-Column Layout */

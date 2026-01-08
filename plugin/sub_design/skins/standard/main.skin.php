@@ -63,6 +63,8 @@ $sub_text = $item['sd_sub_text'];
         margin: 10px 0 0;
         letter-spacing: -0.02em;
         text-transform: uppercase;
+        color: #ffffff;
+        /* Page Title: Always White */
     }
 
     .sub-hero-standard .sub-hero-subtitle {

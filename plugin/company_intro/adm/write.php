@@ -26,14 +26,13 @@ if ($w == 'u') {
         'co_subject' => '',
         'co_content' => $default_content,
         'co_skin' => 'type_a',
-        'co_bgcolor' => '#000000'
+        'co_bgcolor' => ''
     );
 }
 
 // [DYNAMIC THEME BG] Always prioritize ACTIVE SITE THEME for the "Absolute Default" reference
 $theme_bg_default = get_theme_css_value($config['cf_theme'], array('--color-bg', '--color-bg-dark'), '#121212');
 $theme_text_default = get_theme_css_value($config['cf_theme'], array('--color-text-primary'), '#e0e0e0');
-$preview_bg = (isset($co['co_bgcolor']) && $co['co_bgcolor']) ? $co['co_bgcolor'] : $theme_bg_default;
 
 $g5['title'] = $html_title;
 include_once(G5_ADMIN_PATH . '/admin.head.php');
@@ -154,22 +153,6 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
     }
 </style>
 
-<style>
-    .color_picker_wrapper {
-        display: inline-block;
-        vertical-align: middle;
-        margin-right: 10px;
-    }
-
-    .color_picker_wrapper input[type="color"] {
-        width: 50px;
-        height: 30px;
-        border: none;
-        padding: 0;
-        cursor: pointer;
-    }
-</style>
-
 <form name="fcompanyform" id="fcompanyform" action="./write_update.php" onsubmit="return fcompanyform_submit(this);"
     method="post" enctype="multipart/form-data">
     <input type="hidden" name="w" value="<?php echo $w ?>">
@@ -241,9 +224,7 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                 sort($themes);
                                 foreach ($themes as $theme) {
                                     $selected = ($theme == $sel_theme) ? 'selected' : '';
-                                    $t_bg = get_theme_css_value($theme, array('--color-bg', '--color-bg-dark'), '#121212');
-                                    $t_text = get_theme_css_value($theme, array('--color-text-primary'), '#e0e0e0');
-                                    echo '<option value="' . $theme . '" ' . $selected . ' data-bg="' . $t_bg . '" data-text="' . $t_text . '">' . $theme . '</option>';
+                                    echo '<option value="' . $theme . '" ' . $selected . '>' . $theme . '</option>';
                                 } ?>
                             </select>
                             <select name="co_lang" id="co_lang" class="frm_input" onchange="generate_co_id()">
@@ -349,15 +330,15 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                 .skin-card {
                                     border: 1px solid #e2e8f0;
                                     border-radius: 8px;
-                                    padding: 8px 12px;
+                                    padding: 6px 10px;
                                     cursor: pointer;
                                     transition: all 0.2s ease;
                                     background: #fff;
                                     display: flex;
                                     flex-direction: row;
                                     align-items: center;
-                                    gap: 12px;
-                                    min-height: 48px;
+                                    gap: 8px;
+                                    min-height: 34px;
                                     position: relative;
                                 }
 
@@ -488,7 +469,7 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                 / 사업 / 채용 / 오시는 길</div>
                             <div class="skin-selector-container">
                                 <?php
-                                $skins_v3 = array(
+                                $skins_page = array(
                                     'org_a' => array('조직도 A', 'fa-sitemap'),
                                     'org_b' => array('조직도 B', 'fa-users'),
                                     'biz_a' => array('사업분야 A', 'fa-briefcase'),
@@ -501,7 +482,23 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                     'location_b' => array('오시는 길 B', 'fa-directions'),
                                     'location_c' => array('오시는 길 C', 'fa-street-view'),
                                 );
-                                foreach ($skins_v3 as $sk => $sd) {
+                                foreach ($skins_page as $sk => $sd) {
+                                    $act = ($co['co_skin'] == $sk) ? 'active' : '';
+                                    echo '<div class="skin-card ' . $act . '" onclick="select_ci_skin(\'' . $sk . '\', this)"><div class="skin-badge"></div><i class="fa ' . $sd[1] . '"></i><div class="skin-name">' . $sd[0] . '</div></div>';
+                                }
+                                ?>
+                            </div>
+
+                            <!-- [NEW] Main Sections Group -->
+                            <div class="skin-category-title"><i class="fa fa-star" style="color:#9b59b6;"></i> 메인 섹션 전용
+                                (Main Page)</div>
+                            <div class="skin-selector-container">
+                                <?php
+                                $skins_main = array(
+                                    'main_map' => array('메인 지도 (Map)', 'fa-map-marked-alt'),
+                                    'main_inquiry' => array('메인 온라인 문의', 'fa-envelope-open-text'),
+                                );
+                                foreach ($skins_main as $sk => $sd) {
                                     $act = ($co['co_skin'] == $sk) ? 'active' : '';
                                     echo '<div class="skin-card ' . $act . '" onclick="select_ci_skin(\'' . $sk . '\', this)"><div class="skin-badge"></div><i class="fa ' . $sd[1] . '"></i><div class="skin-name">' . $sd[0] . '</div></div>';
                                 }
@@ -515,21 +512,6 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                     입력됩니다. 기존 내용은 삭제되니 주의하세요.</div>
                             </div>
                         <?php } ?>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row"><label for="co_bgcolor">배경색 선택</label></th>
-                    <td>
-                        <div class="color_picker_grid" style="display:flex; align-items:center; gap:10px;">
-                            <input type="color" id="co_bgcolor_picker" value="<?php echo $preview_bg; ?>"
-                                onchange="$('#co_bgcolor').val(this.value); update_editor_background(this.value);">
-                            <input type="text" name="co_bgcolor" value="<?php echo $co['co_bgcolor']; ?>"
-                                id="co_bgcolor" class="frm_input" size="10"
-                                placeholder="기본값 (<?php echo $theme_bg_default; ?>)">
-                            <button type="button" class="btn btn_02" onclick="reset_bgcolor()">기본값으로 복원</button>
-                        </div>
-                        <span class="frm_info">이 회사소개 페이지의 배경색을 선택하세요. 기본값은 테마의 <strong
-                                id="theme_bg_label"><?php echo $theme_bg_default; ?></strong> 입니다.</span>
                     </td>
                 </tr>
                 <tr>
@@ -558,30 +540,49 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
 </form>
 
 <script>
-    // 에디터 배경색 실시간 변경 (전역 함수로 정의 - onclick 호출 가능하도록)
-    // 에디터 배경색 실시간 변경 (전역 함수로 정의 - onclick 호출 가능하도록)
-    function update_editor_background(color) {
+    // [Infrastructure] 테마 주권(Theme Sovereignty) 기반 에디터 스타일 자동 상속
+    function update_editor_background() {
         if (typeof oEditors !== 'undefined' && oEditors.getById["co_content"]) {
             try {
                 // SmartEditor2의 편집 영역(iframe 내부 body) 접근
                 var doc = oEditors.getById["co_content"].getWYSIWYGDocument();
+                if (!doc || !doc.body) return;
 
-                // 1. Background Color Logic
-                var targetColor = color;
-
-                // If color is empty or null, we treat it as 'Theme Default'
-                if (!targetColor) {
-                    targetColor = theme_bg_default;
+                // 1. CSS Rule Injection (Enforce Theme Variables)
+                var styleId = 'theme_sovereignty_style';
+                var styleTag = doc.getElementById(styleId);
+                if (!styleTag) {
+                    styleTag = doc.createElement('style');
+                    styleTag.id = styleId;
+                    doc.head.appendChild(styleTag);
                 }
 
-                doc.body.style.backgroundColor = targetColor;
+                styleTag.innerHTML = `
+                    html, body.se2_input_area { 
+                        background-color: var(--color-bg-dark, #121212) !important; 
+                        color: var(--color-text-primary, #e0e0e0) !important; 
+                        margin: 0 !important;
+                        padding: 0 !important;
+                    }
+                    body.se2_input_area { padding: 20px !important; }
+                    body.se2_input_area a { color: var(--color-accent-gold, #d4af37) !important; }
+                    /* Force background for all direct children if they cover the area */
+                    body.se2_input_area > * { background-color: transparent !important; }
+                `;
+
+                // Backup direct JS styling for immediate effect
+                doc.body.style.backgroundColor = '#121212'; // Immediate fallback
+                setTimeout(function () {
+                    // Try to use CSS variable if possible, otherwise keep fallback
+                    doc.body.style.backgroundColor = '';
+                }, 100);
 
                 // 2. Inject Theme CSS (For Variables & Fonts)
                 if (!doc.getElementById('theme_css_injection')) {
                     var link = doc.createElement('link');
                     link.id = 'theme_css_injection';
                     link.rel = 'stylesheet';
-                    link.href = '<?php echo G5_THEME_URL; ?>/css/default.css?v=' + new Date().getTime();
+                    link.href = '<?php echo G5_THEME_URL; ?>/css/default.css?v=' + Date.now();
                     doc.head.appendChild(link);
                 }
 
@@ -594,55 +595,14 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                     doc.head.appendChild(link);
                 }
 
-                // 4. Adjust Text Color based on background brightness (Simple check)
-                // If specific color set (not transparent/default)
-                if (targetColor !== 'transparent' && targetColor.indexOf('#') === 0) {
-                    // Simple logic: if user picks color, we try to maintain readability
-                    if (targetColor.toLowerCase() == '#ffffff' || targetColor.toLowerCase() == '#f3f3f3') {
-                        doc.body.style.color = "#121212";
-                    } else if (targetColor.toLowerCase() == '#121212' || targetColor.toLowerCase() == '#000000') {
-                        doc.body.style.color = "#ffffff";
-                    } else {
-                        doc.body.style.color = "<?php echo $theme_text_default; ?>";
-                    }
-                } else {
-                    // Default theme mode
-                    doc.body.style.color = "<?php echo $theme_text_default; ?>";
-                }
-
             } catch (e) {
                 console.log("에디터 로딩 중이거나 접근 불가: " + e);
             }
         }
     }
 
-    var theme_bg_default = '<?php echo $theme_bg_default; ?>';
-    var theme_text_default = '<?php echo $theme_text_default; ?>';
-
     function update_theme_defaults() {
-        var selected_opt = $('#co_theme option:selected');
-        var selected_bg = selected_opt.data('bg');
-        var selected_text = selected_opt.data('text');
-
-        if (selected_bg) {
-            theme_bg_default = selected_bg;
-            if (selected_text) theme_text_default = selected_text;
-
-            $('#theme_bg_label').text(selected_bg);
-            $('#co_bgcolor').attr('placeholder', '기본값 (' + selected_bg + ')');
-
-            if (!$('#co_bgcolor').val()) {
-                $('#co_bgcolor_picker').val(selected_bg);
-                update_editor_background('');
-            }
-        }
-    }
-
-    function reset_bgcolor() {
-        $('#co_bgcolor').val('');
-        // [FIX] Reset visual to Theme Default
-        $('#co_bgcolor_picker').val(theme_bg_default);
-        update_editor_background('');
+        update_editor_background();
     }
 
     function change_skin(skin_name) {
@@ -664,9 +624,6 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                     }, 100); // Slight delay to ensure editor is ready
 
                     update_editor_background(); // No args needed as we force it
-
-                    // DEBUG: Notify user that new skin is loaded
-                    // alert("새로운 스킨 파일이 로드되었습니다.\n확인 후 저장해주세요.");
                 } else {
                     alert('에디터 객체를 찾을 수 없습니다.');
                 }
@@ -754,7 +711,6 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
         document.getElementById('unsplash_iframe').src = '';
     }
 
-    // Renamed for clarity, but kept logic
     function receiveImageUrl(url) {
         closeUnsplashModal();
 
@@ -781,7 +737,6 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
         change_skin(skin_name);
     }
 
-    // Alias for compatibility if needed
     function receiveUnsplashUrl(url) {
         receiveImageUrl(url);
     }
@@ -802,64 +757,87 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
             return;
         }
 
-        var id = theme;
-        if (lang && lang != 'kr') id += '_' + lang;
-        if (custom) id += '_' + custom.replace(/[^a-z0-9_]/gi, '');
+        var co_id = theme + '_' + lang;
+        if (custom) {
+            co_id += '_' + custom;
+        }
 
-        $('#generated_id_display').text(id);
-        $('#co_id').val(id).trigger('blur');
-        is_checked_id = true; // Auto-generated ID is considered checked
+        $('#generated_id_display').text(co_id);
+        $('#co_id').val(co_id);
     }
 
     function fcompanyform_submit(f) {
-        <?php echo get_editor_js('co_content'); ?>
+        <?php echo get_editor_js('co_content', true); // Only for content sync ?>
 
-        if (f.w.value == '' && !is_checked_id) {
-            alert('코드를 확인해주세요.');
-            f.co_id.focus();
-            return false;
+        if (confirm("저장하시겠습니까?")) {
+            return true;
         }
-
-        return true;
+        return false;
     }
 
-    $(document).ready(function () {
-        $('#co_bgcolor').on('input change', function () {
-            update_editor_background($(this).val());
-        });
+    // [IMPORTANT] Initialize SmartEditor2 globally so oEditors is populated
+    <?php echo get_editor_js('co_content', false); // Global init ?>
 
-        // [Editor Height Resize] 에디터 높이 3배(1000px) 확장 - 강력 적용 (내부 요소까지)
+    $(function () {
+        // [Editor Infrastructure Fix] 로딩 즉시 배경색 & 가로폭/높이 강력 제어
+        var init_retry_count = 0;
+        function init_editor_state() {
+            var editorExists = (typeof oEditors !== 'undefined' && oEditors.getById && oEditors.getById["co_content"]);
+
+            if (!editorExists) {
+                if (init_retry_count < 30) {
+                    init_retry_count++;
+                    setTimeout(init_editor_state, 300);
+                }
+                return;
+            }
+
+            setTimeout(function () {
+                update_editor_background();
+                forceResizeEditor();
+
+                var enforceCount = 0;
+                var enforceInterval = setInterval(function () {
+                    update_editor_background();
+                    forceResizeEditor(); // Apply height resize continuously during init
+                    if (enforceCount++ > 15) {
+                        clearInterval(enforceInterval);
+                    }
+                }, 400);
+            }, 500);
+        }
+
         function forceResizeEditor() {
-            var frames = document.getElementsByTagName('iframe');
-            for (var i = 0; i < frames.length; i++) {
-                if (frames[i].title == 'SmartEditor' || frames[i].src.indexOf('SmartEditor2Skin.html') > -1) {
-                    // 1. iframe 자체 높이
-                    frames[i].style.height = "1000px";
-                    frames[i].setAttribute('height', '1000');
+            if (typeof oEditors !== 'undefined' && oEditors.getById["co_content"]) {
+                var frames = document.getElementsByTagName('iframe');
+                for (var i = 0; i < frames.length; i++) {
+                    var f = frames[i];
+                    // Target by ID or by SmartEditor skin path
+                    var isEditorFrame = (f.id && f.id.indexOf('co_content') !== -1) ||
+                        (f.src && f.src.indexOf('SmartEditor2Skin.html') !== -1);
 
-                    // 2. iframe 내부 요소 (.se2_input_area) 높이 조절
-                    try {
-                        var innerDoc = frames[i].contentWindow.document;
-                        var inputArea = innerDoc.querySelector('.se2_input_area');
-                        if (inputArea) {
-                            inputArea.style.height = "960px"; // 툴바 높이 제외 대략값
-                        }
-                        // 편집 모드 iframe (#se2_iframe)
-                        var editFrame = innerDoc.getElementById('se2_iframe');
-                        if (editFrame) {
-                            editFrame.style.height = "960px";
-                        }
-                    } catch (e) {
-                        console.log("Cross-origin or load error: " + e);
+                    if (isEditorFrame) {
+                        f.style.height = "1000px";
+
+                        // Try to reach into the content area too
+                        try {
+                            var innerDoc = f.contentWindow.document;
+                            var inputArea = innerDoc.querySelector('.se2_input_area');
+                            if (inputArea) {
+                                inputArea.style.height = "920px"; // Slightly less for toolbar
+                            }
+                            var editFrame = innerDoc.getElementById('se2_iframe');
+                            if (editFrame) {
+                                editFrame.style.height = "920px";
+                            }
+                        } catch (e) { }
                     }
                 }
             }
         }
 
-        // 반복 시도
-        setTimeout(function () { update_editor_background($('#co_bgcolor').val()); forceResizeEditor(); }, 500);
-        setTimeout(forceResizeEditor, 1500);
-        setTimeout(forceResizeEditor, 3000);
+        // 초기화 실행
+        init_editor_state();
 
         // ID 중복확인
         $('#co_id').on('keyup blur', function () {
@@ -888,15 +866,11 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                 }
             });
         });
-        // [Fix] ID Generation Listeners
+
+        // ID Generation Listeners
         $('#co_theme, #co_lang, #co_custom').on('change keyup input', function () {
             generate_co_id();
         });
-
-        // Initialize on load if ID is empty (New Mode)
-        if ($('#co_id').val() == '') {
-            generate_co_id();
-        }
     });
 </script>
 

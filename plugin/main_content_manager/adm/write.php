@@ -41,7 +41,9 @@ $skins = array(
     'B' => 'Style B (Wide)',
     'C' => 'Style C (Simple)',
     'D' => 'Style D (Modern List)',
-    'philosophy_light' => 'Style Philosophy'
+    'philosophy_light' => 'Style Philosophy',
+    'load_location_a' => '메인 지도 (Main Map)',
+    'load_location_b' => '메인 온라인 문의 (Main Inquiry)'
 );
 
 $items = array();
@@ -262,62 +264,35 @@ if (count($items) < 1) {
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row">배경 디자인</th>
+                    <th scope="row">배경 디자인 (Color)</th>
                     <td>
-                        <?php
-                        $ms_bg_mode = isset($ms['ms_bg_mode']) ? $ms['ms_bg_mode'] : 'default';
-                        $bg_options = array(
-                            'default' => '기본 (Theme Default)',
-                            'white' => '심플 (White)',
-                            'accent' => '포인트 (Accent Gold)',
-                            'deep' => '어두움 (Deep Panel)'
-                        );
-                        ?>
-                        <div class="bg-mode-selector">
-                            <?php foreach ($bg_options as $key => $label) { ?>
-                                <label
-                                    style="margin-right:20px; cursor:pointer; display:inline-flex; align-items:center; gap:5px;">
-                                    <input type="radio" name="ms_bg_mode" value="<?php echo $key; ?>" <?php echo ($ms_bg_mode == $key) ? 'checked' : ''; ?>>
-                                    <span class="bg-swatch bg-<?php echo $key; ?>"></span>
-                                    <?php echo $label; ?>
-                                </label>
-                            <?php } ?>
+                        <div class="color_picker_grid" style="display:flex; align-items:center; gap:10px;">
+                            <input type="color" id="ms_bgcolor_picker"
+                                value="<?php echo isset($ms['ms_bg_color']) && $ms['ms_bg_color'] ? $ms['ms_bg_color'] : $theme_bg_default; ?>"
+                                onchange="$('#ms_bg_color').val(this.value);">
+                            <input type="text" name="ms_bg_color"
+                                value="<?php echo isset($ms['ms_bg_color']) ? $ms['ms_bg_color'] : ''; ?>"
+                                id="ms_bg_color" class="frm_input" size="10"
+                                placeholder="기본값 (<?php echo $theme_bg_default; ?>)">
+                            <button type="button" class="btn btn_02" onclick="reset_bgcolor()">기본값으로 복원</button>
                         </div>
-                        <style>
-                            .bg-swatch {
-                                width: 16px;
-                                height: 16px;
-                                border: 1px solid #ccc;
-                                display: inline-block;
-                                vertical-align: middle;
-                                border-radius: 3px;
-                            }
+                        <span class="frm_info">이 섹션의 배경색을 선택하세요. 기본값은 테마의 <strong
+                                id="theme_bg_label"><?php echo $theme_bg_default; ?></strong> 입니다.</span>
 
-                            .bg-default {
-                                background:
-                                    <?php echo $theme_bg_default; ?>
-                                ;
-                            }
+                        <script>
+                            var theme_bg_default = '<?php echo $theme_bg_default; ?>';
 
-                            .bg-white {
-                                background: #ffffff;
+                            function reset_bgcolor() {
+                                $('#ms_bg_color').val(''); // Empty value means default
+                                $('#ms_bgcolor_picker').val(theme_bg_default);
                             }
-
-                            .bg-accent {
-                                background: #d4af37;
-                            }
-
-                            .bg-deep {
-                                background: #1e1e1e;
-                            }
-                        </style>
-                        <div class="frm_info">이 섹션의 배경 스타일을 선택하세요. 테마 디자인 토큰에 따라 자동으로 색상이 적용됩니다.</div>
+                        </script>
                     </td>
                 </tr>
                 <tr>
                     <th scope="row"><label for="ms_skin">디자인 스킨</label></th>
                     <td>
-                        <select name="ms_skin" id="ms_skin" required onchange="update_rec_size(this.value);">
+                        <select name="ms_skin" id="ms_skin" required onchange="update_ui_by_skin(this.value);">
                             <?php foreach ($skins as $key => $val) { ?>
                                 <option value="<?php echo $key; ?>" <?php echo ($ms['ms_skin'] == $key) ? 'selected' : ''; ?>>
                                     <?php echo $val; ?>
@@ -325,21 +300,76 @@ if (count($items) < 1) {
                             <?php } ?>
                         </select>
                         <span id="rec_size_info" style="margin-left:15px; font-weight:bold; color:#e52727;"></span>
+
+                        <!-- Company Intro Selector (Hidden by default) -->
+                        <div id="company_intro_selector"
+                            style="display:none; margin-top:10px; padding:10px; background:#f0f0f0; border:1px solid #ddd;">
+                            <label style="font-weight:bold;">회사소개 컨텐츠 선택:</label>
+                            <select name="ms_content_source" id="ms_content_source" class="frm_input">
+                                <option value="">선택하세요</option>
+                                <?php
+                                $sql_co = " select co_id, co_subject from " . G5_TABLE_PREFIX . "plugin_company_add order by co_id asc ";
+                                $result_co = sql_query($sql_co);
+                                while ($row_co = sql_fetch_array($result_co)) {
+                                    // If ms_skin is location type, ms_content might hold the co_id (from previous save)
+                                    // Use ms['ms_content'] if we map it there. 
+                                    // Wait, ms_content isn't in the $ms array initialization above. 
+                                    // We need to check if ms_content column exists or use ms_link.
+                                    // For now let's assume we repurposed ms_link (or we should add ms_content column). 
+                                    // Let's use ms_link as a holder for now if ms_content doesn't exist, OR 
+                                    // better, let's just check items. But wait, this is SECTION level config. 
+                                    // The user wants the SECTION to load the map. 
+                                    // So we likely need to save this ID somewhere in g5_plugin_main_content_sections.
+                                    // Let's assume we save it in `ms_key` (no that's ID) or `ms_title`? No.
+                                    // We should add `ms_content_id` column or similar. 
+                                    // FOR NOW, let's reuse `ms_key_custom` or just add a hidden item?
+                                    // Actually, looking at the code, Items are children.
+                                    // If we select "Location", maybe we don't need items at all?
+                                    // OR, we just create ONE item that holds the ID in `mc_link`?
+                                    // Let's go with: "One Item" approach is cleaner for the DB structure but UI wise complicated.
+                                    // SIMPLER: Save it in `ms_title`? No.
+                                    // Let's use `ms_skin` to determine render, and maybe we need a new column `ms_data`.
+                                    // Or... we can use `ms_sort` (int)... no. 
+                                    // OK, let's look at `g5_plugin_main_content_sections` schema in Line 116.
+                                    // It has `ms_theme`, `ms_key`.
+                                    // Let's add `ms_content_id` to the table in the PHP code top!
+                                    $selected = ($ms['ms_content_id'] == $row_co['co_id']) ? 'selected' : '';
+                                    echo '<option value="' . $row_co['co_id'] . '" ' . $selected . '>' . $row_co['co_subject'] . ' (' . $row_co['co_id'] . ')</option>';
+                                }
+                                ?>
+                            </select>
+                            <p class="frm_info">선택한 회사소개(지도 등) 컨텐츠가 이 섹션에 그대로 출력됩니다.</p>
+                        </div>
+
                         <div class="frm_info">테마 전역 변수를 상속받는 스킨을 선택하세요. 스킨 종류에 따라 권장 이미지 사이즈가 달라집니다.</div>
                     </td>
                 </tr>
                 <script>
-                    function update_rec_size(skin) {
+                    function update_ui_by_skin(skin) {
                         var size_info = "";
+                        var is_location = (skin == 'load_location_a' || skin == 'load_location_b');
+
+                        // Update Size Info
                         if (skin == 'A') size_info = "(권장: 800 x 600 px)";
                         else if (skin == 'B') size_info = "(권장: 1200 x 600 px)";
                         else if (skin == 'C') size_info = "(권장: 800 x 600 px)";
-
                         document.getElementById('rec_size_info').innerHTML = size_info;
+
+                        // Toggle UI Elements
+                        var item_table = document.querySelector('.tbl_head01'); // Section Items Table
+                        var co_selector = document.getElementById('company_intro_selector');
+
+                        if (is_location) {
+                            if (item_table) item_table.style.display = 'none';
+                            if (co_selector) co_selector.style.display = 'block';
+                        } else {
+                            if (item_table) item_table.style.display = 'block';
+                            if (co_selector) co_selector.style.display = 'none';
+                        }
                     }
                     // 초기 로드 시 실행
                     document.addEventListener('DOMContentLoaded', function () {
-                        update_rec_size(document.getElementById('ms_skin').value);
+                        update_ui_by_skin(document.getElementById('ms_skin').value);
                     });
                 </script>
                 <tr>

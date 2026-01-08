@@ -5,6 +5,9 @@ include_once(G5_LIB_PATH . '/thumbnail.lib.php');
 
 // Unique ID for Swiper
 $uniqid = uniqid('works_');
+
+// Load shared skin header
+include_once(dirname(__FILE__) . '/../skin.head.php');
 ?>
 
 <section class="sec-works-dark" id="<?php echo $uniqid; ?>">
@@ -19,23 +22,16 @@ $uniqid = uniqid('works_');
 
         .sec-works-dark .works-header {
             text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .sec-works-dark .works-title {
-            font-family: var(--mc-font-heading, 'Playfair Display', serif);
-            font-size: 3rem;
-            color: #fff;
             margin-bottom: 20px;
-            letter-spacing: 1px;
         }
 
-        .sec-works-dark .works-subtitle {
-            font-size: 1.1rem;
-            color: var(--color-text-secondary, #888);
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.6;
+        /* Standardized via skin.head.php, local overrides for layout */
+        .sec-works-dark .section-title {
+            margin-bottom: 15px;
+        }
+
+        .sec-works-dark .section-subtitle {
+            margin-bottom: 60px;
         }
 
         /* Swiper Customization */
@@ -174,10 +170,10 @@ $uniqid = uniqid('works_');
     </style>
 
     <div class="container works-header">
-        <h2 class="works-title" data-aos="fade-up">
+        <h2 class="section-title" data-aos="fade-up">
             <?php echo $bo_subject; ?>
         </h2>
-        <p class="works-subtitle" data-aos="fade-up" data-aos-delay="100">
+        <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
             Selected projects that define our philosophy.
         </p>
     </div>

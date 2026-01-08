@@ -2,37 +2,32 @@
 <meta charset="utf-8">
 <style>
     /* Location Skin (오시는 길) - Type C Style */
-    .location-section {
+    /* [Standard] Wrapper Pattern */
+    .ci-skin-wrapper {
         width: 100%;
         max-width: var(--spacing-container, 1200px);
         margin: 0 auto;
-        padding: 0;
+        padding: var(--spacing-section, 60px) 20px;
         box-sizing: border-box;
     }
 
-    /* 1. Header (Left Aligned Standard) */
-    .location-section .section-header {
-        text-align: left;
-        margin-bottom: 80px;
-        border-left: 4px solid var(--color-accent-gold);
-        padding-left: 25px;
-    }
-
-    .location-section .section-header h2 {
+    .ci-skin-wrapper .section-header .section-title {
+        color: var(--color-text-primary, #1a1a1a);
         font-size: 2.5rem;
-        color: var(--color-text-primary);
-        font-family: var(--font-heading);
+        font-family: var(--font-heading, serif);
         margin-bottom: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
     }
 
-    .location-section .section-header p {
-        color: var(--color-text-secondary);
+    .ci-skin-wrapper .section-header .section-subtitle {
+        color: var(--color-text-secondary, #666);
         display: block;
         text-align: left;
     }
 
     /* Remove Bottom Gold Bar */
-    .location-section .section-header::after {
+    .ci-skin-wrapper .section-header::after {
         display: none;
     }
 
@@ -40,14 +35,13 @@
     .location-map-wrap {
         width: 100%;
         height: 500px;
-        background: #222;
-        /* Placeholder color */
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: var(--color-bg-panel, #222);
+        border: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
         border-radius: 12px;
         overflow: hidden;
         margin-bottom: 60px;
         position: relative;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
     }
 
     /* Map Element (Target for API) */
@@ -65,10 +59,10 @@
 
     .info-group h3 {
         font-size: 1.5rem;
-        color: var(--color-text-primary);
+        color: var(--color-text-primary, #1a1a1a);
         margin-bottom: 25px;
-        font-family: var(--font-heading);
-        border-left: 4px solid var(--color-accent-gold);
+        font-family: var(--font-heading, serif);
+        border-left: 4px solid var(--color-accent-gold, #d4af37);
         padding-left: 15px;
     }
 
@@ -80,7 +74,7 @@
 
     .info-list li {
         margin-bottom: 20px;
-        color: var(--color-text-secondary);
+        color: var(--color-text-secondary, #666);
         font-size: 1rem;
         display: flex;
         align-items: flex-start;
@@ -88,7 +82,7 @@
     }
 
     .info-list li strong {
-        color: var(--color-text-primary);
+        color: var(--color-text-primary, #1a1a1a);
         font-weight: 600;
         width: 100px;
         flex-shrink: 0;
@@ -96,7 +90,7 @@
 
     .info-label {
         font-weight: bold;
-        color: var(--color-accent-gold);
+        color: var(--color-accent-gold, #d4af37);
         margin-right: 10px;
     }
 
@@ -107,11 +101,10 @@
         border-radius: 4px;
         font-size: 0.8rem;
         color: #fff;
+        /* Always white text on badges */
         margin-right: 8px;
         font-weight: bold;
     }
-
-    /* Colors handled inline for editor support */
 
     /* Responsive */
     @media (max-width: 768px) {
@@ -126,11 +119,11 @@
     }
 </style>
 
-<div class="location-section">
+<div class="ci-skin-wrapper">
     <!-- Header -->
     <div class="section-header">
-        <h2>LOCATION</h2>
-        <p>고객 여러분의 방문을 진심으로 환영합니다.</p>
+        <h2 class="section-title">LOCATION</h2>
+        <p class="section-subtitle">고객 여러분의 방문을 진심으로 환영합니다.</p>
     </div>
 
     <!-- Map Area -->

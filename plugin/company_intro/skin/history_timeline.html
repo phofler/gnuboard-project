@@ -1,26 +1,28 @@
 <style>
-    /* History Timeline (테임라인 연혁) - Smart Inherited */
-    .ci-history-timeline {
+    /* History Timeline (테임라인 연혁) - Smart Inherited
+     * Standardized for Theme Compatibility
+     */
+
+    /* [Standard] Wrapper Pattern */
+    .ci-skin-wrapper {
         width: 100%;
         max-width: var(--spacing-container, 1200px);
         margin: 0 auto;
-        padding: 0;
+        padding: var(--spacing-section, 60px) 20px;
         box-sizing: border-box;
         color: var(--color-text-primary);
-        /* Force Text Color */
     }
 
     /* Header - Center Style (matches Type C) */
-    .ci-history-timeline .section-header {
+    .ci-skin-wrapper .section-header {
         border-left: none;
-        /* Disable global edge */
         padding-left: 0;
         text-align: center;
-        /* Force center */
+        margin-bottom: 50px;
     }
 
     /* Bottom Gold Bar */
-    .ci-history-timeline .section-header::after {
+    .ci-skin-wrapper .section-header::after {
         content: '';
         display: block;
         width: 60px;
@@ -30,13 +32,16 @@
         border-radius: 2px;
     }
 
-    .section-header h2 {
-        color: var(--color-text-primary);
+    .ci-skin-wrapper .section-header h2 {
+        /* Section Title Rule: Accent Color */
+        color: var(--color-accent-gold, #d4af37);
         font-family: var(--font-heading);
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        font-weight: 700;
     }
 
-    /* [FIX] Center Subtitle (Flex Override) */
-    .ci-history-timeline .section-header p {
+    .ci-skin-wrapper .section-header p {
         justify-content: center;
         color: var(--color-text-secondary);
     }
@@ -57,8 +62,7 @@
         left: 50%;
         width: 2px;
         /* Thicker for visibility */
-        background: rgba(var(--color-accent-gold-rgb), 0.3);
-        /* [KEY] Theme Color 30% */
+        background: rgba(var(--color-accent-gold-rgb, 212, 175, 55), 0.3);
         transform: translateX(-50%);
     }
 
@@ -84,15 +88,13 @@
         position: absolute;
         top: 0;
         right: -11px;
-        /* Adjusted for 2px line */
         width: 20px;
         height: 20px;
         background: var(--color-bg-dark);
         border: 2px solid var(--color-accent-gold);
         border-radius: 50%;
         z-index: 1;
-        box-shadow: 0 0 15px rgba(var(--color-accent-gold-rgb), 0.4);
-        /* Glow Effect */
+        box-shadow: 0 0 15px rgba(var(--color-accent-gold-rgb, 212, 175, 55), 0.4);
     }
 
     .history-time-item:nth-child(even) .history-time-dot {
@@ -103,11 +105,9 @@
     .history-time-year {
         display: inline-block;
         padding: 5px 15px;
-        background: rgba(var(--color-accent-gold-rgb), 0.1);
-        /* Soft BG */
+        background: rgba(var(--color-accent-gold-rgb, 212, 175, 55), 0.1);
         border: 1px solid var(--color-accent-gold);
         color: var(--color-accent-gold);
-        /* Text is now Gold */
         font-weight: bold;
         border-radius: 20px;
         margin-bottom: 15px;
@@ -119,6 +119,7 @@
         margin: 0 0 10px;
         font-size: 1.2rem;
         color: var(--color-text-primary);
+        font-weight: 700;
     }
 
     .history-time-content ul {
@@ -166,9 +167,9 @@
     }
 </style>
 
-<div class="ci-history-timeline">
+<div class="ci-skin-wrapper">
     <div class="section-header text-center mb-5">
-        <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">COMPANY HISTORY</h2>
+        <h2>COMPANY HISTORY</h2>
         <p>끊임없는 도전과 혁신으로 성장해온 발자취입니다.</p>
     </div>
 

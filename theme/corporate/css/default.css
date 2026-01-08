@@ -21,6 +21,10 @@
     --gradient-metal: linear-gradient(135deg, #4a4a4a 0%, #2c2c2c 100%);
     --gradient-gold: linear-gradient(135deg, #d4af37 0%, #a08020 100%);
 
+    /* [TYPOGRAPHY Semantic Mapping] Individual Control */
+    --color-title-main: var(--color-accent-gold);
+    --color-title-sub: var(--color-text-primary);
+
     /* Typography */
     --font-heading: 'Noto Sans KR', 'Malgun Gothic', 'Dotum', sans-serif;
     --font-body: 'Noto Sans KR', 'Malgun Gothic', 'Dotum', sans-serif;

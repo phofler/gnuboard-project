@@ -1,49 +1,31 @@
 <style>
     /* 
      * Type C: Vertical Cinematic Design (Visionary)
-     * Layout: Header -> Wide Image -> Center Text -> 3 Cards
-     * Colors: Dark Navy BG, Electric Blue Gradient Accent
-     * [FIX] Specificity: Using direct class .intro-text on P tag (User Suggestion)
+     * Standardized for Theme Compatibility
      */
 
-    /* Container */
-    #wrapper.sub-layout-light .ci-type-c,
-    .ci-type-c {
+    /* [Standard] Wrapper Pattern */
+    .ci-skin-wrapper {
         width: 100%;
         max-width: var(--spacing-container, 1200px);
         margin: 0 auto;
-        padding: 0;
+        padding: var(--spacing-section, 60px) 20px;
         box-sizing: border-box;
-        /* font-family: 'Inter', sans-serif; */
-        color: var(--color-text-primary, #eff2f7);
         text-align: center;
     }
 
     /* 1. Vertical Header */
-    #wrapper.sub-layout-light .ci-type-c .vertical-header,
-    .ci-type-c .vertical-header {
-        margin-bottom: 50px;
-        position: relative;
-        display: inline-block;
-    }
-
-    #wrapper.sub-layout-light .ci-type-c .vertical-header h2,
-    .ci-type-c .vertical-header h2 {
+    .ci-skin-wrapper .vertical-header .section-title {
         font-size: 3.2rem;
         font-weight: 800;
-        /* Gradient Optional: Keeping for Style C, but mapped to Theme Colors if possible, or keeping specific */
-        background: linear-gradient(135deg, var(--color-text-primary, #fff) 0%, var(--color-text-secondary, #a5b4fc) 100%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: var(--color-text-primary);
         margin-bottom: 15px;
         line-height: 1.1;
         font-family: var(--font-heading, sans-serif);
     }
 
-    #wrapper.sub-layout-light .ci-type-c .vertical-header p,
-    .ci-type-c .vertical-header p {
-        color: var(--color-accent-gold, #64ffda);
+    .ci-skin-wrapper .vertical-header .section-subtitle {
+        color: var(--color-text-secondary, #666);
         font-size: 1.1rem;
         font-weight: 600;
         letter-spacing: 0.1em;
@@ -52,21 +34,19 @@
     }
 
     /* Decorative Line */
-    #wrapper.sub-layout-light .ci-type-c .vertical-header::after,
-    .ci-type-c .vertical-header::after {
+    .ci-skin-wrapper .vertical-header::after {
         content: '';
         display: block;
         width: 60px;
         height: 4px;
         /* Map to Accent for consistency */
-        background: var(--color-accent-gold, #00f2ff);
+        background: var(--color-accent-gold, #d4af37);
         margin: 20px auto 0;
         border-radius: 2px;
     }
 
     /* 2. Cinematic Image */
-    #wrapper.sub-layout-light .ci-type-c .cinema-image,
-    .ci-type-c .cinema-image {
+    .ci-skin-wrapper .cinema-image {
         width: 100%;
         height: 400px;
         margin-bottom: 60px;
@@ -76,8 +56,7 @@
         box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.5);
     }
 
-    #wrapper.sub-layout-light .ci-type-c .cinema-image img,
-    .ci-type-c .cinema-image img {
+    .ci-skin-wrapper .cinema-image img {
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -85,80 +64,69 @@
         display: block;
     }
 
-    #wrapper.sub-layout-light .ci-type-c .cinema-image:hover img,
-    .ci-type-c .cinema-image:hover img {
+    .ci-skin-wrapper .cinema-image:hover img {
         transform: scale(1.05);
     }
 
     /* Overlay Gradient */
-    #wrapper.sub-layout-light .ci-type-c .cinema-image::after,
-    .ci-type-c .cinema-image::after {
+    .ci-skin-wrapper .cinema-image::after {
         content: '';
         position: absolute;
         bottom: 0;
         left: 0;
         width: 100%;
         height: 50%;
-        background: linear-gradient(to top, var(--color-bg-dark, #0a192f) 0%, transparent 100%);
+        background: linear-gradient(to top, var(--color-bg-dark, #121212) 0%, transparent 100%);
         opacity: 0.8;
     }
 
     /* 3. Main Text Block - Container */
-    #wrapper.sub-layout-light .ci-type-c .main-text,
-    .ci-type-c .main-text {
+    .ci-skin-wrapper .main-text {
         max-width: 800px;
         margin: 0 auto 80px;
     }
 
-    /* [FIX] TARGET CLASS DIRECTLY (User Suggestion) */
-    #wrapper.sub-layout-light .ci-type-c .intro-text,
-    .ci-type-c .intro-text {
+    .ci-skin-wrapper .intro-text {
         font-size: 1.15rem;
-        color: var(--color-text-secondary, #e6f0ff);
-        /* Bright Color */
+        color: var(--color-text-secondary, #a0a0a0);
         line-height: 1.8;
         margin-bottom: 20px;
     }
 
-    #wrapper.sub-layout-light .ci-type-c .intro-text strong,
-    .ci-type-c .intro-text strong {
-        color: var(--color-text-primary, #fff);
+    .ci-skin-wrapper .intro-text strong {
+        color: var(--color-text-primary, #ffffff);
         font-weight: 600;
     }
 
     /* 4. Three Column Features */
-    #wrapper.sub-layout-light .ci-type-c .feature-grid,
-    .ci-type-c .feature-grid {
+    .ci-skin-wrapper .feature-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 30px;
         text-align: left;
     }
 
-    #wrapper.sub-layout-light .ci-type-c .feature-card,
-    .ci-type-c .feature-card {
-        background: var(--color-bg-panel, #112240);
+    .ci-skin-wrapper .feature-card {
+        background: var(--color-bg-panel, #1e1e1e);
         padding: 40px 30px;
         border-radius: 12px;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         position: relative;
         overflow: hidden;
-        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        border-top: 1px solid var(--color-border, rgba(255, 255, 255, 0.05));
     }
 
-    #wrapper.sub-layout-light .ci-type-c .feature-card:hover,
-    .ci-type-c .feature-card:hover {
+    .ci-skin-wrapper .feature-card:hover {
         transform: translateY(-10px);
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        border-top: 1px solid var(--color-accent-gold, #00f2ff);
+        border-top: 1px solid var(--color-accent-gold, #d4af37);
     }
 
-    #wrapper.sub-layout-light .ci-type-c .feature-icon,
-    .ci-type-c .feature-icon {
+    .ci-skin-wrapper .feature-icon {
         font-size: 2.5rem;
         margin-bottom: 20px;
         /* Dynamic Gradient based on Theme Accent */
-        background: var(--color-accent-gold, #d4af37);
+        background: linear-gradient(135deg, var(--color-accent-gold, #d4af37) 0%, #a08020 100%);
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -167,42 +135,37 @@
         font-family: var(--font-heading, sans-serif);
     }
 
-    #wrapper.sub-layout-light .ci-type-c .feature-card h3,
-    .ci-type-c .feature-card h3 {
+    .ci-skin-wrapper .feature-card h3 {
         font-size: 1.4rem;
-        color: var(--color-text-primary, #fff);
+        color: var(--color-text-primary, #ffffff);
         margin-bottom: 15px;
         font-weight: 700;
         font-family: var(--font-heading, sans-serif);
     }
 
-    #wrapper.sub-layout-light .ci-type-c .feature-card p,
-    .ci-type-c .feature-card p {
+    .ci-skin-wrapper .feature-card p {
         font-size: 0.95rem;
-        color: var(--color-text-secondary, #8892b0);
+        color: var(--color-text-secondary, #666);
         line-height: 1.6;
     }
 
     /* Responsive */
     @media (max-width: 768px) {
-
-        #wrapper.sub-layout-light .ci-type-c .feature-grid,
-        .ci-type-c .feature-grid {
+        .ci-skin-wrapper .feature-grid {
             grid-template-columns: 1fr;
         }
 
-        #wrapper.sub-layout-light .ci-type-c .cinema-image,
-        .ci-type-c .cinema-image {
+        .ci-skin-wrapper .cinema-image {
             height: 250px;
         }
     }
 </style>
 
-<div class="ci-type-c">
+<div class="ci-skin-wrapper">
     <!-- 1. Header -->
     <div class="vertical-header" data-aos="fade-up">
-        <p>Company Overview</p>
-        <h2>Space & Value Creator</h2>
+        <p class="section-subtitle">Company Overview</p>
+        <h2 class="section-title">Space & Value Creator</h2>
     </div>
 
     <!-- 2. Image -->
