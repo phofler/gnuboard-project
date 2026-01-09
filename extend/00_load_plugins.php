@@ -12,7 +12,9 @@ if (!defined('_GNUBOARD_'))
 $active_plugins = array(
     'online_inquiry',
     'map_api',
-    'company_intro'
+    'company_intro',
+    'latest_skin_manager',
+    'board_skin_manager'
 );
 
 foreach ($active_plugins as $plugin_name) {

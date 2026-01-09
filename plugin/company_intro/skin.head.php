@@ -104,6 +104,52 @@ if (file_exists($skin_file)) {
             }
         }
     }
+
+    // [LATEST SKIN MANAGER]
+    // 1. Specific ID: {LATEST_SKIN:corporate_main_works}
+    if (preg_match_all('/\{LATEST_SKIN:([a-zA-Z0-9_]+)\}/', $view_content, $matches)) {
+        $latest_lib = G5_PLUGIN_PATH . '/latest_skin_manager/lib/latest_skin.lib.php';
+        if (file_exists($latest_lib)) {
+            include_once($latest_lib);
+            if (function_exists('display_latest_skin_by_id')) {
+                foreach ($matches[1] as $idx => $ls_id) {
+                    $ls_data = get_latest_skin_config($ls_id);
+                    $ls_html = is_array($ls_data) ? $ls_data['html'] : $ls_data;
+                    $view_content = str_replace($matches[0][$idx], $ls_html, $view_content);
+                }
+            }
+        }
+    }
+
+    // 2. Context-Aware: {LATEST_SKIN_DISPLAY}
+    if (strpos($view_content, '{LATEST_SKIN_DISPLAY}') !== false) {
+        $latest_lib = G5_PLUGIN_PATH . '/latest_skin_manager/lib/latest_skin.lib.php';
+        if (file_exists($latest_lib)) {
+            include_once($latest_lib);
+            if (function_exists('get_latest_skin_config')) {
+                // Determine ID (Clean ID Standard)
+                $target_ls_id = $co_row['co_theme'] . '_main_works';
+                // Fallback for Korean/English based on co_lang if needed, but Pattern B+ prefers no _kr
+                if (isset($co_row['co_lang']) && $co_row['co_lang'] != 'kr') {
+                    $target_ls_id .= '_' . $co_row['co_lang'];
+                }
+
+                $ls_data = get_latest_skin_config($target_ls_id);
+                if (is_array($ls_data)) {
+                    $replacements = array(
+                        '{LATEST_SKIN_DISPLAY}' => $ls_data['html'],
+                        '{LS_TITLE}' => $ls_data['title'],
+                        '{LS_DESCRIPTION}' => $ls_data['description'],
+                        '{LS_MORE_LINK}' => $ls_data['more_link'],
+                        '{LS_MORE_TEXT}' => ($co_row['co_lang'] == 'kr' ? '더보기 +' : 'MORE +')
+                    );
+                    $view_content = strtr($view_content, $replacements);
+                } else {
+                    $view_content = str_replace('{LATEST_SKIN_DISPLAY}', $ls_data, $view_content);
+                }
+            }
+        }
+    }
 } else {
     $view_content = '스킨 파일이 존재하지 않습니다.';
 }

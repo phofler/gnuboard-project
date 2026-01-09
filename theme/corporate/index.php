@@ -108,15 +108,20 @@ if (function_exists('display_main_content')) {
 <!-- Portfolio Section -->
 <section class="sec-portfolio" id="portfolio">
     <div class="container">
-        <h2 data-aos="fade-up">Construction Case</h2>
         <?php
-        // [Plugin] Board Skin Manager - Widget ID 1 (Construction Case)
-        include_once(G5_PLUGIN_PATH . '/board_skin_manager/lib/board_skin.lib.php');
-        if (function_exists('display_board_skin_by_id')) {
-            display_board_skin_by_id(1);
+        // [Plugin] Dynamically loaded via Company Intro (Skin: main_latest)
+        if (function_exists('display_company_intro')) {
+            // Context-Aware ID: theme_lang_custom
+            $target_co_id = $config['cf_theme'] . '_' . G5_LANG . '_portfolio';
+            echo display_company_intro($target_co_id);
         } else {
-            // Fallback if plugin is missing
-            echo latest('theme/portfolio', 'chamcode_gallery', 4, 30);
+            // Fallback for Manual Setup
+            echo '<h2 data-aos="fade-up">Construction Case</h2>';
+            include_once(G5_PLUGIN_PATH . '/latest_skin_manager/lib/latest_skin.lib.php');
+            if (function_exists('display_latest_skin_by_id')) {
+                $ls_data = display_latest_skin_by_id($config['cf_theme'] . '_main_works');
+                echo is_array($ls_data) ? $ls_data['html'] : $ls_data;
+            }
         }
         ?>
     </div>

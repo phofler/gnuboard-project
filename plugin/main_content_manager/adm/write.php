@@ -180,7 +180,7 @@ if (count($items) < 1) {
                             <?php
                             // [Standardization] Parsing Existing ID for Edit Mode
                             $sel_theme = '';
-                            $sel_lang = 'kr';
+                            $sel_lang = '';
                             $sel_custom = '';
                             if ($w == 'u' && $ms['ms_key']) {
                                 $parts = explode('_', $ms['ms_key']);
@@ -196,7 +196,7 @@ if (count($items) < 1) {
                                     }
                                 } else if (isset($parts[0])) {
                                     $sel_theme = $parts[0];
-                                    $sel_lang = 'kr'; // Default to KR if no language part is found
+                                    $sel_lang = 'kr'; // Default to KR only if loading existing KR content
                                     if (isset($parts[1])) {
                                         array_shift($parts); // theme
                                         $sel_custom = implode('_', $parts);
@@ -233,18 +233,18 @@ if (count($items) < 1) {
                                 <?php } ?>
                             </select>
                             <select name="ms_lang" id="ms_lang" class="frm_input" onchange="generate_ms_key();">
-                                <option value="kr" <?php echo ($ms['ms_lang'] == 'kr') ? 'selected' : ''; ?>>한국어 (기본)
+                                <option value="">언어 선택</option>
+                                <option value="kr" <?php echo ($ms['ms_lang'] == 'kr') ? 'selected' : ''; ?>>한국어</option>
+                                <option value="en" <?php echo ($ms['ms_lang'] == 'en') ? 'selected' : ''; ?>>English
                                 </option>
-                                <option value="en" <?php echo ($ms['ms_lang'] == 'en') ? 'selected' : ''; ?>>English (EN)
+                                <option value="jp" <?php echo ($ms['ms_lang'] == 'jp') ? 'selected' : ''; ?>>Japanese
                                 </option>
-                                <option value="jp" <?php echo ($ms['ms_lang'] == 'jp') ? 'selected' : ''; ?>>Japanese (JP)
-                                </option>
-                                <option value="cn" <?php echo ($ms['ms_lang'] == 'cn') ? 'selected' : ''; ?>>Chinese (CN)
+                                <option value="cn" <?php echo ($ms['ms_lang'] == 'cn') ? 'selected' : ''; ?>>Chinese
                                 </option>
                             </select>
                             <input type="text" name="ms_key_custom" id="ms_key_custom"
                                 value="<?php echo $sel_custom; ?>" class="frm_input" style="width:150px;"
-                                placeholder="커스텀 이름 (선택)" onkeyup="generate_ms_key();">
+                                placeholder="커스텀 이름 (영문/숫자)" onkeyup="generate_ms_key();">
                         </div>
 
                         <div style="margin-top:5px; padding:10px; background:#f9f9f9; border:1px solid #eee;">
@@ -597,7 +597,22 @@ if (count($items) < 1) {
         if (custom) {
             key += '_' + custom.replace(/[^a-z0-9_]/gi, '');
         } else if (!ms_id || ms_id == '0') {
-            // New sections get a random suffix to avoid collisions during creation
+            // New sections get a random suffix ONLY if theme is selected (which is checked above)
+            // But we want to follow Pattern B: "Theme_Lang_Suffix"
+            // If custom is empty, and lang is empty, it's just 'corporate'.
+            // The original logic appended '_sec_timestamp'. Is this desired?
+            // "Pattern B" usually means deterministic IDs like 'corporate_kr'.
+            // However, Main Content allows multiple sections per theme/lang.
+            // So we NEED a suffix.
+            // Let's generate suffix only if custom is empty?
+            // User complained about "Why is it generated immediately?".
+            // If we require Theme + Lang, we should wait for Lang too?
+            // But Lang is optional-ish (defaults to KR implies empty).
+            // Let's just generate it, because `theme` check passed.
+            // BUT, if lang is empty, we might want to wait?
+            // No, user selected Theme.
+            // The issue was it generated ON LOAD because Theme was pre-selected.
+            // Now Theme defaults to empty, so this won't run on load.
             key += '_sec_' + Date.now().toString().slice(-4);
         } else {
             key += '_sec_' + ms_id;

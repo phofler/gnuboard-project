@@ -28,6 +28,7 @@ if (defined('G5_PLUGIN_PATH') && file_exists(G5_PLUGIN_PATH . '/copyright_manage
         display_footer_info();
     }
 }
+
 ?>
 
 <?php

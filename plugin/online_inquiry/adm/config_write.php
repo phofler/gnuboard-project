@@ -153,8 +153,8 @@ $w = isset($_REQUEST['w']) ? $_REQUEST['w'] : '';
 
 $row = array(
     'oi_id' => '',
-    'theme' => $config['cf_theme'],
-    'lang' => 'kr',
+    'theme' => '',
+    'lang' => '',
     'skin' => 'basic',
     'subject' => '',
     'content' => '',
@@ -265,16 +265,14 @@ $preview_bg = (isset($row['oi_bgcolor']) && $row['oi_bgcolor']) ? $row['oi_bgcol
                                 } ?>
                             </select>
                             <select name="oi_lang" id="oi_lang" class="frm_input" onchange="generate_oi_id()">
-                                <option value="kr" <?php echo ($sel_lang == 'kr' ? 'selected' : ''); ?>>한국어 (기본)</option>
-                                <option value="en" <?php echo ($sel_lang == 'en' ? 'selected' : ''); ?>>English (EN)
-                                </option>
-                                <option value="jp" <?php echo ($sel_lang == 'jp' ? 'selected' : ''); ?>>Japanese (JP)
-                                </option>
-                                <option value="cn" <?php echo ($sel_lang == 'cn' ? 'selected' : ''); ?>>Chinese (CN)
-                                </option>
+                                <option value="">언어 선택</option>
+                                <option value="kr" <?php echo ($sel_lang == 'kr' ? 'selected' : ''); ?>>한국어</option>
+                                <option value="en" <?php echo ($sel_lang == 'en' ? 'selected' : ''); ?>>English</option>
+                                <option value="jp" <?php echo ($sel_lang == 'jp' ? 'selected' : ''); ?>>Japanese</option>
+                                <option value="cn" <?php echo ($sel_lang == 'cn' ? 'selected' : ''); ?>>Chinese</option>
                             </select>
                             <input type="text" name="oi_custom" id="oi_custom" value="<?php echo $sel_custom; ?>"
-                                class="frm_input" placeholder="커스텀 이름 (선택)" onkeyup="generate_oi_id()">
+                                class="frm_input" placeholder="커스텀 이름 (영문/숫자)" onkeyup="generate_oi_id()">
                         </div>
                         <div
                             style="margin-top:8px; font-size:12px; color:#666; padding:10px; background:#f9f9f9; border:1px solid #eee; display:inline-block;">
@@ -546,7 +544,11 @@ $preview_bg = (isset($row['oi_bgcolor']) && $row['oi_bgcolor']) ? $row['oi_bgcol
     }
 
     $(document).ready(function () {
-        if (!$('#oi_id').val()) generate_oi_id();
+        // Only generate ID if it's already there (Edit mode) 
+        // DO NOT auto-generate for new entries until theme is selected
+        if ($('#oi_id').val()) {
+            generate_oi_id();
+        }
 
         $('#oi_bgcolor').on('input change', function () {
             update_editor_bg($(this).val());

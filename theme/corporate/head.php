@@ -208,9 +208,20 @@ if (!defined('_INDEX_')) {
     <!-- container_wr removed/simplified for full width hero support in index -->
     <div id="container_wr">
         <div id="container">
-            <?php if (!defined('_INDEX_')) { ?>
-                <!-- [STANDARD] Sub Page Layout Wrapper (Padding: 60px, Width: 1400px) -->
-                <!-- This wrapper handles all vertical spacing and alignment -->
-                <!-- Do NOT use internal padding in skin files to avoid double padding -->
-                <div class="sub-layout-width-height">
-                <?php } ?>
+            <?php if (!defined('_INDEX_')) {
+                $sd_layout = isset($sub_design['sd_layout']) ? $sub_design['sd_layout'] : 'full';
+                if ($sd_layout == 'sidebar') {
+                    ?>
+                    <!-- [SIDEBAR] Sub Page Layout Wrapper -->
+                    <div class="sub-layout-body">
+                        <aside class="sub-sidebar">
+                            <?php include_once(G5_THEME_PATH . '/skin/sidebar/standard.php'); ?>
+                        </aside>
+                        <div class="sub-content">
+                        <?php } else { ?>
+                            <!-- [STANDARD] Sub Page Layout Wrapper (Padding: 60px, Width: 1400px) -->
+                            <!-- This wrapper handles all vertical spacing and alignment -->
+                            <!-- Do NOT use internal padding in skin files to avoid double padding -->
+                            <div class="sub-layout-width-height">
+                            <?php }
+            } ?>

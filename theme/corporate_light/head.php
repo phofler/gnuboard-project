@@ -124,43 +124,8 @@ if (!defined('_INDEX_')) {
         $hero_title = $nav_1st_name;
     }
 
-    $sd_img_url = '';
-
-    // Validate image path
-    if (isset($sub_design['sd_visual_img']) && $sub_design['sd_visual_img']) {
-        $check_path = G5_DATA_PATH . '/sub_visual/' . $sub_design['sd_visual_img'];
-        if (file_exists($check_path)) {
-            $sd_img_url = G5_DATA_URL . '/sub_visual/' . $sub_design['sd_visual_img'];
-        }
-    }
-
-    // [FIX] If no file image found, check for external URL
-    if (!$sd_img_url && isset($sub_design['sd_visual_url']) && $sub_design['sd_visual_url']) {
-        $sd_img_url = $sub_design['sd_visual_url'];
-    }
-
-    // Final Fallback if everything failed (should be caught by step 3 but double check)
-    if (!$sd_img_url) {
-        $sd_img_url = G5_DATA_URL . '/sub_visual/sub_visual_1020_1765854659.png';
-    }
-
-    if ($sd_img_url) {
-        ?>
-        <section class="sub-hero">
-            <div class="sub-hero-bg" style="background-image: url('<?php echo $sd_img_url; ?>');"></div>
-            <div class="sub-hero-content" data-aos="fade-up" data-aos-duration="1000">
-                <?php if (isset($sub_design['sd_sub_text']) && $sub_design['sd_sub_text']) { ?>
-                    <p class="sub-hero-subtitle">
-                        <?php echo $sub_design['sd_sub_text']; ?>
-                    </p>
-                <?php } ?>
-                <h1 class="sub-hero-title">
-                    <?php echo $hero_title; ?>
-                </h1>
-            </div>
-        </section>
-        <?php
-    }
+    // [Dynamic Skin Loading] Render the selected Sub Design skin (Zero-Gap Fix)
+    display_sub_design($current_me_code);
     ?>
 
     <div class="breadcrumb">

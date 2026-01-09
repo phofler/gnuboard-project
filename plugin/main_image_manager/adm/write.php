@@ -88,7 +88,7 @@ $rec_h = ($mi_group_config['mi_skin'] == 'basic') ? 960 : 1080;
 
                 // Parse existing ID
                 $parsed_theme = '';
-                $parsed_lang = 'kr';
+                $parsed_lang = '';
                 $parsed_custom = '';
 
                 if ($w == 'u' && $mi_group_config['mi_id']) {
@@ -128,17 +128,20 @@ $rec_h = ($mi_group_config['mi_skin'] == 'basic') ? 960 : 1080;
                             </select>
 
                             <select name="mi_lang" id="mi_lang" class="frm_input" onchange="generate_mi_id()">
-                                <?php foreach ($langs as $k => $v) { ?>
-                                    <option value="<?php echo $k; ?>" <?php echo ($parsed_lang == $k) ? 'selected' : ''; ?>>
-                                        <?php echo $v; ?>
-                                    </option>
-                                <?php } ?>
+                                <option value="">언어 선택</option>
+                                <option value="kr" <?php echo ($parsed_lang == 'kr') ? 'selected' : ''; ?>>한국어</option>
+                                <option value="en" <?php echo ($parsed_lang == 'en') ? 'selected' : ''; ?>>English
+                                </option>
+                                <option value="jp" <?php echo ($parsed_lang == 'jp') ? 'selected' : ''; ?>>Japanese
+                                </option>
+                                <option value="cn" <?php echo ($parsed_lang == 'cn') ? 'selected' : ''; ?>>Chinese
+                                </option>
                             </select>
 
                             <!-- Custom Suffix -->
                             <input type="text" name="mi_id_custom" id="mi_id_custom"
                                 value="<?php echo $parsed_custom; ?>" class="frm_input" style="width:150px;"
-                                placeholder="커스텀 이름 (선택)" onkeyup="generate_mi_id()">
+                                placeholder="커스텀 이름 (영문/숫자)" onkeyup="generate_mi_id()">
                         </div>
                         <div style="margin-top:5px; padding:10px; background:#f9f9f9; border:1px solid #eee;">
                             생성된 식별코드(ID): <strong id="display_mi_id"
@@ -157,7 +160,7 @@ $rec_h = ($mi_group_config['mi_skin'] == 'basic') ? 960 : 1080;
                                 if (!theme) return;
 
                                 var new_id = theme;
-                                if (lang !== 'kr') {
+                                if (lang && lang !== 'kr') {
                                     new_id += '_' + lang;
                                 }
 

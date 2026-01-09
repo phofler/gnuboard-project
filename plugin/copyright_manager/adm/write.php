@@ -107,15 +107,15 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                         sort($themes);
 
                         // ID Parsing
-                        $sel_theme = (isset($config['cf_theme']) && $config['cf_theme']) ? $config['cf_theme'] : '';
-                        $sel_lang = 'ko';
+                        $sel_theme = '';
+                        $sel_lang = '';
                         $sel_custom = '';
 
                         if ($w == 'u' && isset($cp['cp_id']) && $cp['cp_id']) {
                             $parts = explode('_', $cp['cp_id']);
                             if (isset($parts[0]) && in_array($parts[0], $themes)) {
                                 $sel_theme = $parts[0];
-                                if (isset($parts[1]) && in_array($parts[1], array('ko', 'en', 'jp', 'cn'))) {
+                                if (isset($parts[1]) && in_array($parts[1], array('kr', 'en', 'jp', 'cn'))) {
                                     $sel_lang = $parts[1];
                                     if (isset($parts[2])) {
                                         array_shift($parts);
@@ -146,16 +146,14 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                 } ?>
                             </select>
                             <select name="cp_lang" id="cp_lang" class="frm_input" onchange="generate_id()" <?php echo $readonly ? 'disabled' : ''; ?>>
-                                <option value="ko" <?php echo ($sel_lang == 'ko' ? 'selected' : ''); ?>>한국어 (KR)</option>
-                                <option value="en" <?php echo ($sel_lang == 'en' ? 'selected' : ''); ?>>English (EN)
-                                </option>
-                                <option value="jp" <?php echo ($sel_lang == 'jp' ? 'selected' : ''); ?>>Japanese (JP)
-                                </option>
-                                <option value="cn" <?php echo ($sel_lang == 'cn' ? 'selected' : ''); ?>>Chinese (CN)
-                                </option>
+                                <option value="">언어 선택</option>
+                                <option value="kr" <?php echo ($sel_lang == 'kr' ? 'selected' : ''); ?>>한국어</option>
+                                <option value="en" <?php echo ($sel_lang == 'en' ? 'selected' : ''); ?>>English</option>
+                                <option value="jp" <?php echo ($sel_lang == 'jp' ? 'selected' : ''); ?>>Japanese</option>
+                                <option value="cn" <?php echo ($sel_lang == 'cn' ? 'selected' : ''); ?>>Chinese</option>
                             </select>
                             <input type="text" name="cp_custom" id="cp_custom" value="<?php echo $sel_custom; ?>"
-                                class="frm_input" placeholder="커스텀 이름 (선택)" onkeyup="generate_id()" <?php echo $readonly ? 'readonly' : ''; ?>>
+                                class="frm_input" placeholder="커스텀 이름 (영문/숫자)" onkeyup="generate_id()" <?php echo $readonly ? 'readonly' : ''; ?>>
                         </div>
                         <div
                             style="margin-top:8px; font-size:12px; color:#666; padding:10px; background:#f9f9f9; border:1px solid #eee; display:inline-block;">
@@ -170,8 +168,8 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                 <tr>
                     <th scope="row"><label for="cp_subject">제목 (관리용)</label></th>
                     <td>
-                        <input type="text" name="cp_subject" value="<?php echo get_text($cp['cp_subject']); ?>" id="cp_subject"
-                            required class="frm_input" size="60">
+                        <input type="text" name="cp_subject" value="<?php echo get_text($cp['cp_subject']); ?>"
+                            id="cp_subject" required class="frm_input" size="60">
                     </td>
                 </tr>
 
@@ -193,8 +191,8 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                             <div style="margin-bottom:15px;">
                                 <label for="slogan"
                                     style="display:inline-block; width:120px; font-weight:bold;">슬로건</label>
-                                <input type="text" name="slogan" value="<?php echo get_text($cp['slogan'] ?? ''); ?>" id="slogan"
-                                    class="frm_input" size="60">
+                                <input type="text" name="slogan" value="<?php echo get_text($cp['slogan'] ?? ''); ?>"
+                                    id="slogan" class="frm_input" size="60">
                             </div>
 
                             <div style="display:flex; gap:20px; margin-bottom:15px;">
@@ -202,21 +200,21 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                     <label for="addr_val" style="display:block; font-weight:bold; margin-bottom:5px;">주소
                                         (Address)</label>
                                     <input type="text" name="addr_label"
-                                        value="<?php echo get_text(($cp['addr_label'] ?? '') ?: 'ADD'); ?>" class="frm_input"
-                                        size="10" placeholder="라벨">
-                                    <input type="text" name="addr_val" value="<?php echo get_text($cp['addr_val'] ?? ''); ?>"
-                                        id="addr_val" class="frm_input" style="width:calc(100% - 100px);"
-                                        placeholder="내용">
+                                        value="<?php echo get_text(($cp['addr_label'] ?? '') ?: 'ADD'); ?>"
+                                        class="frm_input" size="10" placeholder="라벨">
+                                    <input type="text" name="addr_val"
+                                        value="<?php echo get_text($cp['addr_val'] ?? ''); ?>" id="addr_val"
+                                        class="frm_input" style="width:calc(100% - 100px);" placeholder="내용">
                                 </div>
                                 <div style="flex:1;">
                                     <label for="tel_val" style="display:block; font-weight:bold; margin-bottom:5px;">연락처
                                         (Tel)</label>
                                     <input type="text" name="tel_label"
-                                        value="<?php echo get_text(($cp['tel_label'] ?? '') ?: 'TEL'); ?>" class="frm_input"
-                                        size="10" placeholder="라벨">
-                                    <input type="text" name="tel_val" value="<?php echo get_text($cp['tel_val'] ?? ''); ?>"
-                                        id="tel_val" class="frm_input" style="width:calc(100% - 100px);"
-                                        placeholder="내용">
+                                        value="<?php echo get_text(($cp['tel_label'] ?? '') ?: 'TEL'); ?>"
+                                        class="frm_input" size="10" placeholder="라벨">
+                                    <input type="text" name="tel_val"
+                                        value="<?php echo get_text($cp['tel_val'] ?? ''); ?>" id="tel_val"
+                                        class="frm_input" style="width:calc(100% - 100px);" placeholder="내용">
                                 </div>
                             </div>
 
@@ -225,21 +223,21 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                     <label for="fax_val" style="display:block; font-weight:bold; margin-bottom:5px;">팩스
                                         (Fax)</label>
                                     <input type="text" name="fax_label"
-                                        value="<?php echo get_text(($cp['fax_label'] ?? '') ?: 'FAX'); ?>" class="frm_input"
-                                        size="10" placeholder="라벨">
-                                    <input type="text" name="fax_val" value="<?php echo get_text($cp['fax_val'] ?? ''); ?>"
-                                        id="fax_val" class="frm_input" style="width:calc(100% - 100px);"
-                                        placeholder="내용">
+                                        value="<?php echo get_text(($cp['fax_label'] ?? '') ?: 'FAX'); ?>"
+                                        class="frm_input" size="10" placeholder="라벨">
+                                    <input type="text" name="fax_val"
+                                        value="<?php echo get_text($cp['fax_val'] ?? ''); ?>" id="fax_val"
+                                        class="frm_input" style="width:calc(100% - 100px);" placeholder="내용">
                                 </div>
                                 <div style="flex:1;">
                                     <label for="email_val"
                                         style="display:block; font-weight:bold; margin-bottom:5px;">이메일 (Email)</label>
                                     <input type="text" name="email_label"
-                                        value="<?php echo get_text(($cp['email_label'] ?? '') ?: 'EMAIL'); ?>" class="frm_input"
-                                        size="10" placeholder="라벨">
-                                    <input type="text" name="email_val" value="<?php echo get_text($cp['email_val'] ?? ''); ?>"
-                                        id="email_val" class="frm_input" style="width:calc(100% - 100px);"
-                                        placeholder="내용">
+                                        value="<?php echo get_text(($cp['email_label'] ?? '') ?: 'EMAIL'); ?>"
+                                        class="frm_input" size="10" placeholder="라벨">
+                                    <input type="text" name="email_val"
+                                        value="<?php echo get_text($cp['email_val'] ?? ''); ?>" id="email_val"
+                                        class="frm_input" style="width:calc(100% - 100px);" placeholder="내용">
                                 </div>
                             </div>
 
@@ -248,29 +246,32 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                     <label for="link1_url"
                                         style="display:block; font-weight:bold; margin-bottom:5px;">링크 1 (Privacy Policy
                                         등)</label>
-                                    <input type="text" name="link1_name" value="<?php echo get_text($cp['link1_name'] ?? ''); ?>"
-                                        class="frm_input" size="15" placeholder="링크명">
-                                    <input type="text" name="link1_url" value="<?php echo get_text($cp['link1_url'] ?? ''); ?>"
-                                        id="link1_url" class="frm_input" style="width:calc(100% - 140px);"
-                                        placeholder="URL">
+                                    <input type="text" name="link1_name"
+                                        value="<?php echo get_text($cp['link1_name'] ?? ''); ?>" class="frm_input"
+                                        size="15" placeholder="링크명">
+                                    <input type="text" name="link1_url"
+                                        value="<?php echo get_text($cp['link1_url'] ?? ''); ?>" id="link1_url"
+                                        class="frm_input" style="width:calc(100% - 140px);" placeholder="URL">
                                 </div>
                                 <div style="flex:1;">
                                     <label for="link2_url"
                                         style="display:block; font-weight:bold; margin-bottom:5px;">링크 2 (Terms
                                         등)</label>
-                                    <input type="text" name="link2_name" value="<?php echo get_text($cp['link2_name'] ?? ''); ?>"
-                                        class="frm_input" size="15" placeholder="링크명">
-                                    <input type="text" name="link2_url" value="<?php echo get_text($cp['link2_url'] ?? ''); ?>"
-                                        id="link2_url" class="frm_input" style="width:calc(100% - 140px);"
-                                        placeholder="URL">
+                                    <input type="text" name="link2_name"
+                                        value="<?php echo get_text($cp['link2_name'] ?? ''); ?>" class="frm_input"
+                                        size="15" placeholder="링크명">
+                                    <input type="text" name="link2_url"
+                                        value="<?php echo get_text($cp['link2_url'] ?? ''); ?>" id="link2_url"
+                                        class="frm_input" style="width:calc(100% - 140px);" placeholder="URL">
                                 </div>
                             </div>
 
                             <div style="margin-top:15px;">
                                 <label for="copyright"
                                     style="display:inline-block; width:120px; font-weight:bold;">카피라이트 문구</label>
-                                <input type="text" name="copyright" value="<?php echo get_text($cp['copyright'] ?? ''); ?>"
-                                    id="copyright" class="frm_input" size="80">
+                                <input type="text" name="copyright"
+                                    value="<?php echo get_text($cp['copyright'] ?? ''); ?>" id="copyright"
+                                    class="frm_input" size="80">
                             </div>
                             <input type="hidden" name="logo_url" value="<?php echo $cp['logo_url'] ?? ''; ?>">
                         </div>
@@ -426,9 +427,9 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                             ※ 위 하단 정보(Quick Info)에 입력한 내용은 <strong>{addr}, {tel}, {fax}, {email}, {logo}, {copyright},
                                 {link1}, {link2}</strong> 치환자로 자동 치환되어 에디터에 로드됩니다.
                         </div>
-                        <?php 
+                        <?php
                         $content = isset($cp['cp_content']) ? $cp['cp_content'] : '';
-                        
+
                         // Auto-recovery: If content starts with escaped HTML tag (e.g. &lt;div, &lt;p), decode it
                         // This handles the "corrupted" DB data case
                         if (preg_match('/^\s*&lt;[a-z]+/', $content) || preg_match('/^\s*&amp;lt;/', $content)) {
@@ -438,8 +439,8 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                 $content = html_entity_decode($content);
                             }
                         }
-                        
-                        echo editor_html('cp_content', $content); 
+
+                        echo editor_html('cp_content', $content);
                         ?>
                     </td>
                 </tr>
@@ -482,11 +483,11 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
         }
 
         var new_id = theme;
-        if (lang) {
+        if (lang && lang !== 'kr') {
             new_id += '_' + lang;
         }
         if (custom) {
-            new_id += '_' + custom;
+            new_id += '_' + custom.replace(/[^a-z0-9_]/gi, '');
         }
 
         $('#generated_id_display').text(new_id);
@@ -495,7 +496,9 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
 
     // Initial ID Generation trigger if in write mode
     $(document).ready(function () {
-        if ($('input[name="w"]').val() == '') {
+        // Only auto-generate if we ALREADY HAVE AN ID (Edit mode)
+        // For new entries, wait for theme selection
+        if ($('#cp_id').val()) {
             generate_id();
         }
     });

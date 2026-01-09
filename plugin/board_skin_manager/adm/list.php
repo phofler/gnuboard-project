@@ -1,124 +1,129 @@
 <?php
-$sub_menu = "800195"; // Adjusted to fit between 800190 and 800200
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+$sub_menu = "800195";
 include_once('./_common.php');
 define('G5_IS_ADMIN', true);
 include_once(G5_ADMIN_PATH . '/admin.lib.php');
 
 auth_check_menu($auth, $sub_menu, 'r');
 
-$g5['title'] = '보드 스킨 관리 (최신글)';
+$g5['title'] = '보드 스킨 관리';
 include_once(G5_ADMIN_PATH . '/admin.head.php');
 
-// [DB] Create Table if not exists
-if (!sql_query(" DESCRIBE " . G5_PLUGIN_BOARD_SKIN_TABLE . " ", false)) {
-    $sql = " CREATE TABLE IF NOT EXISTS `" . G5_PLUGIN_BOARD_SKIN_TABLE . "` (
-        `bs_id` int(11) NOT NULL AUTO_INCREMENT,
-        `bs_title` varchar(255) NOT NULL DEFAULT '',
-        `bs_skin` varchar(255) NOT NULL DEFAULT 'theme/basic',
-        `bs_bo_table` varchar(50) NOT NULL DEFAULT '',
-        `bs_count` int(11) NOT NULL DEFAULT '4',
-        `bs_subject_len` int(11) NOT NULL DEFAULT '30',
-        `bs_options` varchar(255) NOT NULL DEFAULT '',
-        `bs_active` tinyint(4) NOT NULL DEFAULT '1',
-        `bs_sort` int(11) NOT NULL DEFAULT '0',
-        PRIMARY KEY (`bs_id`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ";
-    sql_query($sql);
+// [Standardization] Config Table Setup
+$config_table = G5_TABLE_PREFIX . 'plugin_board_skin_config';
+sql_query(" CREATE TABLE IF NOT EXISTS `{$config_table}` (
+  `bs_id` varchar(255) NOT NULL,
+  `bs_theme` varchar(50) NOT NULL,
+  `bs_lang` varchar(10) NOT NULL,
+  `bo_table` varchar(50) NOT NULL,
+  `bs_skin` varchar(50) NOT NULL,
+  `bs_layout` varchar(20) NOT NULL,
+  `bs_cols` int(11) NOT NULL DEFAULT '4',
+  `bs_ratio` varchar(20) NOT NULL DEFAULT '4x3',
+  `bs_theme_mode` varchar(20) NOT NULL DEFAULT '',
+  `reg_date` datetime NOT NULL,
+  PRIMARY KEY (`bs_id`),
+  KEY `index_theme_lang` (`bs_theme`, `bs_lang`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ");
 
-    // [New] Insert Default 'Construction Case' Widget
-    $check = sql_fetch(" select count(*) as cnt from " . G5_PLUGIN_BOARD_SKIN_TABLE . " ");
-    if ($check['cnt'] == 0) {
-        sql_query(" INSERT INTO " . G5_PLUGIN_BOARD_SKIN_TABLE . " 
-            SET bs_title = 'Construction Case',
-                bs_skin = 'theme/portfolio',
-                bs_bo_table = 'chamcode_gallery',
-                bs_count = 4,
-                bs_subject_len = 30,
-                bs_active = 1,
-                bs_sort = 1
-        ");
-    }
+// [Schema Update] Add columns if missing (Support for Legacy)
+$exists_cols = sql_query(" SHOW COLUMNS FROM {$config_table} LIKE 'bs_theme' ", false);
+if (!sql_num_rows($exists_cols)) {
+    sql_query(" ALTER TABLE {$config_table} ADD `bs_theme` varchar(50) NOT NULL DEFAULT 'corporate' AFTER `bs_id` ");
+    sql_query(" ALTER TABLE {$config_table} ADD `bs_lang` varchar(10) NOT NULL DEFAULT 'ko' AFTER `bs_theme` ");
+    sql_query(" ALTER TABLE {$config_table} ADD INDEX `index_theme_lang` (`bs_theme`, `bs_lang`) ");
 }
 
-// Fetch Items
-$sql = " select * from " . G5_PLUGIN_BOARD_SKIN_TABLE . " order by bs_sort asc, bs_id desc ";
+// Filter by Search
+$sql_search = " where (1) ";
+if ($stx) {
+    $sql_search .= " and (bs_id like '%{$stx}%' or bo_table like '%{$stx}%') ";
+}
+
+$sql = " select count(*) as cnt from {$config_table} {$sql_search} ";
+$row = sql_fetch($sql);
+$total_count = $row['cnt'];
+
+$rows = $config['cf_page_rows'];
+$total_page = ceil($total_count / $rows);
+if ($page < 1)
+    $page = 1;
+$from_record = ($page - 1) * $rows;
+
+$sql = " select * from {$config_table} {$sql_search} order by reg_date desc limit {$from_record}, {$rows} ";
 $result = sql_query($sql);
 
 $admin_token = get_admin_token();
 ?>
 
 <div class="local_desc01 local_desc">
-    <p>메인 페이지 등에 노출할 '최신글 스킨(Latest Skin)' 위젯을 관리합니다.</p>
-    <p>스킨은 플러그인에서 설정하고, 데이터는 그누보드 게시판에서 가져옵니다.</p>
-</div>
-
-<div class="btn_fixed_top">
-    <a href="./write.php" class="btn_submit btn">위젯 추가</a>
+    <p>게시판의 <b>스킨 옵션(Display Options)</b>을 쉽고 빠르게 설정합니다.</p>
+    <p>레이아웃(Gallery/List), 컬럼 수, 비율 등의 디자인 속성을 제어할 수 있습니다.</p>
 </div>
 
 <div class="tbl_head01 tbl_wrap">
     <table>
-        <caption>보드 스킨 목록</caption>
+        <caption>
+            <?php echo $g5['title']; ?> 목록
+        </caption>
         <colgroup>
             <col width="60">
+            <col width="120">
             <col>
             <col width="150">
             <col width="150">
             <col width="100">
-            <col width="80">
-            <col width="100">
         </colgroup>
         <thead>
             <tr>
-                <th>ID</th>
-                <th>관리 명칭</th>
+                <th>식별코드 (ID)</th>
                 <th>대상 게시판</th>
-                <th>사용 스킨</th>
-                <th>설정(개수/길이)</th>
-                <th>상태</th>
+                <th>설정 요약</th>
+                <th>등록일</th>
                 <th>관리</th>
             </tr>
         </thead>
-        <tbody>
-            <?php
-            for ($i = 0; $row = sql_fetch_array($result); $i++) {
-                $edit_url = "./write.php?w=u&bs_id=" . $row['bs_id'];
-                $status = $row['bs_active'] ? '<span class="txt_blue">노출</span>' : '<span class="txt_gray">숨김</span>';
-                ?>
-                <tr>
-                    <td class="td_num">
-                        <?php echo $row['bs_id']; ?>
-                    </td>
-                    <td class="td_left">
-                        <a href="<?php echo $edit_url; ?>"><strong>
-                                <?php echo get_text($row['bs_title']); ?>
-                            </strong></a>
-                    </td>
-                    <td class="td_left">
-                        <?php echo $row['bs_bo_table']; ?>
-                    </td>
-                    <td class="td_left">
-                        <?php echo $row['bs_skin']; ?>
-                    </td>
-                    <td class="td_center">
-                        <?php echo $row['bs_count']; ?>개 /
-                        <?php echo $row['bs_subject_len']; ?>자
-                    </td>
-                    <td class="td_center">
-                        <?php echo $status; ?>
-                    </td>
-                    <td class="td_mng">
-                        <a href="<?php echo $edit_url; ?>" class="btn btn_03">수정</a>
-                        <a href="./update.php?w=d&bs_id=<?php echo $row['bs_id']; ?>&token=<?php echo $admin_token; ?>"
-                            class="btn btn_02" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
-                    </td>
-                </tr>
-            <?php } ?>
-            <?php if ($i == 0)
-                echo '<tr><td colspan="7" class="empty_table">등록된 위젯이 없습니다.</td></tr>'; ?>
+        <?php
+        for ($i = 0; $row = sql_fetch_array($result); $i++) {
+            $edit_url = "./write.php?w=u&bs_id=" . $row['bs_id'];
+
+            // Get Board Subject
+            $bo = sql_fetch(" select bo_subject from {$g5['board_table']} where bo_table = '{$row['bo_table']}' ");
+
+            // Theme/Lang Bagde
+            $badge = '<span style="font-size:11px; color:#666; display:block; margin-top:2px;">[' . $row['bs_theme'] . ' / ' . strtoupper($row['bs_lang']) . ']</span>';
+            ?>
+            <tr class="bg<?php echo $i % 2; ?>">
+                <td class="td_left">
+                    <strong><?php echo $row['bs_id']; ?></strong>
+                    <?php echo $badge; ?>
+                </td>
+                <td class="td_left">
+                    <?php echo $bo['bo_subject']; ?>
+                    <span style="font-size:11px; color:#999; display:block;"><?php echo $row['bo_table']; ?></span>
+                </td>
+                <td class="td_left">
+                    레이아웃: <?php echo $row['bs_layout']; ?>,
+                    컬럼: <?php echo $row['bs_cols']; ?>,
+                    비율: <?php echo $row['bs_ratio']; ?>
+                </td>
+                <td class="td_datetime">
+                    <?php echo substr($row['reg_date'], 0, 10); ?>
+                </td>
+                <td class="td_mng">
+                    <a href="<?php echo $edit_url; ?>" class="btn btn_03">수정</a>
+                </td>
+            </tr>
+        <?php } ?>
+        <?php if ($total_count == 0)
+            echo '<tr><td colspan="5" class="empty_table">설정된 스킨 옵션이 없습니다. <a href="./write.php">새 옵션 추가</a></td></tr>'; ?>
         </tbody>
     </table>
 </div>
+
+<?php echo get_paging(G5_IS_MOBILE ? $config['cf_mobile_pages'] : $config['cf_write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'] . '?' . $qstr . '&amp;page='); ?>
 
 <?php
 include_once(G5_ADMIN_PATH . '/admin.tail.php');

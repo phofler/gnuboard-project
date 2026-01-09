@@ -1,7 +1,7 @@
 <?php
 $sub_menu = '800200';
 define('G5_IS_ADMIN', true);
-include_once(dirname(__FILE__) . '/../../../common.php');
+include_once('./_common.php');
 include_once(G5_ADMIN_PATH . '/admin.lib.php');
 
 // Table Definition

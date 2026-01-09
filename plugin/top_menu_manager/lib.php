@@ -25,6 +25,14 @@ function display_top_menu()
     // [Standardization] Fallback Logic: Specific Lang -> Base Theme -> Default
     $tm = sql_fetch(" SELECT * FROM g5_plugin_top_menu_config WHERE tm_id = '{$tm_id}' ");
 
+    // [Standardization Fallback] If not found, try common suffixes for default language
+    if (!$tm && strpos($tm_id, '_') === false) {
+        $tm = sql_fetch(" SELECT * FROM g5_plugin_top_menu_config WHERE tm_id = '{$tm_id}_ko' ");
+        if (!$tm) {
+            $tm = sql_fetch(" SELECT * FROM g5_plugin_top_menu_config WHERE tm_id = '{$tm_id}_kr' ");
+        }
+    }
+
     echo '<!-- DEBUG: Looking for Config ID: [' . $tm_id . '] -->';
 
     // Fallback: If Specific Language Config (e.g. corporate_en) not found, try Base ID (e.g. corporate)

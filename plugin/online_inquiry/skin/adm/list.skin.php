@@ -53,6 +53,7 @@ $listall = '<a href="' . $_SERVER['SCRIPT_NAME'] . '" class="ov_listall">전체�
                     <th scope="col" style="width: 120px;">출처 (테마/언어)</th>
                     <th scope="col" style="width: 100px;">이름</th>
                     <th scope="col" style="width: 150px;">연락처</th>
+                    <th scope="col" style="width: 150px;">이메일</th>
                     <th scope="col">제목</th>
                     <th scope="col" style="width: 150px;">접수일</th>
                     <th scope="col" style="width: 120px;">IP</th>
@@ -87,6 +88,7 @@ $listall = '<a href="' . $_SERVER['SCRIPT_NAME'] . '" class="ov_listall">전체�
                         </td>
                         <td class="td_left"><?php echo get_text($row['name']); ?></td>
                         <td class="td_left"><?php echo get_text($row['contact']); ?></td>
+                        <td class="td_left"><?php echo isset($row['email']) ? get_text($row['email']) : ''; ?></td>
                         <td class="td_left"><?php echo get_text($row['subject']); ?></td>
                         <td class="td_datetime"><?php echo $row['reg_date']; ?></td>
                         <td class="td_num"><?php echo $row['ip']; ?></td>
@@ -95,7 +97,7 @@ $listall = '<a href="' . $_SERVER['SCRIPT_NAME'] . '" class="ov_listall">전체�
                 <?php } ?>
                 <?php if ($i == 0) { ?>
                     <tr>
-                        <td colspan="8" class="empty_table">자료가 없습니다.</td>
+                        <td colspan="9" class="empty_table">자료가 없습니다.</td>
                     </tr>
                 <?php } ?>
             </tbody>

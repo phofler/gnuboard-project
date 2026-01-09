@@ -78,14 +78,14 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
 
                         // ID Parsing for Edit Mode via Pattern Matching
                         $sel_theme = '';
-                        $sel_lang = 'ko';
+                        $sel_lang = '';
                         $sel_custom = '';
 
                         if ($w == 'u' && $map['ma_id']) {
                             $parts = explode('_', $map['ma_id']);
                             if (isset($parts[0]) && in_array($parts[0], $themes)) {
                                 $sel_theme = $parts[0];
-                                if (isset($parts[1]) && in_array($parts[1], array('ko', 'en', 'jp', 'cn'))) {
+                                if (isset($parts[1]) && in_array($parts[1], array('kr', 'en', 'jp', 'cn'))) {
                                     $sel_lang = $parts[1];
                                     if (isset($parts[2])) {
                                         array_shift($parts);
@@ -116,16 +116,14 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                 } ?>
                             </select>
                             <select name="ma_lang" id="ma_lang" class="frm_input" onchange="generate_id()" <?php echo $readonly ? 'disabled' : ''; ?>>
-                                <option value="ko" <?php echo ($sel_lang == 'ko' ? 'selected' : ''); ?>>한국어 (KR)</option>
-                                <option value="en" <?php echo ($sel_lang == 'en' ? 'selected' : ''); ?>>English (EN)
-                                </option>
-                                <option value="jp" <?php echo ($sel_lang == 'jp' ? 'selected' : ''); ?>>Japanese (JP)
-                                </option>
-                                <option value="cn" <?php echo ($sel_lang == 'cn' ? 'selected' : ''); ?>>Chinese (CN)
-                                </option>
+                                <option value="">언어 선택</option>
+                                <option value="kr" <?php echo ($sel_lang == 'kr' ? 'selected' : ''); ?>>한국어</option>
+                                <option value="en" <?php echo ($sel_lang == 'en' ? 'selected' : ''); ?>>English</option>
+                                <option value="jp" <?php echo ($sel_lang == 'jp' ? 'selected' : ''); ?>>Japanese</option>
+                                <option value="cn" <?php echo ($sel_lang == 'cn' ? 'selected' : ''); ?>>Chinese</option>
                             </select>
                             <input type="text" name="ma_custom" id="ma_custom" value="<?php echo $sel_custom; ?>"
-                                class="frm_input" placeholder="커스텀 이름 (선택: default 등)" onkeyup="generate_id()" <?php echo $readonly ? 'readonly' : ''; ?>>
+                                class="frm_input" placeholder="커스텀 이름 (영문/숫자)" onkeyup="generate_id()" <?php echo $readonly ? 'readonly' : ''; ?>>
                         </div>
                         <div
                             style="margin-top:8px; font-size:12px; color:#666; padding:10px; background:#f9f9f9; border:1px solid #eee; display:inline-block;">
@@ -195,7 +193,8 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
     function generate_id() {
         var theme = $('#ma_theme').val();
         var lang = $('#ma_lang').val();
-        var custom = $('#ma_custom').val().trim();
+        var custom = $('#ma_custom').val().trim().replace(/[^a-z0-9_]/gi, '');
+        document.getElementById('ma_custom').value = custom; // Filter input live
 
         if (custom === 'default') {
             $('#generated_id_display').text('default');
@@ -215,7 +214,7 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
         }
 
         var new_id = theme;
-        if (lang) new_id += '_' + lang;
+        if (lang && lang !== 'kr') new_id += '_' + lang;
         if (custom) new_id += '_' + custom;
 
         $('#generated_id_display').text(new_id);
@@ -231,7 +230,7 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
     }
 
     $(function () {
-        if ($('input[name="w"]').val() == '') {
+        if ($('#ma_id').val()) {
             generate_id();
         }
     });

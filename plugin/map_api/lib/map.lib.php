@@ -35,10 +35,22 @@ function display_map_api($width = '100%', $height = '400px', $map_id = '')
     // 2. Auto-Detection (Context Aware) if no specific ID or specific ID not found
     if (!$map_config) {
         $theme_id = isset($config['cf_theme']) ? $config['cf_theme'] : 'default';
-        $lang = isset($_GET['lang']) ? $_GET['lang'] : 'ko';
-        $target_id = $theme_id . '_' . $lang;
+        $lang = isset($_GET['lang']) ? $_GET['lang'] : (defined('G5_LANG') ? G5_LANG : 'kr');
+
+        // Unified Lang: ko and kr are treated the same for detection
+        $is_korean = ($lang == 'kr' || $lang == 'ko');
+        $target_id = $theme_id . ($is_korean ? '' : '_' . $lang);
 
         $map_config = sql_fetch(" SELECT * FROM {$table_name} WHERE ma_id = '{$target_id}' ");
+
+        // Fallback: If not found and it's Korean, try searching with _ko or _kr suffix (Old Style)
+        if (!$map_config && $is_korean) {
+            $map_config = sql_fetch(" SELECT * FROM {$table_name} WHERE ma_id = '{$theme_id}_ko' ");
+            if (!$map_config) {
+                $map_config = sql_fetch(" SELECT * FROM {$table_name} WHERE ma_id = '{$theme_id}_kr' ");
+            }
+        }
+
         if (!$map_config) {
             $map_config = sql_fetch(" SELECT * FROM {$table_name} WHERE ma_id = '{$theme_id}' ");
         }

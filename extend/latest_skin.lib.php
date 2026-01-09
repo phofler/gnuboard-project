@@ -3,13 +3,13 @@ if (!defined('_GNUBOARD_'))
     exit;
 
 // Constant for Plugin Skin Path
-if (!defined('G5_PLUGIN_BOARD_SKIN_PATH')) {
-    define('G5_PLUGIN_BOARD_SKIN_PATH', G5_PLUGIN_PATH . '/board_skin_manager/skins');
-    define('G5_PLUGIN_BOARD_SKIN_URL', G5_PLUGIN_URL . '/board_skin_manager/skins');
+if (!defined('G5_PLUGIN_LATEST_SKIN_PATH')) {
+    define('G5_PLUGIN_LATEST_SKIN_PATH', G5_PLUGIN_PATH . '/latest_skin_manager/skins');
+    define('G5_PLUGIN_LATEST_SKIN_URL', G5_PLUGIN_URL . '/latest_skin_manager/skins');
 }
 
 /**
- * [Plugin] Board Skin Manager Latest Function
+ * [Plugin] Latest Post Skin Manager Function
  * mimic latest() but for plugin-hosted skins
  */
 function latest_plugin_skin($skin_dir, $bo_table, $rows = 10, $subject_len = 40, $options = '')
@@ -29,8 +29,8 @@ function latest_plugin_skin($skin_dir, $bo_table, $rows = 10, $subject_len = 40,
         $skin_dir = substr($skin_dir, 7);
     }
 
-    $latest_skin_path = G5_PLUGIN_BOARD_SKIN_PATH . '/' . $skin_dir;
-    $latest_skin_url = G5_PLUGIN_BOARD_SKIN_URL . '/' . $skin_dir;
+    $latest_skin_path = G5_PLUGIN_LATEST_SKIN_PATH . '/' . $skin_dir;
+    $latest_skin_url = G5_PLUGIN_LATEST_SKIN_URL . '/' . $skin_dir;
 
     // Cache handling matches Gnuboard core pattern
     $cache_fwrite = false;
@@ -59,7 +59,7 @@ function latest_plugin_skin($skin_dir, $bo_table, $rows = 10, $subject_len = 40,
         $board = sql_fetch($sql);
         $bo_subject = get_text($board['bo_subject']);
 
-        if (true) {
+        if ($board['bo_table']) {
             // Basic list query
             $tmp_write_table = $g5['write_prefix'] . $bo_table;
             $sql = " select * from {$tmp_write_table} where wr_is_comment = 0 order by wr_num limit 0, {$rows} ";
@@ -71,7 +71,11 @@ function latest_plugin_skin($skin_dir, $bo_table, $rows = 10, $subject_len = 40,
 
         // Output Buffer to capture skin content
         ob_start();
-        include $latest_skin_path . '/latest.skin.php';
+        if (file_exists($latest_skin_path . '/latest.skin.php')) {
+            include $latest_skin_path . '/latest.skin.php';
+        } else {
+            echo "<!-- Latest Skin not found: " . $latest_skin_path . " -->";
+        }
         $content = ob_get_contents();
         ob_end_clean();
 

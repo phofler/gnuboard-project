@@ -35,14 +35,40 @@ function get_sub_design($sd_id = null, $me_code = null)
     }
     $group = sql_fetch(" SELECT * FROM " . G5_PLUGIN_SUB_DESIGN_GROUP_TABLE . " WHERE sd_id = '{$sd_id}' ");
     $skin = isset($group['sd_skin']) ? $group['sd_skin'] : 'standard';
+    $layout = isset($group['sd_layout']) ? $group['sd_layout'] : 'full';
 
     $item = _get_recursive_design($sd_id, $me_code);
 
     if ($item) {
         $item['sd_skin'] = $skin;
+        $item['sd_layout'] = $layout;
+        $item['sd_id'] = $sd_id;
     }
 
     return $item;
+}
+
+/**
+ * Display Sub Design Skin
+ */
+function display_sub_design($me_code = null)
+{
+    global $g5, $config, $sub_design;
+
+    $item = get_sub_design($me_code);
+    if (!$item)
+        return;
+
+    $skin = $item['sd_skin'];
+    $skin_path = G5_PLUGIN_PATH . '/sub_design/skins/' . $skin;
+    $skin_url = G5_PLUGIN_URL . '/sub_design/skins/' . $skin;
+
+    if (file_exists($skin_path . '/main.skin.php')) {
+        include($skin_path . '/main.skin.php');
+    } else {
+        // Fallback to standard
+        include(G5_PLUGIN_PATH . '/sub_design/skins/standard/main.skin.php');
+    }
 }
 
 /**

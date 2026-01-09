@@ -20,6 +20,15 @@ function get_main_visual_config($mi_id = '')
         return null;
 
     $row = sql_fetch(" select * from {$config_table} where mi_id = '{$mi_id}' ");
+
+    // [Standardization Fallback] If not found, try common suffixes for default language
+    if (!$row && strpos($mi_id, '_') === false) {
+        $row = sql_fetch(" select * from {$config_table} where mi_id = '{$mi_id}_ko' ");
+        if (!$row) {
+            $row = sql_fetch(" select * from {$config_table} where mi_id = '{$mi_id}_kr' ");
+        }
+    }
+
     if (!$row && $mi_id != 'default') {
         // Fallback to 'default' if the requested ID doesn't exist
         $row = sql_fetch(" select * from {$config_table} where mi_id = 'default' ");

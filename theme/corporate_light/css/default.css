@@ -14,6 +14,12 @@
     --color-menu-subtext: #666666;
     --color-menu-border: rgba(0, 0, 0, 0.05);
 
+    --color-brand: #FF3B30;
+    /* Electric Red */
+    --color-brand-etsy: #F1641E;
+    /* Etsy Orange */
+    --color-bg-footer: var(--color-brand);
+    /* Proto-Sync: Electric Red (#FF3B30) */
     /* [ULTIMATE LIGHT PALETTE] */
     --color-bg: #F3F3F3;
     /* Base Body Color */
@@ -610,10 +616,80 @@ section h2 {
 }
 
 .news-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
     gap: 40px;
 }
+
+/* Works Section (Marquee) - Moved from latest.skin.php */
+.sec-works {
+    background: var(--color-bg-invert, #000);
+    /* Use Invert/Dark variable */
+    color: var(--color-text-invert, #fff);
+    padding: 10vh 0;
+    overflow: hidden;
+    position: relative;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    /* Subtle edge */
+}
+
+.marquee-track {
+    display: flex;
+    gap: 2vw;
+    width: max-content;
+    animation: slide 30s linear infinite;
+}
+
+.marquee-track:hover {
+    animation-play-state: paused;
+}
+
+@keyframes slide {
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+.work-card {
+    width: 30vw;
+    flex-shrink: 0;
+}
+
+.work-card img {
+    width: 100%;
+    height: 40vw;
+    /* Tall */
+    object-fit: cover;
+    margin-bottom: 1rem;
+    filter: grayscale(100%);
+    transition: 0.5s;
+}
+
+.work-card:hover img {
+    filter: grayscale(0%);
+}
+
+.work-meta h3 {
+    font-size: 24px;
+    font-family: var(--font-display, serif);
+    margin-bottom: 5px;
+    font-weight: 400;
+    color: var(--color-text-invert, #fff);
+}
+
+.work-meta p {
+    font-size: 14px;
+    color: #888;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+/* Title Section */
+.sec-works-header {
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+
 
 /* Company Section */
 .sec-company {

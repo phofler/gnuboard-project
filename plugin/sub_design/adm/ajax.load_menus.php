@@ -103,6 +103,7 @@ for ($i = 0; $i < count($menus); $i++) {
         </td>
         <td <?php echo $indent; ?>>
             <?php echo $display_name; ?>
+            <input type="hidden" name="me_name[]" value="<?php echo $me_name; ?>">
         </td>
         <td>
             <input type="text" name="sd_main_text[]" value="<?php echo get_text($sd_item['sd_main_text']); ?>"

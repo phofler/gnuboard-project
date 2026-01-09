@@ -19,11 +19,8 @@
     }
 
     /* Section Title - Unique Class to Break Inheritance */
-    .main-inquiry-section .inquiry-header-premium {
-        text-align: center;
+    .section-header {
         margin-bottom: 80px;
-        border: none !important;
-        padding: 0 !important;
     }
 
     .main-inquiry-section .section-title {
@@ -184,7 +181,7 @@
 <div class="ci-skin-wrapper main-inquiry-section">
     <div class="inquiry-container">
         <!-- Header Part: Use Unique Class -->
-        <div class="inquiry-header-premium">
+        <div class="section-header">
             <h2 class="section-title">ONLINE INQUIRY</h2>
         </div>
 
@@ -211,17 +208,47 @@
                     <input type="hidden" name="theme" value="{CO_THEME}">
                     <input type="hidden" name="lang" value="{CO_LANG}">
 
+                    <style>
+                        /* Compact Style Override */
+                        .main-inquiry-section .form-label {
+                            display: none;
+                        }
+
+                        /* Hide Labels */
+                        .main-inquiry-section .form-group {
+                            margin-bottom: 20px;
+                        }
+
+                        /* Reduce Gap */
+                        .main-inquiry-section .form-input {
+                            padding: 15px 0;
+                            font-size: 1rem;
+                        }
+
+                        .main-inquiry-section .form-input::placeholder {
+                            color: var(--color-text-secondary, #a0a0a0);
+                            text-transform: uppercase;
+                            font-size: 0.9rem;
+                            letter-spacing: 0.05em;
+                        }
+                    </style>
+
                     <div class="form-group">
                         <label class="form-label">Name</label>
-                        <input type="text" name="name" class="form-input" required placeholder="">
+                        <input type="text" name="name" class="form-input" required placeholder="NAME">
                     </div>
                     <div class="form-group">
                         <label class="form-label">Phone</label>
-                        <input type="text" name="contact" class="form-input" required placeholder="">
+                        <input type="text" name="contact" class="form-input" required placeholder="PHONE">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" class="form-input" required placeholder="EMAIL">
                     </div>
                     <div class="form-group">
                         <label class="form-label">Message</label>
-                        <textarea name="content" class="form-input" required placeholder=""></textarea>
+                        <textarea name="content" class="form-input" required placeholder="MESSAGE"
+                            style="height: 100px;"></textarea>
                     </div>
                     <button type="submit" class="btn-submit">SUBMIT</button>
                 </form>

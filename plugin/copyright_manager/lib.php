@@ -8,7 +8,7 @@ if (!defined('_GNUBOARD_'))
 function get_theme_default_bgcolor($theme_name)
 {
     if (strpos($theme_name, 'light') !== false) {
-        return '#ffffff';
+        return '#FF3B30'; // Prototype Red (Electric Red)
     } else {
         return '#121212';
     }
@@ -22,16 +22,26 @@ function get_copyright_config($cp_id = '')
     // If no ID specified, try active theme first, then 'default'
     if (!$cp_id) {
         $theme_name = (isset($config['cf_theme']) && $config['cf_theme']) ? $config['cf_theme'] : 'default';
-        $cp_id = $theme_name;
+        $lang = (defined('G5_LANG') ? G5_LANG : 'kr');
+        $is_korean = ($lang == 'kr' || $lang == 'ko');
 
-        // [Fix] Try to find specific lang ID (e.g. corporate_ko) if base name doesn't exist
+        $cp_id = $theme_name; // Default ID is now just the theme name (No suffix for KR)
+
+        // [Standardization Fallback] Check Current Theme ID first
         $row_check = sql_fetch(" select count(*) as cnt from {$table_name} where cp_id = '{$cp_id}' ");
-        if (!$row_check['cnt']) {
-            // Try adding _ko suffix as primary default
-            $chk_id = $cp_id . '_ko';
-            $row_check_ko = sql_fetch(" select count(*) as cnt from {$table_name} where cp_id = '{$chk_id}' ");
-            if ($row_check_ko['cnt']) {
-                $cp_id = $chk_id;
+
+        // If not found and it's Korean, try searching with _ko or _kr suffix (Old Style)
+        if (!$row_check['cnt'] && $is_korean) {
+            $chk_id_ko = $theme_name . '_ko';
+            $chk_id_kr = $theme_name . '_kr';
+            $row_ko = sql_fetch(" select count(*) as cnt from {$table_name} where cp_id = '{$chk_id_ko}' ");
+            if ($row_ko['cnt']) {
+                $cp_id = $chk_id_ko;
+            } else {
+                $row_kr = sql_fetch(" select count(*) as cnt from {$table_name} where cp_id = '{$chk_id_kr}' ");
+                if ($row_kr['cnt']) {
+                    $cp_id = $chk_id_kr;
+                }
             }
         }
     }
@@ -64,11 +74,8 @@ function get_copyright_config($cp_id = '')
         }
     }
 
-    // Smart Background Default
-    if ($cp && !trim($cp['cp_bgcolor'])) {
-        $theme_name = (isset($config['cf_theme']) && $config['cf_theme']) ? $config['cf_theme'] : 'default';
-        $cp['cp_bgcolor'] = get_theme_default_bgcolor($theme_name);
-    }
+    /* Smart Background Default - REMOVED to follow "No Hardcoding" rule. 
+       Let CSS variables in default.css handle the fallback. */
 
     return $cp;
 }

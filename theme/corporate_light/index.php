@@ -51,12 +51,14 @@ if (function_exists('display_main_content')) {
 }
 ?>
 
-<!-- SELECTED WORKS (Marquee) -->
+<!-- SELECTED WORKS (Latest Skin Manager) -->
 <?php
-// Integrated Board Skin Manager (Widget ID: 1)
-include_once(G5_PLUGIN_PATH . '/board_skin_manager/lib/board_skin.lib.php');
-if (function_exists('display_board_skin_by_id')) {
-    display_board_skin_by_id(1);
+// Integrated Latest Skin Manager (Selected Works)
+include_once(G5_PLUGIN_PATH . '/latest_skin_manager/lib/latest_skin.lib.php');
+
+if (function_exists('latest_widget')) {
+    // ID: 4 (Selected Works) identified via debugging
+    latest_widget('4');
 }
 ?>
 

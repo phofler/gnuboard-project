@@ -1,135 +1,142 @@
 <style>
-    /* Style D: Editorial Bold (Vibrant Red) */
+    /* Style D: Editorial Bold (Red) */
     .footer-skin-d {
-        padding: 100px 0;
-        background-color: var(--cp-bg, #ff3b30);
-        color: #ffffff;
-        font-family: var(--font-body, 'Inter', sans-serif);
-        text-align: left;
+        position: relative;
+        background: var(--cp-bg, var(--color-bg-footer)) !important;
+        /* Inherit from Theme Variables (--color-bg-footer) */
+        color: #fff;
+        padding: 10vh 4vw 5vh;
+        min-height: 80vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        font-family: var(--font-en, 'Manrope', sans-serif);
+        overflow: hidden;
     }
 
-    .footer-skin-d .footer-container {
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 0 40px;
+    .footer-skin-d * {
+        box-sizing: border-box;
     }
 
-    .footer-skin-d .footer-top {
+    /* Top Row */
+    .footer-skin-d .fs-top {
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        margin-bottom: 80px;
-        font-size: 0.9rem;
+        align-items: flex-start;
+        font-size: 14px;
         font-weight: 700;
-        letter-spacing: 0.05em;
+        margin-bottom: 5vh;
         text-transform: uppercase;
     }
 
-    .footer-skin-d .footer-logo {
-        font-size: 1.5rem;
-        font-weight: 900;
-        letter-spacing: -0.02em;
-    }
-
-    .footer-skin-d .footer-logo img {
-        height: 40px;
+    .footer-skin-d .fs-logo img {
+        height: 30px;
+        width: auto;
         filter: brightness(0) invert(1);
-        /* Force white logo */
+        /* Ensure logo is white */
     }
 
-    .footer-skin-d .scroll-top {
+    .footer-skin-d .fs-scroll {
         cursor: pointer;
-        opacity: 0.8;
-        transition: opacity 0.3s;
+        opacity: 0.7;
+        transition: 0.3s;
     }
 
-    .footer-skin-d .scroll-top:hover {
+    .footer-skin-d .fs-scroll:hover {
         opacity: 1;
     }
 
-    .footer-skin-d .footer-hero {
-        font-size: clamp(4rem, 15vw, 12rem);
-        font-weight: 900;
-        line-height: 0.9;
-        letter-spacing: -0.05em;
-        margin-bottom: 80px;
+    /* Big Slogan */
+    .footer-skin-d .fs-big {
+        font-size: 15vw;
+        line-height: 0.8;
+        font-weight: 800;
+        letter-spacing: -5px;
+        margin-bottom: 5vh;
         text-transform: uppercase;
+        word-break: keep-all;
     }
 
-    .footer-skin-d .footer-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 60px;
-        border-top: 2px solid rgba(255, 255, 255, 0.2);
-        padding-top: 40px;
+    /* Content Grid */
+    .footer-skin-d .fs-grid {
+        display: flex;
+        gap: 10vw;
+        font-size: 18px;
+        line-height: 2;
+        padding-top: 5vh;
+        /* Kept for spacing but removed border */
     }
 
-    .footer-skin-d .grid-item span {
+    .footer-skin-d .fs-col {
+        min-width: 200px;
+    }
+
+    .footer-skin-d .fs-col span {
         display: block;
-        font-size: 0.75rem;
+        opacity: 0.7;
+        font-size: 14px;
         font-weight: 700;
+        margin-bottom: 10px;
         text-transform: uppercase;
-        margin-bottom: 20px;
-        opacity: 0.6;
     }
 
-    .footer-skin-d .grid-item {
-        font-size: 1.1rem;
-        line-height: 1.5;
-        font-weight: 500;
-    }
-
-    .footer-skin-d .grid-item a {
-        color: inherit;
+    .footer-skin-d a {
+        color: #fff;
         text-decoration: none;
-        transition: opacity 0.3s;
+        transition: 0.3s;
     }
 
-    .footer-skin-d .grid-item a:hover {
+    .footer-skin-d a:hover {
         opacity: 0.7;
     }
 
+    .footer-skin-d .fs-copyright {
+        margin-top: 10vh;
+        font-size: 11px;
+        opacity: 0.3;
+        font-weight: 300;
+    }
+
     @media (max-width: 768px) {
-        .footer-skin-d .footer-grid {
+        .footer-skin-d .fs-grid {
             grid-template-columns: 1fr;
             gap: 40px;
         }
 
-        .footer-skin-d .footer-hero {
-            font-size: 4rem;
+        .footer-skin-d .fs-big {
+            font-size: 18vw;
         }
     }
 </style>
 
 <div class="footer-skin-d">
-    <div class="footer-container">
-        <div class="footer-top">
-            <div class="footer-logo">
-                {logo}
-            </div>
-            <div class="scroll-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
-                SCROLL TO TOP ↑
-            </div>
-        </div>
+    <div class="fs-top">
+        <div class="fs-logo">{logo}</div>
+        <div class="fs-scroll" onclick="window.scrollTo({top:0, behavior:'smooth'})">SCROLL TO TOP ↑</div>
+    </div>
 
-        <div class="footer-hero">
-            {slogan}
-        </div>
+    <div>
+        <!-- Slogan Area (User Input) -->
+        <div class="fs-big">{slogan}</div>
 
-        <div class="footer-grid">
-            <div class="grid-item">
-                <span>CONTACT</span>
-                <a href="tel:{tel}">{tel}</a><br>
-                <a href="mailto:{email}">{email}</a>
+        <div class="fs-grid">
+            <div class="fs-col">
+                <span>{email_name} & {tel_name}</span>
+                {email}<br>
+                {tel}
             </div>
-            <div class="grid-item">
-                <span>ADDRESS</span>
+            <div class="fs-col">
+                <span>{addr_name}</span>
                 {addr}
             </div>
-            <div class="grid-item">
-                <span>SOCIAL</span>
+            <div class="fs-col">
+                <span>SOCIAL & LINKS</span>
                 {link1}<br>
                 {link2}
+            </div>
+
+            <div class="fs-copyright">
+                {copyright}
             </div>
         </div>
     </div>

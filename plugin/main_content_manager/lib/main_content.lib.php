@@ -33,7 +33,10 @@ function display_main_content($lang = 'kr')
     if (!$lang)
         $lang = 'kr';
 
-    $sql = " select * from g5_plugin_main_content_sections where ms_active = '1' and ms_lang = '{$lang}' order by ms_sort asc, ms_id asc ";
+    // [Standardization Fallback] Handle kr/ko/empty as equivalent for Korean default
+    $lang_condition = ($lang == 'kr') ? " (ms_lang = 'kr' or ms_lang = 'ko' or ms_lang = '') " : " ms_lang = '{$lang}' ";
+
+    $sql = " select * from g5_plugin_main_content_sections where ms_active = '1' and {$lang_condition} order by ms_sort asc, ms_id asc ";
     $result = sql_query($sql);
 
     while ($ms = sql_fetch_array($result)) {

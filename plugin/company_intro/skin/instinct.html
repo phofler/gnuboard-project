@@ -1,0 +1,221 @@
+<style>
+    /* [Skin Scope] Instinct Sub Hero */
+    .instinct-hero-wrap {
+        width: 100%;
+        max-width: var(--spacing-container, 1400px);
+        margin: 0 auto;
+        padding: 150px 5vw 100px;
+        /* Reduced top padding for general usage */
+    }
+
+    .instinct-header-meta {
+        margin-bottom: 60px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .instinct-breadcrumb {
+        display: flex;
+        gap: 20px;
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #888;
+    }
+
+    .instinct-breadcrumb li {
+        opacity: 0.6;
+        color: var(--color-text-primary, #050505);
+    }
+
+    .instinct-breadcrumb li.active {
+        opacity: 1;
+        color: var(--color-brand, #FF3B30);
+    }
+
+    .instinct-sub-tag {
+        font-size: 14px;
+        font-weight: 800;
+        letter-spacing: 2px;
+        color: var(--color-brand, #FF3B30);
+        margin-bottom: 10px;
+        text-transform: uppercase;
+    }
+
+    .instinct-hero-grid {
+        display: grid;
+        grid-template-columns: 500px 1fr;
+        gap: 80px;
+        align-items: center;
+    }
+
+    .instinct-hero-img-box {
+        width: 100%;
+        height: 500px;
+        background: #fff;
+        overflow: hidden;
+        box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.1);
+    }
+
+    .instinct-hero-img-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: grayscale(100%);
+        transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+    }
+
+    .instinct-hero-img-box:hover img {
+        filter: grayscale(0%);
+        transform: scale(1.05);
+    }
+
+    .instinct-page-title {
+        font-family: var(--font-heading, 'Italiana', serif);
+        font-size: clamp(60px, 9vw, 130px);
+        line-height: 0.9;
+        text-transform: uppercase;
+        letter-spacing: -0.02em;
+        margin-bottom: 0px;
+        color: var(--color-text-primary, #050505);
+    }
+
+    .instinct-sub-title {
+        font-family: var(--font-heading, 'Italiana', serif);
+        font-size: 50px;
+        margin-top: 50px;
+        font-weight: 400;
+        color: var(--color-text-primary, #050505);
+    }
+
+    @media (max-width: 1024px) {
+        .instinct-hero-grid {
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        .instinct-hero-img-box {
+            height: 400px;
+            order: 2;
+        }
+
+        .instinct-title-wrap {
+            padding-bottom: 50px;
+        }
+
+        /* Lead Text (Grid Intro) */
+        .instinct-grid-intro {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 5vw;
+            margin: 10vh 0 15vh;
+        }
+
+        .instinct-big-lead {
+            font-size: clamp(24px, 2.5vw, 24px);
+            line-height: 1.8;
+            font-weight: 500;
+            color: var(--color-text-primary, #050505);
+        }
+
+        .instinct-big-lead b {
+            font-weight: 600;
+            color: var(--color-brand, #FF3B30);
+        }
+
+        .instinct-lead-line {
+            display: block;
+            width: 50px;
+            height: 2px;
+            background: var(--color-brand, #FF3B30);
+            margin-top: 20px;
+        }
+
+        /* Image Block */
+        .instinct-img-block {
+            width: 100%;
+            height: 60vh;
+            overflow: hidden;
+            margin-bottom: 10vh;
+            position: relative;
+        }
+
+        .instinct-img-block img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: 1s;
+        }
+
+        .instinct-img-block:hover img {
+            filter: grayscale(0%);
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 1024px) {
+            .instinct-hero-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .instinct-hero-img-box {
+                height: 400px;
+                order: 2;
+            }
+
+            .instinct-title-wrap {
+                order: 1;
+            }
+
+            .instinct-grid-intro {
+                grid-template-columns: 1fr;
+            }
+        }
+</style>
+
+<div class="instinct-hero-wrap">
+    <!-- HERO SECTION -->
+    <div class="instinct-header-meta" data-aos="fade-down">
+        <ul class="instinct-breadcrumb">
+            <li>Home</li>
+            <li class="active">Philosophy</li>
+        </ul>
+        <div class="instinct-sub-tag">WHO WE ARE</div>
+    </div>
+
+    <div class="instinct-hero-grid">
+        <div class="instinct-hero-img-box" data-aos="fade-right">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=2564&auto=format&fit=crop"
+                alt="Main Model">
+        </div>
+        <div class="instinct-title-wrap">
+            <h1 class="instinct-page-title" data-aos="fade-up" data-aos-delay="200">
+                Defined by<br>Instinct.
+            </h1>
+            <div class="instinct-sub-title" data-aos="fade-up" data-aos-delay="300">
+                About Company
+            </div>
+        </div>
+    </div>
+
+    <!-- LEAD TEXT SECTION (Added from sub_ko.html) -->
+    <div class="instinct-grid-intro">
+        <div data-aos="fade-up" data-aos-delay="200">
+            <span class="instinct-lead-line"></span>
+        </div>
+        <div class="instinct-big-lead" data-aos="fade-up" data-aos-delay="300">
+            우리는 진정한 럭셔리가 <b>덜어냄(Reduction)</b>에 있다고 믿습니다.<br>
+            소음으로 가득 찬 세상에서 우리는 고요를 창조합니다.<br>
+            우리의 디자인 철학은 '디지털 브루탈리즘'에 뿌리를 두고 있습니다. —<br>
+            가공되지 않은 정직함, 그리고 무엇보다 강력한 힘을 지닌 본질적인 아름다움입니다.
+        </div>
+    </div>
+
+    <!-- MAIN IMAGE BLOCK (Added from sub_ko.html) -->
+    <div class="instinct-img-block" data-aos="zoom-in">
+        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop"
+            alt="Office">
+    </div>
+</div>

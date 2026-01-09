@@ -304,8 +304,10 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                             'recruit_b' => '채용정보 B',
                                             'recruit_c' => '채용정보 C',
                                             'location' => '오시는 길 A',
-                                            'location_b' => '오시는 길 B',
                                             'location_c' => '오시는 길 C',
+                                            'instinct' => 'Instinct (서브 히어로)',
+                                            'overview' => 'Overview (회사 개요)',
+                                            'team' => 'Team (임원진 소개)',
                                         );
                                         echo isset($skin_names[$co['co_skin']]) ? $skin_names[$co['co_skin']] : $co['co_skin'];
                                         ?>
@@ -435,6 +437,8 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                     'type_c' => array('Type C', 'fa-align-center'),
                                     'type_c_1' => array('Type C-1 (CEO)', 'fa-user-tie'),
                                     'type_c_2' => array('Type C-2 (Vision)', 'fa-lightbulb'),
+                                    'instinct' => array('Instinct (서브 히어로)', 'fa-quote-left'),
+                                    'overview' => array('Overview (회사 개요)', 'fa-info-circle'),
                                 );
                                 foreach ($skins_v1 as $sk => $sd) {
                                     $act = ($co['co_skin'] == $sk) ? 'active' : '';
@@ -472,6 +476,7 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                 $skins_page = array(
                                     'org_a' => array('조직도 A', 'fa-sitemap'),
                                     'org_b' => array('조직도 B', 'fa-users'),
+                                    'team' => array('Team (임원진)', 'fa-user-friends'),
                                     'biz_a' => array('사업분야 A', 'fa-briefcase'),
                                     'biz_b' => array('사업분야 B', 'fa-project-diagram'),
                                     'biz_c' => array('사업분야 C', 'fa-layer-group'),
@@ -495,6 +500,7 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                             <div class="skin-selector-container">
                                 <?php
                                 $skins_main = array(
+                                    'main_latest' => array('메인 최신글', 'fa-images'),
                                     'main_map' => array('메인 지도 (Map)', 'fa-map-marked-alt'),
                                     'main_inquiry' => array('메인 온라인 문의', 'fa-envelope-open-text'),
                                 );
@@ -503,6 +509,34 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                     echo '<div class="skin-card ' . $act . '" onclick="select_ci_skin(\'' . $sk . '\', this)"><div class="skin-badge"></div><i class="fa ' . $sd[1] . '"></i><div class="skin-name">' . $sd[0] . '</div></div>';
                                 }
                                 ?>
+                            </div>
+
+                            <!-- [NEW] Latest Skin Picker (Appears only for main_latest) -->
+                            <div id="latest_skin_selector_wrap"
+                                style="display: <?php echo ($co['co_skin'] == 'main_latest') ? 'block' : 'none'; ?>; margin-top: 20px; padding: 20px; background: #fdf6e3; border: 1px solid #eee8d5; border-radius: 12px;">
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <div
+                                        style="width: 45px; height: 45px; background: #cb4b16; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px;">
+                                        <i class="fa fa-plug"></i>
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <label for="linked_ls_id"
+                                            style="font-weight: 800; display: block; margin-bottom: 5px; color: #586e75;">연결할
+                                            최신글 위젯 선택 (Management Name)</label>
+                                        <select id="linked_ls_id" class="frm_input" style="width: 100%; max-width: 400px;"
+                                            onchange="update_linked_latest_skin()">
+                                            <option value="">위젯 선택 안함</option>
+                                            <?php
+                                            $ls_res = sql_query(" select ls_id, ls_title from " . G5_TABLE_PREFIX . "plugin_latest_skin_config order by ls_id desc ");
+                                            while ($ls_row = sql_fetch_array($ls_res)) {
+                                                echo '<option value="' . $ls_row['ls_id'] . '">' . get_text($ls_row['ls_title']) . ' (' . $ls_row['ls_id'] . ')</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <p style="margin-top: 10px; font-size: 12px; color: #93a1a1; padding-left: 60px;">※ 선택한 위젯의
+                                    제목(관리 명칭), 더보기 링크, 내용이 메인 섹션에 자동으로 연결됩니다.</p>
                             </div>
 
                             <div
@@ -734,7 +768,69 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
         $('.skin-card').removeClass('active');
         $(el).addClass('active');
         $('#co_skin').val(skin_name);
+
+        // Show/Hide Portfolio Widget Selector
+        if (skin_name == 'main_latest') {
+            $('#latest_skin_selector_wrap').show();
+        } else {
+            $('#latest_skin_selector_wrap').hide();
+        }
+
         change_skin(skin_name);
+    }
+
+    function update_linked_latest_skin() {
+        var ls_id = $('#linked_ls_id').val();
+        if (!ls_id) return;
+
+        // AJAX to get latest skin details
+        $.ajax({
+            url: '../../latest_skin_manager/adm/ajax.get_config.php',
+            type: 'POST',
+            data: { ls_id: ls_id },
+            dataType: 'json',
+            success: function (data) {
+                if (data.error) {
+                    console.error("Latest Skin Data Error:", data.error);
+                    return;
+                }
+
+                if (typeof oEditors !== 'undefined' && oEditors.getById["co_content"]) {
+                    var content = oEditors.getById["co_content"].getIR();
+
+                    // 1. Identification Marker
+                    var newMarker = '{LATEST_SKIN:' + ls_id + '}';
+                    if (content.indexOf('{LATEST_SKIN:') !== -1) {
+                        content = content.replace(/\{LATEST_SKIN:([a-zA-Z0-9_]+)\}/, newMarker);
+                    } else if (content.indexOf('{LATEST_SKIN_DISPLAY}') !== -1) {
+                        content = content.replace('{LATEST_SKIN_DISPLAY}', newMarker);
+                    } else {
+                        content += '<p>' + newMarker + '</p>';
+                    }
+
+                    // 2. Title & Description Sync (Visual Feedback in Editor)
+                    // We replace placeholders if they exist, or look for standard classes
+                    if (data.ls_title) {
+                        if (content.indexOf('{LS_TITLE}') !== -1) {
+                            content = content.replace('{LS_TITLE}', data.ls_title);
+                        } else {
+                            // Try to replace content inside h2.section-title if possible (regex)
+                            content = content.replace(/(<h2[^>]*class="[^"]*section-title[^"]*"[^>]*>)([^<]*)(<\/h2>)/i, '$1' + data.ls_title + '$3');
+                        }
+                    }
+                    if (data.ls_description) {
+                        if (content.indexOf('{LS_DESCRIPTION}') !== -1) {
+                            content = content.replace('{LS_DESCRIPTION}', data.ls_description);
+                        } else {
+                            content = content.replace(/(<p[^>]*class="[^"]*section-subtitle[^"]*"[^>]*>)([^<]*)(<\/p>)/i, '$1' + data.ls_description + '$3');
+                        }
+                    }
+
+                    oEditors.getById["co_content"].exec("SET_IR", [content]);
+                    update_editor_background();
+                }
+            }
+        });
     }
 
     function receiveUnsplashUrl(url) {

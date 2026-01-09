@@ -62,6 +62,10 @@ function online_inquiry_send_email_func($id, $data)
                     <td style="padding:15px; border-bottom:1px solid #eee; color:#333;">' . $data['contact'] . '</td>
                 </tr>
                 <tr>
+                    <th style="padding:15px; border-bottom:1px solid #eee; text-align:left; color:#555;">Email (이메일)</th>
+                    <td style="padding:15px; border-bottom:1px solid #eee; color:#333;">' . $data['email'] . '</td>
+                </tr>
+                <tr>
                     <th style="padding:15px; text-align:left; color:#555; vertical-align:top;">Message (문의내용)</th>
                     <td style="padding:15px; color:#333; line-height:1.6;">' . nl2br($data['content']) . '</td>
                 </tr>

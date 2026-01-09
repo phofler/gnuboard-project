@@ -1,6 +1,6 @@
 <?php
 $sub_menu = '800200';
-include_once(dirname(__FILE__) . '/../../../common.php');
+include_once('./_common.php');
 define('G5_IS_ADMIN', true);
 include_once(G5_ADMIN_PATH . '/admin.lib.php');
 
@@ -20,10 +20,16 @@ $sd = array(
     'sd_id' => '',
     'sd_theme' => '',
     'sd_lang' => 'kr',
-    'sd_skin' => 'standard'
+    'sd_skin' => 'standard',
+    'sd_layout' => 'full'
 );
 
 if ($w == 'u' && $sd_id) {
+    // [Migration] Ensure sd_layout column exists
+    if (!sql_query(" select sd_layout from " . G5_PLUGIN_SUB_DESIGN_GROUP_TABLE . " limit 1 ", false)) {
+        sql_query(" alter table " . G5_PLUGIN_SUB_DESIGN_GROUP_TABLE . " add `sd_layout` varchar(20) NOT NULL DEFAULT 'full' after `sd_skin` ");
+    }
+
     $sd = sql_fetch(" SELECT * FROM " . G5_PLUGIN_SUB_DESIGN_GROUP_TABLE . " WHERE sd_id = '$sd_id' ");
     if (!$sd) {
         alert('존재하지 않는 서브 디자인 그룹입니다.');
@@ -44,7 +50,7 @@ if (is_dir($theme_dir)) {
 }
 
 // Skins
-$skins = array('standard', 'cinema', 'works_dark', 'minimal');
+$skins = array('standard', 'cinema', 'works_dark', 'minimal', 'instinct');
 
 $g5['title'] = ($w == 'u') ? '서브 디자인 수정' : '서브 디자인 추가';
 include_once(G5_ADMIN_PATH . '/admin.head.php');
@@ -71,19 +77,27 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                 $sel_custom = '';
 
                 if ($w == 'u' && $sd['sd_id']) {
+                    // [Standardization] Using the same robust parsing as top_menu_manager
                     $parts = explode('_', $sd['sd_id']);
-                    // Simplified parsing for Sub Design
-                    if (isset($parts[0]) && in_array($parts[0], $themes)) {
-                        $sel_theme = $parts[0];
-                        if (isset($parts[1]) && in_array($parts[1], array('kr', 'en', 'jp', 'cn'))) {
-                            $sel_lang = $parts[1];
-                            if (isset($parts[2])) {
-                                array_shift($parts);
-                                array_shift($parts);
-                                $sel_custom = implode('_', $parts);
-                            }
-                        }
+
+                    // Check from the end to see if it's a known language
+                    $last_part = end($parts);
+                    if (in_array($last_part, array('en', 'jp', 'cn'))) {
+                        $sel_lang = array_pop($parts);
+                        $sel_theme = implode('_', $parts); // Everything else is the theme
+                    } else if ($last_part == 'kr') {
+                        array_pop($parts);
+                        $sel_lang = 'kr';
+                        $sel_theme = implode('_', $parts);
+                    } else {
+                        // If no lang suffix, the whole ID is the theme (and lang is kr)
+                        $sel_theme = $sd['sd_id'];
+                        $sel_lang = 'kr';
                     }
+
+                    // Re-verify against database columns if they exist (Sub Design specific)
+                    if (isset($sd['sd_theme']) && $sd['sd_theme']) $sel_theme = $sd['sd_theme'];
+                    if (isset($sd['sd_lang']) && $sd['sd_lang']) $sel_lang = $sd['sd_lang'];
                 }
                 ?>
                 <tr>
@@ -121,6 +135,32 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                             </strong>
                             <input type="hidden" name="sd_id" id="sd_id" value="<?php echo $sd['sd_id']; ?>">
                         </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">레이아웃 선택</th>
+                    <td>
+                        <div style="display:flex; gap:20px;">
+                            <label style="cursor:pointer; display:flex; align-items:center; gap:8px;">
+                                <input type="radio" name="sd_layout" value="full" <?php echo ($sd['sd_layout'] == 'full' || !$sd['sd_layout']) ? 'checked' : ''; ?>>
+                                <div
+                                    style="padding:10px 20px; border:1px solid #ddd; border-radius:4px; background:#fff;">
+                                    <strong>Full Width</strong>
+                                    <span style="display:block; font-size:11px; color:#777;">와이드 레이아웃 (갤러리, 제품 리스트
+                                        등)</span>
+                                </div>
+                            </label>
+                            <label style="cursor:pointer; display:flex; align-items:center; gap:8px;">
+                                <input type="radio" name="sd_layout" value="sidebar" <?php echo ($sd['sd_layout'] == 'sidebar') ? 'checked' : ''; ?>>
+                                <div
+                                    style="padding:10px 20px; border:1px solid #ddd; border-radius:4px; background:#fff;">
+                                    <strong>Sidebar (LNB)</strong>
+                                    <span style="display:block; font-size:11px; color:#c0392b; font-weight:bold;">좌측
+                                        사이드바 + 에지 바 적용</span>
+                                </div>
+                            </label>
+                        </div>
+                        <p class="frm_info">Sidebar 선택 시 서브페이지 좌측에 메뉴가 생성되며, 헤더에 에지 바(수직선)가 강제 적용됩니다.</p>
                     </td>
                 </tr>
                 <tr>
@@ -252,10 +292,11 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                 'standard' => '1920 x 450 px',
                                 'cinema' => '1920 x 1080 px (FULL)',
                                 'works_dark' => '1920 x 800 px',
-                                'minimal' => '1920 x 600 px'
+                                'minimal' => '1920 x 600 px',
+                                'instinct' => 'instinct Editorial'
                             );
                             foreach ($skins as $skin) {
-                                $active = ($skin == $sd['sd_skin']) ? 'active' : '';
+                                $active = (isset($sd['sd_skin']) && $skin == $sd['sd_skin']) ? 'active' : '';
                                 ?>
                                 <label class="skin-card <?php echo $active; ?>"
                                     onclick="selectSkin(event, '<?php echo $skin; ?>')">
@@ -268,7 +309,7 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                         </div>
                         <div style="padding:12px; background:#f8f9fa; border-radius:6px; font-size:12px; color:#555;">
                             선택된 스킨 권장 사이즈: <strong id="selected_skin_size"
-                                style="color:#2980b9;"><?php echo $skin_sizes[$sd['sd_skin']]; ?></strong>
+                                style="color:#2980b9;"><?php echo isset($sd['sd_skin']) ? $skin_sizes[$sd['sd_skin']] : $skin_sizes['standard']; ?></strong>
                         </div>
                     </td>
                 </tr>
@@ -345,7 +386,8 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
             'standard': '1920 x 450 px',
             'cinema': '1920 x 1080 px (FULL)',
             'works_dark': '1920 x 800 px',
-            'minimal': '1920 x 600 px'
+            'minimal': '1920 x 600 px',
+            'instinct': 'instinct Editorial'
         };
         $('#selected_skin_size').text(sizes[skin]);
     }
@@ -364,9 +406,7 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
         var id = theme;
         if (lang != 'kr') id += '_' + lang;
         if (custom) {
-            id += '_' + custom;
-        } else {
-            // No random suffix for Sub Design to keep it stable
+            id += '_' + custom.replace(/[^a-z0-9_]/gi, ''); // Clean custom name
         }
 
         $('#display_sd_id').text(id);
@@ -381,9 +421,10 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
         });
     }
 
+    var currentTargetIdx = null;
     function openImageManager(idx) {
         currentTargetIdx = idx;
-        var skin = $('input[name="sd_skin"]:checked').val();  var dims = {
+        var skin = $('input[name="sd_skin"]:checked').val(); var dims = {
             'standard': { w: 1920, h: 450 },
             'cinema': { w: 1920, h: 1080 },
             'works_dark': { w: 1920, h: 800 },
@@ -392,7 +433,7 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
         var w = dims[skin] ? dims[skin].w : 1920;
         var h = dims[skin] ? dims[skin].h : 600;
 
-        var url = '<?php echo G5_PLUGIN_URL; ?>/main_image_manager/adm/image_manager.php?w=' + w +  ' & h =' +  h   +  '&v=' + Date.now();
+        var url = '<?php echo G5_PLUGIN_URL; ?>/main_image_manager/adm/image_manager.php?w=' + w + ' & h =' + h + '&v=' + Date.now();
         document.getElementById('unsplash_iframe').src = url;
         document.getElementById('unsplash_modal').style.display = 'flex';
     }
@@ -418,7 +459,13 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
     }
 
     window.onload = function () {
-        generate_sd_id();
+        // [Standardization] Only generate if ID is empty (Add mode)
+        if ($('#sd_id').val() == '') {
+            generate_sd_id();
+        } else {
+            // For Edit mode, just load the list once
+            loadMenuList($('#sd_lang').val(), $('#sd_id').val());
+        }
     };
 
     function view_preview() {

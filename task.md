@@ -1,13 +1,44 @@
 # Tasks
 
+> **🎯 핵심 목표 (Primary Goal)**
+> 1. **신속한 납품**: 메인/서브 시안 
+>    `/main/corporate_light/index_ko.html`
+>    `/main/corporate_light/sub_ko.html`
+>    스킨 작업 후 웹서버 등록.
+> 2. **효율성**: 무작정 작업 금지. **매뉴얼(`테마스킨.md`) 선행 작업**을 통해 시행착오 최소화.
+> 3. **우선순위**: **매뉴얼 정리 > 코딩 작업.**
+
 ## 🚀 Current Priorities (Immediate Fixes)
-- [ ] **🛑 MySQL Startup Error (Emergency)**
-    - [ ] **Diagnose Port 3306 Conflict**
+- [x] **🛑 MySQL Startup Error (Emergency)** (Resolved by User)
+    - [x] **Diagnose Port 3306 Conflict**
     - [x] **Check MySQL Error Logs** (Done: Found abrupt stop)
     - [x] **Attempt Log Reset** (Done: `aria_log_control` & `ib_logfile` reset)
-    - [ ] **Uninstall Conflicting Software** (MySQL Server 8.0)
-    - [ ] **Resolve Service Conflict (MySQL80 vs XAMPP)**
-- [ ] **📅 Tomorrow's Focus (2026-01-08)**
+    - [x] **Uninstall Conflicting Software** (MySQL Server 8.0)
+    - [x] **Resolve Service Conflict (MySQL80 vs XAMPP)**
+- [ ] **📅 Next Priority (Zero-Gap Prototype Delivery)**
+    - [/] **1. 메인 시안 (`index_ko.html`) 완동기화**
+        - [x] **Philosophy**: `philosophy_light` 스킨 (Left Label + Bold Text)
+        - [x] **Services**: `list_modern` 스킨 (Editorial Alignment)
+        - [x] **Selected Works**: `works_dark` 스킨 (Marquee + Swiper)
+        - [x] **Copyright**: `style_d` 스킨 (Mega Text + Etsy Orange)
+    - [/] **2. 서브 시안 (`sub_ko.html`) 완동기화**
+        - [x] **Sub Hero**: `instinct Editorial` 스킨 (Image/Title 비대칭 배치)
+        - [x] **[FIX]** Sub Design: `update.php` 토큰 및 DB 누락 오류 해결
+        - [x] **Overview Table**: `overview` 스킨 (Minimal Border)
+        - [x] **Team Grid**: `team` 스킨 (Card Shadow + Hover)
+        - [ ] **[NEW] Lead Text**: `instinct` 스킨 내 텍스트 블록 정밀 조정
+        - [ ] **[NEW] Center Image**: 서브페이지 본문 중간 대형 이미지 블록 스킨화
+    - [ ] **3. 플러그인 관리자 표준화 (Pattern A/B)**
+        - [x] **Copyright Manager**: Pattern A (ID 자동생성) 완료
+        - [/] **Board Skin Manager**: Pattern B (Theme/Lang 선택 UI) 진행 중
+        - [x] **Sub Design Manager**: 스킨 로딩 및 저장 로직 표준화 완료 (top_menu_manager 패턴 적용)
+        - [/] **Company Intro**: Pattern A 적용 및 스킨 동적 데이터 매핑
+        - [x] **[RENAME]** `latest_skin_manager` (Old Board Skin Manager)
+        - [x] **[CREATE]** `board_skin_manager` (New BBS Option Controller)
+        - [x] Apply `mo_theme`, `mo_lang` DB Schema (Done for Latest)
+        - [x] Update Admin List/Write UI (Card UI Applied)
+        - [x] **[FIX]** Resolve White Screen on Board Skin Manager
+        - [x] **[FIX]** Restore missing Admin Menus (00_load_plugins.php)
     - [x] **Background Sync Verification**
         - [x] Verify Company Intro frontend background across themes
         - [x] Verify Main Content Manager frontend/swatch consistency
@@ -19,10 +50,13 @@
 - [/] **Main Page Content Integration**
     - [x] Choose Approach: Extend `main_content_manager` vs New Plugin
     - [x] Implementation (Skin/Logic)
+    - [x] [NEW] Style D (Editorial): `skins/style_d/template.html` (Red -> Etsy Orange Background)
+    - [x] Add Etsy brand color variable to `default.css`
+    - [x] Apply Etsy color to Style D template
     - [x] **[Enhancement]** Standardize Background Color UI
     - [x] **[Enhancement]** Refine Skin Selection UI (Categorized & Compact)
     - [x] Integration with `index.php` (Verified)
-    - [x] **Verification Completed** (Map Logic & UI Display)
+    - [x] **Verification Completed** (Selected Works & Map Logic)
 - [x] **Theme Background Restoration (Completed Today)**
     - [x] Implement dynamic CSS extraction (`lib/theme_css.lib.php`)
     - [x] Fix "Restore to Default" logic across Online Inquiry, Company Intro, Main Content
@@ -61,6 +95,20 @@
         - [x] Preview: Load Real Data (Merge Pro Menu & Tree Category)
         - [x] Frontend: Restore CSS Variables in `style.css`
     - [x] Fix 'Undefined array key' warnings in GNB display
+    - [x] **[Gap Analysis]** `sub_ko.html` Component Identification (Sub Hero, Overview, Team)
+    - [x] **[Manual]** Add 'Section 12: Prototype Component Specs' to `테마스킨.md`
+    - [x] **[Manual]** Restructure 'Section 5' to match Admin Menu (11 items)
+    - [x] **[Manual]** Add 'Rule of Visual Authority' (Prototype > Manual)
+- [x] **[Implementation]** `Latest Skin Manager` Standardization (Admin Menu 4)
+    - [x] Apply 'Pattern B' (ls_theme, ls_lang) to `install.php` & `list.php`
+    - [x] Implement `latest.skin.php` fetching logic
+- [x] **[Implementation]** `Board Skin Manager` Standardization (Admin Menu 5)
+  - [x] Apply 'Pattern B' to `list.php` (DB Schema)
+  - [x] Verify `write.php` and `update.php` logic
+- [x] **[Implementation]** `sub_ko.html` Skin Creation (Company Intro)
+    - [x] Create `overview.html` (Overview Table)
+    - [x] Create `team.html` (Team Grid)
+    - [x] Create `instinct.html` (Sub Hero)
     - [x] Final Layout Verification (Full Width Header & Cleanup)
     - [x] **Document Principles & Improvements** (`테마스킨.md`)
 - [x] **Product Board Skin Implementation**
@@ -125,7 +173,18 @@
             - [x] Fixed "Token Invalid" Deletion Error (List-based Pattern)
         - [x] **2. Copyright Manager**: Apply Pattern A (Config ID + Suffix)
         - [x] **Company Intro**: Apply Pattern A
-        - [ ] **Board Skin Manager**: Apply Pattern B (Columns for Theme/Lang)
+        - [x] **Latest Skin Manager**: Apply Pattern B (Theme/Lang ID Standard)
+            - [x] Refactor ID to String (`theme_lang`)
+            - [x] Standardize UI (Select Box logic)
+        - [/] **Board Skin Manager Standardization (Pattern B)**
+            - [x] Create `g5_plugin_board_skin_config` Table
+            - [x] Standardize List UI (Config-based)
+            - [x] Standardize Write UI (Pattern B Dropdowns & JS)
+            - [x] Update CRUD logic (`update.php`)
+            - [ ] Verify Frontend Integration (Skin development guide)
+        - [x] **Unified Language Compatibility (Failsafe - KR Suffix-less Standard)**
+            - [x] Adopt Clean ID Standard (No `_kr` for Korean) in Manual
+            - [x] Implement ID fallback for backward compatibility
         - [ ] **Sub Design Manager**: Fix Menu### Plugin Standardization (Company Intro) <!-- id: 46 -->
 - [x] **Analysis**: Identify duplicated logic in `company_intro` skins. <!-- id: 47 -->
 - [x] **Implementation**: Create `skin.head.php` for Company Intro to handle `co_id`, decoding, and headers. <!-- id: 48 -->
@@ -145,6 +204,18 @@
 ### Plugin Standardization (Sub Design Manager) <!-- id: 58 -->
 - [ ] **Analysis**: Analyze `plugin/sub_design` structure. <!-- id: 59 -->
 - [ ] **Implementation**: Standardize skin loading and header injection. <!-- id: 60 -->(Sovereignty of default.css)
+     - [x] 서브페이지 레이아웃 & 사이드바(Sidebar) 표준화
+    - [x] `sub_design` 플러그인에 `sd_layout` 필드 추가 및 어드민 UI 반영
+    - [x] `head.php` / `tail.php` 사이드바 구조 자동 전환 로직 구현
+    - [x] LNB(Local Navigation Bar) 출력 스킨 개발
+- [x] 에디토리얼 디자인(Edge Bar) 표준화 적용
+    - [x] `main_latest` 등 메인용 스킨 중앙 정렬 일원화
+    - [x] 회사소개 서브용 스킨 표준 Edge Bar(수직선) 적용
+- [x] **Prototype Gap Analysis & Implementation** (From `sub_ko.html`)
+    - [x] **Company Overview Table**: Implement `overview-table` style in `company_intro`.
+    - [x] **Team Grid**: Implement `team-grid` style in `company_intro` (`team_card`).
+    - [x] **Sub Hero Layout**: Verify `sub-hero` matching `Defined by Instinct` style.
+- [x] 테마 가이드(`테마스킨.md`) 메인/서브 헤더 규정 명시
             - [x] Update `테마스킨.md` with inheritance principles (Sovereignty of default.css)
             - [x] Create `philosophy_light` Skin (Left label + Bold text)
                 - [x] **Constraint**: Maximize Negative Space (여백의 미) as per prototype
@@ -158,7 +229,11 @@
                 - [x] **Design**: Dark Background + Serif Title + Horizontal Scroll (Swiper)
                 - [x] **Marquee Effect**: Implement CSS-like smooth scrolling (Speed 5000, Linear)
         - [x] **5. Copyright Management**
-            - [x] Refactor Footer to be manageable (Plugin or Config)
+            - [x] Refactor Footer for Pattern A (Config ID + Suffix)
+            - [x] Implement Style D (Editorial Bold) Skin
+            - [x] Establish `--color-bg-footer` Semantic Standard
+            - [x] Sync "Visual Zero-Gap" with Prototype (Logo, Scale, Padding)
+            - [x] Update `테마스킨.md` with Prevention & Quality Rules
         - [x] **6. Sub Design Management**
             - [x] Standardize `sub_page` layout
         - [x] **8. Online Inquiry Management** (`plugin/contact_form`)

@@ -6,8 +6,8 @@ if (!defined('_GNUBOARD_'))
 include_once(G5_PLUGIN_PATH . '/top_menu_manager/skin.head.php');
 
 // [FIX] Load Skin CSS (Handled by lib.php)
-// $menu_skin_url = G5_PLUGIN_URL . '/top_menu_manager/skins/minimal';
-// echo '<link rel="stylesheet" href="' . $menu_skin_url . '/style.css?v=' . time() . '">';
+$menu_skin_url = G5_PLUGIN_URL . '/top_menu_manager/skins/minimal';
+echo '<link rel="stylesheet" href="' . $menu_skin_url . '/style.css?v=' . time() . '">';
 ?>
 
 <div class="minimal-header">

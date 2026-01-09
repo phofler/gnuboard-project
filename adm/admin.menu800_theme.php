@@ -6,6 +6,7 @@ $menu['menu800'] = array(
     array('800160', '메뉴관리', G5_PLUGIN_URL . '/pro_menu_manager/admin.php', 'pro_menu_manager'),
     array('800180', '메인 이미지 관리', G5_PLUGIN_URL . '/main_image_manager/adm/list.php', 'main_image_manager'),
     array('800190', '메인 컨텐츠관리', G5_PLUGIN_URL . '/main_content_manager/adm/list.php', 'main_content_manager'),
+    array('800193', '보드최근글스킨관리', G5_PLUGIN_URL . '/latest_skin_manager/adm/list.php', 'latest_skin_manager'),
     array('800195', '보드스킨관리', G5_PLUGIN_URL . '/board_skin_manager/adm/list.php', 'board_skin_manager'),
     array('800200', '서브디자인관리', G5_PLUGIN_URL . '/sub_design/adm/list.php', 'sub_design'),
     array('800250', '회사소개 관리', G5_PLUGIN_URL . '/company_intro/adm/list.php', 'company_intro'),

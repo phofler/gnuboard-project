@@ -32,8 +32,17 @@ if (defined('G5_TABLE_PREFIX')) {
 
     // 2. If not found, try to derive from theme & lang
     if (!$row || !isset($row['oi_id'])) {
-        $target_id = $theme . ($lang == 'kr' ? '' : '_' . $lang);
+        $is_korean = ($lang == 'kr' || $lang == 'ko' || $lang == '');
+        $target_id = $theme . ($is_korean ? '' : '_' . $lang);
         $row = sql_fetch(" select * from {$config_table} where oi_id = '{$target_id}' ");
+
+        // [Standardization Fallback] If Korean and exact 'theme' ID is missing, check old suffixes
+        if (!$row && $is_korean) {
+            $row = sql_fetch(" select * from {$config_table} where oi_id = '{$theme}_ko' ");
+            if (!$row) {
+                $row = sql_fetch(" select * from {$config_table} where oi_id = '{$theme}_kr' ");
+            }
+        }
     }
 
     // 3. Fallback: try theme + lang columns

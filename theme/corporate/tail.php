@@ -13,9 +13,15 @@ if (G5_COMMUNITY_USE === false) {
 }
 ?>
 
-<?php if (!defined('_INDEX_')) { ?>
-    </div> <!-- .sub-layout-width-height -->
-<?php } ?>
+<?php if (!defined('_INDEX_')) {
+    $sd_layout = isset($sub_design['sd_layout']) ? $sub_design['sd_layout'] : 'full';
+    if ($sd_layout == 'sidebar') { ?>
+        </div> <!-- .sub-content -->
+        </div> <!-- .sub-layout-body -->
+    <?php } else { ?>
+        </div> <!-- .sub-layout-width-height -->
+    <?php }
+} ?>
 </div> <!-- #container -->
 </div> <!-- #container_wr -->
 </div> <!-- #wrapper -->

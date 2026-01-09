@@ -88,7 +88,7 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
 
                 // [Standardization] Parsing Existing ID for Edit Mode
                 $sel_theme = '';
-                $sel_lang = 'kr';
+                $sel_lang = '';
                 $sel_custom = '';
                 if ($w == 'u' && $tm['tm_id']) {
                     $parts = explode('_', $tm['tm_id']);
@@ -128,13 +128,11 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
 
                             <!-- Language Select -->
                             <select name="tm_lang" id="tm_lang" class="frm_input" onchange="generate_tm_id()" required>
-                                <option value="kr" <?php echo ($sel_lang == 'kr') ? 'selected' : ''; ?>>한국어 (기본)</option>
-                                <option value="en" <?php echo ($sel_lang == 'en') ? 'selected' : ''; ?>>English (EN)
-                                </option>
-                                <option value="jp" <?php echo ($sel_lang == 'jp') ? 'selected' : ''; ?>>Japanese (JP)
-                                </option>
-                                <option value="cn" <?php echo ($sel_lang == 'cn') ? 'selected' : ''; ?>>Chinese (CN)
-                                </option>
+                                <option value="">언어 선택</option>
+                                <option value="kr" <?php echo ($sel_lang == 'kr') ? 'selected' : ''; ?>>한국어</option>
+                                <option value="en" <?php echo ($sel_lang == 'en') ? 'selected' : ''; ?>>English</option>
+                                <option value="jp" <?php echo ($sel_lang == 'jp') ? 'selected' : ''; ?>>Japanese</option>
+                                <option value="cn" <?php echo ($sel_lang == 'cn') ? 'selected' : ''; ?>>Chinese</option>
                             </select>
 
                             <!-- Custom Suffix -->
@@ -160,7 +158,7 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
 
                                 if (theme) {
                                     var new_id = theme;
-                                    if (lang !== 'kr') {
+                                    if (lang && lang !== 'kr') {
                                         new_id += '_' + lang;
                                     }
 
