@@ -9,11 +9,11 @@ $table_name = G5_TABLE_PREFIX . 'plugin_company_add';
 $row = sql_fetch(" SHOW TABLES LIKE '{$table_name}' ");
 if (!$row) {
     $sql = " CREATE TABLE IF NOT EXISTS `{$table_name}` (
-                `co_id` varchar(20) NOT NULL DEFAULT '',
+                `co_id` varchar(100) NOT NULL DEFAULT '',
                 `co_subject` varchar(255) NOT NULL DEFAULT '',
                 `co_content` mediumtext NOT NULL,
                 `co_skin` varchar(50) NOT NULL DEFAULT '',
-                `co_bgcolor` varchar(20) NOT NULL DEFAULT '#000000',
+                `co_bgcolor` varchar(20) NOT NULL DEFAULT '',
                 `co_datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 PRIMARY KEY (`co_id`)
             ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ";

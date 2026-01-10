@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500;700&family=Italiana&family=Manrope:wght@200;300;400;500;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500;700&family=Italiana&family=Manrope:wght@200;300;400;500;600;800&family=Alex+Brush&display=swap');
 
 :root {
     /* [MENU PALETTE] Defined by Theme */
@@ -20,51 +20,43 @@
     /* Etsy Orange */
     --color-bg-footer: var(--color-brand);
     /* Proto-Sync: Electric Red (#FF3B30) */
-    /* [ULTIMATE LIGHT PALETTE] */
+    /* [ULTIMATE LIGHT PALETTE] - Prototype Sync */
     --color-bg: #F3F3F3;
-    /* Base Body Color */
-    --color-bg-panel: #FFFFFF;
     --color-text-primary: #050505;
     --color-text-secondary: #555555;
+    --color-border-light: #D1D1D1;
+    --color-brand: #FF3B30;
+    /* Electric Red */
 
-    /* [INVERT/EDGE PALETTE] For dark sections in light theme */
-    --color-bg-invert: #000000;
-    --color-text-invert: #FFFFFF;
-
-    /* Legacy mapping for skin compatibility */
-    --color-bg-dark: var(--color-bg);
-
-    /* [SMART INHERITANCE] RGB definitions for Opacity Control */
-    --color-accent-gold: #FF3B30;
-    /* Electric Red for Light Theme */
+    /* [SMART INHERITANCE] */
+    --color-accent-gold: var(--color-brand);
     --color-accent-gold-rgb: 255, 59, 48;
-    /* For rgba(var(--...), 0.x) */
 
-    --color-accent-gold-hover: #D32F2F;
-    /* Darker Gold */
-    --color-metal-light: #4a4a4a;
-    --color-metal-dark: #2c2c2c;
-    --color-wood: #3e2723;
-
-    /* Gradients (Removed for Minimal Look) */
-    --gradient-metal: none;
-    --gradient-gold: none;
-
-    /* [TYPOGRAPHY Semantic Mapping] Individual Control */
-    --color-title-main: var(--color-accent-gold);
-    --color-title-sub: var(--color-text-primary);
-
-    /* Typography */
+    /* Typography - Prototype Sync */
     --font-serif: 'Italiana', serif;
     --font-en: 'Manrope', sans-serif;
     --font-heading: var(--font-serif);
     --font-body: var(--font-en), 'Noto Sans KR', sans-serif;
 
-    /* Spacing */
-    --spacing-container: 1400px;
-    --spacing-section: 60px;
-    --header-height: 90px;
+    /* Spacing (Fidelity Sync: 1360px / 5vw / 10vh) */
+    --spacing-container-main: 1920px;
+    --spacing-container-sub: 1360px;
+    --padding-main: 4vw;
+    --padding-sub: 5vw;
+
+    --spacing-container: var(--spacing-container-sub);
+    /* Default to Sub standards */
+    --container-padding: var(--padding-sub);
+    --spacing-section: 10vh;
+    --padding-section: var(--spacing-section) 0;
+    /* Shorthand for "10vh 0" */
+    --header-height: 100px;
+    /* Prototype Sync: 100px */
     --sub-hero-height: 60vh;
+
+    /* Responsive Adjustments (Internal Tokens) */
+    --mobile-padding: 20px;
+    --mobile-section-spacing: 60px;
 
     /* [EDITORIAL DESIGN SYSTEM] for Main Content Manager */
     --mc-section-padding: 100px;
@@ -116,7 +108,7 @@ body {
 
 /* Sub Layout (Light Theme for Editor Compatibility) */
 #wrapper.sub-layout-light {
-    color: var(--color-text-primary);
+    background-color: var(--color-bg);
     min-height: 100vh;
     width: 100%;
     position: relative;
@@ -153,11 +145,36 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: 'Noto Sans KR', 'Malgun Gothic', 'Dotum', sans-serif;
-    font-weight: 700;
+    font-family: var(--font-heading);
+    font-weight: 400;
+    /* Editorial Style is usually light or regular */
     color: var(--color-text-primary);
     line-height: 1.2;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+h1 {
+    font-size: clamp(40px, 5vw, 80px);
+}
+
+h2 {
+    font-size: clamp(32px, 4vw, 60px);
+}
+
+h3 {
+    font-size: clamp(28px, 3vw, 40px);
+}
+
+h4 {
+    font-size: 24px;
+}
+
+h5 {
+    font-size: 20px;
+}
+
+h6 {
+    font-size: 18px;
 }
 
 .sound_only {
@@ -173,22 +190,64 @@ h6 {
     overflow: hidden;
 }
 
-/* Utility Classes */
+/* Utility Classes - Layout Sovereignty */
 .container {
-    max-width: var(--spacing-container);
+    width: 100%;
+    /* Recalculate max-width to include padding so inner content is exactly 1360px */
+    max-width: calc(var(--spacing-container) + (var(--container-padding) * 2));
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 var(--container-padding);
+}
+
+/* Vertical Spacing Utility (Brother's Request) */
+.py-section {
+    padding: var(--padding-section);
+}
+
+/* Master Differentiator: Main vs Sub */
+#wrapper:not(.sub-layout-light) .container {
+    max-width: var(--spacing-container-main);
+    padding: 0 var(--padding-main);
+}
+
+#wrapper.sub-layout-light .container {
+    /* [LAYOUT SOVEREIGNTY RESTORED]
+       Inner content (.container) must strictly follow 1360px.
+    */
+    max-width: var(--spacing-container-sub);
+    padding: 0 var(--padding-sub);
+}
+
+/* [WRAPPER ID RESET] */
+#wrapper.sub-layout-light #container {
+    /* 
+       The outer #container (ID) must be invisible layout-wise 
+       to prevent "Double Padding" or "Double Max-Width".
+       It acts as a pass-through wrapper.
+    */
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+}
+
+/* Apply Constraints ONLY to Sidebar Layout Wrapper */
+.sub-layout-body {
+    width: 100%;
+    max-width: var(--spacing-container-sub);
+    margin: 0 auto;
+    padding: 0 var(--padding-sub);
+    display: flex;
+    gap: 40px;
+    /* Sidebar gap */
 }
 
 /* Master Sub-page Content Gutter (Hub) */
-/* Master Sub-page Content Gutter (Hub) */
 .sub-layout-width-height {
     width: 100%;
-    max-width: var(--spacing-container, 1400px);
-    /* Enforce Inheritance */
+    max-width: var(--spacing-container);
     margin: 0 auto;
-    padding: var(--spacing-section, 60px) 20px;
-    /* Standardize vertical spacing */
+    padding: var(--spacing-section) var(--container-padding);
     box-sizing: border-box;
 }
 
@@ -202,23 +261,67 @@ h6 {
     min-height: auto !important;
 }
 
+/* [EDITORIAL TYPOGRAPHY] */
+.big-lead {
+    font-size: clamp(24px, 2.5vw, 24px) !important;
+    line-height: 1.8 !important;
+    font-weight: 500 !important;
+    color: var(--color-text-primary) !important;
+}
+
+/* [EDITORIAL GRID SYSTEM] */
+.overview-table-grid,
+.editorial-overview-section table {
+    /* Apply to both Grid and Legacy Table */
+    border-top: 2px solid var(--color-text-primary) !important;
+    margin-bottom: 10vh !important;
+    width: 100% !important;
+    border-collapse: collapse !important;
+}
+
+.overview-row,
+.editorial-overview-section tr {
+    display: grid !important;
+    grid-template-columns: 200px 1fr !important;
+    border-bottom: 1px solid var(--color-border-light) !important;
+    padding: 30px 0 !important;
+    align-items: center !important;
+}
+
+.overview-label,
+.editorial-overview-section th {
+    font-weight: 700 !important;
+    color: var(--color-text-primary) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.1em !important;
+    font-size: 14px !important;
+    text-align: left !important;
+}
+
+.overview-value,
+.editorial-overview-section td {
+    color: var(--color-text-secondary) !important;
+    font-size: 16px !important;
+    padding: 0 !important;
+}
+
 .btn-luxury {
     display: inline-block;
-    padding: 12px 30px;
+    padding: 12px 40px;
     background: transparent;
-    border: 1px solid #D4AF37;
-    color: #D4AF37;
+    border: 1px solid var(--color-brand);
+    color: var(--color-brand);
     font-family: var(--font-body);
     font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     transition: all 0.3s ease;
 }
 
 .btn-luxury:hover {
-    background: #D4AF37;
-    color: #121212;
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+    background: var(--color-brand);
+    color: #fff;
+    box-shadow: 0 10px 20px rgba(var(--color-accent-gold-rgb), 0.2);
 }
 
 /* [EDITORIAL BUTTON SYSTEM] */
@@ -284,34 +387,45 @@ h6 {
     text-overflow: ellipsis;
 }
 
-/* Header & Navigation */
+/* Header & Navigation - Prototype Sync */
 #hd {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: var(--header-height);
-    background: var(--color-header-bg);
-    backdrop-filter: none;
-    /* Flat Editorial Look */
-    border-bottom: 1px solid var(--color-header-border);
+    background: transparent;
+    /* Main often exclusion/transparent */
+    border-bottom: 0;
     z-index: 1000;
-    display: block;
-    /* Ensure children can center via margin: auto */
     transition: all 0.3s ease;
 }
 
-/* 
-   [AUTONOMY] GNB Styles moved to plugin skins (basic, minimal, etc.)
-   The following styles are removed from the theme to prevent conflicts.
-*/
+#wrapper.sub-layout-light #hd {
+    background: var(--color-header-bg);
+    border-bottom: 1px solid var(--color-border-light);
+}
+
 #hd_wrapper {
     width: 100%;
+    height: 100%;
     max-width: var(--spacing-container);
+    /* Automatically respects Main/Sub via .container logic if applied, but here we set explicitly */
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 30px;
+    padding: 0 var(--container-padding);
+}
+
+#wrapper:not(.sub-layout-light) #hd_wrapper {
+    max-width: var(--spacing-container-main);
+    padding: 0 var(--padding-main);
+}
+
+#wrapper.sub-layout-light #hd_wrapper {
+    max-width: var(--spacing-container-sub);
+    padding: 0 var(--padding-sub);
 }
 
 #logo a {
@@ -434,13 +548,19 @@ h6 {
     z-index: 1;
 }
 
-/* Footer structure for now is simple */
+/* Footer - Final Sync */
 #ft {
-    background: #0a0a0a;
-    border-top: 1px solid #333;
-    padding: 60px 0;
-    text-align: center;
-    color: var(--color-text-secondary);
+    background: var(--color-brand);
+    color: #fff;
+    padding: 10vh var(--container-padding) 5vh;
+    min-height: 50vh;
+    text-align: left;
+    /* Editorial Style */
+}
+
+#wrapper:not(.sub-layout-light) #ft {
+    min-height: 80vh;
+    /* Higher for Main per prototype */
 }
 
 #ft p {
@@ -456,8 +576,44 @@ section {
 }
 
 /* Fix: Reset section padding for sub-pages to avoid excessive gap */
+/* 
 #wrapper.sub-layout-light section {
     padding: 0;
+}
+*/
+
+/* [Isolation System] Prevent global section padding from interfering with sub-visual skins */
+
+/* [Isolation System] Prevent global section padding from interfering with sub-visual skins */
+.sub-design-isolation-wrap {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+/* Reset ALL sections inside isolation to 0 padding initially */
+/*
+.sub-design-isolation-wrap section {
+    padding: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+*/
+
+/* BUT restore specific editorial spacing, EXCEPT for the very first top gap */
+/* BUT restore specific editorial spacing, EXCEPT for the very first top gap */
+/*
+.sub-design-isolation-wrap>section:first-of-type {
+    Restore defined padding (e.g. 10vh bottom) but KILL TOP PADDING for the first element
+    padding-top: 0 !important;
+}
+*/
+
+/* [EDITORIAL GRID INTRO] - Exact Prototype Match */
+.grid-intro {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 5vw;
+    margin-bottom: 15vh;
 }
 
 section h2 {
@@ -465,11 +621,218 @@ section h2 {
     text-align: center;
     margin-bottom: 60px;
     color: var(--color-accent-gold);
-    text-transform: uppercase;
     letter-spacing: 2px;
 }
 
-/* Product Section */
+/* =========================================
+   MAIN PAGE SPECIFIC STYLES (from index_ko.html)
+   ========================================= */
+
+/* HERO SECTION */
+.hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10vh 0;
+    overflow: hidden;
+}
+
+.hero-title {
+    position: relative;
+    z-index: 10;
+    text-align: left;
+    padding-left: 4vw;
+    mix-blend-mode: exclusion;
+    color: #fff;
+}
+
+.hero-img-wrap {
+    position: absolute;
+    top: 50%;
+    left: 20%;
+    transform: translateY(-50%);
+    width: 50vw;
+    height: 70vh;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%);
+    animation: zoomOut 10s infinite alternate;
+}
+
+@keyframes zoomOut {
+    from {
+        transform: scale(1.2);
+    }
+
+    to {
+        transform: scale(1.0);
+    }
+}
+
+.hero-copy {
+    position: absolute;
+    bottom: 5vh;
+    left: 4vw;
+    max-width: 400px;
+    z-index: 10;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    line-height: 1.5;
+    letter-spacing: 0.5px;
+}
+
+/* MANIFESTO SECTION */
+.sec-manifesto {
+    padding: 15vh 0;
+}
+
+.manifesto-text {
+    font-family: var(--font-kor);
+    font-size: clamp(32px, 4vw, 32px);
+    line-height: 2;
+    max-width: 90%;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    word-break: keep-all;
+}
+
+.manifesto-text span {
+    color: var(--color-brand);
+    font-style: normal;
+}
+
+/* SERVICES LIST */
+.sec-services {
+    padding-bottom: 15vh;
+}
+
+.service-list {
+    border-top: 1px solid var(--color-text-primary);
+}
+
+.service-item {
+    border-bottom: 1px solid var(--color-text-primary);
+    padding: 4vh 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    cursor: pointer;
+    transition: 0.3s;
+    position: relative;
+}
+
+.service-item:hover {
+    color: var(--color-brand);
+    padding-left: 20px;
+}
+
+.svc-num {
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.svc-name {
+    font-size: clamp(40px, 6vw, 100px);
+    font-family: var(--font-display);
+    text-transform: uppercase;
+}
+
+.svc-desc {
+    max-width: 300px;
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    text-align: right;
+}
+
+/* WORKS (Marquee) */
+.sec-works {
+    background: #000;
+    color: #fff;
+    padding: 10vh 0;
+    overflow: hidden;
+}
+
+.marquee-track {
+    display: flex;
+    gap: 2vw;
+    width: max-content;
+    animation: slide 30s linear infinite;
+}
+
+@keyframes slide {
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+.marquee-track:hover {
+    animation-play-state: paused;
+}
+
+.work-card {
+    width: 30vw;
+    flex-shrink: 0;
+}
+
+.work-card img {
+    width: 100%;
+    height: 40vw;
+    object-fit: cover;
+    margin-bottom: 1rem;
+    filter: grayscale(100%);
+    transition: 0.5s;
+}
+
+.work-card:hover img {
+    filter: grayscale(0%);
+}
+
+.work-meta h3 {
+    font-size: 24px;
+    font-family: var(--font-display);
+    margin-bottom: 5px;
+}
+
+.work-meta p {
+    font-size: 14px;
+    color: #888;
+    text-transform: uppercase;
+}
+
+/* FOOTER BIG TYPE */
+.footer-big {
+    font-size: 15vw;
+    line-height: 0.8;
+    font-weight: 800;
+    letter-spacing: -5px;
+    margin-bottom: 5vh;
+}
+
+.footer-grid {
+    display: flex;
+    gap: 10vw;
+    font-size: 18px;
+    line-height: 2;
+}
+
+.footer-grid span {
+    display: block;
+    opacity: 0.7;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+/* Product Section (Legacy) */
 .sec-product {
     background: transparent;
     /* Follows body background */
@@ -1233,4 +1596,194 @@ section h2 {
     background: #111;
     color: #fff;
     padding: 10vh 5vw 5vh;
+}
+
+/* =========================================
+   [MAIN PAGE GLOBAL TOKENS] - Prototype Sync (index_ko.html)
+   ========================================= */
+
+/* [HERO SYSTEM] */
+.hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10vh 0;
+    overflow: hidden;
+}
+
+.hero-title {
+    position: relative;
+    z-index: 10;
+    text-align: left;
+    padding-left: 4vw;
+    mix-blend-mode: exclusion;
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: clamp(80px, 13vw, 250px);
+    line-height: 0.8;
+    text-transform: uppercase;
+    letter-spacing: -0.04em;
+}
+
+.hero-img-wrap {
+    position: absolute;
+    top: 50%;
+    left: 20%;
+    transform: translateY(-50%);
+    width: 50vw;
+    height: 70vh;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%);
+    animation: zoomOut 10s infinite alternate;
+}
+
+@keyframes zoomOut {
+    from {
+        transform: scale(1.2);
+    }
+
+    to {
+        transform: scale(1.0);
+    }
+}
+
+.hero-copy {
+    position: absolute;
+    bottom: 5vh;
+    left: 4vw;
+    max-width: 400px;
+    z-index: 10;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    line-height: 1.5;
+    letter-spacing: 0.5px;
+}
+
+/* [MANIFESTO SYSTEM] */
+.sec-manifesto {
+    padding: 15vh 0;
+}
+
+.manifesto-text {
+    font-family: var(--font-body);
+    font-size: clamp(32px, 4vw, 32px);
+    line-height: 2;
+    max-width: 90%;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    word-break: keep-all;
+}
+
+.manifesto-text span {
+    color: var(--color-brand);
+    font-style: normal;
+}
+
+/* [SERVICES SYSTEM] */
+.sec-services {
+    padding-bottom: 15vh;
+}
+
+.service-list {
+    border-top: 1px solid var(--color-text-primary);
+}
+
+.service-item {
+    border-bottom: 1px solid var(--color-text-primary);
+    padding: 4vh 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    cursor: pointer;
+    transition: 0.3s;
+    position: relative;
+}
+
+.service-item:hover {
+    color: var(--color-brand);
+    padding-left: 20px;
+}
+
+.svc-num {
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.svc-name {
+    font-size: clamp(40px, 6vw, 100px);
+    font-family: var(--font-display);
+    text-transform: uppercase;
+}
+
+.svc-desc {
+    max-width: 300px;
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    text-align: right;
+}
+
+/* [WORKS MARQUEE SYSTEM] */
+.sec-works {
+    background: #000;
+    color: #fff;
+    padding: 10vh 0;
+    overflow: hidden;
+}
+
+.marquee-track {
+    display: flex;
+    gap: 2vw;
+    width: max-content;
+    animation: slide 30s linear infinite;
+}
+
+@keyframes slide {
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+.marquee-track:hover {
+    animation-play-state: paused;
+}
+
+.work-card {
+    width: 30vw;
+    flex-shrink: 0;
+}
+
+.work-card img {
+    width: 100%;
+    height: 40vw;
+    object-fit: cover;
+    margin-bottom: 1rem;
+    filter: grayscale(100%);
+    transition: 0.5s;
+}
+
+.work-card:hover img {
+    filter: grayscale(0%);
+}
+
+.work-meta h3 {
+    font-size: 24px;
+    font-family: var(--font-display);
+    margin-bottom: 5px;
+}
+
+.work-meta p {
+    font-size: 14px;
+    color: #888;
+    text-transform: uppercase;
 }

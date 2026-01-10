@@ -1,5 +1,5 @@
 <?php
-$sub_menu = "800195";
+$sub_menu = "950195";
 include_once('./_common.php');
 define('G5_IS_ADMIN', true);
 include_once(G5_ADMIN_PATH . '/admin.lib.php');
@@ -125,7 +125,8 @@ $boards = sql_query(" select bo_table, bo_subject from {$g5['board_table']} orde
                         <select name="bs_cols" id="bs_cols" style="margin-right:20px;">
                             <?php for ($i = 1; $i <= 6; $i++) { ?>
                                 <option value="<?php echo $i; ?>" <?php echo ($bs['bs_cols'] == $i) ? 'selected' : ''; ?>>
-                                    <?php echo $i; ?>개씩 보기</option>
+                                    <?php echo $i; ?>개씩 보기
+                                </option>
                             <?php } ?>
                         </select>
 
@@ -174,18 +175,18 @@ $boards = sql_query(" select bo_table, bo_subject from {$g5['board_table']} orde
         document.getElementById('custom_name').value = custom;
 
         var generated = "";
-    if (theme && lang) {
-        generated = theme;
-        if (lang != 'kr') {
-            generated += "_" + lang;
+        if (theme && lang) {
+            generated = theme;
+            if (lang != 'kr') {
+                generated += "_" + lang;
+            }
+
+            if (custom) {
+                generated += "_" + custom;
+            } else if (bo_table) {
+                generated += "_" + bo_table;
+            }
         }
-        
-        if (custom) {
-            generated += "_" + custom;
-        } else if (bo_table) {
-            generated += "_" + bo_table;
-        }
-    }
 
         if (generated) {
             document.getElementById('generated_id_display').innerText = generated;

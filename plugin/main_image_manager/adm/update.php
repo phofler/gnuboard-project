@@ -1,8 +1,9 @@
 <?php
 define('_GNUBOARD_ADMIN_', true);
-$sub_menu = "800180";
+$sub_menu = "950180";
 include_once('./_common.php');
 include_once(G5_ADMIN_PATH . '/admin.lib.php');
+include_once(G5_LIB_PATH . '/image.lib.php');
 
 check_demo();
 auth_check_menu($auth, $sub_menu, 'w');
@@ -70,8 +71,16 @@ mi_link = '{$link}' ";
 
         // Image handling (Integrated Image Manager URL)
         if ($image_url_input) {
-            $row = sql_fetch(" select mi_image from {$data_table} where mi_id = '{$item_id}' ");
+            // 외부 URL인 경우 서버로 다운로드 시도
+            if (preg_match("/^(http|https):/i", $image_url_input) && strpos($image_url_input, G5_DATA_URL) === false) {
+                $downloaded_file = get_external_image($image_url_input, $upload_dir, 'mv_');
+                if ($downloaded_file) {
+                    $image_url_input = $downloaded_file;
+                }
+            }
 
+            $row = sql_fetch(" select mi_image from {$data_table} where mi_id = '{$item_id}' ");
+            // ... (rest of local check remains same)
             // If old image was a local file, delete it
             if ($row['mi_image'] && !preg_match("/^(http|https):/i", $row['mi_image'])) {
                 @unlink($upload_dir . '/' . $row['mi_image']);

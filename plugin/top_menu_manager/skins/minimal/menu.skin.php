@@ -15,7 +15,6 @@ echo '<link rel="stylesheet" href="' . $menu_skin_url . '/style.css?v=' . time()
     <div id="logo">
         <a href="<?php echo G5_URL ?>">
             <img src="<?php echo $logo_src; ?>" alt="<?php echo $config['cf_title']; ?>">
-            <img src="<?php echo $logo_src; ?>" alt="<?php echo $config['cf_title']; ?>">
         </a>
     </div>
 
@@ -37,7 +36,8 @@ echo '<link rel="stylesheet" href="' . $menu_skin_url . '/style.css?v=' . time()
                     continue;
                 ?>
                 <li>
-                    <a href="<?php echo $row['me_link']; ?>" target="_<?php echo $row['me_target']; ?>">
+                    <a href="<?php echo $row['me_link']; ?>"
+                        target="<?php echo $row['me_target'] ? '_' . $row['me_target'] : '_self'; ?>">
                         <?php echo $row['me_name'] ?>
                     </a>
                     <!-- Submenu (Optional) -->
@@ -45,7 +45,8 @@ echo '<link rel="stylesheet" href="' . $menu_skin_url . '/style.css?v=' . time()
                         <ul class="submenu">
                             <?php foreach ($row['sub'] as $row2) { ?>
                                 <li>
-                                    <a href="<?php echo $row2['me_link']; ?>" target="_<?php echo $row2['me_target']; ?>">
+                                    <a href="<?php echo $row2['me_link']; ?>"
+                                        target="<?php echo $row2['me_target'] ? '_' . $row2['me_target'] : '_self'; ?>">
                                         - <?php echo $row2['me_name'] ?>
                                     </a>
                                 </li>

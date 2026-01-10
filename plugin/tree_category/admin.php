@@ -1,5 +1,5 @@
 <?php
-$sub_menu = "800500";
+$sub_menu = "950500";
 include_once('./_common.php');
 define('G5_IS_ADMIN', true);
 include_once(G5_ADMIN_PATH . '/admin.lib.php');

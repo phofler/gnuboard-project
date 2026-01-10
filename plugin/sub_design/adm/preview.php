@@ -1,5 +1,6 @@
 <?php
 include_once(dirname(__FILE__) . '/../../../common.php');
+include_once(dirname(__FILE__) . '/../lib/design.lib.php');
 
 $skin = isset($_REQUEST['skin']) ? clean_xss_tags($_REQUEST['skin']) : 'standard';
 $main_text = isset($_REQUEST['main_text']) ? clean_xss_tags($_REQUEST['main_text']) : '';

@@ -11,7 +11,7 @@ if (!defined('_GNUBOARD_'))
 
 // 1. Background Color Logic
 // Use $oi_bgcolor set in form.php (Dynamic Theme Aware)
-$bg_color = (isset($oi_bgcolor) && $oi_bgcolor) ? $oi_bgcolor : '#121212';
+$bg_color = (isset($oi_bgcolor) && $oi_bgcolor && $oi_bgcolor != '#000000') ? $oi_bgcolor : get_theme_css_value($config['cf_theme'], array('--color-bg', '--color-bg-dark'), '#ffffff');
 ?>
 
 <!-- Dynamic Background & Text Styles -->

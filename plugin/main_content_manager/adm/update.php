@@ -1,7 +1,8 @@
 <?php
-$sub_menu = "800190";
+$sub_menu = "950190";
 include_once('./_common.php');
 include_once(G5_ADMIN_PATH . '/admin.lib.php');
+include_once(G5_LIB_PATH . '/image.lib.php');
 
 check_demo();
 auth_check_menu($auth, $sub_menu, 'w');
@@ -130,6 +131,14 @@ if (isset($_POST['mc_id']) && is_array($_POST['mc_id'])) {
                 $mc_common .= " , mc_image = '{$new_name}' ";
             }
         } else if ($mc_image_url) {
+            // 외부 URL인 경우 서버로 다운로드 시도
+            if (preg_match("/^(http|https):/i", $mc_image_url)) {
+                $downloaded_file = get_external_image($mc_image_url, $upload_dir, 'mc_');
+                if ($downloaded_file) {
+                    $mc_image_url = $downloaded_file;
+                }
+            }
+
             if (!$is_new) {
                 $row = sql_fetch(" select mc_image from g5_plugin_main_content where mc_id = '{$mi_id}' ");
                 if ($row['mc_image'] && !preg_match("/^(http|https):/i", $row['mc_image'])) {

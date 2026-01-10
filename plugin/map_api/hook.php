@@ -14,11 +14,11 @@ add_replace('admin_menu', 'map_api_admin_menu');
 
 function map_api_admin_menu($menu)
 {
-    // [MANAGED BY adm/admin.menu800_theme.php]
+    // [MANAGED BY adm/admin.menu950_theme.php]
     // Duplicate registration prevented.
     /*
-    $menu['menu800'][] = array(
-        '800400',
+    $menu['menu950'][] = array(
+        '950400',
         '지도 API 관리',
         MAP_API_URL . '/adm/list.php',
         'map_api_list'

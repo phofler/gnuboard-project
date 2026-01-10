@@ -13,7 +13,6 @@ echo '<link rel="stylesheet" href="' . $menu_skin_url . '/style.css?v=' . time()
 <!-- Mega Menu Skin (Basic Dark - Strict Match to menu_mega.html) -->
 <!-- Root is .gnb_wrap directly inside #hd -->
 <div class="gnb_wrap">
-
     <!-- Logo (Dynamic) -->
     <div id="logo">
         <a href="<?php echo G5_URL ?>">
@@ -29,7 +28,8 @@ echo '<link rel="stylesheet" href="' . $menu_skin_url . '/style.css?v=' . time()
                     continue;
                 ?>
                 <li class="gnb_1dli">
-                    <a href="<?php echo $row['me_link']; ?>" target="_<?php echo $row['me_target']; ?>" class="gnb_1da">
+                    <a href="<?php echo $row['me_link']; ?>"
+                        target="<?php echo $row['me_target'] ? '_' . $row['me_target'] : '_self'; ?>" class="gnb_1da">
                         <?php echo $row['me_name'] ?>
                     </a>
                 </li>
@@ -49,7 +49,8 @@ echo '<link rel="stylesheet" href="' . $menu_skin_url . '/style.css?v=' . time()
                     ?>
                     <div class="mega_col">
                         <h3>
-                            <a href="<?php echo $row['me_link']; ?>" target="_<?php echo $row['me_target']; ?>">
+                            <a href="<?php echo $row['me_link']; ?>"
+                                target="<?php echo $row['me_target'] ? '_' . $row['me_target'] : '_self'; ?>">
                                 <?php echo $row['me_name'] ?>
                             </a>
                         </h3>
@@ -61,7 +62,8 @@ echo '<link rel="stylesheet" href="' . $menu_skin_url . '/style.css?v=' . time()
                                         continue;
                                     ?>
                                     <li>
-                                        <a href="<?php echo $row2['me_link']; ?>" target="_<?php echo $row2['me_target']; ?>">
+                                        <a href="<?php echo $row2['me_link']; ?>"
+                                            target="<?php echo $row2['me_target'] ? '_' . $row2['me_target'] : '_self'; ?>">
                                             <?php echo $row2['me_name'] ?>
                                         </a>
                                         <!-- [FIX] 3rd Depth Display (Indented with Dot) -->
@@ -147,7 +149,8 @@ echo '<link rel="stylesheet" href="' . $menu_skin_url . '/style.css?v=' . time()
                     continue;
                 ?>
                 <li class="gnb_al_li">
-                    <a href="<?php echo $row['me_link']; ?>" target="_<?php echo $row['me_target']; ?>" class="gnb_al_a">
+                    <a href="<?php echo $row['me_link']; ?>"
+                        target="<?php echo $row['me_target'] ? '_' . $row['me_target'] : '_self'; ?>" class="gnb_al_a">
                         <?php echo $row['me_name'] ?>
                     </a>
                     <?php if (isset($row['sub']) && $row['sub']) { ?>
@@ -159,7 +162,8 @@ echo '<link rel="stylesheet" href="' . $menu_skin_url . '/style.css?v=' . time()
                                 $has_sub_3rd = (isset($row2['sub']) && is_array($row2['sub']) && count($row2['sub']) > 0);
                                 ?>
                                 <li style="position:relative;">
-                                    <a href="<?php echo $row2['me_link']; ?>" target="_<?php echo $row2['me_target']; ?>"
+                                    <a href="<?php echo $row2['me_link']; ?>"
+                                        target="<?php echo $row2['me_target'] ? '_' . $row2['me_target'] : '_self'; ?>"
                                         style="display:inline-block; width: <?php echo $has_sub_3rd ? '85%' : '100%'; ?>;">
                                         <?php echo $row2['me_name'] ?>
                                     </a>

@@ -1,5 +1,5 @@
 <?php
-$sub_menu = "800150";
+$sub_menu = "950150";
 include_once('./_common.php');
 
 define('G5_IS_ADMIN', true);

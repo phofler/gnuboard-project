@@ -6,7 +6,7 @@ include_once(dirname(__FILE__) . '/_common.php');
 include_once(dirname(__FILE__) . '/lib/latest_skin.lib.php');
 
 // Register Admin Menu
-// Register Admin Menu (Disabled - Managed by adm/admin.menu800_theme.php)
+// Register Admin Menu (Disabled - Managed by adm/admin.menu950_theme.php)
 // add_replace('admin_menu', 'latest_skin_manager_admin_menu');
 
 /*

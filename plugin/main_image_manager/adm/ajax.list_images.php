@@ -30,9 +30,39 @@ if (is_dir($upload_dir)) {
     }
 }
 
+// Sort by newest first
 usort($images, function ($a, $b) {
     return $b['time'] - $a['time'];
 });
 
-echo json_encode(array('images' => $images));
+// Calculate total size
+$total_size = 0;
+if (is_dir($upload_dir)) {
+    $files = scandir($upload_dir);
+    foreach ($files as $file) {
+        if ($file === '.' || $file === '..')
+            continue;
+        $file_path = $upload_dir . $file;
+        if (is_file($file_path)) {
+            $total_size += filesize($file_path);
+        }
+    }
+}
+
+// Format size
+function format_byte_size($bytes)
+{
+    if ($bytes >= 1048576) {
+        return number_format($bytes / 1048576, 2) . ' MB';
+    } elseif ($bytes >= 1024) {
+        return number_format($bytes / 1024, 1) . ' KB';
+    } else {
+        return $bytes . ' bytes';
+    }
+}
+
+echo json_encode(array(
+    'images' => $images,
+    'total_size' => format_byte_size($total_size)
+));
 ?>

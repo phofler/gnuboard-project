@@ -1,5 +1,5 @@
 <?php
-$sub_menu = "800250";
+$sub_menu = "950250";
 define('G5_IS_ADMIN', true); // 관리자 페이지임을 알림 (중요)
 
 include_once('../../../common.php');
@@ -11,7 +11,7 @@ if (!defined('G5_IS_ADMIN')) {
 
 if ($is_admin != 'super') {
     // 메뉴 권한 체크
-    // $sub_menu(800250) 또는 그룹(800) 권한 확인
+    // $sub_menu(950250) 또는 그룹(950) 권한 확인
     $menu_key = substr($sub_menu, 0, 3);
     if (!isset($auth[$sub_menu]) && (!isset($auth[$menu_key]) || strpos($auth[$menu_key], 'r') === false)) {
         alert('글을 읽을 권한이 없습니다.');

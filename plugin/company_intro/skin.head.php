@@ -150,10 +150,29 @@ if (file_exists($skin_file)) {
             }
         }
     }
+
+    // [HOT-FIX] High Fidelity Sync for Legacy DB Content
+    // This ensures that even if the user has hardcoded styles in the DB, they follow the theme.
+    $fidelity_filters = array(
+        'max-width: var(--spacing-container, 1400px); margin: 0 auto;' => '',
+        'max-width: var(--spacing-container, 1360px); margin: 0 auto;' => '',
+        'max-width: var(--spacing-container, 1400px);' => '',
+        'padding: 100px 5vw;' => 'padding: var(--spacing-section) var(--container-padding);',
+        'padding: 120px 5vw;' => 'padding: var(--spacing-section) var(--container-padding);',
+        'padding: 10vh 5vw;' => 'padding: var(--spacing-section) var(--container-padding);',
+        'section class="editorial-intro-section"' => 'section class="editorial-intro-section container"',
+        'section class="editorial-team-section"' => 'section class="editorial-team-section container"',
+        'font-size: clamp(24px, 3vw, 32px); line-height: 1.7; font-weight: 500; color: var(--color-text-primary, #050505); letter-spacing: -0.01em;' => '', /* Remove inline, use class */
+        'class="editorial-lead-text"' => 'class="editorial-lead-text big-lead"',
+        '#050505' => 'var(--color-text-primary)',
+        '#555555' => 'var(--color-text-secondary)',
+        '#000000' => 'var(--color-text-primary)'
+    );
+    $view_content = str_replace(array_keys($fidelity_filters), array_values($fidelity_filters), $view_content);
 } else {
     $view_content = '스킨 파일이 존재하지 않습니다.';
 }
 
 // 4. Background Color Helper
-$bg_color = (isset($co_row['co_bgcolor']) && $co_row['co_bgcolor']) ? $co_row['co_bgcolor'] : get_theme_css_value($config['cf_theme'], array('--color-bg', '--color-bg-dark'), '#121212');
+$bg_color = (isset($co_row['co_bgcolor']) && $co_row['co_bgcolor'] && $co_row['co_bgcolor'] != '#000000') ? $co_row['co_bgcolor'] : get_theme_css_value($config['cf_theme'], array('--color-bg', '--color-bg-dark'), '#F3F3F3');
 ?>

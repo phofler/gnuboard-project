@@ -1,0 +1,180 @@
+<div class="editorial-full-package sub-design-isolation-wrap">
+    <style>
+        /* [High Fidelity Sync] Italiana & Manrope Inheritance */
+        .editorial-full-package {
+            --f-display: 'Italiana', serif;
+            --f-body: 'Manrope', 'Noto Sans KR', sans-serif;
+            --c-brand: #FF3B30;
+            font-family: var(--f-body);
+        }
+
+        .editorial-full-package h2,
+        .editorial-full-package .page-title {
+            font-family: var(--f-display) !important;
+        }
+    </style>
+
+    <!-- 1. Editorial Intro Section -->
+    <section class="editorial-intro-section container"
+        style="padding: var(--spacing-section) var(--container-padding);">
+        <div style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 5vw; align-items: start;">
+            <div data-aos="fade-up">
+                <span
+                    style="display: block; width: 50px; height: 2px; background: var(--c-brand); margin-top: 20px;"></span>
+            </div>
+            <div class="editorial-lead-text" data-aos="fade-up" data-aos-delay="300"
+                style="font-size: clamp(24px, 2.5vw, 24px); line-height: 1.8; font-weight: 500; color: var(--color-text-primary);">
+                우리는 진정한 럭셔리가 <b style="color: var(--c-brand); font-weight: 600;">덜어냄(Reduction)</b>에 있다고
+                믿습니다.<br>
+                소음으로 가득 찬 세상에서 우리는 고요를 창조합니다.<br>
+                우리의 디자인 철학은 '디지털 브루탈리즘'에 뿌리를 두고 있습니다. —<br>
+                가공되지 않은 정직함, 그리고 무엇보다 강력한 힘을 지닌 본질적인 아름다움입니다.
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Editorial Image Section -->
+    <section class="editorial-image-section container"
+        style="padding: 0 var(--container-padding) var(--spacing-section);">
+        <style>
+            .editorial-img-link {
+                display: block;
+                width: 100%;
+                height: 70vh;
+                min-height: 500px;
+                overflow: hidden;
+                position: relative;
+                background: #eee;
+            }
+
+            .editorial-img-link img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                filter: grayscale(100%);
+                transition: 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+            }
+
+            .editorial-img-link:hover img {
+                filter: grayscale(0%);
+                transform: scale(1.03);
+            }
+        </style>
+        <div class="editorial-img-link" data-aos="zoom-in" data-aos-duration="1200">
+            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop"
+                alt="Editorial Image">
+        </div>
+    </section>
+
+    <!-- 3. Editorial Overview Section -->
+    <section class="editorial-overview-section container"
+        style="padding: var(--spacing-section) var(--container-padding);">
+        <div class="t-h2" data-aos="fade-up"
+            style="font-size: 40px; border-bottom: 1px solid var(--color-text-primary); padding-bottom: 20px; margin-bottom: 60px; font-family: var(--f-display);">
+            Company Overview</div>
+
+        <style>
+            .overview-table-grid {
+                border-top: 2px solid #000;
+                margin-bottom: 15vh;
+            }
+
+            .overview-row {
+                display: grid;
+                grid-template-columns: 200px 1fr;
+                border-bottom: 1px solid #ddd;
+                padding: 20px 0;
+                align-items: center;
+            }
+
+            .overview-label {
+                font-weight: 700;
+                color: var(--color-text-primary);
+            }
+
+            .overview-value {
+                color: var(--color-text-secondary);
+            }
+        </style>
+
+        <div class="overview-table-grid" data-aos="fade-up" data-aos-delay="200">
+            <div class="overview-row">
+                <div class="overview-label">회사명</div>
+                <div class="overview-value">앤티그래비티 (Antigravity Inc.)</div>
+            </div>
+            <div class="overview-row">
+                <div class="overview-label">대표이사</div>
+                <div class="overview-value">이지훈</div>
+            </div>
+            <div class="overview-row">
+                <div class="overview-label">설립일</div>
+                <div class="overview-value">2024년 1월 1일</div>
+            </div>
+            <div class="overview-row">
+                <div class="overview-label">주요사업</div>
+                <div class="overview-value">웹 에이전시, UI/UX 디자인, 브랜드 컨설팅, SI 개발</div>
+            </div>
+            <div class="overview-row">
+                <div class="overview-label">주소</div>
+                <div class="overview-value">서울시 강남구 테헤란로 123, 앤티그래비티 빌딩 4층</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Editorial Team Section -->
+    <section class="editorial-team-section container" style="padding: var(--spacing-section) var(--container-padding);">
+        <div class="t-h2" data-aos="fade-up"
+            style="font-size: 40px; border-bottom: 1px solid var(--color-text-primary); padding-bottom: 20px; margin-bottom: 60px; font-family: var(--f-display);">
+            Our Team</div>
+        <div class="team-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2vw;">
+            <style>
+                .team-card-premium {
+                    border-left: 1px solid #ddd;
+                    padding-left: 20px;
+                    min-height: 300px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    transition: 0.3s;
+                }
+
+                .team-card-premium:hover {
+                    background: #fff;
+                    padding: 20px;
+                    border-left-color: transparent;
+                    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+                }
+            </style>
+            <div class="team-card-premium" data-aos="fade-up" data-aos-delay="100">
+                <div>
+                    <div
+                        style="font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--c-brand); margin-bottom: 10px;">
+                        Creative Director</div>
+                    <div style="font-size: 32px; font-family: var(--f-display); margin-bottom: 20px;">김태훈</div>
+                </div>
+                <div style="font-size: 14px; color: var(--color-text-secondary); line-height: 1.6;">"디자인은 단순히 예쁘게 만드는 것이
+                    아닙니다. 문제를 아름답게 해결하는
+                    과정입니다."</div>
+            </div>
+            <div class="team-card-premium" data-aos="fade-up" data-aos-delay="200">
+                <div>
+                    <div
+                        style="font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--c-brand); margin-bottom: 10px;">
+                        Lead Developer</div>
+                    <div style="font-size: 32px; font-family: var(--f-display); margin-bottom: 20px;">이소연</div>
+                </div>
+                <div style="font-size: 14px; color: #555; line-height: 1.6;">"코드는 기계가 이해하는 언어로 쓰인 시(Poetry)입니다."</div>
+            </div>
+            <div class="team-card-premium" data-aos="fade-up" data-aos-delay="300">
+                <div>
+                    <div
+                        style="font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--c-brand); margin-bottom: 10px;">
+                        Art Director</div>
+                    <div style="font-size: 32px; font-family: var(--f-display); margin-bottom: 20px;">박민수</div>
+                </div>
+                <div style="font-size: 14px; color: #555; line-height: 1.6;">"모든 픽셀에는 이유가 있어야 합니다. 단순함이야말로 궁극의 정교함입니다."
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

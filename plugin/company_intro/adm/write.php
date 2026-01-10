@@ -305,9 +305,9 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                             'recruit_c' => '채용정보 C',
                                             'location' => '오시는 길 A',
                                             'location_c' => '오시는 길 C',
-                                            'instinct' => 'Instinct (서브 히어로)',
                                             'overview' => 'Overview (회사 개요)',
                                             'team' => 'Team (임원진 소개)',
+                                            'editorial_full' => 'Editorial Full (통합 패키지)',
                                         );
                                         echo isset($skin_names[$co['co_skin']]) ? $skin_names[$co['co_skin']] : $co['co_skin'];
                                         ?>
@@ -419,15 +419,30 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                             </style>
                             <input type="hidden" name="co_skin" id="co_skin" value="<?php echo $co['co_skin']; ?>">
 
-                            <div class="skin-category-title"><i class="fa fa-building" style="color:#3498db;"></i> 회사개요 /
-                                인사말 / 비젼
+                            <div class="skin-category-title"><i class="fa fa-building" style="color:#3498db;"></i> 회사개요
+                                (Company Overview)
                                 <a href="../?co_id=<?php echo $co['co_id']; ?>" target="_blank" class="btn btn_02"
                                     style="float:right; font-weight:normal; font-size:12px; padding:5px 10px;">페이지 보기 <i
                                         class="fa fa-external-link-alt"></i></a>
                             </div>
                             <div class="skin-selector-container">
                                 <?php
-                                $skins_v1 = array(
+                                $skins_v1_overview = array(
+                                    'editorial_full' => array('Editorial Full (통합)', 'fa-gem'),
+                                    'overview' => array('Overview (회사 개요)', 'fa-info-circle'),
+                                );
+                                foreach ($skins_v1_overview as $sk => $sd) {
+                                    $act = ($co['co_skin'] == $sk) ? 'active' : '';
+                                    echo '<div class="skin-card ' . $act . '" onclick="select_ci_skin(\'' . $sk . '\', this)"><div class="skin-badge"></div><i class="fa ' . $sd[1] . '"></i><div class="skin-name">' . $sd[0] . '</div></div>';
+                                }
+                                ?>
+                            </div>
+
+                            <div class="skin-category-title"><i class="fa fa-comment-dots" style="color:#2980b9;"></i> 인사말 /
+                                비젼 (Greetings & Vision)</div>
+                            <div class="skin-selector-container">
+                                <?php
+                                $skins_v1_greetings = array(
                                     'type_a' => array('Type A', 'fa-id-card'),
                                     'type_a_1' => array('Type A-1 (CEO)', 'fa-user-tie'),
                                     'type_a_2' => array('Type A-2 (Vision)', 'fa-lightbulb'),
@@ -437,10 +452,8 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                     'type_c' => array('Type C', 'fa-align-center'),
                                     'type_c_1' => array('Type C-1 (CEO)', 'fa-user-tie'),
                                     'type_c_2' => array('Type C-2 (Vision)', 'fa-lightbulb'),
-                                    'instinct' => array('Instinct (서브 히어로)', 'fa-quote-left'),
-                                    'overview' => array('Overview (회사 개요)', 'fa-info-circle'),
                                 );
-                                foreach ($skins_v1 as $sk => $sd) {
+                                foreach ($skins_v1_greetings as $sk => $sd) {
                                     $act = ($co['co_skin'] == $sk) ? 'active' : '';
                                     echo '<div class="skin-card ' . $act . '" onclick="select_ci_skin(\'' . $sk . '\', this)"><div class="skin-badge"></div><i class="fa ' . $sd[1] . '"></i><div class="skin-name">' . $sd[0] . '</div></div>';
                                 }
@@ -493,6 +506,7 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                 }
                                 ?>
                             </div>
+
 
                             <!-- [NEW] Main Sections Group -->
                             <div class="skin-category-title"><i class="fa fa-star" style="color:#9b59b6;"></i> 메인 섹션 전용
@@ -557,6 +571,16 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                     </td>
                 </tr>
                 <tr>
+                    <th scope="row">배경색</th>
+                    <td>
+                        <input type="text" name="co_bgcolor"
+                            value="<?php echo ($co['co_bgcolor'] && $co['co_bgcolor'] != '#000000') ? $co['co_bgcolor'] : $theme_bg_default; ?>"
+                            id="co_bgcolor" class="frm_input" size="10">
+                        <span class="frm_info">※ 페이지 전체 배경색입니다. 비워두면 테마 기본색(<?php echo $theme_bg_default; ?>)이
+                            적용됩니다.</span>
+                    </td>
+                </tr>
+                <tr>
                     <th scope="row">내용</th>
                     <td>
                         <?php echo editor_html('co_content', get_text($co['co_content'], 0)); ?>
@@ -593,23 +617,19 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
 
                 styleTag.innerHTML = `
                     html, body.se2_input_area { 
-                        background-color: var(--color-bg-dark, #121212) !important; 
-                        color: var(--color-text-primary, #e0e0e0) !important; 
+                        background-color: var(--color-bg, #ffffff) !important; 
+                        color: var(--color-text-primary, #121212) !important; 
                         margin: 0 !important;
                         padding: 0 !important;
                     }
-                    body.se2_input_area { padding: 20px !important; }
-                    body.se2_input_area a { color: var(--color-accent-gold, #d4af37) !important; }
+                    body.se2_input_area { padding: 40px !important; }
+                    body.se2_input_area a { color: var(--color-brand, #ff3b30) !important; }
                     /* Force background for all direct children if they cover the area */
                     body.se2_input_area > * { background-color: transparent !important; }
                 `;
 
                 // Backup direct JS styling for immediate effect
-                doc.body.style.backgroundColor = '#121212'; // Immediate fallback
-                setTimeout(function () {
-                    // Try to use CSS variable if possible, otherwise keep fallback
-                    doc.body.style.backgroundColor = '';
-                }, 100);
+                doc.body.style.backgroundColor = '<?php echo $theme_bg_default; ?>';
 
                 // 2. Inject Theme CSS (For Variables & Fonts)
                 if (!doc.getElementById('theme_css_injection')) {
@@ -895,11 +915,11 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                 var enforceCount = 0;
                 var enforceInterval = setInterval(function () {
                     update_editor_background();
-                    forceResizeEditor(); // Apply height resize continuously during init
-                    if (enforceCount++ > 15) {
+                    forceResizeEditor();
+                    if (enforceCount++ > 3) { // Reduced from 15 to 3 to prevent flickering
                         clearInterval(enforceInterval);
                     }
-                }, 400);
+                }, 500);
             }, 500);
         }
 

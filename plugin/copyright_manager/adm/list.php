@@ -1,7 +1,7 @@
 <?php
 include_once('./_common.php');
 
-$sub_menu = "800350";
+$sub_menu = "950350";
 $g5['title'] = '카피라이트 관리';
 include_once(G5_ADMIN_PATH . '/admin.head.php');
 

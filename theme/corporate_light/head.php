@@ -123,39 +123,34 @@ if (!defined('_INDEX_')) {
     } elseif ($nav_1st_name) {
         $hero_title = $nav_1st_name;
     }
-
-    // [Dynamic Skin Loading] Render the selected Sub Design skin (Zero-Gap Fix)
-    display_sub_design($current_me_code);
-    ?>
-
-    <div class="breadcrumb">
-        <div class="breadcrumb-inner">
-            <span>Home</span>
-            <?php
-            if ($nav_1st_name) {
-                echo ' &gt; <span>' . $nav_1st_name . '</span>';
-            }
-            if ($nav_2nd_name) {
-                echo ' &gt; <span class="current">' . $nav_2nd_name . '</span>';
-            }
-            ?>
-        </div>
-    </div>
-
-    <?php
 }
-
 ?>
 
 <!-- 肄섑뀗痢??쒖옉 { -->
 <!-- 콘텐츠 시작 { -->
 <div id="wrapper" <?php echo (defined('_INDEX_')) ? '' : ' class="sub-layout-light"'; ?>>
+    <?php
+    if (!defined('_INDEX_')) {
+        // [Dynamic Skin Loading] Render the selected Sub Design skin inside #wrapper
+        display_sub_design($current_me_code);
+    }
+    ?>
     <!-- container_wr removed/simplified for full width hero support in index -->
-    <div id="container_wr">
-        <div id="container">
-            <?php if (!defined('_INDEX_')) { ?>
-                <!-- [STANDARD] Sub Page Layout Wrapper (Padding: 60px, Width: 1400px) -->
-                <!-- This wrapper handles all vertical spacing and alignment -->
-                <!-- Do NOT use internal padding in skin files to avoid double padding -->
-                <div class="sub-layout-width-height">
-                <?php } ?>
+    <?php if (!defined('_NO_CONTAINER_')) { ?>
+        <div id="container_wr">
+            <div id="container">
+                <?php if (!defined('_INDEX_')) {
+                    // Determine Layout (Sidebar vs. Full)
+                    $sd_layout = isset($sub_design['sd_layout']) ? $sub_design['sd_layout'] : 'full';
+
+                    if ($sd_layout == 'sidebar') {
+                        echo '<div class="sub-layout-body">' . PHP_EOL;
+                        echo '<aside class="sub-sidebar">' . PHP_EOL;
+                        include_once(G5_THEME_PATH . '/skin/sidebar/standard.php');
+                        echo '</aside>' . PHP_EOL;
+                        echo '<main class="sub-content">' . PHP_EOL;
+                    } else {
+                        echo '<div class="sub-layout-full">' . PHP_EOL;
+                    }
+                } ?>
+            <?php } // End !defined('_NO_CONTAINER_') ?>

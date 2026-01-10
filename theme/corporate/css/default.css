@@ -1,52 +1,59 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500;700&family=Italiana&family=Manrope:wght@200;300;400;500;600;800&display=swap');
 
-:root {
-    /* Color Palette */
-    --color-bg-dark: #121212;
-    --color-bg-panel: #1e1e1e;
-    --color-text-primary: #e0e0e0;
-    --color-text-secondary: #a0a0a0;
+/* [MENU PALETTE] Defined by Theme */
+--color-header-bg: #F3F3F3;
+--color-header-border: transparent;
+--color-menu-bg: #FFFFFF;
+--color-menu-text: #1a1a1a;
+--color-menu-text-hover: #000000;
+--color-menu-hover-bg: rgba(0, 0, 0, 0.02);
+--color-menu-hover-text: #000000;
+--color-menu-subtext: #666666;
+--color-menu-border: rgba(0, 0, 0, 0.05);
 
-    /* [SMART INHERITANCE] RGB definitions for Opacity Control */
-    --color-accent-gold: #d4af37;
-    --color-accent-gold-rgb: 212, 175, 55;
-    /* For rgba(var(--...), 0.x) */
+--color-brand: #FF3B30;
+/* Electric Red */
+--color-bg-footer: var(--color-brand);
 
-    --color-accent-gold-hover: #f0c04a;
-    --color-metal-light: #4a4a4a;
-    --color-metal-dark: #2c2c2c;
-    --color-wood: #3e2723;
+/* [ULTIMATE LIGHT PALETTE] - Prototype Sync */
+--color-bg: #F3F3F3;
+--color-text-primary: #050505;
+--color-text-secondary: #555555;
+--color-border-light: #D1D1D1;
 
-    /* Gradients */
-    --gradient-metal: linear-gradient(135deg, #4a4a4a 0%, #2c2c2c 100%);
-    --gradient-gold: linear-gradient(135deg, #d4af37 0%, #a08020 100%);
+/* [SMART INHERITANCE] */
+--color-accent-gold: var(--color-brand);
+--color-accent-gold-rgb: 255,
+59,
+48;
 
-    /* [TYPOGRAPHY Semantic Mapping] Individual Control */
-    --color-title-main: var(--color-accent-gold);
-    --color-title-sub: var(--color-text-primary);
+/* Typography - Prototype Sync */
+--font-serif: 'Italiana',
+serif;
+--font-en: 'Manrope',
+sans-serif;
+--font-heading: var(--font-serif);
+--font-body: var(--font-en),
+'Noto Sans KR',
+sans-serif;
 
-    /* Typography */
-    --font-heading: 'Noto Sans KR', 'Malgun Gothic', 'Dotum', sans-serif;
-    --font-body: 'Noto Sans KR', 'Malgun Gothic', 'Dotum', sans-serif;
+/* Spacing (Fidelity Sync: 1360px / 5vw / 10vh) */
+--spacing-container-main: 1920px;
+--spacing-container-sub: 1360px;
+--padding-main: 4vw;
+--padding-sub: 5vw;
 
-    /* Spacing */
-    --spacing-container: 1400px;
-    --spacing-section: 60px;
-    --header-height: 90px;
-    --sub-hero-height: 60vh;
-    /* Standard Subpage Visual Height */
+--spacing-container: var(--spacing-container-sub);
+/* Default to Sub standards */
+--container-padding: var(--padding-sub);
+--spacing-section: 10vh;
+--header-height: 100px;
+/* Prototype Sync: 100px */
+--sub-hero-height: 60vh;
 
-    /* [MENU PALETTE] Defined by Theme */
-    --color-menu-bg: #1a1a1a;
-    --color-menu-text: #e0e0e0;
-    --color-menu-text-hover: #d4af37;
-    --color-menu-hover-bg: #d4af37;
-    /* Gold background on hover */
-    --color-menu-hover-text: #000000;
-    /* Black text on gold bg */
-    --color-menu-subtext: #a0a0a0;
-    --color-menu-border: rgba(255, 255, 255, 0.1);
-}
+/* Responsive Adjustments (Internal Tokens) */
+--mobile-padding: 20px;
+--mobile-section-spacing: 60px;
 
 
 
@@ -58,12 +65,23 @@
 }
 
 body {
-    background-color: var(--color-bg-dark);
+    background-color: var(--color-bg);
     color: var(--color-text-primary);
     font-family: var(--font-body);
     font-size: 16px;
     line-height: 1.6;
     overflow-x: hidden;
+}
+
+/* Responsive Scaling for Spacing */
+@media (max-width: 768px) {
+    :root {
+        --container-padding: var(--mobile-padding);
+        --padding-main: var(--mobile-padding);
+        --padding-sub: var(--mobile-padding);
+        --spacing-section: var(--mobile-section-spacing);
+        --header-height: 70px;
+    }
 }
 
 /* Sub Layout (Light Theme for Editor Compatibility) */
@@ -125,11 +143,23 @@ h6 {
     overflow: hidden;
 }
 
-/* Utility Classes */
+/* Utility Classes - Layout Sovereignty */
 .container {
+    width: 100%;
     max-width: var(--spacing-container);
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 var(--container-padding);
+}
+
+/* Master Differentiator: Main vs Sub */
+#wrapper:not(.sub-layout-light) .container {
+    max-width: var(--spacing-container-main);
+    padding: 0 var(--padding-main);
+}
+
+#wrapper.sub-layout-light .container {
+    max-width: var(--spacing-container-sub);
+    padding: 0 var(--padding-sub);
 }
 
 /* Master Sub-page Content Gutter (Hub) */
@@ -191,29 +221,45 @@ h6 {
     text-overflow: ellipsis;
 }
 
-/* Header & Navigation */
+/* Header & Navigation - Prototype Sync */
 #hd {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: var(--header-height);
-    background: rgba(18, 18, 18, 0.9);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: transparent;
+    /* Main often exclusion/transparent */
+    border-bottom: 0;
     z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+#wrapper.sub-layout-light #hd {
+    background: var(--color-header-bg);
+    border-bottom: 1px solid var(--color-border-light);
 }
 
 #hd_wrapper {
     width: 100%;
+    height: 100%;
     max-width: var(--spacing-container);
+    /* Automatically respects Main/Sub via .container logic if applied, but here we set explicitly */
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 30px;
+    padding: 0 var(--container-padding);
+}
+
+#wrapper:not(.sub-layout-light) #hd_wrapper {
+    max-width: var(--spacing-container-main);
+    padding: 0 var(--padding-main);
+}
+
+#wrapper.sub-layout-light #hd_wrapper {
+    max-width: var(--spacing-container-sub);
+    padding: 0 var(--padding-sub);
 }
 
 #logo a {
@@ -536,13 +582,19 @@ h6 {
     z-index: 1;
 }
 
-/* Footer structure for now is simple */
+/* Footer - Final Sync */
 #ft {
-    background: #0a0a0a;
-    border-top: 1px solid #333;
-    padding: 60px 0;
-    text-align: center;
-    color: var(--color-text-secondary);
+    background: var(--color-brand);
+    color: #fff;
+    padding: 10vh var(--container-padding) 5vh;
+    min-height: 50vh;
+    text-align: left;
+    /* Editorial Style */
+}
+
+#wrapper:not(.sub-layout-light) #ft {
+    min-height: 80vh;
+    /* Higher for Main per prototype */
 }
 
 #ft p {

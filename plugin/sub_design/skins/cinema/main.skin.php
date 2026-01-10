@@ -3,7 +3,7 @@ if (!defined('_GNUBOARD_'))
     exit;
 
 // cinema skin - Immersive, high-contrast cinematic hero
-$sd_img_url = $item['sd_visual_url'] ? $item['sd_visual_url'] : G5_DATA_URL . '/sub_visual/' . $item['sd_visual_img'];
+$sd_img_url = get_sub_design_image_url($item);
 $main_text = $item['sd_main_text'] ? $item['sd_main_text'] : $g5['title'];
 $sub_text = $item['sd_sub_text'];
 ?>

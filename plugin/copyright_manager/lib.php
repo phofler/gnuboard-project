@@ -7,11 +7,10 @@ if (!defined('_GNUBOARD_'))
  */
 function get_theme_default_bgcolor($theme_name)
 {
-    if (strpos($theme_name, 'light') !== false) {
-        return '#FF3B30'; // Prototype Red (Electric Red)
-    } else {
-        return '#121212';
-    }
+    // [THEME SOVEREIGNTY] Use get_theme_css_value to dynamically fetch 
+    // the primary background color of the selected theme.
+    include_once(G5_PATH . '/lib/theme_css.lib.php');
+    return get_theme_css_value($theme_name, array('--color-bg', '--color-bg-dark'), '#ffffff');
 }
 
 function get_copyright_config($cp_id = '')
@@ -154,7 +153,7 @@ function display_footer_info($cp_id = '')
         echo '<link rel="stylesheet" href="' . $skin_url . '/style.css?ver=' . time() . '">' . PHP_EOL;
     }
 
-    $bg_color = (isset($cp['cp_bgcolor']) && $cp['cp_bgcolor']) ? $cp['cp_bgcolor'] : '';
+    $bg_color = (isset($cp['cp_bgcolor']) && $cp['cp_bgcolor'] && $cp['cp_bgcolor'] != '#000000') ? $cp['cp_bgcolor'] : '';
     $bg_style = $bg_color ? "background-color:{$bg_color}; --cp-bg:{$bg_color};" : "";
 
     echo '<div class="copyright-manager-wrapper" style="' . $bg_style . '">';

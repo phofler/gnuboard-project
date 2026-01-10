@@ -1,5 +1,5 @@
 <?php
-$sub_menu = '800300';
+$sub_menu = '950300';
 define('G5_IS_ADMIN', true); // 관리자 위젯 및 CSS 로드를 위해 정의
 include_once(dirname(__FILE__) . '/../_common.php'); // plugin/_common.php
 

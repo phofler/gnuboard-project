@@ -1,6 +1,6 @@
 <?php
 define('_GNUBOARD_ADMIN_', true);
-$sub_menu = "800180";
+$sub_menu = "950180";
 include_once('./_common.php');
 auth_check_menu($auth, $sub_menu, 'w');
 

@@ -20,6 +20,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $skin_url . '/style.css?v=' . t
             </a>
         </div>
 
+
         <!-- Navigation (Bottom) -->
         <nav id="gnb">
             <ul id="gnb_1dul">
@@ -30,7 +31,8 @@ add_stylesheet('<link rel="stylesheet" href="' . $skin_url . '/style.css?v=' . t
                     $is_wide = ($has_sub && count($row['sub']) >= 10);
                     ?>
                     <li class="gnb_1dli">
-                        <a href="<?php echo $row['me_link']; ?>" target="_<?php echo $row['me_target']; ?>" class="gnb_1da">
+                        <a href="<?php echo $row['me_link']; ?>"
+                            target="<?php echo $row['me_target'] ? '_' . $row['me_target'] : '_self'; ?>" class="gnb_1da">
                             <?php echo $row['me_name'] ?>
                         </a>
 
@@ -38,7 +40,8 @@ add_stylesheet('<link rel="stylesheet" href="' . $skin_url . '/style.css?v=' . t
                             <ul class="gnb_2dul <?php echo $is_wide ? 'wide-dropdown' : ''; ?>">
                                 <?php foreach ($row['sub'] as $row2) { ?>
                                     <li>
-                                        <a href="<?php echo $row2['me_link']; ?>" target="_<?php echo $row2['me_target']; ?>"
+                                        <a href="<?php echo $row2['me_link']; ?>"
+                                            target="<?php echo $row2['me_target'] ? '_' . $row2['me_target'] : '_self'; ?>"
                                             class="gnb_2da">
                                             <?php echo $row2['me_name'] ?>
                                         </a>
@@ -91,7 +94,8 @@ add_stylesheet('<link rel="stylesheet" href="' . $skin_url . '/style.css?v=' . t
                     continue;
                 ?>
                 <li class="gnb_al_li">
-                    <a href="<?php echo $row['me_link']; ?>" target="_<?php echo $row['me_target']; ?>" class="gnb_al_a">
+                    <a href="<?php echo $row['me_link']; ?>"
+                        target="<?php echo $row['me_target'] ? '_' . $row['me_target'] : '_self'; ?>" class="gnb_al_a">
                         <?php echo $row['me_name'] ?>
                     </a>
                     <?php if (isset($row['sub']) && $row['sub']) { ?>
@@ -103,7 +107,8 @@ add_stylesheet('<link rel="stylesheet" href="' . $skin_url . '/style.css?v=' . t
                                 $has_sub_3rd = (isset($row2['sub']) && is_array($row2['sub']) && count($row2['sub']) > 0);
                                 ?>
                                 <li style="position:relative;">
-                                    <a href="<?php echo $row2['me_link']; ?>" target="_<?php echo $row2['me_target']; ?>">
+                                    <a href="<?php echo $row2['me_link']; ?>"
+                                        target="<?php echo $row2['me_target'] ? '_' . $row2['me_target'] : '_self'; ?>">
                                         <?php echo $row2['me_name'] ?>
                                     </a>
                                     <?php if ($has_sub_3rd) { ?>

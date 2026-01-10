@@ -3,7 +3,7 @@ include_once('./_common.php');
 include_once('../lib.php');
 include_once(G5_EDITOR_LIB);
 
-$sub_menu = "800350";
+$sub_menu = "950350";
 $html_title = '카피라이트';
 $readonly = '';
 $table_name = G5_TABLE_PREFIX . 'plugin_copyright';
@@ -607,10 +607,10 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
 
     // 초기 로드시 및 텍스트박스 변경시 배경색 동기화
     $(function () {
-        // 초기 로드 시 지연 실행
+        // 초기 로드 시 지연 실행 (더 빠르게 반응하도록 조정)
         setTimeout(function () {
             update_editor_background($('#cp_bgcolor').val());
-        }, 1000);
+        }, 500);
 
         // 텍스트 인풋 변경 시에도 적용
         $('#cp_bgcolor').on('change keyup', function () {

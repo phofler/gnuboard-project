@@ -63,12 +63,14 @@ function display_sub_design($me_code = null)
     $skin_path = G5_PLUGIN_PATH . '/sub_design/skins/' . $skin;
     $skin_url = G5_PLUGIN_URL . '/sub_design/skins/' . $skin;
 
+    echo '<div class="sub-design-isolation-wrap">' . PHP_EOL;
     if (file_exists($skin_path . '/main.skin.php')) {
         include($skin_path . '/main.skin.php');
     } else {
         // Fallback to standard
         include(G5_PLUGIN_PATH . '/sub_design/skins/standard/main.skin.php');
     }
+    echo '</div>' . PHP_EOL;
 }
 
 /**
@@ -114,5 +116,27 @@ function _get_recursive_design($sd_id, $me_code)
     }
 
     return $item;
+}
+
+/**
+ * [NEW] Normalize Sub Design Image URL
+ */
+function get_sub_design_image_url($item)
+{
+    if (!$item)
+        return '';
+
+    $url = isset($item['sd_visual_url']) ? $item['sd_visual_url'] : '';
+    if ($url) {
+        if (preg_match("/^(http|https):/i", $url))
+            return $url;
+        return G5_DATA_URL . '/sub_visual/' . $url;
+    }
+
+    $img = isset($item['sd_visual_img']) ? $item['sd_visual_img'] : '';
+    if ($img)
+        return G5_DATA_URL . '/sub_visual/' . $img;
+
+    return '';
 }
 ?>

@@ -1,5 +1,5 @@
 <?php
-$sub_menu = "800190";
+$sub_menu = "950190";
 include_once('./_common.php');
 include_once(G5_EDITOR_LIB);
 define('G5_IS_ADMIN', true);

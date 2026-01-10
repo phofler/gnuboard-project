@@ -1,5 +1,5 @@
 <?php
-$sub_menu = '800200';
+$sub_menu = '950200';
 include_once('./_common.php');
 define('G5_IS_ADMIN', true);
 include_once(G5_ADMIN_PATH . '/admin.lib.php');
@@ -96,8 +96,10 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                     }
 
                     // Re-verify against database columns if they exist (Sub Design specific)
-                    if (isset($sd['sd_theme']) && $sd['sd_theme']) $sel_theme = $sd['sd_theme'];
-                    if (isset($sd['sd_lang']) && $sd['sd_lang']) $sel_lang = $sd['sd_lang'];
+                    if (isset($sd['sd_theme']) && $sd['sd_theme'])
+                        $sel_theme = $sd['sd_theme'];
+                    if (isset($sd['sd_lang']) && $sd['sd_lang'])
+                        $sel_lang = $sd['sd_lang'];
                 }
                 ?>
                 <tr>
@@ -293,7 +295,7 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                 'cinema' => '1920 x 1080 px (FULL)',
                                 'works_dark' => '1920 x 800 px',
                                 'minimal' => '1920 x 600 px',
-                                'instinct' => 'instinct Editorial'
+                                'instinct' => '500 x 500 px (EDITORIAL)'
                             );
                             foreach ($skins as $skin) {
                                 $active = (isset($sd['sd_skin']) && $skin == $sd['sd_skin']) ? 'active' : '';
@@ -387,7 +389,7 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
             'cinema': '1920 x 1080 px (FULL)',
             'works_dark': '1920 x 800 px',
             'minimal': '1920 x 600 px',
-            'instinct': 'instinct Editorial'
+            'instinct': '500 x 500 px (EDITORIAL)'
         };
         $('#selected_skin_size').text(sizes[skin]);
     }
@@ -428,12 +430,13 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
             'standard': { w: 1920, h: 450 },
             'cinema': { w: 1920, h: 1080 },
             'works_dark': { w: 1920, h: 800 },
-            'minimal': { w: 1920, h: 600 }
+            'minimal': { w: 1920, h: 600 },
+            'instinct': { w: 500, h: 500 }
         };
         var w = dims[skin] ? dims[skin].w : 1920;
         var h = dims[skin] ? dims[skin].h : 600;
 
-        var url = '<?php echo G5_PLUGIN_URL; ?>/main_image_manager/adm/image_manager.php?w=' + w + ' & h =' + h + '&v=' + Date.now();
+        var url = '<?php echo G5_PLUGIN_URL; ?>/main_image_manager/adm/image_manager.php?w=' + w + '&h=' + h + '&v=' + Date.now();
         document.getElementById('unsplash_iframe').src = url;
         document.getElementById('unsplash_modal').style.display = 'flex';
     }

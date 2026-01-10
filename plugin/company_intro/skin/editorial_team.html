@@ -1,0 +1,64 @@
+<section class="editorial-team-section container" style="padding: var(--spacing-section) var(--container-padding);">
+    <style>
+        .editorial-team-section {
+            --f-display: 'Italiana', serif;
+            --c-brand: #FF3B30;
+        }
+
+        .team-card-premium {
+            border-left: 1px solid #ddd;
+            padding-left: 20px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: 0.3s;
+        }
+
+        .team-card-premium:hover {
+            background: #fff;
+            padding: 20px;
+            border-left-color: transparent;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+
+    <div class="t-h2" data-aos="fade-up"
+        style="font-size: 40px; border-bottom: 1px solid var(--color-text-primary); padding-bottom: 20px; margin-bottom: 60px; font-family: var(--f-display); font-weight: 400; text-transform: uppercase;">
+        Our Team</div>
+
+    <div class="team-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2vw;">
+        <!-- Member 1 -->
+        <div class="team-card-premium" data-aos="fade-up" data-aos-delay="100">
+            <div>
+                <div
+                    style="font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--c-brand); margin-bottom: 10px;">
+                    Creative Director</div>
+                <div style="font-size: 32px; font-family: var(--f-display); margin-bottom: 20px;">김태훈</div>
+            </div>
+            <div style="font-size: 14px; color: #555; line-height: 1.6;">"디자인은 단순히 예쁘게 만드는 것이 아닙니다. 문제를 아름답게 해결하는
+                과정입니다."</div>
+        </div>
+        <!-- Member 2 -->
+        <div class="team-card-premium" data-aos="fade-up" data-aos-delay="200">
+            <div>
+                <div
+                    style="font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--c-brand); margin-bottom: 10px;">
+                    Lead Developer</div>
+                <div style="font-size: 32px; font-family: var(--f-display); margin-bottom: 20px;">이소연</div>
+            </div>
+            <div style="font-size: 14px; color: #555; line-height: 1.6;">"코드는 기계가 이해하는 언어로 쓰인 시(Poetry)입니다."</div>
+        </div>
+        <!-- Member 3 -->
+        <div class="team-card-premium" data-aos="fade-up" data-aos-delay="300">
+            <div>
+                <div
+                    style="font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--c-brand); margin-bottom: 10px;">
+                    Art Director</div>
+                <div style="font-size: 32px; font-family: var(--f-display); margin-bottom: 20px;">박민수</div>
+            </div>
+            <div style="font-size: 14px; color: #555; line-height: 1.6;">"모든 픽셀에는 이유가 있어야 합니다. 단순함이야말로 궁극의 정교함입니다."
+            </div>
+        </div>
+    </div>
+</section>

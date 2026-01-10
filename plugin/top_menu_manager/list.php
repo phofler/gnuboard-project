@@ -1,5 +1,5 @@
 <?php
-$sub_menu = "800150";
+$sub_menu = "950150";
 include_once('./_common.php');
 
 define('G5_IS_ADMIN', true);
@@ -93,8 +93,8 @@ if (isset($_GET['w']) && $_GET['w'] == 'd' && isset($_GET['tm_id'])) {
                     </td>
                     <td class="td_mng">
                         <a href="./write.php?w=u&tm_id=<?php echo $row['tm_id']; ?>" class="btn btn_03">수정</a>
-                        <a href="./list.php?w=d&tm_id=<?php echo $row['tm_id']; ?>" onclick="return confirm('정말 삭제하시겠습니까?');"
-                            class="btn btn_02">삭제</a>
+                        <a href="./list.php?w=d&tm_id=<?php echo $row['tm_id']; ?>"
+                            onclick="return confirm('정말 삭제하시겠습니까?');" class="btn btn_02">삭제</a>
                     </td>
                 </tr>
             <?php } ?>

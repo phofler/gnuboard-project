@@ -1,5 +1,5 @@
 <?php
-$sub_menu = '800300'; // Menu ID matches list.php
+$sub_menu = '950300'; // Menu ID matches list.php
 define('G5_IS_ADMIN', true);
 include_once(dirname(__FILE__) . '/../_common.php');
 

@@ -1,5 +1,5 @@
 <?php
-$sub_menu = '800300';
+$sub_menu = '950300';
 define('G5_IS_ADMIN', true);
 include_once(dirname(__FILE__) . '/../_common.php');
 
@@ -451,7 +451,7 @@ $preview_bg = (isset($row['oi_bgcolor']) && $row['oi_bgcolor']) ? $row['oi_bgcol
 
                     // Corporate 스킨인 경우 에디터 배경색 자동 조절 (Dark Mode Preview)
                     if (skin_name == 'corporate') {
-                        update_editor_bg("#121212");
+                        update_editor_bg(theme_bg_default);
                     } else {
                         update_editor_bg("#ffffff");
                     }
@@ -559,7 +559,7 @@ $preview_bg = (isset($row['oi_bgcolor']) && $row['oi_bgcolor']) ? $row['oi_bgcol
             var current_bg = $('#oi_bgcolor').val();
             if (!current_bg) current_bg = theme_bg_default;
             update_editor_bg(current_bg);
-        }, 1000);
+        }, 500);
     });
 </script>
 

@@ -1,5 +1,6 @@
 <?php
 include_once(dirname(__FILE__) . '/../../../common.php');
+include_once(dirname(__FILE__) . '/../lib/design.lib.php');
 if (!defined('G5_IS_ADMIN'))
     define('G5_IS_ADMIN', true);
 
@@ -77,7 +78,7 @@ for ($i = 0; $i < count($menus); $i++) {
     $me_name = $row['me_name'];
 
     // Fetch existing design for this group + code
-    $sd_item = array('sd_main_text' => '', 'sd_sub_text' => '', 'sd_visual_img' => '', 'sd_visual_url' => '');
+    $sd_item = array('sd_main_text' => '', 'sd_sub_text' => '', 'sd_tag' => '', 'sd_visual_img' => '', 'sd_visual_url' => '');
     if ($sd_id) {
         $found = sql_fetch(" SELECT * FROM " . G5_PLUGIN_SUB_DESIGN_ITEM_TABLE . " WHERE sd_id = '$sd_id' AND me_code = '$me_code' ");
         if ($found)
@@ -89,11 +90,11 @@ for ($i = 0; $i < count($menus); $i++) {
     $indent = 'style="padding-left:' . $indent_px . 'px; ' . ($depth > 0 ? 'font-weight:normal;' : 'font-weight:bold;') . '"';
     $display_name = ($depth > 0) ? '└ ' . $me_name : $me_name;
 
+    // [FIX] Use get_sub_design_image_url for reliable pathing
+    $sd_img_url = get_sub_design_image_url($sd_item);
     $thumb = '';
-    if ($sd_item['sd_visual_img']) {
-        $thumb = '<img src="' . G5_DATA_URL . '/sub_visual/' . $sd_item['sd_visual_img'] . '" style="height:60px; border:1px solid #ddd; object-fit:cover; width:100px;">';
-    } else if ($sd_item['sd_visual_url']) {
-        $thumb = '<img src="' . $sd_item['sd_visual_url'] . '" style="height:60px; border:1px solid #ddd; object-fit:cover; width:100px;">';
+    if ($sd_img_url) {
+        $thumb = '<img src="' . $sd_img_url . '" style="height:60px; border:1px solid #ddd; object-fit:cover; width:100px;">';
     }
     ?>
     <tr>
@@ -112,6 +113,11 @@ for ($i = 0; $i < count($menus); $i++) {
         <td>
             <input type="text" name="sd_sub_text[]" value="<?php echo get_text($sd_item['sd_sub_text']); ?>"
                 class="frm_input frm_input_full" placeholder="SUB TEXT">
+            <div style="margin-top:5px;">
+                <input type="text" name="sd_tag[]" value="<?php echo get_text($sd_item['sd_tag']); ?>"
+                    class="frm_input frm_input_full" style="background:#fffcf0; border-color:#f1e6b2;"
+                    placeholder="TAG (ex: WHO WE ARE)">
+            </div>
         </td>
         <td>
             <div style="display:flex; flex-direction:column; align-items:center; gap:5px;">

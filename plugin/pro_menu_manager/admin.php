@@ -5,7 +5,7 @@ if (!$is_admin) {
     alert('관리자만 접근 가능합니다.');
 }
 
-$sub_menu = '800160';
+$sub_menu = '950160';
 
 // [NEW] Menu Set (Language) Selection
 $menu_set = isset($_REQUEST['menu_set']) ? preg_replace('/[^a-zA-Z0-9_]/', '', $_REQUEST['menu_set']) : '';

@@ -3,9 +3,10 @@ if (!defined('_GNUBOARD_'))
     exit;
 
 // instinct skin - Editorial Asymmetric layout matching sub_ko.html
-$sd_img_url = $item['sd_visual_url'] ? $item['sd_visual_url'] : G5_DATA_URL . '/sub_visual/' . $item['sd_visual_img'];
+$sd_img_url = get_sub_design_image_url($item);
 $main_text = $item['sd_main_text'] ? $item['sd_main_text'] : $g5['title'];
 $sub_text = $item['sd_sub_text'];
+$sd_tag = $item['sd_tag'] ? $item['sd_tag'] : 'WHO WE ARE';
 ?>
 <section class="sub-hero-instinct">
     <div class="instinct-hero-wrap">
@@ -17,7 +18,7 @@ $sub_text = $item['sd_sub_text'];
                     <?php echo $g5['title']; ?>
                 </li>
             </ul>
-            <div class="instinct-sub-tag">WHO WE ARE</div>
+            <div class="instinct-sub-tag"><?php echo $sd_tag; ?></div>
         </div>
 
         <div class="instinct-hero-grid">
@@ -63,7 +64,9 @@ $sub_text = $item['sd_sub_text'];
     .instinct-breadcrumb {
         display: flex;
         gap: 20px;
+        /* Prototype Sync: L141 */
         font-size: 13px;
+        /* Prototype Sync: L142 */
         font-weight: 700;
         text-transform: uppercase;
         color: #888;
@@ -129,11 +132,13 @@ $sub_text = $item['sd_sub_text'];
     }
 
     .instinct-sub-title {
-        font-family: var(--font-heading, 'Italiana', serif);
-        font-size: 50px;
-        margin-top: 50px;
+        font-family: 'Alex Brush', cursive;
+        /* Script Font for Editorial touch */
+        font-size: 45px;
+        margin-top: 40px;
         font-weight: 400;
         color: var(--color-text-primary, #050505);
+        opacity: 0.8;
     }
 
     @media (max-width: 1024px) {

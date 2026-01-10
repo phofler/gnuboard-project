@@ -8,11 +8,11 @@ if (!defined('_GNUBOARD_'))
  */
 
 // Define standardized variables (similar to Main Content Manager)
-$mc_accent = 'var(--color-title-sub, var(--color-accent-gold, #d4af37))';
+$mc_accent = 'var(--color-brand, var(--color-accent-gold, #d4af37))';
 $mc_font_heading = 'var(--font-heading)';
-$mc_text_primary = 'var(--color-text-primary, #e0e0e0)';
-$mc_text_secondary = 'var(--color-text-secondary, #a0a0a0)';
-$mc_bg_dark = 'var(--color-bg-dark, #121212)';
+$mc_text_primary = 'var(--color-text-primary, inherit)';
+$mc_text_secondary = 'var(--color-text-secondary, inherit)';
+$mc_bg_dark = 'var(--color-bg-dark, transparent)';
 
 ?>
 <style>

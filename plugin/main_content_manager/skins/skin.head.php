@@ -17,25 +17,25 @@ $show_title = isset($ms['ms_show_title']) ? $ms['ms_show_title'] : '0';
 $ms_bg_mode = isset($ms['ms_bg_mode']) ? $ms['ms_bg_mode'] : 'default';
 switch ($ms_bg_mode) {
     case 'white':
-        $mc_bg_var = '#ffffff';
-        $mc_text_primary = '#121212';
-        $mc_text_secondary = '#666666';
+        $mc_bg_var = 'var(--color-bg-invert, #ffffff)';
+        $mc_text_primary = 'var(--color-text-invert, #121212)';
+        $mc_text_secondary = 'var(--color-text-secondary-invert, #666666)';
         break;
     case 'accent':
-        $mc_bg_var = 'var(--color-accent-gold, #d4af37)';
-        $mc_text_primary = '#000000';
-        $mc_text_secondary = '#333333';
+        $mc_bg_var = 'var(--color-brand, var(--color-accent-gold, #d4af37))';
+        $mc_text_primary = 'var(--color-text-on-accent, #000000)';
+        $mc_text_secondary = 'var(--color-text-on-accent-sub, #333333)';
         break;
     case 'deep':
-        $mc_bg_var = 'var(--color-bg-panel, #1e1e1e)';
+        $mc_bg_var = 'var(--color-bg-dark, #121212)';
         $mc_text_primary = 'var(--color-text-primary, #e0e0e0)';
         $mc_text_secondary = 'var(--color-text-secondary, #a0a0a0)';
         break;
     case 'default':
     default:
-        $mc_bg_var = 'var(--color-bg, var(--color-bg-dark, #121212))';
-        $mc_text_primary = 'var(--color-text-primary, #e0e0e0)';
-        $mc_text_secondary = 'var(--color-text-secondary, #a0a0a0)';
+        $mc_bg_var = 'var(--color-bg, #ffffff)';
+        $mc_text_primary = 'var(--color-text-primary, #121212)';
+        $mc_text_secondary = 'var(--color-text-secondary, #666666)';
         break;
 }
 

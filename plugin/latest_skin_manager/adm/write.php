@@ -1,5 +1,5 @@
 <?php
-$sub_menu = "800193"; // Matches hook.php
+$sub_menu = "950193"; // Matches hook.php
 include_once('./_common.php');
 define('G5_IS_ADMIN', true);
 include_once(G5_ADMIN_PATH . '/admin.lib.php');

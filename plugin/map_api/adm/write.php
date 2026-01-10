@@ -1,5 +1,5 @@
 <?php
-$sub_menu = "800400";
+$sub_menu = "950400";
 include_once('./_common.php');
 include_once('../lib/map.lib.php');
 include_once('./check_db.php');
