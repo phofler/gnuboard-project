@@ -1,10 +1,6 @@
 <?php
 include_once('../../common.php');
 
-// [Core Headers]
-$g5['title'] = "Company Intro";
-include_once(G5_PATH . '/head.php');
-
 // [Input Validation]
 $co_id = isset($_GET['co_id']) ? trim(clean_xss_tags($_GET['co_id'])) : '';
 
@@ -34,10 +30,18 @@ if ($co_id) {
     }
 }
 
+// [Core Headers] - Set Title BEFORE head.php
+if (isset($co_row['co_subject']) && $co_row['co_subject']) {
+    $g5['title'] = $co_row['co_subject'];
+} else {
+    $g5['title'] = "Company Intro";
+}
+
+include_once(G5_PATH . '/head.php');
+
 // [Render View]
 if (isset($co_row['co_id']) && $co_row['co_id']) {
-    // SEO Title Override
-    $g5['title'] = $co_row['co_subject'];
+    // Pass Data to View
 
     // Pass Data to View
     include(G5_PLUGIN_PATH . '/company_intro/view.php');

@@ -29,11 +29,34 @@ sql_query(" CREATE TABLE IF NOT EXISTS `{$config_table}` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ");
 
 // [Schema Update] Add columns if missing (Support for Legacy)
+// [Schema Update] Add columns if missing (Support for Legacy)
 $exists_cols = sql_query(" SHOW COLUMNS FROM {$config_table} LIKE 'bs_theme' ", false);
 if (!sql_num_rows($exists_cols)) {
     sql_query(" ALTER TABLE {$config_table} ADD `bs_theme` varchar(50) NOT NULL DEFAULT 'corporate' AFTER `bs_id` ");
     sql_query(" ALTER TABLE {$config_table} ADD `bs_lang` varchar(10) NOT NULL DEFAULT 'ko' AFTER `bs_theme` ");
     sql_query(" ALTER TABLE {$config_table} ADD INDEX `index_theme_lang` (`bs_theme`, `bs_lang`) ");
+}
+
+$exists_reg = sql_query(" SHOW COLUMNS FROM {$config_table} LIKE 'reg_date' ", false);
+if (!sql_num_rows($exists_reg)) {
+    sql_query(" ALTER TABLE {$config_table} ADD `reg_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ");
+}
+
+// [Schema Update] Full Integrity Check
+$required_cols = array(
+    'bo_table' => "varchar(50) NOT NULL AFTER `bs_lang`",
+    'bs_skin' => "varchar(50) NOT NULL AFTER `bo_table`",
+    'bs_layout' => "varchar(20) NOT NULL AFTER `bs_skin`",
+    'bs_cols' => "int(11) NOT NULL DEFAULT '4' AFTER `bs_layout`",
+    'bs_ratio' => "varchar(20) NOT NULL DEFAULT '4x3' AFTER `bs_cols`",
+    'bs_theme_mode' => "varchar(20) NOT NULL DEFAULT '' AFTER `bs_ratio`"
+);
+
+foreach ($required_cols as $col_name => $col_def) {
+    $exists = sql_query(" SHOW COLUMNS FROM {$config_table} LIKE '{$col_name}' ", false);
+    if (!sql_num_rows($exists)) {
+        sql_query(" ALTER TABLE {$config_table} ADD `{$col_name}` {$col_def} ");
+    }
 }
 
 // Filter by Search
@@ -57,6 +80,10 @@ $result = sql_query($sql);
 
 $admin_token = get_admin_token();
 ?>
+
+<div class="btn_fixed_top">
+    <a href="./write.php" class="btn btn_01">스킨 등록</a>
+</div>
 
 <div class="local_desc01 local_desc">
     <p>게시판의 <b>스킨 옵션(Display Options)</b>을 쉽고 빠르게 설정합니다.</p>
@@ -101,7 +128,7 @@ $admin_token = get_admin_token();
                     <?php echo $badge; ?>
                 </td>
                 <td class="td_left">
-                    <?php echo $bo['bo_subject']; ?>
+                    <?php echo isset($bo['bo_subject']) ? $bo['bo_subject'] : '<span style="color:#d22;">(게시판 삭제됨)</span>'; ?>
                     <span style="font-size:11px; color:#999; display:block;"><?php echo $row['bo_table']; ?></span>
                 </td>
                 <td class="td_left">

@@ -10,6 +10,13 @@ function online7_write_email_notification($board, $wr_id, $w, $qstr, $redirect_u
     global $config, $g5;
 
     // 모든 게시판에서 새글 작성 시 메일 발송이 되도록 처리합니다.
+    // [CUSTOM FIX] Exclude 'chamcode_gallery' unless explicitly mapped
+    // Or check if 'mail' checkbox was checked (but wr_option usually not verified here).
+    // Safest: Block chamcode_gallery from this hook entirely.
+    if ($board['bo_table'] == 'chamcode_gallery') {
+        return;
+    }
+
     /*
     $target_boards = array('online7', 'news');
     if (!in_array($board['bo_table'], $target_boards)) {

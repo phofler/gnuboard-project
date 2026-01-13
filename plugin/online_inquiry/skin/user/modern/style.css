@@ -104,3 +104,172 @@
     background: var(--color-accent-gold, #d4af37);
     color: #fff;
 }
+
+/* [NEW] Multi-Stage UI Styles for Modern Skin */
+.modern-steps-container {
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.modern-steps-container::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: #eee;
+    z-index: 1;
+}
+
+[data-theme="dark"] .modern-steps-container::before {
+    background: #333;
+}
+
+.modern-step-item {
+    position: relative;
+    z-index: 2;
+    background: #fff;
+    padding: 0 15px;
+    text-align: center;
+    transition: 0.3s;
+}
+
+[data-theme="dark"] .modern-step-item {
+    background: #121212;
+}
+
+.modern-step-dot {
+    width: 10px;
+    height: 10px;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    background: #fff;
+    margin: 0 auto 10px;
+    transition: 0.3s;
+}
+
+[data-theme="dark"] .modern-step-dot {
+    background: #121212;
+    border-color: #444;
+}
+
+.modern-step-item.active .modern-step-dot {
+    background: var(--color-accent-gold, #d4af37);
+    border-color: var(--color-accent-gold, #d4af37);
+    transform: scale(1.5);
+}
+
+.modern-step-item.completed .modern-step-dot {
+    background: #000;
+    border-color: #000;
+}
+
+[data-theme="dark"] .modern-step-item.completed .modern-step-dot {
+    background: #fff;
+    border-color: #fff;
+}
+
+.modern-step-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #999;
+}
+
+/* Form Stage Control */
+.modern-stage {
+    display: none;
+    animation: modernFadeIn 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+.modern-stage.active {
+    display: block;
+}
+
+@keyframes modernFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.modern-stage-title {
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 40px;
+    color: var(--color-accent-gold);
+    text-align: center;
+}
+
+.btn-modern-nav {
+    display: flex;
+    gap: 0;
+    margin-top: 50px;
+    border-top: 1px solid #eee;
+}
+
+[data-theme="dark"] .btn-modern-nav {
+    border-top-color: #333;
+}
+
+.btn-modern-prev,
+.btn-modern-next {
+    flex: 1;
+    height: 60px;
+    border: none;
+    background: transparent;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: 0.3s;
+    color: #999;
+}
+
+.btn-modern-next {
+    color: var(--color-text-primary);
+    border-left: 1px solid #eee;
+}
+
+[data-theme="dark"] .btn-modern-next {
+    border-left-color: #333;
+    color: #fff;
+}
+
+.btn-modern-prev:hover,
+.btn-modern-next:hover {
+    color: var(--color-accent-gold);
+}
+
+/* Custom Checkbox for Modern */
+.modern-consent {
+    margin-top: 30px;
+    font-size: 12px;
+    color: #888;
+}
+
+.modern-check {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.modern-check input {
+    accent-color: var(--color-accent-gold);
+}

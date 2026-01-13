@@ -176,16 +176,12 @@
         - [x] **Latest Skin Manager**: Apply Pattern B (Theme/Lang ID Standard)
             - [x] Refactor ID to String (`theme_lang`)
             - [x] Standardize UI (Select Box logic)
-        - [/] **Board Skin Manager Standardization (Pattern B)**
-            - [x] Create `g5_plugin_board_skin_config` Table
-            - [x] Standardize List UI (Config-based)
-            - [x] Standardize Write UI (Pattern B Dropdowns & JS)
-            - [x] Update CRUD logic (`update.php`)
-            - [ ] Verify Frontend Integration (Skin development guide)
-        - [x] **Unified Language Compatibility (Failsafe - KR Suffix-less Standard)**
-            - [x] Adopt Clean ID Standard (No `_kr` for Korean) in Manual
-            - [x] Implement ID fallback for backward compatibility
-        - [ ] **Sub Design Manager**: Fix Menu### Plugin Standardization (Company Intro) <!-- id: 46 -->
+        - [x] **Phase 5: Multi-Stage UI Implementation (Elevated UX)**
+    - [/] **1. Online Inquiry**: Implement Step-by-Step form (Step 1: Type Selection -> Step 2: Basic Info -> Step 3: Message -> Final Consent)
+    - [ ] **2. Rich UI Elements**: Add progress indicator, smooth transitions, and dynamic step navigation.
+    - [x] **3. Category Smart Detection & Auto-Sync**: Implemented 3-stage UI for `corporate` & `corporate_light` themes + Admin Sync Button.
+    - [ ] **4. Prototype Sync**: Verify alignment with `gallery_prototype.html` style.
+- [x] **Theme Background Restoration (Completed Today)**
 - [x] **Analysis**: Identify duplicated logic in `company_intro` skins. <!-- id: 47 -->
 - [x] **Implementation**: Create `skin.head.php` for Company Intro to handle `co_id`, decoding, and headers. <!-- id: 48 -->
 - [x] **Refactoring**: Update `view.php` to use the shared header. <!-- id: 49 -->

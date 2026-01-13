@@ -174,5 +174,6 @@ if (file_exists($skin_file)) {
 }
 
 // 4. Background Color Helper
-$bg_color = (isset($co_row['co_bgcolor']) && $co_row['co_bgcolor'] && $co_row['co_bgcolor'] != '#000000') ? $co_row['co_bgcolor'] : get_theme_css_value($config['cf_theme'], array('--color-bg', '--color-bg-dark'), '#F3F3F3');
+// If DB has value, use it. Otherwise, let theme handle it (return null or transparent logic)
+$bg_color = (isset($co_row['co_bgcolor']) && $co_row['co_bgcolor'] && $co_row['co_bgcolor'] != '#000000') ? $co_row['co_bgcolor'] : '';
 ?>

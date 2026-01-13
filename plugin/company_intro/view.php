@@ -22,11 +22,16 @@ $g5['title'] = $co_row['co_subject'];
 include_once(G5_PATH . '/_head.php');
 
 if (file_exists($skin_file)) {
-    // [FIX] Apply Background Color from Admin Setting
-    echo '<div style="background-color:' . $bg_color . ';">';
-    // [FIX] Output modified content (with Map/Copyright injected)
-    echo get_view_thumbnail($view_content);
-    echo '</div>';
+    // [FIX] Wrapperless Output (Theme Sovereignty)
+    // Only wrap if a specific background color is set and differs from 'transparent'
+    if ($bg_color && $bg_color != 'transparent' && $bg_color != 'var(--color-bg)') {
+        echo '<div style="background-color:' . $bg_color . ';">';
+        echo get_view_thumbnail($view_content);
+        echo '</div>';
+    } else {
+        // Direct Output (No Wrapper)
+        echo get_view_thumbnail($view_content);
+    }
 } else {
     echo '<div id="sub_container" class="sub-wrapper">';
     echo $view_content;

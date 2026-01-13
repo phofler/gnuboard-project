@@ -238,6 +238,9 @@ $root_code = isset($_GET['root_code']) ? $_GET['root_code'] : '';
 
                 <div class="btn_confirm01 btn_confirm">
                     <button type="submit" class="btn_submit btn">저장</button>
+                    <button type="button" class="btn_03 btn" id="btn_sync"
+                        style="display:none; background:#28a745; color:#fff;" onclick="sync_category()">게시판 분류
+                        동기화</button>
                     <button type="button" class="btn_02 btn" id="btn_add_child" style="display:none;"
                         onclick="add_child()">하위분류 추가</button>
                     <button type="button" class="btn_02 btn" id="btn_delete" style="display:none;"
@@ -374,6 +377,14 @@ $root_code = isset($_GET['root_code']) ? $_GET['root_code'] : '';
         $("#form_title").text("카테고리 수정 (" + code + ")");
         $("#btn_add_child").show();
         $("#btn_delete").show();
+
+        // Show Sync Button if tc_link exists and is likely a board link
+        if (link && (link.includes('bo_table=') || (!link.includes('/') && !link.includes('.')))) {
+            $("#btn_sync").show();
+        } else {
+            $("#btn_sync").hide();
+        }
+
         $("#code_desc").text("수정 모드에서는 코드를 변경할 수 없습니다.");
     }
 
@@ -418,6 +429,7 @@ $root_code = isset($_GET['root_code']) ? $_GET['root_code'] : '';
         $("#form_title").text("새 카테고리 등록");
         $("#btn_add_child").hide();
         $("#btn_delete").hide();
+        $("#btn_sync").hide();
         $("#code_desc").text("자동 생성된 코드입니다 (최상위: " + next_code + ")");
     }
 
@@ -512,6 +524,35 @@ $root_code = isset($_GET['root_code']) ? $_GET['root_code'] : '';
                 },
                 error: function () {
                     alert("통신 오류");
+                }
+            });
+        }
+    }
+
+    // AJAX Sync Board Category
+    function sync_category() {
+        var code = document.fcate.tc_code.value;
+        if (!code) return;
+
+        if (confirm("이 카테고리를 루트로 하여 연동된 게시판 분류 목록을 갱신하시겠습니까?")) {
+            $.ajax({
+                url: "./ajax.php",
+                type: "POST",
+                data: {
+                    w: 'sync',
+                    root_code: code,
+                    token: document.fcate.token.value
+                },
+                dataType: "json",
+                success: function (data) {
+                    if (data.error) {
+                        alert(data.error);
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function () {
+                    alert("통신 오류가 발생했습니다.");
                 }
             });
         }

@@ -108,6 +108,74 @@ if ($w == 'c') {
     $sql = " delete from {$table_name} where substring(tc_code, 1, {$len}) = '{$tc_code}' ";
     sql_query($sql);
     echo json_encode(['success' => true, 'msg' => '삭제되었습니다.']);
+} else if ($w == 'sync') {
+    $root_code = $_POST['root_code'];
+    if (!$root_code)
+        die(json_encode(['error' => '루트 코드가 없습니다.']));
+
+    // Find Root Category
+    $sql = " select * from {$table_name} where tc_code = '{$root_code}' ";
+    $root = sql_fetch($sql);
+
+    if ($root['tc_link']) {
+        $bo_table = trim($root['tc_link']);
+
+        // Extract bo_table from URL if present (e.g. ...?bo_table=gallery)
+        if (preg_match('/bo_table=([^&]+)/', $bo_table, $matches)) {
+            $bo_table = $matches[1];
+        }
+        // Check if bo_table exists
+        $board = sql_fetch(" select bo_table from {$g5['board_table']} where bo_table = '{$bo_table}' ");
+
+        if ($board) {
+            // [ADVANCED SYNC] Fetch ALL descendants with full path (e.g., Parent > Child)
+            $sql = " select tc_code, tc_name from {$table_name} 
+                     where tc_code like '{$root_code}%' 
+                     and tc_code != '{$root_code}' 
+                     and tc_use = 1 
+                     order by tc_code asc ";
+            $result = sql_query($sql);
+
+            $cates = [];
+            $code_to_name = [];
+
+            // Build temporary map
+            $all_sql = " select tc_code, tc_name from {$table_name} where tc_use = 1 ";
+            $all_res = sql_query($all_sql);
+            while ($row = sql_fetch_array($all_res)) {
+                $code_to_name[$row['tc_code']] = $row['tc_name'];
+            }
+
+            while ($row = sql_fetch_array($result)) {
+                $current_code = $row['tc_code'];
+                $path_names = [];
+                // Skip the root of the sync (the one passed in $root_code) to keep it relative or include it?
+                // Usually, we want the path from the root.
+                for ($i = strlen($root_code) + 2; $i <= strlen($current_code); $i += 2) {
+                    $part_code = substr($current_code, 0, $i);
+                    if (isset($code_to_name[$part_code])) {
+                        $path_names[] = $code_to_name[$part_code];
+                    }
+                }
+                $cates[] = implode(' > ', $path_names);
+            }
+
+            // Remove duplicates and maintain order
+            $cates = array_unique($cates);
+            $ca_list = implode('|', $cates);
+
+            sql_query(" update {$g5['board_table']} 
+                        set bo_category_list = '{$ca_list}', 
+                            bo_use_category = 1 
+                        where bo_table = '{$bo_table}' ");
+
+            echo json_encode(['success' => true, 'msg' => "계층형 분류({$bo_table}) 동기화 완료: " . cut_str($ca_list, 50)]);
+        } else {
+            echo json_encode(['error' => '연동된 게시판을 찾을 수 없습니다.']);
+        }
+    } else {
+        echo json_encode(['error' => '링크가 설정되지 않은 카테고리입니다.']);
+    }
 } else {
     echo json_encode(['error' => '잘못된 요청입니다.']);
 }

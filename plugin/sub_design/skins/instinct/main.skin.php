@@ -14,8 +14,21 @@ $sd_tag = $item['sd_tag'] ? $item['sd_tag'] : 'WHO WE ARE';
         <div class="instinct-header-meta" data-aos="fade-down">
             <ul class="instinct-breadcrumb">
                 <li>Home</li>
+                <?php
+                // [Breadcrumb Logic] Show Main Category as Active (Red)
+                global $current_me_code;
+                $bc_text = str_replace(' 페이지', '', $g5['title']); // Default fallback
+                
+                if ($current_me_code) {
+                    $code_1st = substr($current_me_code, 0, 2);
+                    $row_1st = sql_fetch(" SELECT me_name FROM {$g5['menu_table']} WHERE me_code = '{$code_1st}' ");
+                    if ($row_1st['me_name']) {
+                        $bc_text = $row_1st['me_name']; // Override with Main Category
+                    }
+                }
+                ?>
                 <li class="active">
-                    <?php echo $g5['title']; ?>
+                    <?php echo $bc_text; ?>
                 </li>
             </ul>
             <div class="instinct-sub-tag"><?php echo $sd_tag; ?></div>
@@ -51,7 +64,7 @@ $sd_tag = $item['sd_tag'] ? $item['sd_tag'] : 'WHO WE ARE';
         width: 100%;
         max-width: var(--spacing-container, 1400px);
         margin: 0 auto;
-        padding: 150px 20px 100px;
+        padding: 50px 20px 100px;
     }
 
     .instinct-header-meta {

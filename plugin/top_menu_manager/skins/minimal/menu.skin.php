@@ -86,6 +86,18 @@ echo '<link rel="stylesheet" href="' . $menu_skin_url . '/style.css?v=' . time()
 
     // Add Accordion Logic
     $(document).ready(function () {
+        // [NEW] Sticky Header Logic
+        const $header = $('.minimal-header');
+        function checkScroll() {
+            if ($(window).scrollTop() > 10) {
+                $header.addClass('is-scrolled');
+            } else {
+                $header.removeClass('is-scrolled');
+            }
+        }
+        $(window).on('scroll', checkScroll);
+        checkScroll(); // Initial check
+
         $(".menu-list > li > a").click(function (e) {
             // Check if this item has a submenu
             var $submenu = $(this).next(".submenu"); // Standardized class

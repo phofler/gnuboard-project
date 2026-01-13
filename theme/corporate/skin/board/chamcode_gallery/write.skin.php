@@ -6,6 +6,47 @@ if (!defined('_GNUBOARD_'))
 add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">', 0);
 ?>
 
+<style>
+    /* Dynamic Category Styles for Multi-Stage UI */
+    .category-wrapper {
+        display: flex;
+        gap: 12px;
+        width: 100%;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+    }
+
+    .product-category-select {
+        flex: 1;
+        min-width: 150px;
+        display: block;
+        background: #2a2a2a !important;
+        color: #eee !important;
+        border: 1px solid #444 !important;
+        border-radius: 8px !important;
+        padding: 14px 16px !important;
+        font-size: 15px;
+        transition: all 0.25s ease;
+    }
+
+    .product-category-select:focus {
+        border-color: #5c7cfa !important;
+        box-shadow: 0 0 0 3px rgba(92, 124, 250, 0.2) !important;
+    }
+
+    @media (max-width: 768px) {
+        .category-wrapper {
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .product-category-select {
+            width: 100%;
+            max-width: 100%;
+        }
+    }
+</style>
+
 <div id="bo_w" class="sub-layout-width-height">
     <h2 class="sound_only"><?php echo $g5['title'] ?></h2>
 
@@ -54,12 +95,128 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">
 
         <?php if ($is_category) { ?>
             <div class="bo_w_select write_div">
-                <label for="ca_name" class="sound_only">분류</label>
-                <select name="ca_name" id="ca_name" required>
-                    <option value="">분류를 선택하세요</option>
-                    <?php echo $category_option ?>
-                </select>
+                <label for="ca_name">분류 선택<span class="required-ico"></span></label>
+                <!-- Hidden Input for Gnuboard standard ca_name -->
+                <input type="hidden" name="ca_name" id="ca_name"
+                    value="<?php echo isset($write['ca_name']) ? $write['ca_name'] : ''; ?>">
+                <!-- [NEW] Hidden Input for Category Code - can be used for extra logic -->
+                <input type="hidden" name="wr_1" id="wr_1_code"
+                    value="<?php echo isset($write['wr_1']) ? $write['wr_1'] : ''; ?>">
+
+                <div class="category-wrapper" id="category_container">
+                    <select data-depth="1" class="product-category-select dynamic-cate">
+                        <option value="">대분류 선택</option>
+                    </select>
+                </div>
             </div>
+
+            <script>
+                $(function () {
+                    var $container = $("#category_container");
+                    var $standardCaName = $("#ca_name");
+                    var $codeStorage = $("#wr_1_code");
+
+                    // 1. Initial Load: Root Categories (Depth 1)
+                    loadChildren("", $container.find(".dynamic-cate"), 1, function () {
+                        // 2. Smart Detection: auto-select if URL param exists
+                        var urlParams = new URLSearchParams(window.location.search);
+                        var targetCode = urlParams.get('me_code') || urlParams.get('cate') || '<?php echo isset($write['wr_1']) ? $write['wr_1'] : ''; ?>';
+
+                        if (targetCode) {
+                            autoSelectCategories(targetCode);
+                        }
+                    });
+
+                    // Event: Change selection
+                    $(document).on("change", ".dynamic-cate", function () {
+                        var $this = $(this);
+                        var code = $this.val();
+                        var depth = parseInt($this.data("depth"));
+
+                        // Clear sub-levels
+                        $this.nextAll("select").remove();
+
+                        // Update Hidden Inputs
+                        updateFinalValues();
+
+                        // Load next level if not final
+                        if (code && depth < 3) {
+                            loadChildren(code, null, depth + 1);
+                        }
+                    });
+
+                    function loadChildren(parentCode, $targetElement, nextDepth, callback) {
+                        $.ajax({
+                            url: "<?php echo G5_PLUGIN_URL; ?>/tree_category/ajax_get_list.php",
+                            type: "GET",
+                            data: { root_code: parentCode },
+                            dataType: "json",
+                            success: function (data) {
+                                if (data && data.length > 0) {
+                                    var $select;
+                                    if ($targetElement && $targetElement.length > 0) {
+                                        $select = $targetElement;
+                                    } else {
+                                        $select = $("<select data-depth='" + nextDepth + "' class='product-category-select dynamic-cate'><option value=''>소분류 선택</option></select>");
+                                        $container.append($select);
+                                    }
+
+                                    $select.find("option:not(:first)").remove();
+                                    $.each(data, function (i, item) {
+                                        $select.append("<option value='" + item.code + "' data-name='" + item.name + "'>" + item.name + "</option>");
+                                    });
+
+                                    if (callback) callback();
+                                }
+                            }
+                        });
+                    }
+
+                    function autoSelectCategories(fullCode) {
+                        if (!fullCode) return;
+                        var parts = [];
+                        for (var i = 2; i <= fullCode.length; i += 2) {
+                            parts.push(fullCode.substring(0, i));
+                        }
+
+                        var processPart = function (index) {
+                            if (index >= parts.length) {
+                                updateFinalValues();
+                                return;
+                            }
+                            var code = parts[index];
+                            var $select = $container.find("select[data-depth='" + (index + 1) + "']");
+
+                            if ($select.length > 0) {
+                                $select.val(code);
+                                if (index < parts.length - 1) {
+                                    loadChildren(code, null, index + 2, function () {
+                                        processPart(index + 1);
+                                    });
+                                } else {
+                                    processPart(index + 1);
+                                }
+                            }
+                        };
+                        processPart(0);
+                    }
+
+                    function updateFinalValues() {
+                        var names = [];
+                        var lastCode = "";
+                        $container.find("select").each(function () {
+                            var val = $(this).val();
+                            if (val) {
+                                lastCode = val;
+                                names.push($(this).find("option:selected").data("name"));
+                            }
+                        });
+                        var fullPathName = names.join(" > ");
+                        $standardCaName.val(fullPathName);
+                        $codeStorage.val(lastCode);
+                    }
+                });
+            </script>
         <?php } ?>
         <div class="fieldset-box">
             <?php if ($is_name) { ?>

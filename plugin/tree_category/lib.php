@@ -28,9 +28,20 @@ function build_frontend_tree($cats, $parent_code = '')
             $children_html = build_frontend_tree($cats, $cat['tc_code']);
             $has_child = !empty($children_html);
 
-            // Link Logic
+            // Link Logic (Smart Link)
             if ($cat['tc_link']) {
-                $href = $cat['tc_link'];
+                $link_val = trim($cat['tc_link']);
+                // Check if it's a Board ID (AlphaNumeric+Underscore) with optional Query String
+                // Excludes dots (like .php) to avoid breaking external/relative files
+                if (preg_match('/^([a-zA-Z0-9_]+)(\?.*)?$/', $link_val, $matches)) {
+                    $bo_id = $matches[1];
+                    // If user used '?', change it to '&' because bo_table is the first param
+                    $query = isset($matches[2]) ? str_replace('?', '&', $matches[2]) : '';
+                    $href = G5_BBS_URL . '/board.php?bo_table=' . $bo_id . $query;
+                } else {
+                    // Treat as direct URL (External or relative path like /adm/...)
+                    $href = $link_val;
+                }
             } else {
                 $href = "?cate=" . $cat['tc_code'];
             }

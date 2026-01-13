@@ -47,6 +47,8 @@
     --spacing-container: var(--spacing-container-sub);
     /* Default to Sub standards */
     --container-padding: var(--padding-sub);
+    /* Default 5vw for Mobile */
+
     --spacing-section: 10vh;
     --padding-section: var(--spacing-section) 0;
     /* Shorthand for "10vh 0" */
@@ -86,6 +88,15 @@
     /* Editorial spreading */
     --mc-btn-text: "VIEW DETAIL";
     /* [GLOBAL BUTTON LABEL] */
+}
+
+/* [RESPONSIVE PADDING LOGIC] - User Request 2026-01-12 */
+@media (min-width: 1024px) {
+    :root {
+        --container-padding: 0px;
+        /* PC: Zero Padding to maximize 1360px */
+        --padding-sub: 0px;
+    }
 }
 
 
@@ -199,9 +210,49 @@ h6 {
     padding: 0 var(--container-padding);
 }
 
+/* [NEW] Skin layout sovereignty utility (2026-01-12) */
+.skin-container {
+    width: 100%;
+    max-width: var(--spacing-container-sub);
+    /* 1360px */
+    margin: 0 auto;
+    padding: 0 var(--padding-sub);
+}
+
+
+/* [Efficiency Variants] Preset Widths for Special Skins */
+.skin-container-1400 {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 var(--padding-sub);
+}
+
+.skin-container-1500 {
+    width: 100%;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 0 var(--padding-sub);
+}
+
+.skin-container-1600 {
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 var(--padding-sub);
+}
+
+.skin-container-full {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 /* Vertical Spacing Utility (Brother's Request) */
 .py-section {
-    padding: var(--padding-section);
+    padding-top: var(--spacing-section);
+    padding-bottom: var(--spacing-section);
 }
 
 /* Master Differentiator: Main vs Sub */

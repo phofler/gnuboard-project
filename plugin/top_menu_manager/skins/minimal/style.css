@@ -13,6 +13,17 @@
     align-items: center;
     padding: 0 60px;
     /* [EDITORIAL SPACING] Pushed to edges */
+    transition: background 0.4s ease, box-shadow 0.4s ease, height 0.4s ease;
+    z-index: 1001;
+    /* Above hero but slightly below overlay close */
+}
+
+/* [NEW] Sticky State */
+.minimal-header.is-scrolled {
+    background: var(--color-header-bg, #ffffff) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    height: calc(var(--header-height, 90px) * 0.85);
+    /* Slightly shrink for precision feel */
 }
 
 #logo img {

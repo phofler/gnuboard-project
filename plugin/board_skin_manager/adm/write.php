@@ -98,9 +98,45 @@ $boards = sql_query(" select bo_table, bo_subject from {$g5['board_table']} orde
                 <tr>
                     <th scope="row"><label for="bs_skin">사용 스킨</label></th>
                     <td>
-                        <input type="text" name="bs_skin" value="<?php echo $bs['bs_skin']; ?>" id="bs_skin" required
-                            class="frm_input" size="30">
-                        <span class="frm_info">plugin/main_content_manager/skins/ 하위 디렉토리명 (예: works_dark)</span>
+                        <?php
+                        // [SCAN] Theme Board Skins
+                        // Priority: Theme Skin > Global Skin (We focus on Theme Skin here per user request)
+                        $theme_skin_path = G5_THEME_PATH . '/skin/board';
+                        $theme_skins = array();
+                        if (is_dir($theme_skin_path)) {
+                            if ($dh = opendir($theme_skin_path)) {
+                                while (($file = readdir($dh)) !== false) {
+                                    if ($file != "." && $file != ".." && is_dir($theme_skin_path . '/' . $file)) {
+                                        $theme_skins[] = $file;
+                                    }
+                                }
+                                closedir($dh);
+                            }
+                            sort($theme_skins);
+                        }
+                        ?>
+                        
+                        <select name="bs_skin" id="bs_skin" required style="width:100%; max-width:400px;">
+                            <option value="">스킨을 선택하세요</option>
+                            
+                            <optgroup label="[테마] 게시판 스킨 (Theme Board)">
+                                <?php foreach ($theme_skins as $skin) { 
+                                    // [FIX] Canonical G5 Format: "theme/skin_name"
+                                    // admin.lib.php's get_skin_select() scans theme/skin/board/* 
+                                    // and prepends "theme/" to the directory name.
+                                    // We must match this format EXACTLY.
+                                    $value = 'theme/' . $skin;
+                                    $selected = ($bs['bs_skin'] == $value) ? 'selected' : '';
+                                ?>
+                                <option value="<?php echo $value; ?>" <?php echo $selected; ?>>
+                                    <?php echo $skin; ?>
+                                </option>
+                                <?php } ?>
+                            </optgroup>
+                        </select>
+                        <div style="margin-top:5px; color:#888; font-size:12px;">
+                            * 현재 테마(corporate_light)의 /skin/board 디렉토리를 스캔합니다.
+                        </div>
                     </td>
                 </tr>
                 <tr>

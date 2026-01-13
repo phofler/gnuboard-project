@@ -51,5 +51,22 @@ if ($w == '') {
     sql_query(" update {$config_table} set {$sql_common} where bs_id = '{$bs_id}' ");
 }
 
+// [SYNC] Update Core Board Table (g5_board)
+// This ensures the frontend immediately reflects the skin change without manual specific board settings.
+if ($bo_table && $bs_skin) {
+    // If it's a theme skin, we need to save `(테마) skin_name` or just `skin_name` depending on G5 version.
+    // Modern G5 usually expects 'theme/skin_name' or just 'skin_name' if theme is active.
+    // However, to be safe and consistent with the user's screenshot showing `(테마) ...`, we let G5 handle the theme prefix logic usually,
+    // but here we are writing directly to DB.
+    // Safe bet: Update `bo_skin` to the directory name. Gruboard's common.php handles the `theme/` lookup.
+
+    $update_skin = $bs_skin;
+
+    // Check if it is a theme path? No, we already stripped path in write.php. 
+    // Just strict update.
+
+    sql_query(" update {$g5['board_table']} set bo_skin = '{$update_skin}' where bo_table = '{$bo_table}' ");
+}
+
 goto_url('./write.php?w=u&bs_id=' . $bs_id);
 ?>
