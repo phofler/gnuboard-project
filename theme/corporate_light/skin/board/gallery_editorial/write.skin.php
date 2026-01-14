@@ -4,6 +4,7 @@ if (!defined('_GNUBOARD_'))
 
 // add_stylesheet('css 구문', 출력순서); 숫자가 작을 수록 먼저 출력됨
 add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?v=' . time() . '">', 0);
+add_javascript('<script src="' . G5_THEME_URL . '/js/category_cascade.js?v=' . time() . '"></script>', 0);
 ?>
 
 <section id="bo_w" class="skin-container">
@@ -22,6 +23,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?v
             $action_url_final = $action_url . '?me_code=' . urlencode($_GET['me_code']);
         }
     }
+
     ?>
     <form name="fwrite" id="fwrite" action="<?php echo $action_url_final ?>" onsubmit="return fwrite_submit(this);"
         method="post" enctype="multipart/form-data" autocomplete="off" style="width:<?php echo $width; ?>">
@@ -85,212 +87,14 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?v
 
             <script>
                 $(document).ready(function () {
-                    initCascadingCategory("<?php echo $bo_table; ?>");
+                    initCascadingCategory({
+                        bo_table: "<?php echo $bo_table; ?>",
+                        ajaxUrl: "<?php echo G5_PLUGIN_URL; ?>/tree_category/ajax_get_tree.php",
+                        initialCaName: "<?php echo isset($write['ca_name']) ? addslashes($write['ca_name']) : ''; ?>",
+                        initialCode: "<?php echo isset($write['wr_1']) ? $write['wr_1'] : ''; ?>",
+                        validCategories: <?php echo json_encode(explode('|', $board['bo_category_list']), JSON_UNESCAPED_UNICODE); ?>
+                    });
                 });
-
-                function initCascadingCategory(boTable) {
-                    var $originalSelect = $("#ca_name");
-                    var $codeStorage = $("#wr_1_code");
-                    var $wrap = $("#category_container");
-                    // Safe PHP Output
-                    var initialCaName = "<?php echo isset($write['ca_name']) ? addslashes($write['ca_name']) : ''; ?>";
-                    var initialCode = "<?php echo isset($write['wr_1']) ? $write['wr_1'] : ''; ?>";
-                    var validCategories = <?php echo json_encode(explode('|', $board['bo_category_list']), JSON_UNESCAPED_UNICODE); ?>;
-
-                    // Fetch Tree Data
-                    $.ajax({
-                        url: "<?php echo G5_PLUGIN_URL; ?>/tree_category/ajax_get_tree.php",
-                        data: { bo_table: boTable },
-                        dataType: "json",
-                        success: function (res) {
-                            if (!res.success || !res.data || res.data.length === 0) {
-                                $originalSelect.show(); // Fallback
-                                return;
-                            }
-
-                            // Process Data into Tree Structure
-                            var treeData = buildTree(res.data);
-                            var hiddenRootName = "";
-
-                            // SEARCH FOR ROOT UNWRAPPING
-                            // If the tree has only 1 top-level node (e.g., "시공사례"), and it has children,
-                            // we probably want to start selection from the children (e.g., "RESIDENCE").
-                            if (treeData.length === 1 && treeData[0].children && treeData[0].children.length > 0) {
-                                hiddenRootName = treeData[0].name;
-                                treeData = treeData[0].children;
-                            }
-
-                            renderCascadingSelects(treeData, $wrap, $originalSelect, $codeStorage, initialCaName, initialCode, validCategories, hiddenRootName);
-                        },
-                        error: function () {
-                            $originalSelect.show();
-                        }
-                    });
-                }
-
-                function buildTree(flatData) {
-                    var map = {};
-                    var tree = [];
-                    flatData.forEach(function (node) {
-                        map[node.code] = { ...node, children: [] };
-                    });
-                    // Sort by code or order? Assuming sorted from server
-                    flatData.forEach(function (node) {
-                        if (node.parent && node.parent !== 'root' && map[node.parent]) {
-                            map[node.parent].children.push(map[node.code]);
-                        } else {
-                            tree.push(map[node.code]);
-                        }
-                    });
-                    return tree;
-                }
-
-                function renderCascadingSelects(treeData, $container, $originalSelect, $codeStorage, initialCaName, initialCode, validCategories, hiddenRootName) {
-                    // Initialize Selects with existing styles
-                    var $depth1 = $("<select class='product-category-select dynamic-cate'><option value=''>대분류 선택</option></select>");
-                    var $depth2 = $("<select class='product-category-select dynamic-cate' style='display:none;'><option value=''>중분류 선택</option></select>");
-                    var $depth3 = $("<select class='product-category-select dynamic-cate' style='display:none;'><option value=''>소분류 선택</option></select>");
-
-                    $container.empty().append($depth1, $depth2, $depth3);
-
-                    // Populate Depth 1
-                    treeData.forEach(function (node) {
-                        $depth1.append(new Option(node.name, node.code));
-                    });
-
-                    function findNode(nodes, code) {
-                        for (var i = 0; i < nodes.length; i++) {
-                            if (nodes[i].code == code) return nodes[i];
-                            if (nodes[i].children) {
-                                var found = findNode(nodes[i].children, code);
-                                if (found) return found;
-                            }
-                        }
-                        return null;
-                    }
-
-                    $depth1.on("change", function () {
-                        var val = $(this).val();
-                        $depth2.empty().append(new Option("중분류 선택", "")).hide();
-                        $depth3.empty().append(new Option("소분류 선택", "")).hide();
-
-                        if (val) {
-                            var node = findNode(treeData, val);
-                            if (node && node.children.length > 0) {
-                                node.children.forEach(function (child) {
-                                    $depth2.append(new Option(child.name, child.code));
-                                });
-                                $depth2.show();
-                            }
-                        }
-                        updateFinalValues();
-                    });
-
-                    $depth2.on("change", function () {
-                        var val = $(this).val();
-                        $depth3.empty().append(new Option("소분류 선택", "")).hide();
-
-                        if (val) {
-                            var parentVal = $depth1.val();
-                            var parentNode = findNode(treeData, parentVal);
-                            if (parentNode) {
-                                var node = findNode(parentNode.children, val);
-                                if (node && node.children.length > 0) {
-                                    node.children.forEach(function (child) {
-                                        $depth3.append(new Option(child.name, child.code));
-                                    });
-                                    $depth3.show();
-                                }
-                            }
-                        }
-                        updateFinalValues();
-                    });
-
-                    $depth3.on("change", function () {
-                        updateFinalValues();
-                    });
-
-                    function updateFinalValues() {
-                        var d1 = $depth1.val();
-                        var d2 = $depth2.val();
-                        var d3 = $depth3.val();
-
-                        var lastCode = d3 || d2 || d1;
-                        $codeStorage.val(lastCode);
-
-                        // Construct Name Path
-                        var parts = [];
-                        if (d1) parts.push($depth1.find("option:selected").text());
-                        if (d2) parts.push($depth2.find("option:selected").text());
-                        if (d3) parts.push($depth3.find("option:selected").text());
-
-                        // Try patterns to match Valid Categories
-                        var pathSpace = parts.join(" > "); // Standard "A > B"
-                        var pathNoSpace = parts.join(">"); // Compact "A>B"
-                        var pathTrimmed = parts.map(s => s.trim()).join(">"); // "A>B" safety
-
-                        var finalVal = pathSpace; // Default
-
-                        // Check existence in validCategories
-                        if (validCategories && validCategories.length > 0) {
-                            function check(p) {
-                                for (var i = 0; i < validCategories.length; i++) {
-                                    if (validCategories[i] === p) return true;
-                                }
-                                return false;
-                            }
-
-                            // 1. Exact Match
-                            if (check(pathSpace)) { finalVal = pathSpace; }
-                            else if (check(pathNoSpace)) { finalVal = pathNoSpace; }
-                            // 2. Hidden Root Prefix
-                            else if (hiddenRootName) {
-                                var withRoot = hiddenRootName + " > " + pathSpace;
-                                if (check(withRoot)) { finalVal = withRoot; }
-                            }
-
-                            // 3. Fail-safe: Suffix Match (e.g. valid "ABC > RESIDENCE" matches user "RESIDENCE")
-                            // Only if we haven't found a match yet
-                            if (finalVal === pathSpace && !check(finalVal)) {
-                                var suffixSpace = " > " + pathSpace;
-                                var suffixNoSpace = ">" + pathNoSpace;
-                                for (var i = 0; i < validCategories.length; i++) {
-                                    var vc = validCategories[i];
-                                    if (vc.indexOf(suffixSpace) !== -1 && vc.indexOf(suffixSpace) === vc.length - suffixSpace.length) {
-                                        finalVal = vc; break;
-                                    }
-                                    if (vc.indexOf(suffixNoSpace) !== -1 && vc.indexOf(suffixNoSpace) === vc.length - suffixNoSpace.length) {
-                                        finalVal = vc; break;
-                                    }
-                                }
-                            }
-                        }
-
-                        // If not matched, we still set it (server might reject, but we tried)
-                        $originalSelect.val(finalVal);
-                    }
-
-                    // Initial Load Logic...
-                    var urlParams = new URLSearchParams(window.location.search);
-                    var targetCode = urlParams.get('me_code') || urlParams.get('cate') || initialCode;
-
-                    if (targetCode) {
-                        var seg1 = targetCode.substring(0, 2);
-                        if (seg1.length === 2 && $depth1.find("option[value='" + seg1 + "']").length) {
-                            $depth1.val(seg1).trigger("change");
-                            if (targetCode.length >= 4) {
-                                var seg2 = targetCode.substring(0, 4);
-                                $depth2.val(seg2).trigger("change");
-                                if (targetCode.length >= 6) {
-                                    var seg3 = targetCode.substring(0, 6);
-                                    $depth3.val(seg3).trigger("change");
-                                }
-                            }
-                        }
-                    } else if (initialCaName) {
-                        // Fallback logic
-                    }
-                }
             </script>
         <?php } ?>
 
@@ -388,6 +192,12 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?v
                         <strong><?php echo $write_max; ?></strong>글자 이하까지 글을 쓰실 수 있습니다.
                     </p>
                 <?php } ?>
+
+                <!-- [GUIDE TEXT] -->
+                <div style="font-size:13px; color:#d94e28; margin-bottom:5px; font-weight:bold;">
+                    ※ 500자 이내로 입력하세요
+                </div>
+
                 <?php echo $editor_html; // 에디터 사용시는 에디터로, 아니면 textarea 로 노출 ?>
                 <?php if ($write_min || $write_max) { ?>
                     <!-- 최소/최대 글자 수 사용 시 -->
@@ -447,6 +257,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?v
             if (isset($_GET['me_code'])) {
                 $cancel_href .= (strpos($cancel_href, '?') !== false ? '&' : '?') . 'me_code=' . urlencode($_GET['me_code']);
             }
+            $cancel_href .= '#bo_cate'; // [ANCHOR FIX] Scroll to category
             ?>
             <a href="<?php echo $cancel_href; ?>" class="btn_cancel btn">취소</a>
             <button type="submit" id="btn_submit" accesskey="s" class="btn_submit btn">작성완료</button>

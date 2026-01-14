@@ -91,17 +91,16 @@ $admin_token = get_admin_token();
 </div>
 
 <div class="tbl_head01 tbl_wrap">
-    <table>
+    <table style="width:100%;">
         <caption>
             <?php echo $g5['title']; ?> 목록
         </caption>
         <colgroup>
-            <col width="60">
-            <col width="120">
-            <col>
-            <col width="150">
-            <col width="150">
-            <col width="100">
+            <col width="150"> <!-- ID -->
+            <col width="200"> <!-- Board -->
+            <col> <!-- Summary -->
+            <col width="100"> <!-- Date -->
+            <col width="80"> <!-- Manage -->
         </colgroup>
         <thead>
             <tr>
@@ -116,8 +115,8 @@ $admin_token = get_admin_token();
         for ($i = 0; $row = sql_fetch_array($result); $i++) {
             $edit_url = "./write.php?w=u&bs_id=" . $row['bs_id'];
 
-            // Get Board Subject
-            $bo = sql_fetch(" select bo_subject from {$g5['board_table']} where bo_table = '{$row['bo_table']}' ");
+            // Get Board Subject and Skin
+            $bo = sql_fetch(" select bo_subject, bo_skin from {$g5['board_table']} where bo_table = '{$row['bo_table']}' ");
 
             // Theme/Lang Bagde
             $badge = '<span style="font-size:11px; color:#666; display:block; margin-top:2px;">[' . $row['bs_theme'] . ' / ' . strtoupper($row['bs_lang']) . ']</span>';
@@ -132,6 +131,9 @@ $admin_token = get_admin_token();
                     <span style="font-size:11px; color:#999; display:block;"><?php echo $row['bo_table']; ?></span>
                 </td>
                 <td class="td_left">
+                    <div style="font-weight:bold; color:#007bff; margin-bottom:4px;">
+                        [Skin] <?php echo isset($bo['bo_skin']) ? $bo['bo_skin'] : 'Unknown'; ?>
+                    </div>
                     레이아웃: <?php echo $row['bs_layout']; ?>,
                     컬럼: <?php echo $row['bs_cols']; ?>,
                     비율: <?php echo $row['bs_ratio']; ?>
@@ -141,6 +143,8 @@ $admin_token = get_admin_token();
                 </td>
                 <td class="td_mng">
                     <a href="<?php echo $edit_url; ?>" class="btn btn_03">수정</a>
+                    <a href="./update.php?w=d&bs_id=<?php echo urlencode($row['bs_id']); ?>"
+                        onclick="return confirm('정말 삭제하시겠습니까?\n\n복구할 수 없습니다.');" class="btn btn_02">삭제</a>
                 </td>
             </tr>
         <?php } ?>

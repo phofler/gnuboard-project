@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webzine Skin List Prototype</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #fff;
+            /* White Theme for Webzine */
+            --secondary-bg: #f8f9fa;
+            --text-main: #111;
+            --text-muted: #666;
+            --accent: #d4af37;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--primary-bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* HERO - Simple Text Only */
+        .wz-hero {
+            padding: 120px 20px 60px;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .wz-title {
+            font-family: var(--font-serif);
+            font-size: 3.5rem;
+            color: var(--text-main);
+            margin-bottom: 20px;
+        }
+
+        .wz-desc {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* LIST LAYOUT */
+        .wz-container {
+            max-width: 1000px;
+            margin: 60px auto 100px;
+            padding: 0 20px;
+        }
+
+        .wz-list {
+            display: flex;
+            flex-direction: column;
+            gap: 80px;
+        }
+
+        .wz-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .wz-item:nth-child(even) {
+            direction: rtl;
+        }
+
+        /* Alternating Layout */
+        .wz-item:nth-child(even) .wz-text {
+            text-align: right;
+            direction: ltr;
+        }
+
+        .wz-thumb-link {
+            display: block;
+            overflow: hidden;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .wz-thumb {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+            aspect-ratio: 4/3;
+        }
+
+        .wz-thumb-link:hover .wz-thumb {
+            transform: scale(1.05);
+        }
+
+        .wz-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .wz-cat {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .wz-heading {
+            font-family: var(--font-serif);
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            line-height: 1.2;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .wz-heading:hover {
+            color: var(--accent);
+        }
+
+        .wz-excerpt {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .wz-date {
+            font-size: 0.85rem;
+            color: #999;
+        }
+
+        /* Write Button */
+        .btn-write-circle {
+            position: fixed;
+            bottom: 50px;
+            right: 50px;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: #111;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            text-decoration: none;
+            transition: 0.3s;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+        }
+
+        .btn-write-circle:hover {
+            transform: translateY(-5px);
+            background: var(--accent);
+            color: #000;
+        }
+
+        @media (max-width: 768px) {
+            .wz-item {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .wz-item:nth-child(even) {
+                direction: ltr;
+            }
+
+            .wz-item:nth-child(even) .wz-text {
+                text-align: left;
+            }
+
+            .wz-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        .btn-edit-list {
+            font-size: 1.2rem;
+            color: #ccc;
+            text-decoration: none;
+            padding: 4px 8px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            transition: 0.3s;
+            flex-shrink: 0;
+            font-family: sans-serif;
+            display: inline-block;
+        }
+
+        .btn-edit-list:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="wz-hero" data-aos="fade-down">
+        <h1 class="wz-title">Editorial Insights</h1>
+        <p class="wz-desc">Curated stories on design, architecture, and modern living.</p>
+    </header>
+
+    <div class="wz-container">
+        <div class="wz-list">
+
+            <!-- Item 1 -->
+            <article class="wz-item" data-aos="fade-up">
+                <a href="view.html" class="wz-thumb-link">
+                    <img src="https://images.unsplash.com/photo-1621600411688-4be93cd68504?q=80&w=1000&auto=format&fit=crop"
+                        class="wz-thumb" alt="Thumb">
+                </a>
+                <div class="wz-text">
+                    <span class="wz-cat">Interview</span>
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <a href="write.html" class="btn-edit-list" title="Edit">✎</a>
+                        <a href="view.html" class="wz-heading" style="margin-bottom:0;">The Future of Sustainable
+                            Design</a>
+                    </div>
+                    <!-- <a href="view.html" class="wz-heading">The Future of Sustainable Design</a> -->
+                    <p class="wz-excerpt">We sat down with leading architect Sarah Johnson to discuss how eco-friendly
+                        materials are reshaping the skyline of modern cities...</p>
+                    <span class="wz-date">JAN 15, 2024</span>
+                </div>
+            </article>
+
+            <!-- Item 2 -->
+            <article class="wz-item" data-aos="fade-up">
+                <a href="view.html" class="wz-thumb-link">
+                    <img src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?q=80&w=1000&auto=format&fit=crop"
+                        class="wz-thumb" alt="Thumb">
+                </a>
+                <div class="wz-text">
+                    <span class="wz-cat">Living</span>
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <a href="write.html" class="btn-edit-list" title="Edit">✎</a>
+                        <a href="view.html" class="wz-heading" style="margin-bottom:0;">Minimalism: More Than Just Less
+                            Stuff</a>
+                    </div>
+                    <!-- <a href="view.html" class="wz-heading">Minimalism: More Than Just Less Stuff</a> -->
+                    <p class="wz-excerpt">Explore the philosophy behind minimalism and how decluttering your physical
+                        space can lead to mental clarity and purpose.</p>
+                    <span class="wz-date">JAN 12, 2024</span>
+                </div>
+            </article>
+
+            <!-- Item 3 -->
+            <article class="wz-item" data-aos="fade-up">
+                <a href="view.html" class="wz-thumb-link">
+                    <img src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?q=80&w=1000&auto=format&fit=crop"
+                        class="wz-thumb" alt="Thumb">
+                </a>
+                <div class="wz-text">
+                    <span class="wz-cat">Trend</span>
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <a href="write.html" class="btn-edit-list" title="Edit">✎</a>
+                        <a href="view.html" class="wz-heading" style="margin-bottom:0;">Warm Tones are Back</a>
+                    </div>
+                    <!-- <a href="view.html" class="wz-heading">Warm Tones are Back</a> -->
+                    <p class="wz-excerpt">Goodbye clinical white. Interior designers are embracing beige, terra cotta,
+                        and warm woods to create cozy, inviting sanctuaries.</p>
+                    <span class="wz-date">JAN 10, 2024</span>
+                </div>
+            </article>
+
+        </div>
+    </div>
+
+    <a href="write.html" class="btn-write-circle" title="Write Entry">+</a>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script> AOS.init(); </script>
+</body>
+
+</html>

@@ -13,8 +13,12 @@ function online7_write_email_notification($board, $wr_id, $w, $qstr, $redirect_u
     // [CUSTOM FIX] Exclude 'chamcode_gallery' unless explicitly mapped
     // Or check if 'mail' checkbox was checked (but wr_option usually not verified here).
     // Safest: Block chamcode_gallery from this hook entirely.
-    if ($board['bo_table'] == 'chamcode_gallery') {
-        return;
+    // [CUSTOM FIX] Whitelist Mode: Only send emails for specific boards
+    // 'online' 등 실제 온라인 문의 게시판 ID를 여기에 추가하세요.
+    $allowed_boards = array('online', 'inquiry', 'qa', 'online7');
+
+    if (!in_array($board['bo_table'], $allowed_boards)) {
+        return; // 허용된 게시판이 아니면 즉시 종료
     }
 
     /*

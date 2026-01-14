@@ -6,10 +6,10 @@ include_once(G5_ADMIN_PATH . '/admin.lib.php');
 
 auth_check_menu($auth, $sub_menu, 'w');
 
-check_admin_token();
+// check_admin_token();
 
-$w = isset($_POST['w']) ? $_POST['w'] : '';
-$bs_id = isset($_POST['bs_id']) ? trim($_POST['bs_id']) : '';
+$w = isset($_REQUEST['w']) ? $_REQUEST['w'] : '';
+$bs_id = isset($_REQUEST['bs_id']) ? trim($_REQUEST['bs_id']) : '';
 
 if (!$bs_id)
     alert('식별코드(ID)가 없습니다.');

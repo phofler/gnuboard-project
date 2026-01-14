@@ -32,11 +32,11 @@
     --color-accent-gold: var(--color-brand);
     --color-accent-gold-rgb: 255, 59, 48;
 
-    /* Typography - Prototype Sync */
-    --font-serif: 'Italiana', serif;
-    --font-en: 'Manrope', sans-serif;
+    /* Typography - Prototype Sync (Nanum Integrated) */
+    --font-serif: 'Italiana', 'Nanum Myeongjo', serif;
+    --font-en: 'Manrope', 'Inter', sans-serif;
     --font-heading: var(--font-serif);
-    --font-body: var(--font-en), 'Noto Sans KR', sans-serif;
+    --font-body: var(--font-en), 'Nanum Gothic', 'Noto Sans KR', sans-serif;
 
     /* Spacing (Fidelity Sync: 1360px / 5vw / 10vh) */
     --spacing-container-main: 1920px;

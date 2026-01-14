@@ -72,6 +72,10 @@ if ($w == 'c') {
         }
         sql_query(" update {$g5['menu_table']} set me_link = '{$sync_link}' where me_name = '{$tc_name}' ");
     }
+
+    // [AUTO-SYNC] Board Category List
+    sync_board_category(substr($tc_code, 0, 2));
+
     echo json_encode(['success' => true, 'msg' => '추가되었습니다.']);
 
 } else if ($w == 'u') {
@@ -94,6 +98,10 @@ if ($w == 'c') {
         }
         sql_query(" update {$g5['menu_table']} set me_link = '{$sync_link}' where me_name = '{$tc_name}' ");
     }
+
+    // [AUTO-SYNC] Board Category List
+    sync_board_category(substr($tc_code, 0, 2));
+
     echo json_encode(['success' => true, 'msg' => '수정되었습니다.']);
 
 } else if ($w == 'd') {
@@ -102,25 +110,52 @@ if ($w == 'c') {
         die(json_encode(['error' => '코드가 없습니다.']));
 
     $tc_code = sql_real_escape_string($tc_code);
+    $root_code = substr($tc_code, 0, 2); // Get root before deletion might be safer, but code string persists
 
     // Recursive Delete
     $len = strlen($tc_code);
     $sql = " delete from {$table_name} where substring(tc_code, 1, {$len}) = '{$tc_code}' ";
     sql_query($sql);
+
+    // [AUTO-SYNC] Board Category List
+    sync_board_category($root_code);
+
     echo json_encode(['success' => true, 'msg' => '삭제되었습니다.']);
 } else if ($w == 'sync') {
     $root_code = $_POST['root_code'];
+    $result = sync_board_category($root_code);
+
+    if ($result['error']) {
+        echo json_encode(['error' => $result['msg']]);
+    } else {
+        echo json_encode(['success' => true, 'msg' => $result['msg']]);
+    }
+} else {
+    echo json_encode(['error' => '잘못된 요청입니다.']);
+}
+
+/**
+ * Helper: Sync Board Category List
+ */
+function sync_board_category($root_code)
+{
+    global $g5, $table_name;
+
     if (!$root_code)
-        die(json_encode(['error' => '루트 코드가 없습니다.']));
+        return ['error' => true, 'msg' => '루트 코드가 없습니다.'];
 
     // Find Root Category
     $sql = " select * from {$table_name} where tc_code = '{$root_code}' ";
     $root = sql_fetch($sql);
 
+    // If root deleted or bad code
+    if (!$root)
+        return ['error' => true, 'msg' => '루트 카테고리를 찾을 수 없습니다.'];
+
     if ($root['tc_link']) {
         $bo_table = trim($root['tc_link']);
 
-        // Extract bo_table from URL if present (e.g. ...?bo_table=gallery)
+        // Extract bo_table from URL
         if (preg_match('/bo_table=([^&]+)/', $bo_table, $matches)) {
             $bo_table = $matches[1];
         }
@@ -128,7 +163,7 @@ if ($w == 'c') {
         $board = sql_fetch(" select bo_table from {$g5['board_table']} where bo_table = '{$bo_table}' ");
 
         if ($board) {
-            // [ADVANCED SYNC] Fetch ALL descendants with full path (e.g., Parent > Child)
+            // [ADVANCED SYNC] Fetch ALL descendants
             $sql = " select tc_code, tc_name from {$table_name} 
                      where tc_code like '{$root_code}%' 
                      and tc_code != '{$root_code}' 
@@ -149,8 +184,6 @@ if ($w == 'c') {
             while ($row = sql_fetch_array($result)) {
                 $current_code = $row['tc_code'];
                 $path_names = [];
-                // Skip the root of the sync (the one passed in $root_code) to keep it relative or include it?
-                // Usually, we want the path from the root.
                 for ($i = strlen($root_code) + 2; $i <= strlen($current_code); $i += 2) {
                     $part_code = substr($current_code, 0, $i);
                     if (isset($code_to_name[$part_code])) {
@@ -160,7 +193,6 @@ if ($w == 'c') {
                 $cates[] = implode(' > ', $path_names);
             }
 
-            // Remove duplicates and maintain order
             $cates = array_unique($cates);
             $ca_list = implode('|', $cates);
 
@@ -169,14 +201,13 @@ if ($w == 'c') {
                             bo_use_category = 1 
                         where bo_table = '{$bo_table}' ");
 
-            echo json_encode(['success' => true, 'msg' => "계층형 분류({$bo_table}) 동기화 완료: " . cut_str($ca_list, 50)]);
+            return ['error' => false, 'msg' => "계층형 분류({$bo_table}) 동기화 완료: " . cut_str($ca_list, 50)];
         } else {
-            echo json_encode(['error' => '연동된 게시판을 찾을 수 없습니다.']);
+            return ['error' => true, 'msg' => '연동된 게시판을 찾을 수 없습니다.'];
         }
     } else {
-        echo json_encode(['error' => '링크가 설정되지 않은 카테고리입니다.']);
+        return ['error' => true, 'msg' => '링크가 설정되지 않은 카테고리입니다.'];
     }
-} else {
-    echo json_encode(['error' => '잘못된 요청입니다.']);
 }
+
 ?>

@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magazine Skin List Prototype</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #0a192f;
+            --secondary-bg: #112240;
+            --text-main: #e6f1ff;
+            --text-muted: #8892b0;
+            --accent: #d4af37;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--primary-bg);
+            color: var(--text-main);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Reuse Hero & Breadcrumb */
+        .sub-hero {
+            position: relative;
+            height: 50vh;
+            min-height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .sub-hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.4;
+        }
+
+        .sub-hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .sub-hero-title {
+            font-family: var(--font-serif);
+            font-size: 3rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .sub-hero-subtitle {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .breadcrumb {
+            background-color: var(--secondary-bg);
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .breadcrumb-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: flex-end;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .breadcrumb span {
+            margin: 0 5px;
+        }
+
+        /* MAGAZINE GRID LAYOUT */
+        .content-wrapper {
+            max-width: 1400px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+
+        .cat-filter {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cat-btn {
+            padding: 8px 20px;
+            border: 1px solid var(--text-muted);
+            border-radius: 50px;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .cat-btn:hover,
+        .cat-btn.active {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        /* Masonry Grid Simulation with CSS Columns */
+        .mag-grid {
+            column-count: 3;
+            column-gap: 30px;
+        }
+
+        .mag-item {
+            display: inline-block;
+            width: 100%;
+            background: var(--secondary-bg);
+            margin-bottom: 30px;
+            border-radius: 4px;
+            overflow: hidden;
+            break-inside: avoid;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .mag-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .mag-thumb {
+            width: 100%;
+            display: block;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .mag-content {
+            padding: 25px;
+        }
+
+        .mag-cat {
+            font-size: 0.8rem;
+            color: var(--accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .mag-title {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            line-height: 1.3;
+            color: #fff;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            /* Added flex for list edit button */
+        }
+
+        .btn-edit-list {
+            font-size: 1rem;
+            color: #ccc;
+            text-decoration: none;
+            padding: 2px 6px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            transition: 0.3s;
+            margin-top: 3px;
+            flex-shrink: 0;
+            font-family: sans-serif;
+        }
+
+        .btn-edit-list:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .mag-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .mag-meta {
+            font-size: 0.85rem;
+            color: #666;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .mag-grid {
+                column-count: 2;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .mag-grid {
+                column-count: 1;
+            }
+        }
+
+        .btn-write {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            width: 60px;
+            height: 60px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-size: 24px;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+            transition: 0.3s;
+            z-index: 100;
+            text-decoration: none;
+        }
+
+        .btn-write:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+
+<body>
+    <section class="sub-hero">
+        <div class="sub-hero-bg"></div>
+        <div class="sub-hero-content" data-aos="fade-up">
+            <p class="sub-hero-subtitle">Visual Archive</p>
+            <h1 class="sub-hero-title">Magazine Gallery</h1>
+        </div>
+    </section>
+
+    <div class="breadcrumb">
+        <div class="breadcrumb-inner"><span>Home</span> &gt; <span>Board</span> &gt; <span
+                style="color:var(--accent)">Magazine</span></div>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="cat-filter" data-aos="fade-up" data-aos-delay="100">
+            <a href="#" class="cat-btn active">All</a>
+            <a href="#" class="cat-btn">Architecture</a>
+            <a href="#" class="cat-btn">Interior</a>
+            <a href="#" class="cat-btn">Concept</a>
+            <a href="#" class="cat-btn">Sketch</a>
+        </div>
+
+        <div class="mag-grid">
+            <!-- Item 1 -->
+            <article class="mag-item" data-aos="fade-up">
+                <img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=1000&auto=format&fit=crop"
+                    class="mag-thumb" alt="Thumb">
+                <div class="mag-content">
+                    <span class="mag-cat">Architecture</span>
+                    <h3 class="mag-title"><a href="write.html" class="btn-edit-list" title="Edit">✎</a> Modern
+                        Minimalist Villa in Seoul</h3>
+                    <p class="mag-desc">A stunning example of modern brutalism mixed with nature. This project explores
+                        the relationship between concrete and light...</p>
+                    <div class="mag-meta">
+                        <span>By Admin</span>
+                        <span>2024.01.15</span>
+                    </div>
+                </div>
+            </article>
+            <!-- Item 2 (Longer) -->
+            <article class="mag-item" data-aos="fade-up" data-aos-delay="100">
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1000&auto=format&fit=crop"
+                    class="mag-thumb" style="aspect-ratio: 3/4;" alt="Thumb">
+                <div class="mag-content">
+                    <span class="mag-cat">Interior</span>
+                    <h3 class="mag-title"><a href="write.html" class="btn-edit-list" title="Edit">✎</a> The Art of
+                        Wooden Spaces</h3>
+                    <p class="mag-desc">Warm tones and natural textures define this living space. Designed to bring
+                        peace and tranquility to the urban dweller.</p>
+                    <div class="mag-meta">
+                        <span>By Designer</span>
+                        <span>2024.01.14</span>
+                    </div>
+                </div>
+            </article>
+            <!-- Item 3 -->
+            <article class="mag-item" data-aos="fade-up" data-aos-delay="200">
+                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1000&auto=format&fit=crop"
+                    class="mag-thumb" alt="Thumb">
+                <div class="mag-content">
+                    <span class="mag-cat">Concept</span>
+                    <h3 class="mag-title"><a href="write.html" class="btn-edit-list" title="Edit">✎</a> Future Office
+                    </h3>
+                    <div class="mag-meta">
+                        <span>By Tech</span>
+                        <span>2024.01.12</span>
+                    </div>
+                </div>
+            </article>
+            <!-- Item 4 -->
+            <article class="mag-item" data-aos="fade-up">
+                <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=1000&auto=format&fit=crop"
+                    class="mag-thumb" style="aspect-ratio: 1/1;" alt="Thumb">
+                <div class="mag-content">
+                    <span class="mag-cat">Interior</span>
+                    <h3 class="mag-title"><a href="write.html" class="btn-edit-list" title="Edit">✎</a> Dark Bedroom
+                        aesthetics</h3>
+                    <p class="mag-desc">Exploring the use of shadows and deep colors in bedroom design for maximum
+                        relaxation.</p>
+                </div>
+            </article>
+            <!-- Item 5 -->
+            <article class="mag-item" data-aos="fade-up" data-aos-delay="100" onclick="location.href='view.html'">
+                <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1000&auto=format&fit=crop"
+                    class="mag-thumb" alt="Thumb">
+                <div class="mag-content">
+                    <span class="mag-cat">Architecture</span>
+                    <h3 class="mag-title">White Concrete</h3>
+                </div>
+            </article>
+
+            <!-- Item 6 -->
+            <article class="mag-item" data-aos="fade-up" onclick="location.href='view.html'">
+                <img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?q=80&w=1000&auto=format&fit=crop"
+                    class="mag-thumb" alt="Thumb">
+                <div class="mag-content">
+                    <span class="mag-cat">Urban</span>
+                    <h3 class="mag-title"><a href="write.html" class="btn-edit-list" title="Edit">✎</a> City Lights</h3>
+                    <p class="mag-desc">Vibrant cityscapes captured at night.</p>
+                </div>
+            </article>
+
+            <!-- Item 7 -->
+            <article class="mag-item" data-aos="fade-up" onclick="location.href='view.html'">
+                <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1000&auto=format&fit=crop"
+                    class="mag-thumb" style="aspect-ratio: 16/9;" alt="Thumb">
+                <div class="mag-content">
+                    <span class="mag-cat">Design</span>
+                    <h3 class="mag-title"><a href="write.html" class="btn-edit-list" title="Edit">✎</a> Structural Forms
+                    </h3>
+                </div>
+            </article>
+
+            <!-- Item 8 -->
+            <article class="mag-item" data-aos="fade-up" onclick="location.href='view.html'">
+                <img src="https://images.unsplash.com/photo-1517581177697-a06aec2f2998?q=80&w=1000&auto=format&fit=crop"
+                    class="mag-thumb" style="aspect-ratio: 3/4;" alt="Thumb">
+                <div class="mag-content">
+                    <span class="mag-cat">Nature</span>
+                    <h3 class="mag-title"><a href="write.html" class="btn-edit-list" title="Edit">✎</a> Green Living
+                    </h3>
+                    <p class="mag-desc">Integrating plants into workspace design.</p>
+                </div>
+            </article>
+
+            <!-- Item 9 -->
+            <article class="mag-item" data-aos="fade-up" onclick="location.href='view.html'">
+                <img src="https://images.unsplash.com/photo-1481277542470-605612bd2d61?q=80&w=1000&auto=format&fit=crop"
+                    class="mag-thumb" alt="Thumb">
+                <div class="mag-content">
+                    <span class="mag-cat">Concept</span>
+                    <h3 class="mag-title"><a href="write.html" class="btn-edit-list" title="Edit">✎</a> Abstract Minimal
+                    </h3>
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <a href="write.html" class="btn-write" title="Write Post">+</a>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script> AOS.init(); </script>
+
+    <!-- MODAL POPUP -->
+    <!-- MODAL POPUP -->
+    <div id="magModal" class="modal-overlay">
+        <!-- Nav Arrows (Moved outside modal-content to avoid clipping) -->
+        <button class="modal-nav prev" onclick="changePost('prev')">‹</button>
+        <button class="modal-nav next" onclick="changePost('next')">›</button>
+
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">×</button>
+
+            <div class="modal-body">
+                <!-- Left: Image Gallery -->
+                <div class="modal-gallery">
+                    <div class="gallery-main">
+                        <img id="modalMainImg" src="" alt="Main Image">
+                    </div>
+                    <div class="gallery-thumbs" id="modalThumbs">
+                        <!-- Thumbnails injected by JS -->
+                    </div>
+                </div>
+
+                <!-- Right: Content -->
+                <div class="modal-info">
+                    <span class="modal-cat" id="modalCat">Category</span>
+                    <div class="title-area"
+                        style="display:flex; justify-content:flex-start; align-items:flex-start; gap:10px; margin-bottom:20px;">
+                        <a href="write.html" class="btn-edit" title="Edit Post">✎</a>
+                        <h2 class="modal-title" id="modalTitle" style="margin-bottom:0;">Title</h2>
+                    </div>
+                    <div class="modal-meta" id="modalMeta">
+                        <span>By Admin</span>
+                        <span>2024.01.15</span>
+                    </div>
+                    <div class="modal-desc" id="modalDesc">
+                        Content description goes here...
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .btn-edit {
+            font-size: 1.2rem;
+            color: #ccc;
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            transition: 0.3s;
+            flex-shrink: 0;
+        }
+
+        .btn-edit:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Navigation Arrows */
+        /* Navigation Arrows */
+        .modal-nav {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            font-size: 100px;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            z-index: 1002;
+            transition: 0.3s;
+            padding: 20px;
+        }
+
+        .modal-nav:hover {
+            color: #fff;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .modal-nav.prev {
+            left: 40px;
+        }
+
+        .modal-nav.next {
+            right: 40px;
+        }
+
+        @media (max-width: 1400px) {
+            .modal-nav.prev {
+                left: 10px;
+                color: rgba(0, 0, 0, 0.5);
+            }
+
+            .modal-nav.next {
+                right: 10px;
+                color: rgba(0, 0, 0, 0.5);
+            }
+
+            .modal-nav:hover {
+                color: #000;
+            }
+        }
+
+        /* MODAL STYLES */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: none;
+            /* Hidden by default */
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: #fff;
+            width: 90%;
+            max-width: 1200px;
+            height: 85vh;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            display: flex;
+            /* Flex layout for Split View */
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 40px;
+            color: #333;
+            cursor: pointer;
+            z-index: 10;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            color: var(--accent);
+        }
+
+        .modal-body {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Left: Gallery */
+        .modal-gallery {
+            width: 60%;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .gallery-main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .gallery-main img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .gallery-thumbs {
+            height: 100px;
+            background: #111;
+            padding: 10px;
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            justify-content: center;
+        }
+
+        .thumb-item {
+            height: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            opacity: 0.5;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: 0.2s;
+        }
+
+        .thumb-item:hover,
+        .thumb-item.active {
+            opacity: 1;
+            border-color: var(--accent);
+        }
+
+        /* Right: Info */
+        .modal-info {
+            width: 40%;
+            padding: 60px 40px;
+            overflow-y: auto;
+            background: #fff;
+            color: #333;
+            position: relative;
+        }
+
+        .modal-cat {
+            color: var(--accent);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: #000;
+        }
+
+        .modal-meta {
+            color: #999;
+            font-size: 0.9rem;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-meta span {
+            margin: 0 10px 0 0;
+        }
+
+        .modal-desc {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 40px;
+        }
+
+        .btn-detail {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #111;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-detail:hover {
+            background: var(--accent);
+            color: #000;
+        }
+
+        /* Mobile */
+        @media (max-width: 900px) {
+            .modal-content {
+                flex-direction: column;
+                height: 90vh;
+            }
+
+            .modal-gallery {
+                width: 100%;
+                height: 50%;
+            }
+
+            .modal-info {
+                width: 100%;
+                height: 50%;
+                padding: 30px 20px;
+            }
+
+            .modal-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+
+    <script>
+        let currentIndex = 0;
+        const allItems = document.querySelectorAll('.mag-item');
+
+        function openModal(el) {
+            if (!el) return;
+
+            // Find index of clicked element
+            allItems.forEach((item, index) => {
+                if (item === el) currentIndex = index;
+            });
+
+            updateModalContent(el);
+
+            document.getElementById('magModal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function changePost(direction) {
+            if (direction === 'prev') {
+                currentIndex = (currentIndex > 0) ? currentIndex - 1 : allItems.length - 1;
+            } else {
+                currentIndex = (currentIndex < allItems.length - 1) ? currentIndex + 1 : 0;
+            }
+            updateModalContent(allItems[currentIndex]);
+        }
+
+        function updateModalContent(el) {
+            const mainImg = document.getElementById('modalMainImg');
+            const title = document.getElementById('modalTitle');
+            const cat = document.getElementById('modalCat');
+            const desc = document.getElementById('modalDesc');
+            const thumbsContainer = document.getElementById('modalThumbs');
+
+            // Scrape data 
+            const imgParams = el.querySelector('.mag-thumb').src;
+            const titleParams = el.querySelector('.mag-title').innerText;
+            const catParams = el.querySelector('.mag-cat').innerText;
+            const descParams = el.querySelector('.mag-desc') ? el.querySelector('.mag-desc').innerText : "";
+
+            mainImg.src = imgParams;
+            title.innerText = titleParams;
+            cat.innerText = catParams;
+            desc.innerText = descParams;
+
+            // Generate Thumbs (Simulated)
+            thumbsContainer.innerHTML = '';
+            for (let i = 0; i < 3; i++) {
+                const thumb = document.createElement('img');
+                thumb.src = imgParams;
+                thumb.className = i === 0 ? 'thumb-item active' : 'thumb-item';
+                thumb.onclick = function () {
+                    mainImg.src = this.src;
+                    document.querySelectorAll('.thumb-item').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                };
+                thumbsContainer.appendChild(thumb);
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('magModal').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('magModal').addEventListener('click', function (e) {
+            if (e.target === this) closeModal();
+        });
+
+        // Add Click Events
+        allItems.forEach(item => {
+            item.onclick = function (e) {
+                e.preventDefault();
+                openModal(this);
+            };
+        });
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', function (e) {
+            if (!document.getElementById('magModal').classList.contains('open')) return;
+            if (e.key === 'ArrowLeft') changePost('prev');
+            if (e.key === 'ArrowRight') changePost('next');
+            if (e.key === 'Escape') closeModal();
+        });
+    </script>
+</body>
+
+</html>

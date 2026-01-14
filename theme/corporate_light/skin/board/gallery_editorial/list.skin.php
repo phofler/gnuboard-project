@@ -220,14 +220,17 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background: rgba(0, 0, 0, 0.95); /* Deeper dark background */
-                z-index: 9999; /* Highest priority */
+                background: rgba(0, 0, 0, 0.95);
+                /* Deeper dark background */
+                z-index: 9999;
+                /* Highest priority */
                 display: none;
                 justify-content: center;
                 align-items: center;
                 opacity: 0;
                 transition: opacity 0.3s ease;
-                backdrop-filter: blur(5px); /* Modern blur effect */
+                backdrop-filter: blur(5px);
+                /* Modern blur effect */
             }
 
             .lightbox-overlay.active {
@@ -256,7 +259,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">
                 z-index: 10001;
                 transition: transform 0.2s;
             }
-            
+
             .lightbox-close:hover {
                 transform: scale(1.1) rotate(90deg);
             }
@@ -269,7 +272,8 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">
                 align-items: center;
                 width: 100%;
                 overflow: hidden;
-                padding: 0; /* Remove padding to full fill */
+                padding: 0;
+                /* Remove padding to full fill */
             }
 
             #l-img {
@@ -289,15 +293,18 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">
                 display: flex;
                 gap: 10px;
                 padding: 10px;
-                background: rgba(0, 0, 0, 0.5); /* Darker translucent bg */
+                background: rgba(0, 0, 0, 0.5);
+                /* Darker translucent bg */
                 border-radius: 10px;
                 overflow-x: auto;
                 max-width: 80%;
-                z-index: 10002; /* Higher than text */
+                z-index: 10002;
+                /* Higher than text */
             }
 
             .l-thumb-wrap::-webkit-scrollbar {
-                display: none; /* Chrome/Safari */
+                display: none;
+                /* Chrome/Safari */
             }
 
             .l-thumb {
@@ -318,27 +325,44 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">
 
             .l-thumb.active {
                 opacity: 1;
-                border-color: #d94e28; /* Point Color */
+                border-color: #d94e28;
+                /* Point Color */
                 box-shadow: 0 0 10px rgba(217, 78, 40, 0.5);
             }
 
-            /* Text Area (Optional - maybe overlaid or hidden in gallery mode) */
-            /* Text Area - Overlay on Image (Left Bottom) */
+            /* Text Area - Bottom Left Overlay with Gradient */
             .l-text-area {
                 position: absolute;
-                bottom: 40px;
-                left: 40px;
-                text-align: left;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                padding: 15vh 40px 140px 40px;
+                /* Gradient height */
+                background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0) 100%);
                 color: #fff;
-                z-index: 10001;
-                text-shadow: 0 1px 3px rgba(0,0,0,0.8);
                 pointer-events: none;
+                /* Let clicks pass */
+                z-index: 10001;
             }
-            
-            .l-cate { color: #d94e28; font-weight: bold; font-size: 13px; margin-bottom: 5px; text-transform: uppercase; }
-            .l-title { font-size: 28px; font-weight: 700; margin: 0; line-height: 1.2; }
-            .l-desc { display: none; }
 
+            .l-cate {
+                color: #d94e28;
+                font-weight: bold;
+                font-size: 13px;
+                margin-bottom: 5px;
+                text-transform: uppercase;
+            }
+
+            .l-title {
+                font-size: 28px;
+                font-weight: 700;
+                margin: 0;
+                line-height: 1.2;
+            }
+
+            .l-desc {
+                display: none;
+            }
         </style>
     <?php } ?>
 
@@ -407,31 +431,59 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">
                 $description = strip_tags($list[$i]['wr_content']);
                 // If manual summary exists, use it? Or just raw content cut.
                 //$description = utf8_strcut($description, 200, '..');
-
-                // [GALLERY ENHANCEMENT] Extract All Attached Images for this Post
+            
+                // [GALLERY ENHANCEMENT] Extract All Images (Attached + Editor)
                 $img_files = array();
+
+                // 1. Attached Files
                 $files = get_file($board['bo_table'], $list[$i]['wr_id']);
                 if ($files) {
                     foreach ($files as $file) {
-                        if (isset($file['file']) && $file['file']) {
-                            // Check if image extension
-                            if (preg_match("/\.(jpg|jpeg|png|gif|webp|bmp)$/i", $file['file'])) {
-                                $img_files[] = $file['path'] . '/' . $file['file'];
-                            }
+                        $is_image = false;
+                        $ext_regex = "/\.(jpg|jpeg|png|gif|webp|bmp)$/i";
+
+                        // Check 'file' (disk name) AND 'source' (original name)
+                        if (
+                            (isset($file['file']) && preg_match($ext_regex, $file['file'])) ||
+                            (isset($file['source']) && preg_match($ext_regex, $file['source']))
+                        ) {
+                            $is_image = true;
+                        }
+
+                        if ($is_image && isset($file['path']) && isset($file['file'])) {
+                            $img_files[] = $file['path'] . '/' . $file['file'];
                         }
                     }
                 }
-                // If no attached files but thumbnail exists (e.g. from editor), add thumbnail as fallback single image
-                if (empty($img_files) && $thumb['src']) {
-                     $img_files[] = $thumb['src'];
+
+                // 2. Editor Images (Regex extract from wr_content)
+                // Use non-greedy match for src
+                if (preg_match_all("/<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>/i", $list[$i]['wr_content'], $matches)) {
+                    foreach ($matches[1] as $editor_img_url) {
+                        // Filter out emoticons or obviously non-content images if needed
+                        // For now, accept all content images.
+                        // Convert relative URL to absolute if needed, but get_editor_image returns full paths usually if configured right.
+                        // Assuming the src is usable as is.
+                        $img_files[] = $editor_img_url;
+                    }
                 }
-                
+
+                // 3. Fallback (Thumbnail) - Only if NOTHING found
+                if (empty($img_files) && $thumb['src']) {
+                    $img_files[] = $thumb['src'];
+                }
+
+                // 4. De-duplicate (Editor might have included attached image if user inserted it)
+                $img_files = array_unique($img_files);
+                $img_files = array_values($img_files); // Re-index
+            
                 // Convert to JSON for data attribute
                 $data_images_json = htmlspecialchars(json_encode($img_files, JSON_UNESCAPED_SLASHES), ENT_QUOTES, 'UTF-8');
                 ?>
 
                 <!-- ITEM -->
-                <article class="gallery-card" onclick="openLightbox(this)" data-images="<?php echo $data_images_json; ?>">
+                <article class="gallery-card" onclick="openLightbox(this)" data-images="<?php echo $data_images_json; ?>"
+                    data-debug-count="<?php echo count($img_files); ?>">
 
                     <?php if ($is_checkbox) { ?>
                         <div class="chk_box" onclick="event.stopPropagation();">
@@ -450,6 +502,17 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">
                             <?php echo $list[$i]['ca_name'] ? $list[$i]['ca_name'] : 'PROJECT'; ?>
                         </span>
                         <h3 class="gallery-title">
+                            <?php
+                            // [Admin Edit Link]
+                            if ($is_admin == 'super' || $is_auth) {
+                                $edit_href = G5_BBS_URL . '/write.php?w=u&bo_table=' . $bo_table . '&wr_id=' . $list[$i]['wr_id'];
+                                if (isset($_GET['me_code']))
+                                    $edit_href .= '&me_code=' . urlencode($_GET['me_code']);
+                                $edit_href .= '&page=' . $page;
+                                $edit_href .= '#bo_w'; // [Admin Anchor]
+                                echo '<a href="' . $edit_href . '" onclick="event.stopPropagation();" class="btn_mini_edit" title="수정"><i class="fa fa-pencil"></i></a> ';
+                            }
+                            ?>
                             <?php echo $list[$i]['subject'] ?>
                             <?php if ($list[$i]['icon_secret'])
                                 echo "<img src='" . $board_skin_url . "/img/icon_secret.gif' alt='secret'>"; ?>
@@ -470,6 +533,32 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">
             } ?>
         </div>
         <!-- [END GRID] -->
+
+        <style>
+            /* Mini Edit Button Style */
+            .btn_mini_edit {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 24px;
+                height: 24px;
+                background: #f1f3f5;
+                color: #495057;
+                border-radius: 4px;
+                font-size: 13px;
+                margin-right: 6px;
+                vertical-align: middle;
+                transition: all 0.2s;
+                opacity: 0.5;
+                /* Subtle by default */
+            }
+
+            .btn_mini_edit:hover {
+                background: #d94e28;
+                color: #fff;
+                opacity: 1;
+            }
+        </style>
 
         <!-- 페이지 -->
         <?php
@@ -500,18 +589,241 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">
 <div id="lightbox" class="lightbox-overlay">
     <div class="lightbox-content">
         <div class="lightbox-close" onclick="closeLightbox()">&times;</div>
+
+        <!-- Left: Image Area (Flex 1) -->
         <div class="l-img-area">
             <img id="l-img" src="" alt="">
-            <!-- Thumbnails Container -->
+            <!-- Thumbnails: Absolute Bottom Center of Image Area -->
             <div id="l-thumb-wrap" class="l-thumb-wrap"></div>
         </div>
+
+        <!-- Right: Text Info Area (Fixed Width) -->
         <div class="l-text-area">
             <div id="l-cate" class="l-cate">CATEGORY</div>
             <h3 id="l-title" class="l-title">Project Title</h3>
+            <div class="l-divider"></div>
             <div id="l-desc" class="l-desc">Description goes here...</div>
         </div>
     </div>
 </div>
+
+<style>
+    /* [MODAL V3] Split Layout (Image Left - Text Right) */
+    .lightbox-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        z-index: 9999;
+        display: none;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .lightbox-overlay.active {
+        display: flex;
+        opacity: 1;
+    }
+
+    .lightbox-content {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        /* Split Row */
+        overflow: hidden;
+    }
+
+    /* --- Left: Image Area --- */
+    .l-img-area {
+        flex: 1;
+        /* Take remaining space */
+        height: 100%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #000;
+        padding-bottom: 80px;
+        /* Space for thumbs */
+    }
+
+    #l-img {
+        max-width: 90%;
+        max-height: 80%;
+        /* Fit within area */
+        object-fit: contain;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Thumbnails (Bottom Center of Image Area) */
+    .l-thumb-wrap {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 8px;
+        padding: 8px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        backdrop-filter: blur(5px);
+        z-index: 10;
+    }
+
+    .l-thumb {
+        width: 60px !important;
+        height: 60px !important;
+        object-fit: cover;
+        border-radius: 4px;
+        opacity: 0.5;
+        transition: 0.2s;
+        cursor: pointer;
+        border: 2px solid transparent;
+        max-width: none !important;
+        /* Prevent responsiveness from shrinking or expanding unexpectedly */
+    }
+
+    .l-thumb:hover,
+    .l-thumb.active {
+        opacity: 1;
+        border-color: #d94e28;
+        transform: scale(1.1);
+    }
+
+    /* --- Right: Text Area --- */
+    .l-text-area {
+        width: 400px;
+        /* Fixed Width Sidebar */
+        height: 100%;
+        position: relative !important;
+        /* Force Reset from Absolute */
+        bottom: auto !important;
+        left: auto !important;
+        background: #111 !important;
+        /* Force Dark Grey */
+        border-left: 1px solid #222;
+        padding: 60px 40px !important;
+        /* Reset Padding */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        /* Center Vertically */
+        color: #fff;
+        z-index: 20;
+        overflow-y: auto;
+        pointer-events: auto !important;
+        /* Re-enable clicks */
+    }
+
+    .l-cate {
+        color: #d94e28;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+    }
+
+    .l-title {
+        font-size: 32px;
+        font-weight: 700;
+        line-height: 1.3;
+        margin: 0 0 20px 0;
+        color: #fff;
+    }
+
+    .l-divider {
+        width: 40px;
+        height: 2px;
+        background: #333;
+        margin-bottom: 20px;
+    }
+
+    .l-desc {
+        font-size: 15px;
+        line-height: 1.7;
+        color: #aaa;
+        word-break: keep-all;
+        display: block !important;
+        /* Force reveal from legacy hidden state */
+    }
+
+    /* Close Button */
+    .lightbox-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        font-size: 40px;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 100;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .lightbox-close:hover {
+        transform: rotate(90deg);
+        color: #d94e28;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 1024px) {
+        .lightbox-content {
+            flex-direction: column;
+        }
+
+        .l-img-area {
+            flex: none;
+            height: 60%;
+            padding-bottom: 0;
+        }
+
+        #l-img {
+            max-height: 90%;
+        }
+
+        .l-thumb-wrap {
+            bottom: 10px;
+            max-width: 90%;
+            overflow-x: auto;
+        }
+
+        .l-text-area {
+            width: 100%;
+            height: 40%;
+            /* Stack bottom */
+            padding: 30px;
+            border-left: none;
+            border-top: 1px solid #222;
+            justify-content: flex-start;
+        }
+
+        .l-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .l-desc {
+            font-size: 14px;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            display: -webkit-box;
+            overflow: hidden;
+        }
+
+        .lightbox-close {
+            top: 10px;
+            right: 10px;
+        }
+    }
+</style>
 
 <script>
     // Rich Modal Logic
@@ -539,7 +851,19 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">
         const cateObj = element.querySelector('.gallery-cate');
         const cate = cateObj ? cateObj.innerText : '';
         const titleObj = element.querySelector('.gallery-title');
-        const title = titleObj ? titleObj.innerText : '';
+
+        // Remove edit button text if present
+        let title = '';
+        if (titleObj) {
+            // Clone to avoid removing from DOM
+            let clone = titleObj.cloneNode(true);
+            let btn = clone.querySelector('.btn_mini_edit');
+            if (btn) btn.remove();
+            let img = clone.querySelector('img'); // secret icon
+            if (img) img.remove();
+            title = clone.innerText.trim();
+        }
+
         const descObj = element.querySelector('.gallery-desc');
         const desc = descObj ? descObj.innerHTML : '';
 
@@ -547,7 +871,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">
         const mainImg = document.getElementById('l-img');
         const overlay = document.getElementById('lightbox');
         const thumbWrap = document.getElementById('l-thumb-wrap');
-        
+
         // Start with first image
         mainImg.src = images[0];
         mainImg.style.opacity = '0'; // Fade init
@@ -564,7 +888,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">
                 const thumb = document.createElement('img');
                 thumb.src = src;
                 thumb.className = 'l-thumb' + (idx === 0 ? ' active' : '');
-                thumb.onclick = function(e) {
+                thumb.onclick = function (e) {
                     e.stopPropagation(); // Prevent modal close
                     // Switch Image
                     mainImg.style.opacity = '0.5';
@@ -572,7 +896,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">
                         mainImg.src = src;
                         mainImg.style.opacity = '1';
                     }, 100);
-                    
+
                     // Update Active Class
                     document.querySelectorAll('.l-thumb').forEach(t => t.classList.remove('active'));
                     this.classList.add('active');
@@ -593,7 +917,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">
         const lightbox = document.getElementById('lightbox');
         lightbox.classList.remove('active');
         document.body.style.overflow = '';
-        
+
         // Clear src to stop memory leak or fast swap
         setTimeout(() => {
             document.getElementById('l-img').src = '';
@@ -602,8 +926,16 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css">
 
     // Close on background click
     document.getElementById('lightbox').addEventListener('click', function (e) {
-        if (e.target === this) {
+        if (e.target === this || e.target.classList.contains('l-img-area')) {
             closeLightbox();
+        }
+    });
+
+    // [MODAL FIX] Move Lightbox to Body to ensure it's above Header (#hd z-index: 1000)
+    document.addEventListener("DOMContentLoaded", function () {
+        const lb = document.getElementById('lightbox');
+        if (lb) {
+            document.body.appendChild(lb);
         }
     });
 

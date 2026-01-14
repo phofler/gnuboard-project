@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webzine Skin View Prototype</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #fff;
+            --secondary-bg: #f8f9fa;
+            --text-main: #111;
+            --text-muted: #555;
+            --accent: #d4af37;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--primary-bg);
+            color: var(--text-main);
+            line-height: 1.8;
+        }
+
+        .article-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 80px;
+        }
+
+        /* Left Sidebar (Sticky Meta) */
+        .meta-sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+            border-right: 1px solid #eee;
+            padding-right: 40px;
+            text-align: right;
+        }
+
+        .meta-cat {
+            color: var(--accent);
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: block;
+            letter-spacing: 1px;
+        }
+
+        .meta-date {
+            color: #999;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            display: block;
+            font-family: var(--font-serif);
+            font-style: italic;
+        }
+
+        .meta-author {
+            font-weight: 600;
+            margin-bottom: 40px;
+            display: block;
+        }
+
+        .meta-share-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: #999;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .meta-share-links a {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .meta-share-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Main Article */
+        .article-main {
+            max-width: 700px;
+        }
+
+        .article-title {
+            font-family: var(--font-serif);
+            font-size: 3rem;
+            line-height: 1.2;
+            margin-bottom: 40px;
+        }
+
+        .article-lead {
+            font-size: 1.25rem;
+            color: #333;
+            font-weight: 500;
+            margin-bottom: 40px;
+            line-height: 1.6;
+            border-left: 4px solid var(--accent);
+            padding-left: 20px;
+        }
+
+        .article-body {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+        }
+
+        .article-body p {
+            margin-bottom: 30px;
+        }
+
+        .article-body img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin: 30px 0;
+        }
+
+        .article-body h3 {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            margin: 50px 0 20px;
+            color: #111;
+        }
+
+        /* Footer Nav */
+        .article-footer {
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn-text {
+            font-weight: 600;
+            text-decoration: none;
+            color: #111;
+            transition: 0.3s;
+        }
+
+        .btn-text:hover {
+            color: var(--accent);
+        }
+
+        @media (max-width: 900px) {
+            .article-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .meta-sidebar {
+                position: static;
+                border-right: none;
+                border-bottom: 1px solid #eee;
+                padding-right: 0;
+                padding-bottom: 30px;
+                text-align: left;
+                margin-bottom: 40px;
+            }
+
+            .article-title {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="article-container">
+
+        <!-- Sidebar -->
+        <aside class="meta-sidebar">
+            <span class="meta-cat">Interview</span>
+            <span class="meta-date">January 15, 2024</span>
+            <span class="meta-author">By Sarah Lee</span>
+
+            <span class="meta-share-title">Share Code</span>
+            <div class="meta-share-links">
+                <a href="#">Copy Link</a>
+                <a href="#">Facebook</a>
+                <a href="#">Twitter</a>
+            </div>
+
+            <div style="margin-top: 60px;">
+                <a href="list.html" class="btn-text">← Back to List</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="article-main">
+            <h1 class="article-title">The Future of Sustainable Design in Modern Urban Living</h1>
+
+            <p class="article-lead">
+                "Sustainability is no longer a choice, but a necessity. We explore how modern architecture is adapting
+                to the climate crisis without sacrificing aesthetics."
+            </p>
+
+            <div class="article-body">
+                <img src="https://images.unsplash.com/photo-1621600411688-4be93cd68504?q=80&w=1000&auto=format&fit=crop"
+                    alt="Article Image">
+
+                <p>
+                    In recent years, the conversation around urban development has shifted dramatically. Architects are
+                    no longer just designers of space; they are custodians of the environment. The integration of green
+                    technology with traditional building materials has opened up new possibilities for creating
+                    structures that breathe.
+                </p>
+
+                <h3>Living with Nature</h3>
+                <p>
+                    The concept of 'Biophilic Design' suggests that humans possess an innate tendency to seek
+                    connections with nature. Incorporating direct or indirect elements of nature into the built
+                    environment has been demonstrated to reduce stress, improve cognitive function and creativity, and
+                    improve our well-being and healing.
+                </p>
+
+                <p>
+                    As we move forward into 2024, we see a trend towards "Rewilding" our cities—bringing native plant
+                    species back into our daily lives through vertical gardens, rooftop parks, and green corridors.
+                </p>
+            </div>
+
+            <div class="article-footer">
+                <a href="#" class="btn-text">← Previous Article</a>
+                <a href="#" class="btn-text">Next Article →</a>
+            </div>
+        </main>
+
+    </div>
+
+</body>
+
+</html>
