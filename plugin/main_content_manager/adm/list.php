@@ -69,6 +69,18 @@ $result = sql_query($sql);
 $admin_token = get_admin_token();
 ?>
 
+<?php
+// Skin List Definition (Synced with write.php)
+$skins = array(
+    'A' => 'Style A (Default)',
+    'B' => 'Style B (Wide)',
+    'C' => 'Style C (Simple)',
+    'D' => 'Style D (Modern List)',
+    'philosophy_light' => 'Style Philosophy',
+    'main_loader' => '메인 컨텐츠 관리'
+);
+?>
+
 <div class="local_desc01 local_desc">
     <p>메인 페이지에 노출될 디자인 섹션들을 관리합니다. 각 섹션별로 독립적인 스킨과 컨텐츠를 구성할 수 있습니다.</p>
 </div>
@@ -86,6 +98,7 @@ $admin_token = get_admin_token();
             <col width="150"> <!-- ID -->
             <col width="80"> <!-- Lang -->
             <col> <!-- Title -->
+            <col width="180"> <!-- Skin [NEW] -->
             <col width="100"> <!-- Show Title -->
             <col width="100"> <!-- Sort -->
             <col width="100"> <!-- Status -->
@@ -96,6 +109,7 @@ $admin_token = get_admin_token();
                 <th>식별 코드 (ID)</th>
                 <th>언어</th>
                 <th>메인 제목</th>
+                <th>디자인 스킨</th>
                 <th>제목 노출</th>
                 <th>노출 순서</th>
                 <th>상태</th>
@@ -108,6 +122,9 @@ $admin_token = get_admin_token();
                 $edit_url = "./write.php?w=u&ms_id=" . $row['ms_id'];
                 $status = $row['ms_active'] ? '<span style="color:blue;">노출중</span>' : '<span style="color:#888;">숨김</span>';
                 $show_title = $row['ms_show_title'] ? 'Y' : 'N';
+
+                // Skin Label
+                $skin_label = isset($skins[$row['ms_skin']]) ? $skins[$row['ms_skin']] : $row['ms_skin'];
 
                 // Lang Label
                 $lang_label = strtoupper($row['ms_lang']);
@@ -125,6 +142,9 @@ $admin_token = get_admin_token();
                         <a href="<?php echo $edit_url; ?>"
                             style="font-weight:bold;"><?php echo get_text($row['ms_title']); ?></a>
                     </td>
+                    <td class="td_left" style="font-size:0.95em; color:#555;">
+                        <?php echo $skin_label; ?>
+                    </td>
                     <td class="td_num"><?php echo $show_title; ?></td>
                     <td class="td_num"><?php echo $row['ms_sort']; ?></td>
                     <td class="td_num text-center"><?php echo $status; ?></td>
@@ -138,7 +158,7 @@ $admin_token = get_admin_token();
                 </tr>
             <?php } ?>
             <?php if ($i == 0)
-                echo '<tr><td colspan="8" class="empty_table">등록된 섹션이 없습니다.</td></tr>'; ?>
+                echo '<tr><td colspan="9" class="empty_table">등록된 섹션이 없습니다.</td></tr>'; ?>
         </tbody>
     </table>
 </div>

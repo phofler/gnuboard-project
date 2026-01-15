@@ -9,11 +9,7 @@ add_javascript('<script src="' . G5_THEME_URL . '/js/category_cascade.js?v=' . t
 ?>
 
 <section id="bo_w" class="skin-container">
-    <div class="write-header">
-        <h1 class="wz-view-title" style="font-size:3rem; margin-bottom:10px;">New Entry</h1>
-        <p style="color:#999; text-transform:uppercase; letter-spacing:2px; font-size:0.85rem;">Webzine Editorial Mode
-        </p>
-    </div>
+
 
     <form name="fwrite" id="fwrite" action="<?php echo $action_url ?>" onsubmit="return fwrite_submit(this);"
         method="post" enctype="multipart/form-data" autocomplete="off">
@@ -33,7 +29,7 @@ add_javascript('<script src="' . G5_THEME_URL . '/js/category_cascade.js?v=' . t
             <label class="form-label">Category</label>
             <?php if ($is_category) { ?>
                 <input type="text" name="ca_name" id="ca_name"
-                    value="<?php echo isset($write['ca_name']) ? $write['ca_name'] : ''; ?>" required style="display:none;">
+                    value="<?php echo isset($write['ca_name']) ? $write['ca_name'] : ''; ?>" style="display:none;">
                 <input type="hidden" name="wr_1" id="wr_1"
                     value="<?php echo isset($write['wr_1']) ? $write['wr_1'] : ''; ?>">
                 <div id="category_container" style="display:flex; gap:10px;"></div>
@@ -46,9 +42,9 @@ add_javascript('<script src="' . G5_THEME_URL . '/js/category_cascade.js?v=' . t
                                 initialCaName: "<?php echo isset($write['ca_name']) ? addslashes($write['ca_name']) : ''; ?>",
                                 initialCode: "<?php echo isset($write['wr_1']) ? $write['wr_1'] : ''; ?>",
                                 validCategories: <?php echo json_encode(explode('|', $board['bo_category_list']), JSON_UNESCAPED_UNICODE); ?>
-                                });
-                            }
-                        });
+                            });
+                        }
+                    });
                 </script>
             <?php } ?>
         </div>
@@ -92,13 +88,10 @@ add_javascript('<script src="' . G5_THEME_URL . '/js/category_cascade.js?v=' . t
             $cancel_url = get_pretty_url($bo_table);
             if (isset($_GET['me_code']))
                 $cancel_url .= (strpos($cancel_url, '?') === false ? '?' : '&') . 'me_code=' . urlencode($_GET['me_code']);
-            $cancel_url .= '#bo_cate';
+            $cancel_url .= '#bo_list';
             ?>
-            <a href="<?php echo $cancel_url; ?>" class="btn btn-can"
-                style="display:inline-block; padding:12px 40px; background:#eee; color:#333; text-decoration:none; border-radius:4px; font-weight:600;">Discard</a>
-            <button type="submit" id="btn_submit" class="btn btn-sub"
-                style="padding:12px 60px; background:#111; color:#fff; border:none; border-radius:4px; font-weight:600; cursor:pointer;">Publish
-                Article</button>
+            <a href="<?php echo $cancel_url; ?>" class="btn-wz-discard">Discard</a>
+            <button type="submit" id="btn_submit" class="btn-wz-publish">Publish Article</button>
         </div>
     </form>
 </section>
@@ -116,8 +109,20 @@ add_javascript('<script src="' . G5_THEME_URL . '/js/category_cascade.js?v=' . t
     }
 
     function fwrite_submit(f) {
-    <?php echo $editor_js; ?>
-    if (f.wr_subject.value.trim() === '') { alert('Please enter a headline.'); f.wr_subject.focus(); return false; }
+        <?php echo $editor_js; ?>
+
+        <?php if ($is_category) { ?>
+            if (!f.ca_name.value) {
+                alert("카테고리를 선택하세요.");
+                var firstSelect = document.querySelector('#category_container select');
+                if (firstSelect) {
+                    firstSelect.focus();
+                }
+                return false;
+            }
+        <?php } ?>
+
+        if (f.wr_subject.value.trim() === '') { alert('Please enter a headline.'); f.wr_subject.focus(); return false; }
         document.getElementById("btn_submit").disabled = "disabled";
         return true;
     }

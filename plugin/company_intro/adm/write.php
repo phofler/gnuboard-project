@@ -514,6 +514,7 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                             <div class="skin-selector-container">
                                 <?php
                                 $skins_main = array(
+                                    'main_manifesto' => array('메인 철학 (Manifesto & Slogan)', 'fa-quote-left'),
                                     'main_latest' => array('메인 최신글', 'fa-images'),
                                     'main_map' => array('메인 지도 (Map)', 'fa-map-marked-alt'),
                                     'main_inquiry' => array('메인 온라인 문의', 'fa-envelope-open-text'),

@@ -4,8 +4,8 @@ if (!defined('_GNUBOARD_'))
 global $is_admin;
 
 /* 
- * [BRIDGE PATTERN] Philosophy Light Skin
- * Bridges content from Company Intro Manager (Main Manifesto)
+ * [BRIDGE PATTERN] Generic Main Loader
+ * Purpose: Bridges content from Company Intro Manager (Manifesto, Map, Inquiry, etc.)
  */
 
 include_once(G5_PLUGIN_PATH . '/company_intro/lib/company.lib.php');
@@ -31,12 +31,11 @@ if ($co && $co['co_skin']) {
         echo '<div class="text-center py-5">Skin file not found: ' . $co['co_skin'] . '</div>';
     }
 } else {
-    // Fallback: If no bridge connected, show empty or placeholder
-    // This allows the section to exist but remain hidden if not configured
+    // Fallback: If no bridge connected
     if ($is_admin == 'super') {
         echo '<div style="background:#fff; border:1px dashed #ccc; padding:20px; text-align:center;">';
-        echo '<h4 style="color:#e74c3c;">[SYSTEM: Bridge Disconnected]</h4>';
-        echo '<p>Please link a Company Intro Source in <strong>Main Content Manager > Section Settings</strong>.</p>';
+        echo '<h4 style="color:#e74c3c;">[SYSTEM: Content Bridge Disconnected]</h4>';
+        echo '<p>Please link a Company Intro Source (Map, Inquiry, etc.) in <strong>Main Content Manager > Section Settings</strong>.</p>';
         echo '</div>';
     }
 }

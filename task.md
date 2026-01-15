@@ -15,6 +15,23 @@
     - [x] **Attempt Log Reset** (Done: `aria_log_control` & `ib_logfile` reset)
     - [x] **Uninstall Conflicting Software** (MySQL Server 8.0)
     - [x] **Resolve Service Conflict (MySQL80 vs XAMPP)**
+- [x] **Webzine Skin Integration (Editorial Standard)**
+    - [x] **Implementation Plan & Setup**
+        - [x] Create `implementation_plan.md`
+        - [x] Create `webzine` skin directory (`theme/corporate_light/skin/board/webzine`)
+    - [x] **List Page (`list.skin.php`)**
+        - [x] Implement Alternating Layout (Odd: Text-Img, Even: Img-Text)
+        - [x] Apply Big Typography for Titles
+        - [x] **Implement Type B Category (Strategic Dropdown)**
+            - [x] Hierarchy parsing logic (Parent > Child)
+            - [x] Robust Search Links (`sfl=ca_name&stx=...`)
+            - [x] Dropdown CSS & Interaction
+    - [x] **View Page (`view.skin.php`)**
+        - [x] Implement Sticky Meta Sidebar (Right side)
+        - [x] Apply "Lead Text" styling for the first paragraph
+    - [x] **Integration**
+        - [x] Register in `Board Skin Manager`
+        - [x] Verify Mobile Responsiveness
 - [ ] **📅 Next Priority (Zero-Gap Prototype Delivery)**
     - [/] **1. 메인 시안 (`index_ko.html`) 완동기화**
         - [x] **Philosophy**: `philosophy_light` 스킨 (Left Label + Bold Text)

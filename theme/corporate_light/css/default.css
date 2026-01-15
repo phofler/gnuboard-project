@@ -54,40 +54,108 @@
     /* Shorthand for "10vh 0" */
     --header-height: 100px;
     /* Prototype Sync: 100px */
+    --header-anchor-offset: 130px;
+    /* [GLOBAL ANCHOR OFFSET] - Managed Collectively */
+
     --sub-hero-height: 60vh;
 
     /* Responsive Adjustments (Internal Tokens) */
     --mobile-padding: 20px;
     --mobile-section-spacing: 60px;
 
-    /* [EDITORIAL DESIGN SYSTEM] for Main Content Manager */
-    --mc-section-padding: 100px;
-    /* Vertical breathing room */
-    --mc-item-gutter: 50px;
-    /* Gap between image and text */
-    --mc-list-gap: 80px;
-    /* Spacing between multiple items */
+    /* [MAIN PAGE TYPOGRAPHY] - Ported from index_ko.html */
+    --t-mega-size: clamp(80px, 13vw, 250px);
+    --t-h2-size: clamp(24px, 3vw, 48px);
+    --t-body-size: 1.125rem;
+}
 
-    --mc-title-size: 3rem;
-    /* Section main title size */
-    --mc-item-title-size: 2rem;
-    /* Individual item title size */
-    --mc-desc-line-height: 1.8;
-    /* Readability for descriptions */
+/* [MAIN PAGE UTILITIES] */
+.t-mega {
+    font-size: var(--t-mega-size);
+    line-height: 0.8;
+    text-transform: uppercase;
+    letter-spacing: -0.04em;
+    font-family: var(--font-display);
+    font-weight: 400;
+}
 
-    --mc-border-radius: 4px;
-    /* Subtle rounding for images */
-    --mc-transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    /* Professional movement */
+.t-h1 {
+    font-size: var(--t-h1-size);
+    line-height: 1.1;
+    font-weight: 400;
+    font-family: var(--font-display);
+}
 
-    --mc-btn-padding: 14px 40px;
-    /* Standard Button Size */
-    --mc-btn-weight: 700;
-    /* Boldness */
-    --mc-btn-letter-spacing: 0.15em;
-    /* Editorial spreading */
-    --mc-btn-text: "VIEW DETAIL";
-    /* [GLOBAL BUTTON LABEL] */
+.t-h2 {
+    font-size: var(--t-h2-size);
+    font-weight: 400;
+    margin-bottom: 2rem;
+    font-family: var(--font-display);
+}
+
+.t-body {
+    font-size: var(--t-body-size);
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+}
+
+.manifesto-text {
+    font-family: var(--font-body);
+    /* Changed to Noto Sans KR via var */
+    font-size: clamp(32px, 4vw, 32px);
+    line-height: 2;
+    max-width: 90%;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    word-break: keep-all;
+}
+
+.manifesto-text span {
+    color: var(--color-brand);
+    font-style: normal;
+}
+
+.hero-copy {
+    position: absolute;
+    bottom: 5vh;
+    left: 4vw;
+    max-width: 400px;
+    z-index: 10;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    line-height: 1.5;
+    letter-spacing: 0.5px;
+}
+
+/* [EDITORIAL DESIGN SYSTEM] for Main Content Manager */
+--mc-section-padding: 100px;
+/* Vertical breathing room */
+--mc-item-gutter: 50px;
+/* Gap between image and text */
+--mc-list-gap: 80px;
+/* Spacing between multiple items */
+
+--mc-title-size: 3rem;
+/* Section main title size */
+--mc-item-title-size: 2rem;
+/* Individual item title size */
+--mc-desc-line-height: 1.8;
+/* Readability for descriptions */
+
+--mc-border-radius: 4px;
+/* Subtle rounding for images */
+--mc-transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+/* Professional movement */
+
+--mc-btn-padding: 14px 40px;
+/* Standard Button Size */
+--mc-btn-weight: 700;
+/* Boldness */
+--mc-btn-letter-spacing: 0.15em;
+/* Editorial spreading */
+--mc-btn-text: "VIEW DETAIL";
+/* [GLOBAL BUTTON LABEL] */
 }
 
 /* [RESPONSIVE PADDING LOGIC] - User Request 2026-01-12 */

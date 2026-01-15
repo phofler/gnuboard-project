@@ -27,6 +27,7 @@ if ($w == 'u') {
         'ms_theme' => 'corporate',
         'ms_key' => '',
         'ms_accent_color' => '#FF3B30',
+        'ms_content_source' => '',
         'ms_font_mode' => 'serif'
     );
 }
@@ -42,8 +43,7 @@ $skins = array(
     'C' => 'Style C (Simple)',
     'D' => 'Style D (Modern List)',
     'philosophy_light' => 'Style Philosophy',
-    'load_location_a' => '메인 지도 (Main Map)',
-    'load_location_b' => '메인 온라인 문의 (Main Inquiry)'
+    'main_loader' => '메인 컨텐츠 관리'
 );
 
 $items = array();
@@ -311,29 +311,7 @@ if (count($items) < 1) {
                                 $sql_co = " select co_id, co_subject from " . G5_TABLE_PREFIX . "plugin_company_add order by co_id asc ";
                                 $result_co = sql_query($sql_co);
                                 while ($row_co = sql_fetch_array($result_co)) {
-                                    // If ms_skin is location type, ms_content might hold the co_id (from previous save)
-                                    // Use ms['ms_content'] if we map it there. 
-                                    // Wait, ms_content isn't in the $ms array initialization above. 
-                                    // We need to check if ms_content column exists or use ms_link.
-                                    // For now let's assume we repurposed ms_link (or we should add ms_content column). 
-                                    // Let's use ms_link as a holder for now if ms_content doesn't exist, OR 
-                                    // better, let's just check items. But wait, this is SECTION level config. 
-                                    // The user wants the SECTION to load the map. 
-                                    // So we likely need to save this ID somewhere in g5_plugin_main_content_sections.
-                                    // Let's assume we save it in `ms_key` (no that's ID) or `ms_title`? No.
-                                    // We should add `ms_content_id` column or similar. 
-                                    // FOR NOW, let's reuse `ms_key_custom` or just add a hidden item?
-                                    // Actually, looking at the code, Items are children.
-                                    // If we select "Location", maybe we don't need items at all?
-                                    // OR, we just create ONE item that holds the ID in `mc_link`?
-                                    // Let's go with: "One Item" approach is cleaner for the DB structure but UI wise complicated.
-                                    // SIMPLER: Save it in `ms_title`? No.
-                                    // Let's use `ms_skin` to determine render, and maybe we need a new column `ms_data`.
-                                    // Or... we can use `ms_sort` (int)... no. 
-                                    // OK, let's look at `g5_plugin_main_content_sections` schema in Line 116.
-                                    // It has `ms_theme`, `ms_key`.
-                                    // Let's add `ms_content_id` to the table in the PHP code top!
-                                    $selected = ($ms['ms_content_id'] == $row_co['co_id']) ? 'selected' : '';
+                                    $selected = ($ms['ms_content_source'] == $row_co['co_id']) ? 'selected' : '';
                                     echo '<option value="' . $row_co['co_id'] . '" ' . $selected . '>' . $row_co['co_subject'] . ' (' . $row_co['co_id'] . ')</option>';
                                 }
                                 ?>
@@ -347,7 +325,7 @@ if (count($items) < 1) {
                 <script>
                     function update_ui_by_skin(skin) {
                         var size_info = "";
-                        var is_location = (skin == 'load_location_a' || skin == 'load_location_b');
+                        var is_location = (skin == 'main_loader' || skin == 'philosophy_light');
 
                         // Update Size Info
                         if (skin == 'A') size_info = "(권장: 800 x 600 px)";

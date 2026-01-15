@@ -1,0 +1,97 @@
+<!-- Main Manifesto Skin (Slogan + Philosophy) -->
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+
+    .sec-manifesto-wrapper {
+        display: grid;
+        grid-template-columns: 4fr 4fr;
+        /* Adjusted Ratio: 50% Left, 50% Right */
+        gap: 60px;
+        align-items: flex-start;
+        padding-top: 150px;
+        padding-bottom: 200px;
+    }
+
+    /* LEFT COLUMN: Context & Slogan */
+    .manifesto-left-col {
+        position: sticky;
+        top: 100px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .manifesto-label {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--color-brand);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
+
+    .manifesto-intro {
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        line-height: 1.6;
+        color: var(--color-text-primary);
+        max-width: 240px;
+    }
+
+    /* RIGHT COLUMN: The "Main Event" */
+    .manifesto-big-text {
+        font-family: var(--f-kor), 'Noto Sans KR', sans-serif;
+        /* Changed to Gothic as requested */
+        /* Font Size Logic: capped at 24px as requested */
+        font-size: clamp(18px, 2.5vw, 24px);
+        line-height: 2.0;
+        color: #1a1a1a;
+        font-weight: 400;
+        word-break: keep-all;
+        letter-spacing: -0.01em;
+    }
+
+    .manifesto-big-text .highlight {
+        color: var(--color-brand);
+        /* font-style: italic; Removed */
+        /* Giving it that elegant emphasis */
+    }
+
+    @media (max-width: 991px) {
+        .sec-manifesto-wrapper {
+            grid-template-columns: 1fr;
+            gap: 40px;
+            padding-top: 80px;
+            padding-bottom: 100px;
+        }
+
+        .manifesto-left-col {
+            position: static;
+        }
+    }
+</style>
+
+<div class="ci-skin-wrapper">
+    <div class="container sec-manifesto-wrapper">
+
+        <!-- A. Left Column: Label + Intro Slogan -->
+        <div class="manifesto-left-col" data-aos="fade-right" data-aos-duration="1000">
+            <span class="manifesto-label">[ Our Philosophy ]</span>
+
+            <!-- Moved from Header/Hero to here for logical grouping -->
+            <div class="manifesto-intro">
+                We don't just build websites. <br>
+                We architect <span style="color:var(--color-brand)">digital emotions</span> that leave a permanent mark.
+            </div>
+        </div>
+
+        <!-- B. Right Column: The Big Philosophy Text -->
+        <div class="manifesto-big-text" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+            완벽함이란 더 이상 더할 것이 없을 때가 아니라, <span class="highlight">더 이상 뺄 것이 없을 때</span> 완성됩니다. <br><br>
+            우리는 끊임없이 변화하는 디지털의 흐름 속에서도 변하지 않는 본질적 가치를 탐구합니다.
+            복잡함을 걷어내고 브랜드의 핵심만을 명료하게 드러냄으로써, 사용자들의 마음속 깊은 곳에
+            잊혀지기 않는 강력한 울림과 감각적인 경험을 선사하는 당신만의 고유한 이야기를 완성해 나갑니다.
+        </div>
+
+    </div>
+</div>
