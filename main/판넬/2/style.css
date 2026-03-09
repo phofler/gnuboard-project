@@ -650,9 +650,9 @@ footer {
 }
 
 @media (max-width: 1024px) {
-    .gnb { display: none; }
+    .gnb { display: none !important; }
     .dep2Wrap { display: none !important; }
-    .btnAllmenu { display: block; }
-    .rightBtn { gap: 10px; }
-    .btn-lang { padding: 4px 10px; font-size: 0.75rem; }
+    .btn-lang { display: none !important; }
+    .btnAllmenu { display: block !important; }
+    .rightBtn { gap: 0; }
 }
