@@ -80,6 +80,7 @@ header.active .gnbWrapBg {
     align-items: center;
     justify-content: space-between;
     height: 100%;
+    position: relative; /* For absolute centering on mobile */
 }
 
 .logo {
@@ -244,22 +245,20 @@ header.active .btn-lang {
 
 .btnAllmenu {
     display: none; /* Default hidden on desktop */
-    width: 32px;
-    height: 32px;
-    background: url("https://syworld.kr/resources/home/korean/front/image/common/gnb_btn.png") no-repeat center;
-    background-size: 24px;
-    text-indent: -9999px;
-    opacity: 0.8;
+    font-size: 26px;
+    color: #fff;
     cursor: pointer;
     transition: 0.3s;
-    filter: brightness(0) invert(1);
+    line-height: 1;
+    z-index: 100;
 }
 
-header:hover .btnAllmenu,
-header.active .btnAllmenu {
-    filter: none;
-    opacity: 1;
+header:hover .btnAllmenu i,
+header.active .btnAllmenu i {
+    color: #333;
 }
+
+.mobile-only { display: none !important; }
 
 /* Mobile Menu Drawer */
 .m-menu-overlay {
@@ -652,7 +651,46 @@ footer {
 @media (max-width: 1024px) {
     .gnb { display: none !important; }
     .dep2Wrap { display: none !important; }
-    .btn-lang { display: none !important; }
-    .btnAllmenu { display: block !important; }
-    .rightBtn { gap: 0; }
+    .desktop-only { display: none !important; }
+    .mobile-only { display: block !important; }
+    
+    .gnbArea {
+        display: flex !important;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .logo {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%) translateY(8px);
+        margin: 0;
+        z-index: 50;
+    }
+
+    .btnAllmenu { 
+        display: flex !important; 
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        margin-left: -10px;
+        z-index: 100;
+    }
+
+    .rightBtn { 
+        gap: 0;
+        z-index: 100;
+    }
+
+    .btn-phone {
+        font-size: 24px;
+        color: #fff;
+        padding: 5px;
+    }
+
+    header:hover .btn-phone,
+    header.active .btn-phone {
+        color: #333;
+    }
 }
