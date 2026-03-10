@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제품상세 - 메탈 판넬 | 성우첨단패널</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .page-header {
+            background: #eee;
+            padding: 40px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .page-tabs {
+            display: flex;
+            border-bottom: 2px solid var(--primary-color);
+            margin-bottom: 40px;
+        }
+
+        .page-tabs a {
+            padding: 15px 30px;
+            font-weight: 700;
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+        }
+
+        .page-tabs a.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .spec-section-title {
+            font-size: 1.5rem;
+            border-left: 5px solid var(--accent-color);
+            padding-left: 15px;
+            margin: 40px 0 20px;
+            color: var(--primary-color);
+        }
+
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .color-box {
+            text-align: center;
+        }
+
+        .color-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            margin: 0 auto 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="container header-main">
+            <a href="index.html" class="logo"><img src="m_logo.png" alt="성우첨단패널 로고" style="height: 50px;"></a>
+            <nav>
+                <ul class="gnb">
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="about.html">회사소개</a></li>
+                    <li><a href="products.html" style="color: var(--accent-color);">제품소개</a></li>
+                    <li><a href="projects.html">시공사례</a></li>
+                    <li><a href="technical.html">기술자료</a></li>
+                    <li><a href="inquiry.html">견적문의</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <div class="container">
+            <h1>제품소개</h1>
+            <p>HOME > 제품소개 > 메탈 판넬</p>
+        </div>
+    </div>
+
+    <main class="container" style="padding: 60px 0;">
+        <div class="page-tabs">
+            <a href="#" class="active">제품특징 및 제원</a>
+            <a href="#">색상표</a>
+            <a href="#">관련자료</a>
+        </div>
+
+        <div class="spec-container">
+            <div class="spec-visual">
+                <div style="text-align: center; color: #999;">
+                    <i class="fas fa-draw-polygon"
+                        style="font-size: 6rem; margin-bottom: 20px; display: block; color: var(--primary-color); opacity: 0.3;"></i>
+                    <h4>[메탈 판넬 ISO 상세 단면도 영역]</h4>
+                    <p style="font-size: 0.9rem;">(3D 모델링 또는 정밀 도면 배치)</p>
+                </div>
+            </div>
+            <div class="spec-info">
+                <h2 style="font-size: 2.2rem; color: var(--primary-color); margin-bottom: 25px;">메탈 판넬 (Metal Panel)
+                </h2>
+                <p style="color: #666; margin-bottom: 30px;">기존 판넬의 한계를 뛰어넘는 수려한 외관과 강력한 내구성을 자랑하며, 현대적인 감각의 하이테크 건축물에
+                    최적화된 프리미엄 외장재입니다.</p>
+
+                <h3 class="spec-section-title">제품 특징</h3>
+                <ul style="list-style: disc; padding-left: 20px; color: #444;">
+                    <li><strong>완벽한 평면성</strong>: 특수 표면 처리로 면이 매우 고르고 깨끗함</li>
+                    <li><strong>화재 안전성</strong>: 불연/난연 성능이 뛰어난 심재 사용</li>
+                    <li><strong>탁월한 내식성</strong>: 고내식 도금 강판을 사용하여 긴 수명 보장</li>
+                    <li><strong>간편한 시공</strong>: 볼트 레스(Bolt-less) 조인트 시스템 적용</li>
+                </ul>
+            </div>
+        </div>
+
+        <h3 class="spec-section-title">제원 정보</h3>
+        <table class="spec-table">
+            <tr>
+                <th>구분</th>
+                <td>메탈 샌드위치 판넬 (수평/수직)</td>
+            </tr>
+            <tr>
+                <th>심재 (Insulation)</th>
+                <td>그라스울 (Glasswool) / 우레탄 (PIR)</td>
+            </tr>
+            <tr>
+                <th>표면재</th>
+                <td>불소수지 도장 강판 / 실리콘 폴리에스터 강판</td>
+            </tr>
+            <tr>
+                <th>두께 (mm)</th>
+                <td>50, 75, 100, 125, 150</td>
+            </tr>
+            <tr>
+                <th>유효폭 (mm)</th>
+                <td>1,000 / 1,015 / 1,025 (주문제작 가능)</td>
+            </tr>
+        </table>
+
+        <h3 class="spec-section-title">색상표 (Standard Colors)</h3>
+        <div class="color-palette">
+            <div class="color-box">
+                <div class="color-circle" style="background: #ffffff;"></div>
+                <span>화이트</span>
+            </div>
+            <div class="color-box">
+                <div class="color-circle" style="background: #bfc1c2;"></div>
+                <span>메탈 실버</span>
+            </div>
+            <div class="color-box">
+                <div class="color-circle" style="background: #5a5e62;"></div>
+                <span>다크 그레이</span>
+            </div>
+            <div class="color-box">
+                <div class="color-circle" style="background: #111111;"></div>
+                <span>블랙 모던</span>
+            </div>
+        </div>
+
+        <div style="margin-top: 60px; text-align: center; display: flex; gap: 20px; justify-content: center;">
+            <a href="#" class="btn btn-primary"><i class="fas fa-file-pdf"></i> 카탈로그 다운로드</a>
+            <a href="inquiry.html" class="btn btn-outline" style="border-width: 2px;"><i
+                    class="fas fa-comment-dots"></i> 견적 및 시공 상담</a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">SUNGWOO</div>
+                    <p>성우첨단패널은 신뢰와 기술력을 바탕으로 고객의 꿈을 실현하는 파트너가 되겠습니다.</p>
+                </div>
+                <div class="footer-info" style="grid-column: span 2;">
+                    <h4>HEAD OFFICE & FACTORY</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> <strong>본사:</strong> 경기도 안산시 단원구 산단로 123 (성우빌딩)</p>
+                    <p><i class="fas fa-industry"></i> <strong>제1공장:</strong> 경기도 화성시 마도면 마도공단로 456</p>
+                    <div style="display: flex; gap: 30px; margin-top: 15px;">
+                        <p><i class="fas fa-phone-alt"></i> 031-123-4567</p>
+                        <p><i class="fas fa-fax"></i> 031-123-4568</p>
+                        <p><i class="fas fa-id-card"></i> 123-45-67890</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2026 SUNGWOO Advanced Panel. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>견적문의 | 성우첨단패널</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <header id="mainHeader" class="active">
+        <div class="container header-main">
+            <a href="index.html" class="logo"><img src="m_logo.png" alt="성우첨단패널 로고"></a>
+            <nav>
+                <ul class="gnb">
+                    <li><a href="about.html">회사소개</a></li>
+                    <li><a href="products.html">제품소개</a></li>
+                    <li><a href="projects.html">시공사례</a></li>
+                    <li><a href="technical.html">기술자료</a></li>
+                    <li><a href="inquiry.html" style="color: var(--accent-color);">견적문의</a></li>
+                </ul>
+            </nav>
+            <div class="util-btns">
+                <a href="inquiry.html" class="btn-lang" style="font-size: 0.85rem; padding: 5px 15px; border: 1px solid currentColor;">CONTACT US</a>
+                <div class="btn-all-menu"><i class="fas fa-bars"></i></div>
+            </div>
+        </div>
+
+        <!-- Mega Dropdown Panel -->
+        <div class="mega-menu-panel">
+            <div class="container mega-menu-content">
+                <div class="brand-area">
+                    <p class="slogan">공간의 가치를 높이는<br>최고의 첨단 패널 솔루션</p>
+                    <p class="desc">성우첨단패널은 끊임없는 기술 혁신과 품질 관리를 통해 현대 건축의 새로운 표준을 제시하며 신뢰받는 기업이 되겠습니다.</p>
+                </div>
+                <div class="menu-groups">
+                    <div class="menu-column">
+                        <h4>회사소개</h4>
+                        <ul>
+                            <li><a href="about.html">CEO 인사말</a></li>
+                            <li><a href="#">경영이념</a></li>
+                            <li><a href="#">연혁</a></li>
+                            <li><a href="#">오시는 길</a></li>
+                        </ul>
+                    </div>
+                    <div class="menu-column">
+                        <h4>제품소개</h4>
+                        <ul>
+                            <li><a href="product_detail.html">메탈 판넬</a></li>
+                            <li><a href="#">그라스울 판넬</a></li>
+                            <li><a href="#">우레탄 판넬</a></li>
+                            <li><a href="#">지붕재/내외장재</a></li>
+                        </ul>
+                    </div>
+                    <div class="menu-column">
+                        <h4>시공사례</h4>
+                        <ul>
+                            <li><a href="projects.html">상업용 건축물</a></li>
+                            <li><a href="#">산업용 시설</a></li>
+                            <li><a href="#">기타 시공현황</a></li>
+                        </ul>
+                    </div>
+                    <div class="menu-column">
+                        <h4>고객지원</h4>
+                        <ul>
+                            <li><a href="technical.html">기술자료실</a></li>
+                            <li><a href="#">공지사항</a></li>
+                            <li><a href="inquiry.html">온라인 견적문의</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section style="background: var(--bg-light); padding: 100px 0; margin-top: 100px;">
+        <div class="container">
+            <div class="section-header">
+                <h2>ONLINE INQUIRY</h2>
+                <p>제품 상담 및 견적 요청을 남겨주시면 담당자가 신속히 연락드리겠습니다.</p>
+            </div>
+
+            <div class="inquiry-form" style="background: #fff; padding: 60px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                <form action="#" method="post">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
+                        <div class="form-group">
+                            <label style="display: block; font-weight: 700; margin-bottom: 10px;">성함/담당자명 *</label>
+                            <input type="text" placeholder="이름을 입력해 주세요" required style="width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 5px;">
+                        </div>
+                        <div class="form-group">
+                            <label style="display: block; font-weight: 700; margin-bottom: 10px;">업체명 / 상호</label>
+                            <input type="text" placeholder="소속을 입력해 주세요" style="width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 5px;">
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
+                        <div class="form-group">
+                            <label style="display: block; font-weight: 700; margin-bottom: 10px;">연락처 *</label>
+                            <input type="tel" placeholder="010-0000-0000" required style="width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 5px;">
+                        </div>
+                        <div class="form-group">
+                            <label style="display: block; font-weight: 700; margin-bottom: 10px;">이메일 *</label>
+                            <input type="email" placeholder="example@domain.com" required style="width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 5px;">
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 30px;">
+                        <label style="display: block; font-weight: 700; margin-bottom: 10px;">문의 제품 선택</label>
+                        <div style="display: flex; gap: 30px; margin-top: 10px;">
+                            <label style="font-weight: normal; cursor: pointer;"><input type="checkbox" style="margin-right: 5px;"> 메탈판넬</label>
+                            <label style="font-weight: normal; cursor: pointer;"><input type="checkbox" style="margin-right: 5px;"> 그라스울</label>
+                            <label style="font-weight: normal; cursor: pointer;"><input type="checkbox" style="margin-right: 5px;"> 지붕재</label>
+                            <label style="font-weight: normal; cursor: pointer;"><input type="checkbox" style="margin-right: 5px;"> 기타</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 30px;">
+                        <label style="display: block; font-weight: 700; margin-bottom: 10px;">문의 내용 *</label>
+                        <textarea placeholder="프로젝트 규모, 예상 시공일정, 필요한 제품 규격 등 상세 내용을 적어주세요." required style="width: 100%; height: 200px; padding: 15px; border: 1px solid #ddd; border-radius: 5px;"></textarea>
+                    </div>
+
+                    <div class="form-group" style="background: #f9f9f9; padding: 25px; border: 1px solid #eee; margin-top: 30px; font-size: 0.95rem;">
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                            <input type="checkbox" required>
+                            <span>개인정보 수집 및 이용 안내에 동의합니다. (필수)</span>
+                        </label>
+                        <a href="#" style="color: var(--accent-color); text-decoration: underline; margin-left: 25px; display: block; margin-top: 5px;">약관보기</a>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 50px;">
+                        <button type="submit" class="btn btn-primary" style="width: 350px; padding: 20px; background: var(--primary-color); color: #fff; font-weight: 900; border: none; font-size: 1.2rem; cursor: pointer; transition: 0.3s;">상담 신청하기</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">SUNGWOO</div>
+                    <p>성우첨단패널은 신뢰와 기술력을 바탕으로 고객의 꿈을 실현하는 파트너가 되겠습니다.</p>
+                </div>
+                <div class="footer-info" style="grid-column: span 2;">
+                    <h4>HEAD OFFICE & FACTORY</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> <strong>본사:</strong> 경기도 안산시 단원구 산단로 123 (성우빌딩)</p>
+                    <p><i class="fas fa-industry"></i> <strong>제1공장:</strong> 경기도 화성시 마도면 마도공단로 456</p>
+                    <div style="display: flex; gap: 30px; margin-top: 20px;">
+                        <p><i class="fas fa-phone-alt"></i> 031-123-4567</p>
+                        <p><i class="fas fa-fax"></i> 031-123-4568</p>
+                        <p><i class="fas fa-id-card"></i> 123-45-67890</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

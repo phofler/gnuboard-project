@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HYUNDAI VISION - Detail</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --font-body: 'Noto Sans KR', sans-serif;
+        }
+
+        .sub-hero {
+            height: 50vh;
+            background: url('images/hero.png') no-repeat center center/cover;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sub-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), var(--color-bg));
+        }
+
+        .sub-hero h1 {
+            position: relative;
+            z-index: 2;
+            font-size: 3rem;
+        }
+
+        .content-area {
+            padding: 100px 0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .content-area p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            color: #ccc;
+        }
+    </style>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-inner">
+            <a href="index.html" class="logo">HYUNDAI VISION</a>
+            <nav class="nav">
+                <ul>
+                    <li><a href="index.html#about">Philosophy</a></li>
+                    <li><a href="index.html#lineup">Models</a></li>
+                    <li><a href="index.html#performance">Performance</a></li>
+                    <li><a href="index.html#contact">Reserve</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Sub Hero -->
+    <section class="sub-hero">
+        <div class="container" style="text-align: center;">
+            <h1>Detail Page</h1>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="content-area container">
+        <h2>Section Title</h2>
+        <br>
+        <p>현대자동차의 새로운 비전, HYUNDAI VISION은 기술과 예술의 완벽한 조화를 추구합니다. 우리는 단순한 이동 수단을 넘어 생활 공간의 확장을 제안합니다.</p>
+        <p>이곳에 상세한 브랜드 스토리나 모델 스펙, 혹은 기술 설명이 들어갈 수 있습니다. 폰트와 스타일은 메인 페이지와 일관성을 유지하며, 다크 모드 기반의 프리미엄한 가독성을 제공합니다.</p>
+
+        <br>
+
+        <img src="images/sedan.png" alt="Detail Image" style="width: 100%; border-radius: 8px; margin: 30px 0;">
+
+        <h3>Key Features</h3>
+        <ul style="list-style: disc; padding-left: 20px; color: #aaa; margin-top: 20px;">
+            <li style="margin-bottom: 10px;">혁신적인 배터리 기술</li>
+            <li style="margin-bottom: 10px;">레벨 4 자율주행 시스템</li>
+            <li style="margin-bottom: 10px;">친환경 소재 인테리어</li>
+        </ul>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <h4>HYUNDAI VISION</h4>
+                    <p>Progress for Humanity</p>
+                </div>
+                <div class="footer-socials">
+                    <a href="#">Instagram</a>
+                    <a href="#">YouTube</a>
+                    <a href="#">LinkedIn</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Hyundai Motor Company. All rights reserved.</p>
+                <div class="footer-links" style="display: flex; gap: 20px;">
+                    <a href="#">개인정보처리방침</a>
+                    <a href="#">이용약관</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

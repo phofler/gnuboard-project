@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hanwha Ocean - Global Defense & Naval Power</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Pretendard:wght@300;400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container nav-flex">
+            <a href="index.html" class="logo">HANWHA OCEAN</a>
+            <div class="nav-links">
+                <a href="#about">Mission</a>
+                <a href="#business">Business</a>
+                <a href="#contact">Partnership</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section (Impact Style) -->
+    <section class="hero">
+        <div class="hero-bg">
+            <img src="images/hero.png" alt="Stealth Destroyer">
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content container">
+            <h1>바다의 지배자,<br>초격차의 시작</h1>
+            <p>보이지 않는 곳에서 가장 강력하게.<br>대한민국 해양 안보의 미래를 설계합니다.</p>
+            <a href="#business" class="btn-impact">차세대 전투함 보기</a>
+        </div>
+    </section>
+
+    <!-- About Section (Manifesto) -->
+    <section id="about" class="section-padding about text-center">
+        <div class="container about-content animate-on-scroll">
+            <h5 style="color: var(--color-accent); text-transform:uppercase; letter-spacing:2px; margin-bottom:10px;">
+                Our Philosophy</h5>
+            <h2>평화는 강력한 힘에서 비롯된다.</h2>
+            <br>
+            <p>한화오션은 단순한 배를 짓지 않습니다. 우리는 국가의 안위를 지키는 거대한 요새를 구축합니다.<br>극한의 환경에서도 흔들리지 않는 압도적 기술력을 경험하십시오.</p>
+        </div>
+    </section>
+
+    <!-- Business Section (Grid) -->
+    <section id="business" class="section-padding">
+        <div class="container">
+            <h2 class="text-center animate-on-scroll" style="margin-bottom: 50px;">Naval Solutions</h2>
+            <div class="services-grid">
+                <!-- Surface Ships -->
+                <div class="service-card animate-on-scroll">
+                    <div class="card-img"><img src="images/shipyard.png" alt="Surface Ships"></div>
+                    <div class="card-overlay">
+                        <h3>수상함 체계</h3>
+                        <p>이지스 구축함부터 호위함까지, 대양 작전을 수행하는 해군의 주력 전력입니다.</p>
+                    </div>
+                </div>
+                <!-- Submarines -->
+                <div class="service-card animate-on-scroll" style="transition-delay: 0.1s;">
+                    <div class="card-img"><img src="images/cic.png" alt="Submarines"></div>
+                    <div class="card-overlay">
+                        <h3>잠수함 체계</h3>
+                        <p>독자 기술로 개발된 AIP 시스템과 탄도미사일 탑재 능력을 갖춘 전략 무기입니다.</p>
+                    </div>
+                </div>
+                <!-- Unmanned Systems -->
+                <div class="service-card animate-on-scroll" style="transition-delay: 0.2s;">
+                    <div class="card-img"><img src="images/radar.png" alt="Future Tech"></div>
+                    <div class="card-overlay">
+                        <h3>유무인 복합체계</h3>
+                        <p>AI 기반의 무인 수상정(USV)과 잠수정(UUV)으로 미래 전장의 우위를 점합니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech/Stats Section -->
+    <section class="section-padding tech">
+        <div class="container animate-on-scroll">
+            <div class="stats-container">
+                <div class="stat-box">
+                    <h3><span class="stat-number" data-count="40">0</span>+</h3>
+                    <span>Years of History</span>
+                </div>
+                <div class="stat-box">
+                    <h3><span class="stat-number" data-count="90">0</span>%</h3>
+                    <span>Localization Rate</span>
+                </div>
+                <div class="stat-box">
+                    <h3>No.<span class="stat-number" data-count="5">0</span></h3>
+                    <span>Global Submarine Exporter</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="contact-info">
+            <h5 style="color: var(--color-accent); margin-bottom: 10px;">Global Network</h5>
+            <h2 style="font-size: 2.5rem; margin-bottom: 30px;">Hanwha Ocean<br>Global Partnership</h2>
+            <p style="color: #999; margin-bottom: 40px;">전 세계 어디서든 한화오션의 기술력과 함께하실 수 있습니다.</p>
+
+            <div style="margin-bottom: 20px;">
+                <strong>판교 R&D 센터</strong>
+                <p style="color: #888;">경기도 성남시 분당구 / 차세대 함정 설계</p>
+            </div>
+            <div>
+                <strong>거제사업장</strong>
+                <p style="color: #888;">경상남도 거제시 / 특수선 건조 기지</p>
+            </div>
+        </div>
+        <div class="contact-form">
+            <h3 style="margin-bottom: 20px;">Partnership Inquiry</h3>
+            <form>
+                <div class="form-group">
+                    <input type="text" placeholder="Organization / Company Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" placeholder="Contact Person" required>
+                </div>
+                <div class="form-group">
+                    <select>
+                        <option value="" disabled selected>Interested Field</option>
+                        <option value="surface">수상함 (Surface Ship)</option>
+                        <option value="submarine">잠수함 (Submarine)</option>
+                        <option value="usv">무인체계 (USV/UUV)</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-impact" style="width: 100%; cursor: pointer;">Send Inquiry</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-inner">
+            <div class="brand">
+                <h4 style="color: white; margin-bottom: 5px;">HANWHA OCEAN</h4>
+                <p>Unrivaled Power, Unlimited Ocean</p>
+            </div>
+            <div class="copyright">
+                &copy; 2026 Hanwha Ocean Co., Ltd. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
