@@ -1331,6 +1331,17 @@ html.no-overflowscrolling #autosave_pop {
     height: auto
 }
 
+#bo_v_con iframe,
+#bo_v_con video,
+#bo_v_con embed,
+#bo_v_con object,
+.resp-iframe {
+    width: 100% !important;
+    max-width: 100%;
+    height: auto !important;
+    aspect-ratio: 16 / 9;
+}
+
 #bo_v_act {
     margin-bottom: 30px;
     text-align: center

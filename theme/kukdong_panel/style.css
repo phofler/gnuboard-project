@@ -87,7 +87,7 @@ header.active .gnbWrapBg {
 
 .logo {
     display: inline-block;
-    transform: translateY(8px);
+    transform: translate(50px, 8px);
     flex-shrink: 0;
 }
 
@@ -235,6 +235,18 @@ header.active .gnb>li>a {
     flex-shrink: 0;
 }
 
+/* 메인 헤더 전화 아이콘 색상 보정 */
+.btn-phone {
+    font-size: 24px;
+    color: #fff;
+    transition: 0.3s;
+}
+
+header:hover .btn-phone,
+header.active .btn-phone {
+    color: var(--text-main);
+}
+
 .btn-lang {
     display: inline-block;
     border: 1px solid #fff;
@@ -354,8 +366,8 @@ header.active .btnAllmenu i {
 
 .btn-m-close {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 5px;
+    right: 5px;
     width: 32px;
     height: 32px;
     background: none;
@@ -368,9 +380,10 @@ header.active .btnAllmenu i {
 /* Mobile Menu Header */
 .m-menu-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    padding: 0 0 20px;
+    position: relative;
+    padding: 5px 0 20px;
     margin-bottom: 25px;
     border-bottom: 1px solid #eee;
 }
@@ -381,8 +394,10 @@ header.active .btnAllmenu i {
 }
 
 .m-contact-area {
+    position: absolute;
+    right: 0;
     display: flex;
-    gap: 12px;
+    gap: 8px;
 }
 
 .m-icon-btn {
@@ -397,6 +412,12 @@ header.active .btnAllmenu i {
     color: var(--primary-dark);
     transition: 0.3s;
     border: 1px solid #eee;
+}
+
+.m-contact-area a:first-child {
+    background: var(--edge-color);
+    color: #fff;
+    border-color: var(--edge-color);
 }
 
 .m-icon-btn:hover {
@@ -845,65 +866,7 @@ footer {
     opacity: 0.9;
 }
 
-/* Sub LNB (Tab Grid) */
-.sub-lnb-wrap {
-    background: #fff;
-    border-bottom: 1px solid #eee;
-    margin-bottom: 20px;
-    position: sticky;
-    top: var(--header-height);
-    z-index: 100;
-}
 
-.sub-lnb {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    border-left: 1px solid #eee;
-}
-
-.sub-lnb li a {
-    display: block;
-    padding: 20px;
-    text-align: center;
-    font-size: 1rem;
-    font-weight: 600;
-    color: #666;
-    border-right: 1px solid #eee;
-    border-bottom: 3px solid transparent;
-    transition: 0.3s;
-}
-
-.sub-lnb li.active a {
-    background: var(--primary-dark);
-    color: #fff;
-    border-bottom-color: var(--edge-color);
-}
-
-.sub-lnb li a:hover:not(.active a) {
-    background: #f9f9f9;
-    color: var(--primary-dark);
-}
-
-/* Breadcrumbs */
-.breadcrumbs {
-    padding: 15px 0;
-    font-size: 0.85rem;
-    color: #999;
-}
-
-.breadcrumbs a {
-    color: #999;
-}
-
-.breadcrumbs i {
-    margin: 0 10px;
-    font-size: 0.7rem;
-}
-
-.breadcrumbs .current {
-    color: #333;
-    font-weight: 600;
-}
 
 /* Sub Content Layout */
 .sub-section {
@@ -1327,5 +1290,172 @@ footer {
 
     .product-grid-wrap {
         padding: 30px 0;
+    }
+}
+
+/* Dropdown Breadcrumbs (Kukdong Style) */
+.sub-lnb-wrap {
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    position: relative;
+    z-index: 101;
+}
+
+.breadcrumb-dropdown-area {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    font-size: 0.95rem;
+    color: #666;
+}
+
+.breadcrumb-item {
+    position: relative;
+    height: 100%;
+}
+
+.breadcrumb-btn {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 0 20px;
+    height: 100%;
+    cursor: pointer;
+    border-right: 1px solid #eee;
+    transition: 0.3s;
+    background: #fff;
+    min-width: 160px;
+    justify-content: space-between;
+}
+
+.breadcrumb-btn:hover,
+.breadcrumb-item.active .breadcrumb-btn {
+    background: #f9f9f9;
+    color: var(--primary-dark);
+}
+
+.breadcrumb-btn i.fa-chevron-down {
+    font-size: 0.75rem;
+    color: #bbb;
+    transition: 0.3s;
+}
+
+.breadcrumb-item.active .breadcrumb-btn i.fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+.breadcrumb-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 200px;
+    background: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+.breadcrumb-item.active .breadcrumb-list {
+    display: block;
+}
+
+.breadcrumb-list li a {
+    display: block;
+    padding: 12px 20px;
+    border-bottom: 1px solid #f5f5f5;
+    transition: 0.2s;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.breadcrumb-list li:last-child a {
+    border-bottom: none;
+}
+
+.breadcrumb-list li a:hover {
+    background: #f8f9fa;
+    color: var(--edge-color);
+    padding-left: 25px;
+}
+
+.breadcrumb-home {
+    width: 50px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid #eee;
+    border-left: 1px solid #eee;
+    font-size: 1.1rem;
+    color: #999;
+}
+
+/* Hide original breadcrumbs if using this */
+.breadcrumbs { display: none; }
+/* Sub Title Section */
+.subTitleArea {
+    width: 100%;
+    margin-top: var(--header-height);
+    overflow: hidden;
+}
+
+.subTitleBg {
+    height: 350px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.subTitleBg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0, 51, 102, 0.7), rgba(0, 0, 0, 0.4));
+    z-index: 1;
+}
+
+.subTitleTxt {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: #fff;
+}
+
+.subTitleTxt h2.title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    letter-spacing: -2px;
+}
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    font-size: 0.95rem;
+    opacity: 0.8;
+}
+
+.breadcrumb a:hover {
+    color: var(--edge-color);
+    opacity: 1;
+}
+
+.breadcrumb .sep {
+    font-size: 0.8rem;
+    opacity: 0.5;
+}
+
+@media (max-width: 768px) {
+    .subTitleBg {
+        height: 250px;
+    }
+    .subTitleTxt h2.title {
+        font-size: 2.2rem;
     }
 }

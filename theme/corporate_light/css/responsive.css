@@ -310,4 +310,16 @@
     #ft {
         padding: 40px 0;
     }
+
+    /* Global Video Responsive for Mobile */
+    iframe,
+    video,
+    embed,
+    object,
+    .resp-iframe {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 16 / 9 !important;
+    }
 }
