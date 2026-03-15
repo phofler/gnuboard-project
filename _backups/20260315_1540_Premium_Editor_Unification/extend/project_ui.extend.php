@@ -1,0 +1,222 @@
+<?php
+if (!defined("_GNUBOARD_")) exit;
+
+/**
+ * 설정 대상 (Theme & Lang) 관리 UI 생성 공통 함수
+ */
+function get_theme_lang_select_ui($params = array()) {
+    $prefix = isset($params["prefix"]) ? $params["prefix"] : "tm_";
+    $tm_theme = isset($params["theme"]) ? $params["theme"] : "";
+    $tm_lang = isset($params["lang"]) ? $params["lang"] : "kr";
+    $tm_custom = isset($params["custom"]) ? $params["custom"] : "";
+    $tm_id = isset($params["id"]) ? $params["id"] : "";
+    
+    $id_display_id = isset($params["id_display_id"]) ? $params["id_display_id"] : "display_".$prefix."id";
+    $id_input_id = isset($params["id_input_id"]) ? $params["id_input_id"] : $prefix."id";
+
+    $themes = array();
+    $theme_dir = G5_PATH . "/theme";
+    if (is_dir($theme_dir)) {
+        $dirs = dir($theme_dir);
+        while (false !== ($entry = $dirs->read())) {
+            if ($entry == "." || $entry == "..") continue;
+            if (is_dir($theme_dir . "/" . $entry)) { $themes[] = $entry; }
+        }
+        $dirs->close();
+    }
+    sort($themes);
+
+    ob_start();
+    ?>
+    <div style="display:flex; gap:10px; align-items:center;">
+        <select name="<?php echo $prefix; ?>theme" id="<?php echo $prefix; ?>theme" class="frm_input" onchange="generate_<?php echo $prefix; ?>id()" required>
+            <option value="">테마 선택</option>
+            <?php foreach ($themes as $theme) {
+                $selected = ($theme == $tm_theme) ? "selected" : "";
+                echo "<option value=\"" . $theme . "\" " . $selected . ">" . $theme . "</option>";
+            } ?>
+        </select>
+
+        <select name="<?php echo $prefix; ?>lang" id="<?php echo $prefix; ?>lang" class="frm_input" onchange="generate_<?php echo $prefix; ?>id()" required>
+            <option value="">언어 선택</option>
+            <option value="kr" <?php echo ($tm_lang == "kr") ? "selected" : ""; ?>>한국어 (KR)</option>
+            <option value="en" <?php echo ($tm_lang == "en") ? "selected" : ""; ?>>English (EN)</option>
+            <option value="jp" <?php echo ($tm_lang == "jp") ? "selected" : ""; ?>>Japanese (JP)</option>
+            <option value="cn" <?php echo ($tm_lang == "cn") ? "selected" : ""; ?>>Chinese (CN)</option>
+        </select>
+
+        <input type="text" name="<?php echo $prefix; ?>id_custom" id="<?php echo $prefix; ?>id_custom" value="<?php echo $tm_custom; ?>"
+            class="frm_input" style="width:150px;" placeholder="커스텀 이름 (선택)"
+            onkeyup="generate_<?php echo $prefix; ?>id()">
+    </div>
+
+    <div style="margin-top:5px; padding:10px; background:#f9fafb; border:1px solid #d1d5db; border-radius:4px;">
+        최종 식별코드(ID): <strong id="<?php echo $id_display_id; ?>" style="color:#2563eb; font-size:1.1em;"><?php echo $tm_id; ?></strong>
+        <input type="hidden" name="<?php echo $id_input_id; ?>" id="<?php echo $id_input_id; ?>" value="<?php echo $tm_id; ?>">
+        <p style="margin-top:5px; color:#6b7280; font-size:11px;">* 주의: 식별코드(ID) 변경 시 테마와의 연동 설정도 함께 확인해야 합니다.</p>
+    </div>
+
+    <script>
+    if (typeof generate_<?php echo $prefix; ?>id !== "function") {
+        window.generate_<?php echo $prefix; ?>id = function() {
+            var theme = document.getElementById("<?php echo $prefix; ?>theme").value;
+            var lang = document.getElementById("<?php echo $prefix; ?>lang").value;
+            var custom = document.getElementById("<?php echo $prefix; ?>id_custom").value.trim().toLowerCase().replace(/[^a-z0-9_]/g, "");
+            var id_field = document.getElementById("<?php echo $id_input_id; ?>");
+            var display_field = document.getElementById("<?php echo $id_display_id; ?>");
+            if (theme) {
+                var new_id = theme;
+                if (lang && lang !== "kr") { new_id += "_" + lang; }
+                if (custom) { new_id += "_" + custom; }
+                id_field.value = new_id;
+                display_field.innerText = new_id;
+            } else {
+                id_field.value = "";
+                display_field.innerText = "(테마를 선택하세요)";
+            }
+            if (typeof sync_menu_table_info === "function") sync_menu_table_info();
+        };
+    }
+    </script>
+    <?php
+    return ob_get_clean();
+}
+
+/**
+ * 프리미엄 메인 비주얼 출력 함수 (효과 및 오버레이 자동 연동)
+ */
+function display_hero_visual($mi_id, $options = array()) {
+    global $g5, $hero_config;
+    
+    // DB에서 관리자가 설정한 프리미엄 옵션 가져오기
+    $config_table = G5_TABLE_PREFIX . "plugin_main_image_config";
+    $mi = sql_fetch("select mi_effect, mi_overlay from {$config_table} where mi_id = '{$mi_id}'");
+    
+    // 기본 옵션 (DB 설정 우선, 없을 경우 기본값)
+    $db_effect = (isset($mi['mi_effect']) && $mi['mi_effect']) ? $mi['mi_effect'] : 'zoom';
+    $db_overlay = (isset($mi['mi_overlay'])) ? (float)$mi['mi_overlay'] : 0.4;
+
+    $default_options = array(
+        'effect' => $db_effect,
+        'overlay' => $db_overlay,
+        'height' => '100vh',
+        'full_width' => true
+    );
+    
+    // 함수 호출 시 전달된 옵션이 있으면 덮어씌움
+    $hero_config = array_merge($default_options, $options);
+    
+    // Wrapper provides root height to ensure layout consistency
+    echo '<div class="hero-section-wrapper" style="height: '.$hero_config['height'].';">';
+    if (function_exists('display_main_visual')) {
+        display_main_visual($mi_id);
+    } else {
+        echo "<!-- display_main_visual function not found. -->";
+    }
+    echo '</div>';
+}
+
+/**
+ * 스킨 선택 UI 생성 공통 함수 (카드형 지원)
+ */
+function get_skin_select_ui($params = array()) {
+    $name = isset($params['name']) ? $params['name'] : 'skin';
+    $selected = isset($params['selected']) ? $params['selected'] : '';
+    $skins_dir = isset($params['skins_dir']) ? $params['skins_dir'] : '';
+    $onclick = isset($params['onclick']) ? $params['onclick'] : '';
+    $mapping = isset($params['mapping']) ? $params['mapping'] : array();
+    $priority = isset($params['priority']) ? $params['priority'] : array();
+
+    if (!$skins_dir || !is_dir($skins_dir)) return "<!-- Skins directory not found: {$skins_dir} -->";
+
+    $skins = array();
+    $dirs = dir($skins_dir);
+    while (false !== ($entry = $dirs->read())) {
+        if ($entry == "." || $entry == "..") continue;
+        if (is_dir($skins_dir . "/" . $entry)) {
+            $skin_info_file = $skins_dir . "/" . $entry . "/skin_info.php";
+            $disp_name = isset($mapping[$entry]) ? $mapping[$entry] : $entry;
+            $disp_desc = "";
+            $rec_size = "";
+
+            if (file_exists($skin_info_file)) {
+                include($skin_info_file);
+                if (isset($skin_info['name'])) $disp_name = $skin_info['name'];
+                if (isset($skin_info['desc'])) $disp_desc = $skin_info['desc'];
+                if (isset($skin_info['rec_size'])) $rec_size = $skin_info['rec_size'];
+            }
+
+            $skins[$entry] = array(
+                'id' => $entry,
+                'name' => $disp_name,
+                'desc' => $disp_desc,
+                'rec_size' => $rec_size
+            );
+        }
+    }
+    $dirs->close();
+
+    // Sort by priority
+    if (!empty($priority)) {
+        $sorted = array();
+        foreach ($priority as $p_id) {
+            if (isset($skins[$p_id])) {
+                $sorted[$p_id] = $skins[$p_id];
+                unset($skins[$p_id]);
+            }
+        }
+        $skins = array_merge($sorted, $skins);
+    } else {
+        ksort($skins);
+    }
+
+    ob_start();
+    ?>
+    <style>
+        .skin-selection-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; margin-top: 10px; }
+        .skin-card { position: relative; border: 2px solid #e5e7eb; border-radius: 10px; padding: 15px; cursor: pointer; transition: all 0.2s; background: #fff; }
+        .skin-card:hover { border-color: #3b82f6; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .skin-card.active { border-color: #2563eb; background: #eff6ff; }
+        .skin-card input[type="radio"] { position: absolute; opacity: 0; }
+        .skin-name { font-weight: 700; color: #111827; display: block; margin-bottom: 4px; font-size: 14px; }
+        .skin-desc { font-size: 12px; color: #6b7280; line-height: 1.4; display: block; }
+        .skin-rec-size { margin-top: 8px; font-size: 11px; font-weight: 600; color: #ef4444; }
+        .skin-badge { position: absolute; top: 10px; right: 10px; width: 20px; height: 20px; border-radius: 50%; border: 2px solid #d1d5db; display: flex; align-items: center; justify-content: center; }
+        .skin-card.active .skin-badge { border-color: #2563eb; background: #2563eb; }
+        .skin-card.active .skin-badge::after { content: ""; width: 8px; height: 8px; background: #fff; border-radius: 50%; }
+    </style>
+
+    <div class="skin-selection-grid">
+        <?php foreach ($skins as $skin_id => $skin) { 
+            $is_active = ($skin_id === $selected);
+            ?>
+            <label class="skin-card <?php echo $is_active ? 'active' : ''; ?>" onclick="select_skin_card('<?php echo $skin_id; ?>', '<?php echo $name; ?>', '<?php echo $onclick; ?>')">
+                <input type="radio" name="<?php echo $name; ?>" value="<?php echo $skin_id; ?>" <?php echo $is_active ? 'checked' : ''; ?>>
+                <span class="skin-badge"></span>
+                <span class="skin-name"><?php echo $skin['name']; ?></span>
+                <span class="skin-desc"><?php echo $skin['desc']; ?></span>
+                <?php if ($skin['rec_size']) { ?>
+                    <span class="skin-rec-size">권장: <?php echo $skin['rec_size']; ?></span>
+                <?php } ?>
+            </label>
+        <?php } ?>
+    </div>
+
+    <script>
+        function select_skin_card(skin_id, input_name, callback) {
+            var grid = document.querySelector('.skin-selection-grid');
+            var cards = grid.querySelectorAll('.skin-card');
+            cards.forEach(function(c) { c.classList.remove('active'); });
+            
+            var selectedCard = event.currentTarget;
+            selectedCard.classList.add('active');
+            selectedCard.querySelector('input').checked = true;
+
+            if (callback && typeof window[callback] === 'function') {
+                window[callback](skin_id);
+            }
+        }
+    </script>
+    <?php
+    return ob_get_clean();
+}

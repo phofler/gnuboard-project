@@ -1,0 +1,331 @@
+@charset "utf-8";
+
+/* Modern Full Mega Menu Style (Dark) */
+
+/* 
+   [AUTONOMY & SOVEREIGNTY]
+   Variables are now inherited from the theme's default.css 
+   to ensure visual consistency (Light/Dark mode compliance).
+*/
+
+
+/* Hide Hamburger on Desktop */
+@media (min-width: 1025px) {
+
+   .gnb_menu_btn,
+   #gnb_menu_btn {
+      display: none !important;
+   }
+}
+
+/* GNB Wrapper */
+.gnb_wrap {
+   width: 100%;
+   max-width: 1600px;
+   margin: 0 auto;
+   padding: 0 40px;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   height: 100%;
+   position: relative;
+   /* CRITICAL: Establishes context for Mega Menu positioning */
+}
+
+/* 
+   [FIX] Override Theme's default wrapper constraint 
+   The theme sets max-width: 1400px on #hd_wrapper.
+   We need 1600px for the Mega Menu.
+*/
+#hd_wrapper {
+   width: 100%;
+   max-width: 1600px !important;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 0 !important;
+   /* Let gnb_wrap handle padding */
+   height: 100%;
+}
+
+/* Logo Styles */
+#logo img {
+   height: auto;
+   max-height: 65px;
+   width: auto;
+   vertical-align: middle;
+}
+
+/* 1st Depth Menu */
+#gnb_1dul {
+   display: flex;
+   gap: 50px;
+   height: 100%;
+}
+
+.gnb_1dli {
+   height: 100%;
+   display: flex;
+   align-items: center;
+}
+
+.gnb_1da {
+   font-size: 16px;
+   font-weight: 500;
+   color: var(--color-menu-text);
+   text-transform: uppercase;
+   letter-spacing: 1px;
+   position: relative;
+   padding: 30px 0;
+   text-decoration: none;
+
+   /* Truncation Logic */
+   display: block;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   max-width: 160px;
+}
+
+.gnb_1da:hover {
+   color: var(--color-menu-text-hover);
+}
+
+/* Hover Line Effect */
+.gnb_1da::after {
+   content: '';
+   position: absolute;
+   bottom: 25px;
+   left: 0;
+   width: 0;
+   height: 2px;
+   background: var(--color-accent-gold);
+   transition: width 0.3s ease;
+}
+
+.gnb_1dli:hover .gnb_1da::after {
+   width: 100%;
+}
+
+/* ----------------------------------------------------
+   MEGA MENU (Full Width Dropdown) 
+   ---------------------------------------------------- */
+#gnb_mega_panel {
+   position: absolute;
+   top: 100%;
+
+   /* [Key technique for Full Width Breakout] */
+   width: 100vw;
+   left: 50%;
+   margin-left: -50vw;
+   /* This forces the element to span the full viewport width relative to the document,
+      ignoring the parent container's width, assuming body/html is the offset container. */
+
+   background: var(--color-menu-bg, #ffffff);
+   backdrop-filter: blur(15px);
+   -webkit-backdrop-filter: blur(15px);
+   border-top: 1px solid var(--color-menu-border);
+   border-bottom: 1px solid var(--color-menu-border);
+
+   /* Animation State: Hidden */
+   opacity: 0;
+   visibility: hidden;
+   transform: translateY(-10px);
+   transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s linear 0.3s;
+
+   z-index: 9999;
+}
+
+/* Stable Hover Bridge */
+#gnb_mega_panel::before {
+   content: '';
+   position: absolute;
+   top: -40px;
+   /* Extend upward to overlap header */
+   left: 0;
+   width: 100%;
+   height: 40px;
+   background: transparent;
+   z-index: 10000;
+}
+
+/* [MODIFIED] Show Mega Menu when hovering ANYWHERE in the Top Bar (.gnb_wrap) */
+.gnb_wrap:hover #gnb_mega_panel,
+#gnb_mega_panel:hover {
+   /* Animation State: Visible */
+   opacity: 1;
+   visibility: visible;
+
+   /* Keep horizontal alignment (none needed with margin approach) but handle vertical slide */
+   transform: translateY(0);
+
+   transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s linear 0s;
+   border-bottom: 1px solid var(--color-accent-gold);
+}
+
+/* Inner Grid Layout */
+.mega_inner {
+   max-width: 1600px;
+   margin: 0 auto;
+   padding: 40px;
+   display: flex;
+   justify-content: space-between;
+   flex-wrap: wrap;
+   /* Safety for many items */
+   gap: 20px;
+}
+
+.mega_col {
+   flex: 1;
+   min-width: 150px;
+   padding: 0 20px;
+   border-left: 1px solid var(--color-menu-border);
+}
+
+.mega_col:first-child {
+   border-left: none;
+}
+
+.mega_col h3 {
+   font-family: var(--font-body);
+   /* Changed to Gothic (Inter) */
+   font-weight: 700;
+   font-size: 18px;
+   color: var(--color-accent-gold);
+   margin-bottom: 25px;
+   padding-bottom: 15px;
+   border-bottom: 1px solid var(--color-menu-border);
+   text-transform: uppercase;
+
+   /* Truncation Logic */
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   max-width: 200px;
+}
+
+.mega_col ul li {
+   margin-bottom: 12px;
+}
+
+.mega_col ul li a {
+   font-size: 14px;
+   color: var(--color-menu-subtext);
+   display: block;
+   transition: transform 0.2s, color 0.2s;
+   text-decoration: none;
+
+   /* Truncation Logic */
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   max-width: 190px;
+}
+
+.mega_col ul li a:hover {
+   color: var(--color-menu-text-hover);
+   transform: translateX(5px);
+}
+
+/* Right Side Utility Links (Variable Sovereignty) */
+.hd_login {
+   display: flex;
+   gap: 20px;
+   font-size: 13px;
+   font-weight: 500;
+   color: var(--color-menu-text);
+}
+
+.hd_login a {
+   color: inherit;
+   text-decoration: none;
+   transition: color 0.2s;
+}
+
+.hd_login a:hover {
+   color: var(--color-menu-text-hover);
+}
+
+/* Mobile basic hidden (assuming theme handles mobile separately) */
+@media (max-width: 1024px) {
+   .gnb_wrap {
+      /* display: none; REMOVED to allow mobile menu to show */
+      padding: 0 20px;
+   }
+}
+
+/* [AUTONOMY] Mobile Overlay Menu (gnb_all) 
+   Moved from theme/corporate_light/css/default.css 
+*/
+@media (max-width: 1024px) {
+   .gnb_wrap {
+      padding: 0 20px;
+   }
+
+   #gnb_mega_panel {
+      display: none !important;
+   }
+
+   /* GNB Button (Hamburger) - Ensure visible on mobile */
+   .gnb_menu_btn,
+   #gnb_menu_btn {
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      background: transparent;
+      border: none;
+      color: var(--color-text-primary);
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 1001;
+   }
+
+   #gnb_all {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(10, 10, 10, 0.98);
+      z-index: 99999;
+      backdrop-filter: blur(15px);
+      overflow-y: auto;
+   }
+
+   .gnb_al_ul {
+      padding: 100px 40px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+   }
+
+   .gnb_al_a {
+      font-size: 1.5rem;
+      color: #fff;
+      font-weight: 700;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 10px;
+      display: block;
+   }
+
+   .gnb_al_li ul {
+      padding: 10px 0 20px 20px;
+   }
+
+   .gnb_al_li ul li a {
+      font-size: 1.1rem;
+      color: #aaa;
+      padding: 8px 0;
+      display: block;
+   }
+
+   /* 3rd Depth for Mobile */
+   .gnb_3rd_mobile {
+      border-left: 1px solid var(--color-accent-gold);
+      margin-left: 10px;
+   }
+}

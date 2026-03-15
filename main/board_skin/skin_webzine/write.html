@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webzine Skin Write Prototype</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #fff;
+            --secondary-bg: #f8f9fa;
+            --text-main: #111;
+            --text-muted: #666;
+            --accent: #d4af37;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--secondary-bg);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .write-wrapper {
+            max-width: 900px;
+            margin: 60px auto;
+            background: #fff;
+            padding: 60px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+        }
+
+        .write-header {
+            border-bottom: 2px solid #111;
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .write-title {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .write-desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .form-row {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: #333;
+        }
+
+        .inp-txt {
+            width: 100%;
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+            font-size: 1rem;
+            border-radius: 4px;
+            transition: 0.3s;
+            font-family: var(--font-sans);
+        }
+
+        .inp-txt:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .inp-select {
+            width: 200px;
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+            font-size: 1rem;
+            border-radius: 4px;
+            background: #fff;
+        }
+
+        .inp-file {
+            width: 100%;
+            background: #f9f9f9;
+            padding: 20px;
+            border: 2px dashed #ddd;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .editor-area {
+            min-height: 500px;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 4px;
+        }
+
+        .footer-btns {
+            margin-top: 40px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        .btn-sub {
+            background: #111;
+            color: #fff;
+        }
+
+        .btn-sub:hover {
+            background: var(--accent);
+            color: #000;
+        }
+
+        .btn-can {
+            background: #eee;
+            color: #333;
+        }
+
+        .btn-can:hover {
+            background: #ddd;
+        }
+    </style>
+    </style>
+    <style>
+        /* WEBZINE HERO (Minimalist Text) */
+        .wz-hero {
+            padding: 120px 20px 60px;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .wz-title {
+            font-family: var(--font-serif);
+            font-size: 3.5rem;
+            color: #111;
+            margin-bottom: 20px;
+        }
+
+        .wz-desc {
+            color: #666;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- WEBZINE HERO -->
+    <header class="wz-hero">
+        <h1 class="wz-title">Editorial Insights</h1>
+        <p class="wz-desc">Write Entry</p>
+    </header>
+
+    <div class="write-wrapper">
+        <div class="write-header">
+            <h1 class="write-title">New Article</h1>
+            <span class="write-desc">Admin Writing Mode</span>
+        </div>
+
+        <form>
+            <div class="form-row">
+                <label class="form-label">Category</label>
+                <select class="inp-select">
+                    <option>Design</option>
+                    <option>Tech</option>
+                    <option>Life</option>
+                </select>
+            </div>
+
+            <div class="form-row">
+                <label class="form-label">Subject</label>
+                <input type="text" class="inp-txt" placeholder="Article Title">
+            </div>
+
+            <div class="form-row">
+                <label class="form-label">Thumbnail</label>
+                <div class="inp-file">Click to upload thumbnail</div>
+            </div>
+
+            <div class="form-row">
+                <label class="form-label">Content</label>
+                <div class="editor-area">
+                    <p style="color:#999; text-align:center; padding-top:200px;">[ WYSIWYG Editor Placeholder ]</p>
+                </div>
+            </div>
+
+            <div class="footer-btns">
+                <button type="button" class="btn btn-can" onclick="location.href='list.html'">Cancel</button>
+                <button type="submit" class="btn btn-sub">Publish Article</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+
+</html>

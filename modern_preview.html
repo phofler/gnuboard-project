@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Menu Preview - Premium Corporate</title>
+    <!-- Google Fonts: Playfair Display (Titles) & Inter (Body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        /* 
+         * PREMIUM CORPORATE THEME 
+         */
+        :root {
+            --primary-bg: #ffffff;
+            /* Normal Mode Background */
+            --secondary-bg: #f8f9fa;
+            --text-main: #333333;
+            --text-muted: #666666;
+            --accent: #d4af37;
+            /* Gold/Bronze */
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Inter', sans-serif;
+            --header-height: 80px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--primary-bg);
+            color: var(--text-main);
+            line-height: 1.7;
+            overflow-x: hidden;
+            /* padding-top: var(--header-height); Removed to allow overlay */
+        }
+
+        /* --- MODERN MENU STYLES (PROPOSAL) --- */
+        .modern-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+            /* Soft shadow */
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            transition: all 0.3s ease;
+        }
+
+        /* Logo */
+        .modern-logo {
+            font-family: var(--font-sans);
+            font-size: 24px;
+            font-weight: 700;
+            color: #000;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modern-logo span {
+            color: var(--accent);
+        }
+
+        /* GNB */
+        .modern-gnb {
+            height: 100%;
+        }
+
+        .modern-gnb-ul {
+            display: flex;
+            height: 100%;
+            list-style: none;
+            gap: 40px;
+        }
+
+        .modern-gnb-li {
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .modern-gnb-a {
+            font-size: 16px;
+            font-weight: 500;
+            color: #1a1a1a;
+            text-decoration: none;
+            position: relative;
+            padding: 10px 0;
+            transition: color 0.3s;
+        }
+
+        /* Hover Effect: Modern Underline */
+        .modern-gnb-a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent);
+            transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .modern-gnb-li:hover .modern-gnb-a {
+            color: #000;
+        }
+
+        .modern-gnb-li:hover .modern-gnb-a::after {
+            width: 100%;
+        }
+
+        /* Dropdown Menu */
+        .modern-sub-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: #fff;
+            min-width: 200px;
+            padding: 15px 0;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .modern-gnb-li:hover .modern-sub-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .modern-sub-li a {
+            display: block;
+            padding: 10px 20px;
+            font-size: 14px;
+            color: #555;
+            text-decoration: none;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .modern-sub-li a:hover {
+            background: #f8f9fa;
+            color: var(--accent);
+        }
+
+        /* Utility Menu (Right) */
+        .modern-util {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .util-btn {
+            font-size: 14px;
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .util-search {
+            color: #333;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .util-menu-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            display: none;
+            /* Mobile only */
+        }
+
+        @media (max-width: 991px) {
+            .modern-gnb {
+                display: none;
+            }
+
+            .util-menu-btn {
+                display: block;
+            }
+
+            .modern-header {
+                padding: 0 20px;
+            }
+        }
+
+
+        /* --- EXISTING SUB PAGE STYLES (Adapted for Light BG) --- */
+        .sub-hero {
+            position: relative;
+            height: 50vh;
+            /* Slightly smaller for sub page */
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .sub-hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.6;
+            /* Higher opacity for standard */
+            transform: scale(1.1);
+            transition: transform 10s ease;
+        }
+
+        .sub-hero:hover .sub-hero-bg {
+            transform: scale(1.0);
+        }
+
+        .sub-hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .sub-hero-title {
+            font-family: var(--font-serif);
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .sub-hero-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .sub-hero-subtitle::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 2px;
+            background-color: var(--accent);
+        }
+
+        .breadcrumb {
+            background-color: #f1f3f5;
+            padding: 15px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .breadcrumb-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: flex-end;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .breadcrumb .current {
+            color: #333;
+            font-weight: 600;
+        }
+
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            color: #222;
+            /* Darker for light mode */
+            margin-bottom: 20px;
+        }
+
+        .section-header p {
+            color: var(--accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-header p::before {
+            content: '';
+            display: block;
+            width: 30px;
+            height: 1px;
+            background-color: var(--accent);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            display: block;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            /* Softer shadow */
+        }
+
+        .about-image::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--accent);
+            z-index: -1;
+            opacity: 0.5;
+            transition: all 0.3s ease;
+        }
+
+        .about-image:hover::before {
+            top: 20px;
+            left: 20px;
+            opacity: 1;
+        }
+
+        .about-text {
+            color: #555;
+        }
+
+        .about-text h3 {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            color: #222;
+            margin-bottom: 25px;
+            line-height: 1.3;
+        }
+
+        .sign-area img {
+            height: 60px;
+            opacity: 1;
+            /* No invert needed for white bg */
+            filter: none;
+        }
+
+        .sign-name {
+            color: #222;
+        }
+
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid #eee;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            font-family: var(--font-serif);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #888;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- MODERN HEADER -->
+    <header class="modern-header">
+        <a href="#" class="modern-logo">
+            gnuboard <span>.</span>
+        </a>
+
+        <nav class="modern-gnb">
+            <ul class="modern-gnb-ul">
+                <li class="modern-gnb-li">
+                    <a href="#" class="modern-gnb-a">회사소개</a>
+                    <div class="modern-sub-menu">
+                        <ul class="modern-sub-ul">
+                            <li class="modern-sub-li"><a href="#">CEO 인사말</a></li>
+                            <li class="modern-sub-li"><a href="#">연혁</a></li>
+                            <li class="modern-sub-li"><a href="#">조직도</a></li>
+                            <li class="modern-sub-li"><a href="#">오시는 길</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="modern-gnb-li">
+                    <a href="#" class="modern-gnb-a">제품소개</a>
+                    <div class="modern-sub-menu">
+                        <ul class="modern-sub-ul">
+                            <li class="modern-sub-li"><a href="#">신제품</a></li>
+                            <li class="modern-sub-li"><a href="#">인기제품</a></li>
+                            <li class="modern-sub-li"><a href="#">카탈로그</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="modern-gnb-li">
+                    <a href="#" class="modern-gnb-a">시공사례</a>
+                </li>
+                <li class="modern-gnb-li">
+                    <a href="#" class="modern-gnb-a">온라인문의</a>
+                </li>
+                <li class="modern-gnb-li">
+                    <a href="#" class="modern-gnb-a">고객지원</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="modern-util">
+            <a href="#" class="util-btn">LOGIN</a>
+            <a href="#" class="util-btn">JOIN</a>
+            <div class="util-search"><i class="fas fa-search"></i></div>
+            <button class="util-menu-btn"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="sub-hero">
+        <div class="sub-hero-bg"></div>
+        <div class="sub-hero-content" data-aos="fade-up" data-aos-duration="1000">
+            <p class="sub-hero-subtitle">Building Tomorrow, Today</p>
+            <h1 class="sub-hero-title">CEO Message</h1>
+        </div>
+    </section>
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb">
+        <div class="breadcrumb-inner">
+            <span>Home</span> &gt;
+            <span>Company</span> &gt;
+            <span class="current">CEO Message</span>
+        </div>
+    </div>
+
+    <!-- CONTENT SECTION -->
+    <div class="content-wrapper">
+
+        <div class="section-header" data-aos="fade-right">
+            <p>Our Vision</p>
+            <h2>Leading the Future of<br>Environmental Design</h2>
+        </div>
+
+        <div class="about-grid">
+            <!-- Image Area -->
+            <div class="about-image" data-aos="fade-right" data-aos-delay="200">
+                <!-- Placeholder for CEO or Company Image -->
+                <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2071&auto=format&fit=crop"
+                    alt="CEO Image">
+            </div>
+
+            <!-- Text Area -->
+            <div class="about-text" data-aos="fade-left" data-aos-delay="400">
+                <h3>Innovation through<br>Passion and Dedication</h3>
+                <p>
+                    (주)르네상스 환경디자인산업은 1978년에 설립되었으며, 창조성 정확성 높은 수준의 품질과 마무리는 르네상스 환경디자인산업의 가장 중요한 사업 목표입니다.
+                </p>
+                <p>
+                    저희는 차별화된 특수자동게이트, 썬큰, 오버헤드도어, 특수 계단구조물, 주물 게이트, 알루미늄 주물 휀스, 단조난간, 화분대, 방범창 등 특화된 금속 구조물을 전문적으로 다루고
+                    있습니다.
+                </p>
+                <p>
+                    끊임없는 연구 개발과 디자인 혁신을 통해 고객 여러분께 최고의 가치를 전달해 드릴 것을 약속드립니다. 감사합니다.
+                </p>
+
+                <div class="sign-area" data-aos="fade-up" data-aos-delay="600">
+                    <div class="sign-name">CEO. Kim Cheol-Su</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="stats-row" data-aos="fade-up" data-aos-delay="600">
+            <div class="stat-item">
+                <div class="stat-number">1978</div>
+                <div class="stat-label">SINCE</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">45+</div>
+                <div class="stat-label">YEARS OF EXCELLENCE</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">CUSTOMER SATISFACTION</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Script Init for AOS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            once: true,
+            offset: 120,
+            duration: 800,
+            easing: 'ease-out-cubic'
+        });
+    </script>
+</body>
+
+</html>

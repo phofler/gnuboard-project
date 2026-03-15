@@ -1,0 +1,23 @@
+/* --- SUB COMMON STYLES (sub_common.css) --- */
+/* Common elements shared across all sub-pages */
+
+/* 
+ * [MOVED TO DEFAULT.CSS]
+ * - .sub-hero (Visual Banner)
+ * - .breadcrumb
+ * - .content-wrapper
+ * - .section-header
+ * 
+ * This file is now a placeholder or can be used for extra sub-page specific overrides NOT in the main theme.
+ */
+
+/* 2. Breadcrumb, 3. Content Wrapper, 4. Section Header, 5. Responsive Styles
+ * MOVED TO: default.css (For Global Inheritance & Admin Editor Consistency)
+ */
+
+/* Responsive Sub Hero Only */
+@media (max-width: 991px) {
+    .sub-hero-title {
+        font-size: 2.5rem;
+    }
+}

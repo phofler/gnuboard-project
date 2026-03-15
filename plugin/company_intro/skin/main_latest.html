@@ -1,0 +1,69 @@
+<!-- [Infrastructure] Main Portfolio Premium Skin - Standardized -->
+<meta charset="utf-8">
+<style>
+    .ci-skin-wrapper.main-portfolio-section {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: var(--spacing-section, 15vh) 0;
+        box-sizing: border-box;
+        background-color: transparent;
+    }
+
+    /* Header Standards (Typography Protocol) */
+    .section-header {
+        text-align: center;
+        margin-bottom: 60px;
+    }
+
+    .section-header .section-title {
+        color: var(--color-title-main, #d4af37);
+        font-family: var(--font-heading);
+        font-size: 3rem;
+        margin-bottom: 15px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+    }
+
+    .section-header .section-subtitle {
+        color: var(--color-text-secondary, #666);
+        font-size: 1.1rem;
+        margin-top: 5px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+    }
+
+    /* Standardized description */
+    .section-description {
+        max-width: 800px;
+        margin: 20px auto 0;
+        color: var(--color-text-primary);
+        font-size: 1.1rem;
+        line-height: 1.8;
+        opacity: 0.8;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .ci-skin-wrapper.main-portfolio-section {
+            padding: 10vh 0;
+        }
+
+        .section-header .section-title {
+            font-size: 2.2rem;
+        }
+    }
+</style>
+
+<div class="ci-skin-wrapper main-portfolio-section">
+    <div class="section-header">
+        <h2 class="section-title">{LS_TITLE}</h2>
+        <p class="section-subtitle">{LS_DESCRIPTION}</p>
+    </div>
+
+    <!-- Latest Skin Widget Slot -->
+    <div class="portfolio-content-wrap">
+        {LATEST_SKIN_DISPLAY}
+    </div>
+</div>

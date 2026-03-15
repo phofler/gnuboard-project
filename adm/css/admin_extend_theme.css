@@ -1,0 +1,8 @@
+/* Theme Menu Icon Support */
+#gnb .gnb_li .btn_op.menu-800 {
+    background: url(../img/menu-1-1.png) 50% 50% no-repeat #ebebeb;
+}
+
+#gnb .on .btn_op.menu-800 {
+    background: url(../img/menu-1.png) 50% 50% no-repeat #fff;
+}

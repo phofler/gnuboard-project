@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HYUNDAI VISION - 미래를 다시 쓰다</title>
+    <meta name="description" content="현대자동차의 새로운 비전. 한계를 넘어서는 본능, HYUNDAI VISION을 만나보세요.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* Font Override for Korean */
+        :root {
+            --font-body: 'Noto Sans KR', sans-serif;
+        }
+    </style>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-inner">
+            <a href="index.html" class="logo">HYUNDAI VISION</a>
+            <nav class="nav">
+                <ul>
+                    <li><a href="#about">Philosophy</a></li>
+                    <li><a href="#lineup">Models</a></li>
+                    <li><a href="#performance">Performance</a></li>
+                    <li><a href="#contact">Reserve</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section (Impact Style) -->
+    <section id="hero" class="hero">
+        <div class="hero-bg">
+            <img src="images/hero.png" alt="Futuristic Silver Sports Car">
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+            <h1>한계를 넘어서는 본능</h1>
+            <p>단순히 이동하는 것이 아닙니다. 당신의 감각을 깨우는 가장 완벽한 움직임입니다.</p>
+            <a href="#lineup" class="btn-primary"><span>더 알아보기</span></a>
+        </div>
+    </section>
+
+    <!-- About Section (Manifesto Style) -->
+    <section id="about" class="about">
+        <div class="about-content animate-child">
+            <h5
+                style="color: var(--color-accent); text-transform: uppercase; margin-bottom: 20px; letter-spacing: 0.2em;">
+                Brand Philosophy</h5>
+            <h2>이동(Mobility)은<br>멈추지 않는 진보(Progress)다.</h2>
+            <br>
+            <p>우리는 단순히 더 빠른 차를 만드는 것이 아닙니다.<br>인간의 시간과 공간을 확장하는 무한한 가능성을 설계합니다.</p>
+        </div>
+    </section>
+
+    <!-- Lineup Section (Visual Type) -->
+    <section id="lineup" class="section-padding lineup">
+        <div class="container">
+            <div class="animate-child" style="margin-bottom: 50px;">
+                <h2 style="font-size: 2.5rem;">The Collection</h2>
+            </div>
+
+            <div class="lineup-grid">
+                <!-- Sedan -->
+                <div class="car-card animate-child">
+                    <img src="images/sedan.png" alt="VISION S Sedan">
+                    <div class="car-info">
+                        <h3>VISION S</h3>
+                        <p>우아함의 정점, 럭셔리 EV 세단</p>
+                    </div>
+                </div>
+
+                <!-- SUV -->
+                <div class="car-card animate-child" style="transition-delay: 0.1s;">
+                    <img src="images/suv.png" alt="VISION X SUV">
+                    <div class="car-info">
+                        <h3>VISION X</h3>
+                        <p>모험을 위한 요새, 하이테크 SUV</p>
+                    </div>
+                </div>
+
+                <!-- Sport -->
+                <div class="car-card animate-child" style="transition-delay: 0.2s;">
+                    <img src="images/sport.png" alt="VISION N Supercar">
+                    <div class="car-info">
+                        <h3>VISION N</h3>
+                        <p>순수한 아드레날린, 트랙 퍼포먼스</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Performance Section (Stats Type) -->
+    <section id="performance" class="section-padding stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item animate-child">
+                    <h3>2.8s</h3>
+                    <span>0-100km/h Acceleration</span>
+                </div>
+                <div class="stat-item animate-child" style="transition-delay: 0.1s;">
+                    <h3>850km</h3>
+                    <span>Driving Range</span>
+                </div>
+                <div class="stat-item animate-child" style="transition-delay: 0.2s;">
+                    <h3>350kW</h3>
+                    <span>Ultra Fast Charging</span>
+                </div>
+                <div class="stat-item animate-child" style="transition-delay: 0.3s;">
+                    <h3>L4</h3>
+                    <span>Autonomous Grade</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section (Lead Gen Type) -->
+    <section id="contact" class="contact">
+        <div class="contact-visual">
+            <!-- Background Image via CSS -->
+        </div>
+        <div class="contact-form-wrapper">
+            <div class="form-inner animate-child">
+                <h2>Visionary Lounge</h2>
+                <p style="color: #888; margin-bottom: 30px;">HYUNDAI VISION을 가장 먼저 경험하세요. <br>프라이빗 쇼케이스에 귀하를 초대합니다.</p>
+                <form>
+                    <div class="input-group">
+                        <input type="text" id="name" required>
+                        <label for="name">이름</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="tel" id="phone" required>
+                        <label for="phone">연락처</label>
+                    </div>
+                    <div class="input-group">
+                        <select id="model">
+                            <option value="" disabled selected>관심 모델 선택</option>
+                            <option value="S">VISION S (Sedan)</option>
+                            <option value="X">VISION X (SUV)</option>
+                            <option value="N">VISION N (Sport)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <select id="region">
+                            <option value="" disabled selected>거주 지역</option>
+                            <option value="seoul">서울</option>
+                            <option value="gyeonggi">경기/인천</option>
+                            <option value="other">기타 지역</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-primary"
+                        style="width: 100%; text-align: center; border:none; cursor:pointer;">
+                        <span>프라이빗 쇼케이스 신청</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location (Guide Type) -->
+    <section class="section-padding" style="background-color: #0d0d0d;">
+        <div class="container animate-child">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <h5 style="color: var(--color-accent);">Visit Us</h5>
+                <h2 style="font-size: 2rem;">HYUNDAI VISION 스튜디오 강남</h2>
+            </div>
+            <div style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; color: #aaa;">
+                <div style="text-align: center;">
+                    <strong style="display: block; color: white; margin-bottom: 10px;">SUBWAY</strong>
+                    <p>신분당선 강남역 5번 출구 도보 3분</p>
+                </div>
+                <div style="text-align: center;">
+                    <strong style="display: block; color: white; margin-bottom: 10px;">BUS</strong>
+                    <p>강남역 정류장 하차 (파란버스 140, 470)</p>
+                </div>
+                <div style="text-align: center;">
+                    <strong style="display: block; color: white; margin-bottom: 10px;">VALET</strong>
+                    <p>건물 내 프라이빗 발렛 파킹 지원</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <h4>HYUNDAI VISION</h4>
+                    <p>Progress for Humanity</p>
+                </div>
+                <div class="footer-socials">
+                    <a href="#">Instagram</a>
+                    <a href="#">YouTube</a>
+                    <a href="#">LinkedIn</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Hyundai Motor Company. All rights reserved.</p>
+                <div class="footer-links" style="display: flex; gap: 20px;">
+                    <a href="#">개인정보처리방침</a>
+                    <a href="#">이용약관</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

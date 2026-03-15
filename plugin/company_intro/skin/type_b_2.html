@@ -1,0 +1,190 @@
+<style>
+    /* 
+     * Type B-2: Vision Skin (Text Left / Image Right)
+     * Concept: Growth, Value
+     * Layout: Standard B-Type structure (Reverse of A-2)
+     */
+
+    /* 1. Container */
+    #wrapper.sub-layout-light .ci-type-b2,
+    .ci-type-b2 {
+        width: 100%;
+        max-width: var(--spacing-container, 1200px);
+        margin: 0 auto;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Inter', sans-serif;
+        color: var(--color-text-primary, #e6f1ff);
+    }
+
+    /* 2. Header (Right Aligned) */
+    /* 2. Section Header - [FIX] Right Edge Standard */
+    #wrapper.sub-layout-light .ci-type-b2 .section-header,
+    .ci-type-b2 .section-header {
+        margin-bottom: 60px;
+        text-align: left;
+        /* Global Left Edge will apply */
+    }
+
+    #wrapper.sub-layout-light .ci-type-b2 .section-header h2,
+    .ci-type-b2 .section-header h2 {
+        font-family: var(--font-heading, 'Noto Sans KR', sans-serif);
+        font-size: 2.2rem;
+        color: var(--color-text-primary, #ffffff);
+        margin-bottom: 15px;
+        line-height: 1.2;
+    }
+
+    #wrapper.sub-layout-light .ci-type-b2 .section-header p,
+    .ci-type-b2 .section-header p {
+        color: var(--color-accent-gold, #d4af37);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-size: 0.9rem;
+        display: block;
+        text-align: left;
+        align-items: center;
+        gap: 10px;
+    }
+
+    /* [FIX] Removed Horizontal Line for clean edge style */
+    #wrapper.sub-layout-light .ci-type-b2 .section-header p::after,
+    .ci-type-b2 .section-header p::after {
+        display: none;
+    }
+
+    /* 3. Grid */
+    #wrapper.sub-layout-light .ci-type-b2 .vision-grid,
+    .ci-type-b2 .vision-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+    }
+
+    /* Text (Left) */
+    #wrapper.sub-layout-light .ci-type-b2 .vision-text h3,
+    .ci-type-b2 .vision-text h3 {
+        font-size: 1.8rem;
+        color: var(--color-text-primary, #ffffff);
+        margin-bottom: 25px;
+    }
+
+    #wrapper.sub-layout-light .ci-type-b2 .vision-text p,
+    .ci-type-b2 .vision-text p {
+        margin-bottom: 20px;
+        line-height: 1.7;
+        color: var(--color-text-secondary, #aaa);
+    }
+
+    /* Vision Points (Type B Style - Boxed?) None, let's keep consistency for now */
+    #wrapper.sub-layout-light .ci-type-b2 .vision-points,
+    .ci-type-b2 .vision-points {
+        margin-top: 30px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    #wrapper.sub-layout-light .ci-type-b2 .v-point,
+    .ci-type-b2 .v-point {
+        display: flex;
+        gap: 15px;
+        align-items: flex-start;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 6px;
+        border-left: 3px solid var(--color-accent-gold, #d4af37);
+    }
+
+    #wrapper.sub-layout-light .ci-type-b2 .v-desc h4,
+    .ci-type-b2 .v-desc h4 {
+        font-size: 1.05rem;
+        color: var(--color-text-primary, #fff);
+        margin-bottom: 5px;
+    }
+
+    #wrapper.sub-layout-light .ci-type-b2 .v-desc p,
+    .ci-type-b2 .v-desc p {
+        font-size: 0.9rem;
+        color: var(--color-text-secondary, #999);
+        margin: 0;
+    }
+
+    /* Image (Right) */
+    #wrapper.sub-layout-light .ci-type-b2 .vision-image,
+    .ci-type-b2 .vision-image {
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+    }
+
+    #wrapper.sub-layout-light .ci-type-b2 .vision-image img,
+    .ci-type-b2 .vision-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+        transition: transform 0.5s ease;
+    }
+
+    #wrapper.sub-layout-light .ci-type-b2 .vision-image:hover img,
+    .ci-type-b2 .vision-image:hover img {
+        transform: scale(1.03);
+    }
+
+    /* Responsive */
+    @media (max-width: 991px) {
+
+        #wrapper.sub-layout-light .ci-type-b2 .vision-grid,
+        .ci-type-b2 .vision-grid {
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        /* Reorder for Mobile: Text first is fine, or Image first? Standard B is Text first */
+    }
+</style>
+
+<div class="ci-type-b2">
+    <div class="section-header" data-aos="fade-left">
+        <p>Core Values</p>
+        <h2>Creating Value with<br>Unwavering Standards</h2>
+    </div>
+
+    <div class="vision-grid">
+        <div class="vision-text" data-aos="fade-right" data-aos-delay="200">
+            <h3>Fundamental Principles</h3>
+            <p>
+                우리의 가치관은 단순한 구호가 아닌 모든 의사결정의 기준이 됩니다.
+                정직과 신뢰를 바탕으로 파트너와 함께 성장하며 사회적 책임을 다합니다.
+            </p>
+
+            <div class="vision-points">
+                <div class="v-point">
+                    <div class="v-desc">
+                        <h4>Integrity First</h4>
+                        <p>투명하고 공정한 경영으로 고객의 신뢰를 최우선으로 지킵니다.</p>
+                    </div>
+                </div>
+                <div class="v-point">
+                    <div class="v-desc">
+                        <h4>Endless Challenge</h4>
+                        <p>현실에 안주하지 않고 끊임없이 새로운 목표에 도전합니다.</p>
+                    </div>
+                </div>
+                <div class="v-point">
+                    <div class="v-desc">
+                        <h4>Shared Growth</h4>
+                        <p>협력사와 지역사회와 함께 나누며 동반 성장을 실현합니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="vision-image" data-aos="fade-left" data-aos-delay="400">
+            <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2664&auto=format&fit=crop"
+                alt="Team Values">
+        </div>
+    </div>
+</div>

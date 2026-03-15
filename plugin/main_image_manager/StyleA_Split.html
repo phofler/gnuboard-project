@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <title>Preview Style A (Split)</title>
+    <!-- Basic custom reset if needed -->
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Pretendard', 'Malgun Gothic', sans-serif;
+        }
+    </style>
+
+    <!-- Try to load Theme CSS (Adjust path if needed) -->
+    <link rel="stylesheet" href="../../theme/corporate/css/default.css">
+
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <style>
+        /* Essential Styles for Preview (replicating theme styles) */
+        .hero-section {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            background: var(--color-bg-dark, #000);
+        }
+
+        .swiper {
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-split-item {
+            position: relative;
+            height: 100%;
+            overflow: hidden;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hero-split-item:last-child {
+            border-right: none;
+        }
+
+        .hero-bg {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.8s cubic-bezier(0.2, 0.6, 0.2, 1);
+        }
+
+        /* Ken Burns Effect (Slow Zoom) */
+        @keyframes kenburnsZoom {
+            0% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(1.15);
+            }
+        }
+
+        .swiper-slide-active .hero-bg {
+            animation: kenburnsZoom 10s ease-out forwards;
+        }
+
+        .hero-split-item:hover .hero-bg {
+            transform: scale(1.1);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent 70%);
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .hero-split-item:hover .hero-overlay {
+            opacity: 0.5;
+        }
+
+        .hero-content {
+            position: absolute;
+            bottom: 80px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            z-index: 2;
+            padding: 0 30px;
+            box-sizing: border-box;
+            transform: translateY(20px);
+            opacity: 0.9;
+            transition: all 0.6s ease;
+        }
+
+        .hero-split-item:hover .hero-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .hero-content h2 {
+            font-family: var(--font-heading, sans-serif);
+            font-size: 2.2rem;
+            color: var(--color-text-primary, #fff);
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-content p {
+            font-family: var(--font-body, sans-serif);
+            font-size: 1rem;
+            color: var(--color-text-secondary, #ccc);
+            margin-bottom: 25px;
+            line-height: 1.6;
+            opacity: 0.8;
+            /* 2 lines truncation with ellipsis */
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-height: 3.2em;
+            transition: all 0.6s ease;
+        }
+
+        .hero-split-item:hover .hero-content p {
+            opacity: 1;
+        }
+
+        .btn-luxury {
+            display: inline-block;
+            padding: 10px 25px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            color: var(--color-text-primary, #fff);
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+        }
+
+        .btn-luxury:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        .swiper-pagination-bullet {
+            background: #fff !important;
+            opacity: 0.5;
+        }
+
+        .swiper-pagination-bullet-active {
+            opacity: 1;
+            width: 30px;
+            border-radius: 5px;
+        }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            .hero-content {
+                bottom: 60px;
+                padding: 0 20px;
+            }
+
+            .hero-content h2 {
+                font-size: 1.5rem;
+                margin-bottom: 10px;
+            }
+
+            .hero-content p {
+                font-size: 0.95rem;
+                margin-bottom: 20px;
+                -webkit-line-clamp: 2;
+                line-clamp: 2;
+                max-height: 3em;
+            }
+
+            .btn-luxury {
+                padding: 8px 20px;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="hero-section">
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+
+                <!-- Slide 1 -->
+                <div class="swiper-slide hero-split-item">
+                    <div class="hero-bg"
+                        style="background-image: url('https://images.unsplash.com/photo-1600607686527-6fb886090705?auto=format&fit=crop&q=80');">
+                    </div>
+                    <div class="hero-overlay"></div>
+                    <div class="hero-content">
+                        <h2>제목 1 (나눔고딕)</h2>
+                        <p>이곳은 설명글입니다. 최대 두 줄까지 표시되며 그 이상의 내용은 말줄임표로 처리됩니다. 르네상스 환경디자인산업은 1978년에 설립되었습니다.</p>
+                        <a href="#" class="btn-luxury">VIEW MORE</a>
+                    </div>
+                </div>
+
+                <!-- Slide 2 -->
+                <div class="swiper-slide hero-split-item">
+                    <div class="hero-bg"
+                        style="background-image: url('https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&q=80');">
+                    </div>
+                    <div class="hero-overlay"></div>
+                    <div class="hero-content">
+                        <h2>제목 2</h2>
+                        <p>창조성, 정확성, 높은 수준의 품질과 마무리는 르네상스 환경디자인산업의 가장 중요한 사업 목표입니다.</p>
+                        <a href="#" class="btn-luxury">VIEW MORE</a>
+                    </div>
+                </div>
+
+                <!-- Slide 3 -->
+                <div class="swiper-slide hero-split-item">
+                    <div class="hero-bg"
+                        style="background-image: url('https://images.unsplash.com/photo-1600566752355-35792bedcfe1?auto=format&fit=crop&q=80');">
+                    </div>
+                    <div class="hero-overlay"></div>
+                    <div class="hero-content">
+                        <h2>제목 3</h2>
+                        <p>차별화된 특수자동게이트, 현관문, 오버헤드도어, 특수 계단구조물 등 특화된 금속 구조물을 생산합니다.</p>
+                        <a href="#" class="btn-luxury">VIEW MORE</a>
+                    </div>
+                </div>
+
+                <!-- Slide 4 -->
+                <div class="swiper-slide hero-split-item">
+                    <div class="hero-bg"
+                        style="background-image: url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80');">
+                    </div>
+                    <div class="hero-overlay"></div>
+                    <div class="hero-content">
+                        <h2>제목 4</h2>
+                        <p>고객의 안전과 품격을 최우선으로 생각하는 르네상스입니다. 언제나 최상의 품질을 약속드립니다.</p>
+                        <a href="#" class="btn-luxury">VIEW DETAIL</a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        var swiper = new Swiper(".mySwiper", {
+            loop: true,
+            slidesPerView: 1,
+            slidesPerGroup: 1,
+            centeredSlides: false,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            speed: 1000,
+            breakpoints: {
+                // Desktop
+                1024: {
+                    slidesPerView: 3,
+                    spaceBetween: 0
+                },
+                // Tablet
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 0
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

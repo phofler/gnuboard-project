@@ -1,0 +1,213 @@
+<style>
+    /* 
+     * Type C: Vertical Cinematic Design (Visionary)
+     * Standardized for Theme Compatibility
+     */
+
+    /* [Standard] Wrapper Pattern */
+    .ci-skin-wrapper {
+        width: 100%;
+        max-width: var(--spacing-container, 1200px);
+        margin: 0 auto;
+        padding: var(--spacing-section, 60px) 20px;
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+    /* 1. Vertical Header */
+    .ci-skin-wrapper .vertical-header .section-title {
+        font-size: 3.2rem;
+        font-weight: 800;
+        color: var(--color-text-primary);
+        margin-bottom: 15px;
+        line-height: 1.1;
+        font-family: var(--font-heading, sans-serif);
+    }
+
+    .ci-skin-wrapper .vertical-header .section-subtitle {
+        color: var(--color-text-secondary, #666);
+        font-size: 1.1rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 0;
+    }
+
+    /* Decorative Line */
+    .ci-skin-wrapper .vertical-header::after {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 4px;
+        /* Map to Accent for consistency */
+        background: var(--color-accent-gold, #d4af37);
+        margin: 20px auto 0;
+        border-radius: 2px;
+    }
+
+    /* 2. Cinematic Image */
+    .ci-skin-wrapper .cinema-image {
+        width: 100%;
+        height: 400px;
+        margin-bottom: 60px;
+        border-radius: 20px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.5);
+    }
+
+    .ci-skin-wrapper .cinema-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.7s ease;
+        display: block;
+    }
+
+    .ci-skin-wrapper .cinema-image:hover img {
+        transform: scale(1.05);
+    }
+
+    /* Overlay Gradient */
+    .ci-skin-wrapper .cinema-image::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 50%;
+        background: linear-gradient(to top, var(--color-bg-dark, #121212) 0%, transparent 100%);
+        opacity: 0.8;
+    }
+
+    /* 3. Main Text Block - Container */
+    .ci-skin-wrapper .main-text {
+        max-width: 800px;
+        margin: 0 auto 80px;
+    }
+
+    .ci-skin-wrapper .intro-text {
+        font-size: 1.15rem;
+        color: var(--color-text-secondary, #a0a0a0);
+        line-height: 1.8;
+        margin-bottom: 20px;
+    }
+
+    .ci-skin-wrapper .intro-text strong {
+        color: var(--color-text-primary, #ffffff);
+        font-weight: 600;
+    }
+
+    /* 4. Three Column Features */
+    .ci-skin-wrapper .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+        text-align: left;
+    }
+
+    .ci-skin-wrapper .feature-card {
+        background: var(--color-bg-panel, #1e1e1e);
+        padding: 40px 30px;
+        border-radius: 12px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        border-top: 1px solid var(--color-border, rgba(255, 255, 255, 0.05));
+    }
+
+    .ci-skin-wrapper .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        border-top: 1px solid var(--color-accent-gold, #d4af37);
+    }
+
+    .ci-skin-wrapper .feature-icon {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        /* Dynamic Gradient based on Theme Accent */
+        background: linear-gradient(135deg, var(--color-accent-gold, #d4af37) 0%, #a08020 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: inline-block;
+        font-weight: 700;
+        font-family: var(--font-heading, sans-serif);
+    }
+
+    .ci-skin-wrapper .feature-card h3 {
+        font-size: 1.4rem;
+        color: var(--color-text-primary, #ffffff);
+        margin-bottom: 15px;
+        font-weight: 700;
+        font-family: var(--font-heading, sans-serif);
+    }
+
+    .ci-skin-wrapper .feature-card p {
+        font-size: 0.95rem;
+        color: var(--color-text-secondary, #666);
+        line-height: 1.6;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .ci-skin-wrapper .feature-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .ci-skin-wrapper .cinema-image {
+            height: 250px;
+        }
+    }
+</style>
+
+<div class="ci-skin-wrapper">
+    <!-- 1. Header -->
+    <div class="vertical-header" data-aos="fade-up">
+        <p class="section-subtitle">Company Overview</p>
+        <h2 class="section-title">Space & Value Creator</h2>
+    </div>
+
+    <!-- 2. Image -->
+    <div class="cinema-image" data-aos="zoom-in" data-aos-delay="200">
+        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop"
+            alt="Company Office">
+    </div>
+
+    <!-- 3. Text -->
+    <div class="main-text" data-aos="fade-up" data-aos-delay="400">
+        <!-- ADDED CLASS .intro-text HERE -->
+        <p class="intro-text">
+            <strong>(주)르네상스 환경디자인산업</strong>은 1978년 창립 이래,<br>
+            차별화된 디자인과 금속 구조물 기술력으로<br>
+            대한민국 조경 시설물 산업의 새로운 기준을 제시해 왔습니다.
+        </p>
+        <p class="intro-text" style="margin-top:20px; font-size:1rem; color:var(--color-text-secondary);">
+            우리는 공간에 가치를 더하는 것을 넘어,<br>
+            머무르고 싶은 공간, 기억에 남는 경험을 설계합니다.<br>
+            40년 이상의 노하우와 끊임없는 혁신을 바탕으로 고객 여러분께 최고의 만족을 드리겠습니다.
+        </p>
+    </div>
+
+    <!-- 4. Features (Business Areas) -->
+    <div class="feature-grid">
+        <!-- Card 1 -->
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="500">
+            <div class="feature-icon">01</div>
+            <h3>Planning</h3>
+            <p>공간의 특성을 분석하고<br>최적의 디자인 솔루션을 기획합니다.</p>
+        </div>
+        <!-- Card 2 -->
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="600">
+            <div class="feature-icon">02</div>
+            <h3>Design & Build</h3>
+            <p>독창적인 디자인과<br>정밀한 시공으로 공간을 완성합니다.</p>
+        </div>
+        <!-- Card 3 -->
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="700">
+            <div class="feature-icon">03</div>
+            <h3>Maintenance</h3>
+            <p>지속적인 관리와 유지보수로<br>공간의 가치를 오랫동안 보존합니다.</p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,105 @@
+@charset "utf-8";
+
+/* 온라인 문의 플러그인 스타일 (plugin/online_inquiry/skin/user/basic/style.css) */
+
+.online_inquiry_wrap {
+    position: relative;
+    margin: 0 auto;
+    max-width: 100%
+}
+
+.online_inquiry_wrap form {
+    margin: 0;
+    padding: 0
+}
+
+/* 테이블 스타일 */
+.online_inquiry_wrap .tbl_input {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 2px solid #333;
+    margin-bottom: 20px
+}
+
+.online_inquiry_wrap .tbl_input caption {
+    position: absolute;
+    font-size: 0;
+    line-height: 0;
+    overflow: hidden
+}
+
+.online_inquiry_wrap .tbl_input th {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    background: #f8f9fa;
+    text-align: left;
+    font-weight: bold;
+    color: #333;
+    width: 120px
+}
+
+.online_inquiry_wrap .tbl_input td {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    color: #666
+}
+
+/* 입력 필드 */
+.online_inquiry_wrap .frm_input {
+    height: 40px;
+    padding: 0 10px;
+    border: 1px solid #ddd;
+    background: #fff;
+    width: 100%;
+    box-sizing: border-box
+}
+
+.online_inquiry_wrap textarea.frm_input {
+    height: 150px;
+    padding: 10px;
+    resize: vertical
+}
+
+/* 버튼 */
+.online_inquiry_wrap .btn_confirm {
+    text-align: center;
+    margin-top: 20px
+}
+
+.online_inquiry_wrap .btn_submit {
+    display: inline-block;
+    padding: 0 30px;
+    height: 50px;
+    line-height: 50px;
+    background: #333;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    border: 0;
+    cursor: pointer;
+    min-width: 150px
+}
+
+.online_inquiry_wrap .btn_submit:hover {
+    background: #000
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+
+    .online_inquiry_wrap .tbl_input th,
+    .online_inquiry_wrap .tbl_input td {
+        display: block;
+        width: 100%;
+        box-sizing: border-box
+    }
+
+    .online_inquiry_wrap .tbl_input th {
+        padding-bottom: 5px;
+        border-bottom: 0
+    }
+
+    .online_inquiry_wrap .tbl_input td {
+        padding-top: 5px
+    }
+}

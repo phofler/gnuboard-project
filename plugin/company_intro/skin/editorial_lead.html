@@ -1,0 +1,70 @@
+<?php
+if (!defined('_GNUBOARD_')) exit;
+
+/**
+ * SKIN: Editorial - Lead Text
+ * PURPOSE: "우리는 진정한 럭셔리가..." 도입부 텍스트
+ * VARIABLES:
+ *  - $txt_title: (Optional) 소제목 (없으면 숨김)
+ *  - $txt_desc: 본문 텍스트 (줄바꿈 허용)
+ */
+?>
+<style>
+    /* [Scoped CSS] Editorial Lead Text */
+    .lead-text-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        gap: 5vw;
+        padding-bottom: 5vh;
+        /* 하단 여백 확보 */
+    }
+
+    /* Accent Line */
+    .lead-accent-line {
+        display: block;
+        width: 50px;
+        height: 2px;
+        background: var(--color-accent-gold);
+        /* --c-brand -> theme var */
+        margin-top: 20px;
+    }
+
+    /* Typography */
+    .lead-text-body {
+        font-family: var(--font-heading, "Noto Sans KR");
+        /* Fallback added */
+        font-size: clamp(20px, 1.3vw, 24px);
+        /* Adjusted for readability */
+        line-height: 1.8;
+        font-weight: 500;
+        color: var(--color-text-primary);
+        word-break: keep-all;
+    }
+
+    .lead-text-body b,
+    .lead-text-body strong {
+        font-weight: 700;
+        color: var(--color-brand-etsy);
+        /* --c-brand -> theme var */
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+        .lead-text-wrapper {
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+    }
+</style>
+
+<div class="lead-text-wrapper aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
+    <!-- Left: Accent Line -->
+    <div>
+        <span class="lead-accent-line"></span>
+    </div>
+
+    <!-- Right: Text Content -->
+    <div class="lead-text-body">
+        <?php echo $txt_desc; // 관리자에서 입력한 본문 출력 ?>
+    </div>
+</div>

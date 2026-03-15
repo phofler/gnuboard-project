@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corporate Ultimate Light - About</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@200;300;400;500;600;800&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Inherit Ultimate Variables */
+            --c-bg: #F3F3F3;
+            --c-text: #050505;
+            --c-sub: #555555;
+            --c-border: #D1D1D1;
+            --c-brand: #FF3B30;
+
+            --f-display: 'Italiana', serif;
+            --f-body: 'Manrope', 'Noto Sans KR', sans-serif;
+            --f-kor: 'Noto Sans KR', sans-serif;
+        }
+
+        /* RESET & BASE */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--c-bg);
+            color: var(--c-text);
+            font-family: var(--f-body);
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* TYPOGRAPHY */
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: var(--f-display);
+            font-weight: 400;
+        }
+
+        .container {
+            width: 100%;
+            padding: 0 5vw;
+            max-width: 1360px;
+            /* Constrain max width significantly */
+            margin: 0 auto;
+        }
+
+        /* COMPONENT: NAV (Same as Index) */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 30px 5vw;
+            /* Match container padding */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 900;
+            mix-blend-mode: exclusion;
+            color: #fff;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 24px;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+        }
+
+        /* HERO: SUB PAGE STYLE */
+        /* HERO: SUB PAGE STYLE */
+        .sub-hero {
+            padding-top: 150px;
+            padding-bottom: 100px;
+            /* border-bottom: 1px solid var(--c-text); User removed line in screenshot? Keeping for structure but maybe lighter */
+        }
+
+        .header-meta {
+            margin-bottom: 60px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .sub-hero-grid {
+            display: grid;
+            grid-template-columns: 500px 1fr;
+            /* Fixed Box Left, Text Right */
+            gap: 80px;
+            align-items: center;
+            /* Vertical Center */
+        }
+
+        .sub-hero-img-box {
+            width: 100%;
+            height: 500px;
+            background: #fff;
+            overflow: hidden;
+            box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.1);
+        }
+
+        .sub-hero-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+        }
+
+        .sub-hero-img-box:hover img {
+            filter: grayscale(0%);
+            transform: scale(1.05);
+        }
+
+        .breadcrumb {
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #888;
+        }
+
+        .breadcrumb li.active {
+            color: var(--c-brand);
+        }
+
+        .breadcrumb li {
+            opacity: 0.6;
+            color: var(--c-text);
+        }
+
+        .breadcrumb li.active {
+            opacity: 1;
+            color: var(--c-brand);
+        }
+
+        .sub-tag {
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--c-brand);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .page-title {
+            font-size: clamp(60px, 9vw, 130px);
+            line-height: 0.9;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            margin-bottom: 0px;
+        }
+
+
+        /* ARTICLE LAYOUT */
+        .content-section {
+            padding: 10vh 0;
+        }
+
+        .grid-intro {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 5vw;
+            margin-bottom: 15vh;
+        }
+
+        .big-lead {
+            font-size: clamp(24px, 2.5vw, 24px);
+            line-height: 1.8;
+            font-weight: 500;
+        }
+
+        .big-lead b {
+            font-weight: 600;
+            color: var(--c-brand);
+        }
+
+        .img-block {
+            width: 100%;
+            height: 60vh;
+            overflow: hidden;
+            margin-bottom: 10vh;
+            position: relative;
+        }
+
+        .img-block img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: 1s;
+        }
+
+        .img-block:hover img {
+            filter: grayscale(0%);
+            transform: scale(1.05);
+        }
+
+        /* TEAM / GRID */
+        .t-h2 {
+            font-size: 40px;
+            border-bottom: 1px solid var(--c-text);
+            padding-bottom: 20px;
+            margin-bottom: 60px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2vw;
+        }
+
+        .team-card {
+            border-left: 1px solid var(--c-border);
+            padding-left: 20px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: 0.3s;
+        }
+
+        .team-card:hover {
+            background: #fff;
+            padding: 20px;
+            border-left-color: transparent;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+        }
+
+        .role {
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--c-brand);
+            margin-bottom: 10px;
+        }
+
+        .name {
+            font-size: 32px;
+            font-family: var(--f-display);
+            margin-bottom: 20px;
+        }
+
+        .quote {
+            font-size: 14px;
+            color: var(--c-sub);
+            line-height: 1.6;
+        }
+
+        /* FOOTER (Same as Index) */
+        footer {
+            background: var(--c-text);
+            /* Black for subpage contrast */
+            color: #fff;
+            padding: 10vh 4vw 5vh;
+            min-height: 50vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin-top: 10vh;
+        }
+
+        .footer-big {
+            font-size: 8vw;
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 5vh;
+        }
+
+        .footer-grid {
+            display: flex;
+            gap: 10vw;
+            font-size: 16px;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">Antigravity</a>
+        <div>MENU</div>
+    </nav>
+
+    <!-- SUB HERO -->
+    <div class="container sub-hero">
+        <div class="header-meta" data-aos="fade-down">
+            <ul class="breadcrumb">
+                <li>Home</li>
+                <li class="active">Philosophy</li>
+            </ul>
+            <div class="sub-tag">WHO WE ARE</div>
+        </div>
+
+        <div class="sub-hero-grid">
+            <div class="sub-hero-img-box" data-aos="fade-right">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=2564&auto=format&fit=crop"
+                    alt="Main Model">
+            </div>
+            <div class="sub-hero-title-wrap">
+                <h1 class="page-title" data-aos="fade-up" data-aos-delay="200">
+                    Defined by<br>Instinct.
+                </h1>
+                <div style="font-family:var(--f-display); font-size:50px; margin-top:50px; font-weight:400;"
+                    data-aos="fade-up" data-aos-delay="300">
+                    About Company
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENT -->
+    <section class="container content-section">
+        <div class="grid-intro">
+            <div data-aos="fade-up" data-aos-delay="200">
+                <span style="display:block; width:50px; height:2px; background:var(--c-brand); margin-top:20px;"></span>
+            </div>
+            <div class="big-lead" data-aos="fade-up" data-aos-delay="300">
+                우리는 진정한 럭셔리가 <b>덜어냄(Reduction)</b>에 있다고 믿습니다.<br>
+                소음으로 가득 찬 세상에서 우리는 고요를 창조합니다.<br>
+                우리의 디자인 철학은 '디지털 브루탈리즘'에 뿌리를 두고 있습니다. —<br>
+                가공되지 않은 정직함, 그리고 무엇보다 강력한 힘을 지닌 본질적인 아름다움입니다.
+            </div>
+        </div>
+
+        <div class="img-block" data-aos="zoom-in">
+            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop"
+                alt="Office">
+        </div>
+
+        <!-- COMPANY OVERVIEW TABLE -->
+        <div class="t-h2" data-aos="fade-up">Company Overview</div>
+        <div class="overview-table" data-aos="fade-up" style="margin-bottom:15vh; border-top:2px solid #000;">
+            <style>
+                .overview-row {
+                    display: grid;
+                    grid-template-columns: 200px 1fr;
+                    border-bottom: 1px solid #ddd;
+                    padding: 20px 0;
+                    align-items: center;
+                }
+
+                .overview-label {
+                    font-weight: 700;
+                    font-family: var(--f-kor);
+                }
+
+                .overview-value {
+                    font-family: var(--f-kor);
+                    color: var(--c-sub);
+                }
+            </style>
+            <div class="overview-row">
+                <div class="overview-label">회사명</div>
+                <div class="overview-value">앤티그래비티 (Antigravity Inc.)</div>
+            </div>
+            <div class="overview-row">
+                <div class="overview-label">대표이사</div>
+                <div class="overview-value">이지훈</div>
+            </div>
+            <div class="overview-row">
+                <div class="overview-label">설립일</div>
+                <div class="overview-value">2024년 1월 1일</div>
+            </div>
+            <div class="overview-row">
+                <div class="overview-label">주요사업</div>
+                <div class="overview-value">웹 에이전시, UI/UX 디자인, 브랜드 컨설팅, SI 개발</div>
+            </div>
+            <div class="overview-row">
+                <div class="overview-label">주소</div>
+                <div class="overview-value">서울시 강남구 테헤란로 123, 앤티그래비티 빌딩 4층</div>
+            </div>
+        </div>
+
+        <div class="t-h2" data-aos="fade-up">Our Team</div>
+
+        <div class="team-grid">
+            <div class="team-card" data-aos="fade-up" data-aos-delay="100">
+                <div>
+                    <div class="role">Creative Director</div>
+                    <div class="name">김태훈</div>
+                </div>
+                <div class="quote">"디자인은 단순히 예쁘게 만드는 것이 아닙니다. 문제를 아름답게 해결하는 과정입니다."
+                </div>
+            </div>
+            <div class="team-card" data-aos="fade-up" data-aos-delay="200">
+                <div>
+                    <div class="role">Lead Developer</div>
+                    <div class="name">이소연</div>
+                </div>
+                <div class="quote">"코드는 기계가 이해하는 언어로 쓰인 시(Poetry)입니다."
+                </div>
+            </div>
+            <div class="team-card" data-aos="fade-up" data-aos-delay="300">
+                <div>
+                    <div class="role">Art Director</div>
+                    <div class="name">박민수</div>
+                </div>
+                <div class="quote">"모든 픽셀에는 이유가 있어야 합니다. 단순함이야말로 궁극의 정교함입니다."</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer style="background-color:var(--c-brand); color:#fff;">
+        <div class="footer-big">LET'S TALK.</div>
+        <div class="footer-grid">
+            <div>
+                <span style="display:block; font-size:12px; font-weight:700; margin-bottom:10px;">CONTACT</span>
+                hello@antigravity.kr<br>
+                02-1234-5678
+            </div>
+            <div>
+                <span style="display:block; font-size:12px; font-weight:700; margin-bottom:10px;">ADDRESS</span>
+                서울시 강남구 테헤란로 123<br>
+                앤티그래비티 빌딩 4층
+            </div>
+            <div>
+                <span style="display:block; font-size:12px; font-weight:700; margin-bottom:10px;">SOCIAL</span>
+                Instagram<br>
+                Behance
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        AOS.init();
+    </script>
+</body>
+
+</html>

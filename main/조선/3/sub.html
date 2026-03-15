@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hanwha Ocean - Spec Detail</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Pretendard:wght@300;400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .sub-header {
+            height: 40vh;
+            background: url('images/hero.png') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .sub-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .sub-header h1 {
+            position: relative;
+            z-index: 2;
+            font-size: 3rem;
+            text-transform: uppercase;
+        }
+
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+
+        .spec-table th,
+        .spec-table td {
+            text-align: left;
+            padding: 15px;
+            border-bottom: 1px solid #333;
+        }
+
+        .spec-table th {
+            color: var(--color-accent);
+            width: 30%;
+        }
+
+        .spec-table td {
+            color: #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header style="background: rgba(0,10,18,0.95);">
+        <div class="container nav-flex">
+            <a href="index.html" class="logo">HANWHA OCEAN</a>
+            <div class="nav-links">
+                <a href="index.html#about">Mission</a>
+                <a href="index.html#business">Business</a>
+                <a href="index.html#contact">Partnership</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sub Header -->
+    <section class="sub-header">
+        <h1>Technology Detail</h1>
+    </section>
+
+    <!-- Content -->
+    <section class="section-padding">
+        <div class="container">
+            <h2 style="color: white; margin-bottom: 20px;">KDDX Class Destroyer</h2>
+            <p style="color: #aaa; margin-bottom: 40px; line-height: 1.8;">
+                대한민국 해군의 차기 주력 구축함인 KDDX는 완전 전기추진방식과 통합마스트(I-MAST)를 적용하여
+                생존성과 작전수행능력을 극대화했습니다. 국내 독자 기술로 개발된 전투체계를 탑재하여
+                동시다발적인 공중, 수상, 수중 위협에 대응할 수 있습니다.
+            </p>
+
+            <img src="images/shipyard.png" alt="Detail View"
+                style="width: 100%; border-radius: 4px; border: 1px solid #333;">
+
+            <h3 style="margin-top: 50px; margin-bottom: 20px; font-size: 1.5rem; color: white;">Technical Specifications
+            </h3>
+            <table class="spec-table">
+                <tr>
+                    <th>Displacement (톤수)</th>
+                    <td>6,000 tons class</td>
+                </tr>
+                <tr>
+                    <th>Length (전장)</th>
+                    <td>150m+</td>
+                </tr>
+                <tr>
+                    <th>Propulsion (추진체계)</th>
+                    <td>Full Electric Propulsion System</td>
+                </tr>
+                <tr>
+                    <th>Armament (무장)</th>
+                    <td>K-VLS, Anti-Ship Missiles, CIWS-II</td>
+                </tr>
+                <tr>
+                    <th>Radar (레이더)</th>
+                    <td>Multi-function AESA Radar (Dual Band)</td>
+                </tr>
+            </table>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-inner">
+            <div class="brand">
+                <h4 style="color: white; margin-bottom: 5px;">HANWHA OCEAN</h4>
+                <p>Unrivaled Power, Unlimited Ocean</p>
+            </div>
+            <div class="copyright">
+                &copy; 2026 Hanwha Ocean Co., Ltd. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,392 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=Noto+Sans+KR:wght@400;700;900&display=swap');
+
+/* Font Family - Only apply to text elements to avoid breaking FontAwesome icons */
+.dep2Wrap, .gnb, .dep2Wrap a, .dep2Wrap p, .dep2Wrap h2, .gnb a { 
+    font-family: 'Inter', 'Noto Sans KR', sans-serif !important; 
+}
+/* Extracted Top Menu CSS for Basic Skin */
+/* Header */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: 0.4s;
+}
+
+.gnbWrapBg { background: #fff; border-bottom: 1px solid #e9e9e9; height: var(--header-height); }
+
+header:hover .gnbWrapBg,
+header.active .gnbWrapBg {
+    background: #fff;
+    border-bottom: 1px solid #e9e9e9;
+}
+
+/* [Breakout Fix] Force all ancestors between header and dropdown to be static */
+#mainHeader .gnbWrapBg,
+#mainHeader .gnbArea,
+#mainHeader nav,
+#mainHeader ul.gnb,
+#mainHeader ul.gnb > li {
+    position: static !important;
+    width: auto;
+    max-width: none;
+}
+
+#mainHeader .container.gnbArea {
+    position: static !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    /* Re-center the items using margin since we broke the container width */
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.gnbArea {
+    position: static !important;
+}
+
+.logo {
+    display: inline-block;
+    transform: translate(50px, 8px);
+    flex-shrink: 0;
+}
+
+.logo img {
+    height: 33px;
+    width: auto;
+    transition: 0.3s;
+    filter: brightness(0) invert(1);
+}
+
+header:hover .logo img,
+header.active .logo img {
+    filter: none;
+}
+
+/* GNB */
+.gnb {
+    display: flex;
+    gap: 0;
+    height: 100%;
+}
+
+.gnb>li {
+    width: auto;
+    padding: 0 25px;
+    text-align: center;
+    /* position: static !important; is already covered by the breakout fix above */
+}
+
+.gnb>li>a {
+    display: block;
+    line-height: var(--header-height);
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    transition: 0.3s;
+    white-space: nowrap;
+}
+
+header:hover .gnb>li>a,
+header.active .gnb>li>a {
+    color: #333;
+}
+
+.gnb>li:hover>a,
+.gnb>li.on>a {
+    color: var(--edge-color) !important;
+}
+
+/* Mega Menu */
+.dep2Wrap {
+    display: none;
+    position: absolute;
+    left: 0 !important;
+    right: 0 !important;
+    top: var(--header-height);
+    width: 100vw !important; /* Force viewport width */
+    margin-left: calc(-50vw + 50%); /* Robust breakout even if parent is narrowed */
+    background: #ffffff !important;
+    border-top: 1px solid #e9e9e9;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 50px 0;
+    z-index: 999;
+}
+
+.gnb>li.on .dep2Wrap {
+    display: block;
+}
+
+.dep2Wrap2 {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 30px;
+    display: flex;
+}
+
+.dep2Img {
+    width: 28%;
+    border-right: 1px solid #e9e9e9;
+    padding-right: 30px;
+}
+
+.dep2Img h2 {
+    font-size: 2.2rem;
+    color: var(--primary-dark);
+    font-weight: 800;
+    margin-bottom: 15px;
+    font-family: 'Inter', 'Noto Sans KR', sans-serif !important;
+}
+
+.dep2Img .txt {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.5;
+    margin-top: 10px;
+}
+
+.dep2 {
+    flex: 1;
+    padding-left: 50px;
+}
+
+.dep2 > ul {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.dep2 > ul > li {
+    background: #f1f3f5;
+    border: 1px solid #e9e9e9;
+    transition: 0.3s;
+}
+
+.dep2 > ul > li > a {
+    display: block;
+    padding: 15px 20px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #0d47a1; /* Primary Blue from reference */
+    text-align: center;
+}
+
+.dep2 > ul > li:hover {
+    background: #0d47a1;
+    border-color: #0d47a1;
+}
+
+.dep2 > ul > li:hover > a {
+    color: #fff;
+}
+
+.dep3 {
+    display: none; /* Reference seems to use a flat grid for sub-menus */
+}
+
+/* Right Buttons */
+.rightBtn {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-shrink: 0;
+}
+
+/* 嶺뚮∥??????녹맠 ?熬곥굦???熬곣뫗逾????源껊쭜 ?곌랜???*/
+.btn-phone {
+    font-size: 24px;
+    color: #fff;
+    transition: 0.3s;
+}
+
+header:hover .btn-phone,
+header.active .btn-phone {
+    color: var(--text-main);
+}
+
+.btn-lang {
+    display: inline-block;
+    border: 1px solid #fff;
+    color: #fff;
+    padding: 5px 15px;
+    font-size: 0.85rem;
+    transition: 0.3s;
+}
+
+header:hover .btn-lang,
+header.active .btn-lang {
+    border-color: #333;
+    color: #333;
+}
+
+.btnAllmenu {
+    display: none;
+    font-size: 26px;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.3s;
+    line-height: 1;
+    z-index: 100;
+}
+
+header:hover .btnAllmenu i,
+header.active .btnAllmenu i {
+    color: #333;
+}
+
+.mobile-only {
+    display: none !important;
+}
+
+/* Mobile Menu Drawer */
+.m-menu-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 2000;
+    display: none;
+    backdrop-filter: blur(3px);
+}
+
+/* Mobile Menu Accordion & Left Slide */
+.m-menu-wrap {
+    position: fixed;
+    top: 0;
+    left: -320px;
+    width: 300px;
+    height: 100vh;
+    background: #fff;
+    z-index: 2001;
+    transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    padding: 30px 25px 40px;
+    box-shadow: 5px 0 20px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+}
+
+.m-menu-wrap.active {
+    left: 0;
+}
+
+.m-dep2,
+.m-dep3 {
+    display: none;
+    padding-left: 15px;
+    border-left: 1px solid #eee;
+    margin-top: 5px;
+}
+
+.m-gnb>li>a,
+.m-dep2>li.m-sub>a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    cursor: pointer;
+}
+
+.m-gnb>li>a::after,
+.m-dep2>li.m-sub>a::after {
+    content: '\f078';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    font-size: 0.8rem;
+    transition: 0.3s;
+}
+
+.m-gnb>li.on>a::after,
+.m-dep2>li.m-sub.on>a::after {
+    transform: rotate(180deg);
+}
+
+.m-dep2 li a,
+.m-dep3 li a {
+    display: block;
+    font-size: 0.95rem;
+    color: #666;
+    padding: 8px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.m-dep2 li {
+    border-bottom: none !important;
+}
+
+.m-gnb>li {
+    border-bottom: 1px solid #eee;
+}
+
+.m-gnb>li:last-child {
+    border-bottom: none;
+}
+
+.btn-m-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 32px;
+    height: 32px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #333;
+    cursor: pointer;
+}
+
+/* Mobile Menu Header */
+.m-menu-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 5px 0 20px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #eee;
+}
+
+.m-logo-area img {
+    height: 26px;
+    width: auto;
+}
+
+.m-contact-area {
+    position: absolute;
+    right: 0;
+    display: flex;
+    gap: 8px;
+}
+
+.m-icon-btn {
+    width: 38px;
+    height: 38px;
+    background: #f8f9fa;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: var(--primary-dark);
+    transition: 0.3s;
+    border: 1px solid #eee;
+}
+
+.m-contact-area a:first-child {
+    background: var(--edge-color);
+    color: #fff;
+    border-color: var(--edge-color);
+}
+
+.m-icon-btn:hover {
+    background: var(--edge-color);
+    color: #fff;
+    border-color: var(--edge-color);
+}
+

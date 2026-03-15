@@ -1,0 +1,365 @@
+/* Cosmetics - Elegant & Scientific Style */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap');
+
+:root {
+    --color-primary: #2F4F4F;
+    /* Deep Teal */
+    --color-secondary: #FFDAB9;
+    /* Soft Peach */
+    --color-accent: #B76E79;
+    /* Rose Gold */
+    --color-bg: #F8F8F8;
+    /* Off-White */
+    --color-text: #333333;
+    /* Dark Grey */
+
+    --font-serif: 'Playfair Display', serif;
+    --font-sans: 'Montserrat', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-family: var(--font-serif);
+    color: var(--color-primary);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.section-padding {
+    padding: 100px 0;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* Buttons */
+.btn-elegant {
+    display: inline-block;
+    padding: 15px 40px;
+    background-color: var(--color-primary);
+    color: white;
+    font-family: var(--font-sans);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    border: 1px solid var(--color-primary);
+    transition: all 0.3s ease;
+}
+
+.btn-elegant:hover {
+    background-color: white;
+    color: var(--color-primary);
+}
+
+.btn-secondary {
+    display: inline-block;
+    padding: 12px 30px;
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+/* Header */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(248, 248, 248, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+}
+
+.logo {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--color-primary);
+}
+
+.nav ul {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+}
+
+.nav a {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-text);
+}
+
+.nav a:hover {
+    color: var(--color-accent);
+}
+
+/* Hero */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    background: linear-gradient(to right, #fff 40%, transparent 40%), url('images/hero.png') no-repeat right center/cover;
+}
+
+.hero-content {
+    width: 40%;
+    padding: 0 5%;
+    z-index: 2;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 40px;
+    max-width: 400px;
+}
+
+@media (max-width: 768px) {
+    .hero {
+        background: url('images/hero.png') no-repeat center center/cover;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .hero-content {
+        width: 90%;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 40px;
+    }
+}
+
+/* About */
+.about {
+    background-color: white;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.about-img img {
+    width: 100%;
+    border-radius: 4px;
+    /* Slight roundness for softness */
+}
+
+/* Products */
+.products {
+    background-color: var(--color-bg);
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.product-card {
+    background: white;
+    padding: 0;
+    text-align: center;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.product-img {
+    height: 350px;
+    overflow: hidden;
+    position: relative;
+    background: #f0f0f0;
+}
+
+.product-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.product-card:hover .product-img img {
+    transform: scale(1.05);
+}
+
+.product-info {
+    padding: 30px;
+}
+
+.product-info h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: var(--color-text);
+}
+
+.product-info p {
+    font-size: 0.9rem;
+    color: #888;
+    margin-bottom: 20px;
+}
+
+/* Ingredients/Science */
+.science {
+    background-color: var(--color-primary);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.science-bg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    background: url('images/ingredient.png') no-repeat center center/cover;
+    opacity: 0.8;
+}
+
+.science-content {
+    position: relative;
+    width: 50%;
+    padding: 100px 50px 100px 0;
+    z-index: 2;
+}
+
+.science h2 {
+    color: white;
+    margin-bottom: 30px;
+}
+
+.ingredient-list {
+    margin-top: 40px;
+}
+
+.ingredient-item {
+    margin-bottom: 30px;
+    border-left: 1px solid var(--color-secondary);
+    padding-left: 20px;
+}
+
+.ingredient-item h4 {
+    color: var(--color-secondary);
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    font-family: var(--font-sans);
+}
+
+/* Contact */
+.contact {
+    background-color: white;
+}
+
+.contact-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ddd;
+    background: #fafafa;
+    font-family: var(--font-sans);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    background: white;
+}
+
+/* Footer */
+footer {
+    background-color: #f4f4f4;
+    padding: 60px 0;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #888;
+}
+
+.footer-links {
+    margin: 20px 0;
+}
+
+.footer-links a {
+    margin: 0 15px;
+}
+
+/* Animations */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}

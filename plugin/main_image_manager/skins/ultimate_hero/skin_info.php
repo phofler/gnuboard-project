@@ -1,0 +1,8 @@
+<?php
+$skin_info = array(
+    'name' => 'Ultimate Hero',
+    're_width' => 1920,
+    're_height' => 1080,
+    'desc' => '怨좉툒 ??댄룷洹몃옒?쇱? 鍮꾨뵒??諛곌꼍??吏?먰븯???꾨━誘몄뾼 ?ㅽ궓?낅땲??'
+);
+?>

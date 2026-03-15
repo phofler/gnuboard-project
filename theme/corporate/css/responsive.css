@@ -1,0 +1,313 @@
+@charset "utf-8";
+
+/* ==========================================================================
+   Responsive Design for Corporate Theme
+   - Applied to enable "One Source Multi Use" (PC Theme on Mobile)
+   - Overrides default.css for tablet and mobile devices
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Tablet & Mobile Common (Max Width 1024px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+
+    /* Layout Container */
+    .container {
+        padding: 0 20px;
+        width: 100%;
+    }
+
+    /* Header & Navigation */
+    #hd_wrapper {
+        padding: 0 20px;
+        height: 80px;
+    }
+
+    #hd {
+        height: 80px;
+    }
+
+    #logo img {
+        height: 50px !important;
+        /* User requested 50px */
+        max-height: 50px !important;
+        /* Enforce max-height */
+        width: auto !important;
+    }
+
+    /* Hide Desktop Menu */
+    #gnb_1dul {
+        display: none !important;
+    }
+
+    #gnb_mega_panel {
+        display: none !important;
+    }
+
+    /* Show Mobile Hamburger Button */
+    .gnb_menu_btn {
+        display: block !important;
+        font-size: 24px;
+        color: var(--color-text-primary, #fff);
+        background: none;
+        border: none;
+        cursor: pointer;
+        z-index: 1001;
+    }
+
+    /* Adjust Login/Admin Links */
+    .hd_login {
+        display: none !important;
+        /* Hide top login links on mobile? Or keep icons? */
+    }
+
+    /* Hero Section (Split Layout -> Stacked) */
+    .hero-split {
+        flex-direction: column;
+        height: auto;
+        /* Allow auto height */
+    }
+
+    .hero-style-a .hero-split-item {
+        width: 100%;
+        height: 50vh;
+        /* Stack 2 items, each 50% viewport height */
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* General Sections */
+    section {
+        padding: 60px 0;
+    }
+
+    section h2 {
+        font-size: 2rem;
+        margin-bottom: 40px;
+    }
+
+    /* Product List (Stacking) */
+    .product-list {
+        gap: 60px;
+    }
+
+    .product-item {
+        flex-direction: column !important;
+        gap: 30px;
+    }
+
+    .product-image img {
+        height: 250px;
+    }
+
+    /* Grids */
+    .news-grid {
+        grid-template-columns: 1fr;
+        /* Single column */
+        gap: 30px;
+    }
+
+    /* Inquiry Form */
+    .inquiry-wrapper {
+        flex-direction: column;
+        padding: 30px;
+    }
+
+    .inquiry-info {
+        border-right: none;
+        border-bottom: 1px solid #333;
+        padding-right: 0;
+        padding-bottom: 30px;
+        margin-bottom: 30px;
+    }
+
+    /* --------------------------------------------------------
+       Mobile Menu Overlay Styling (#gnb_all)
+       - Improved Alignment & Reachability
+       -------------------------------------------------------- */
+    #gnb_all {
+        padding: 0;
+        /* Remove static padding, header handles it */
+        text-align: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+
+        /* Force Solid Background - Resetting shorthand */
+        background: var(--gnb-bg, #121212) !important;
+        /* Disable any blur filters that might cause transparency artifacts */
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        opacity: 1 !important;
+
+        z-index: 9999;
+        overflow-y: auto;
+    }
+
+    #gnb_all h2 {
+        display: none;
+    }
+
+    /* Top Header Bar Background Removed - using internal flex header now */
+    #gnb_all::before {
+        display: none;
+    }
+
+    .gnb_al_ul {
+        display: block;
+        max-width: 100%;
+        margin-top: 0;
+        /* Remove top gap */
+        padding-top: 10px;
+        /* Slight buffer from header */
+    }
+
+    .gnb_al_li {
+        margin-bottom: 25px;
+        /* Increase spacing between sections */
+        border-bottom: none;
+        /* Remove old separator */
+        padding-bottom: 0;
+
+        /* Card Style for Main Sections */
+        background: var(--gnb-header-bg, rgba(255, 255, 255, 0.05));
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        /* Subtle shadow */
+    }
+
+    .gnb_al_a {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--gnb-text-main, var(--color-accent-gold));
+        margin-bottom: 15px;
+        display: block;
+        /* Full width title */
+        border-bottom: 2px solid var(--gnb-border-color, rgba(255, 255, 255, 0.1));
+        /* Separator line */
+        padding-bottom: 10px;
+
+        /* Truncation Logic */
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        max-width: 100% !important;
+        display: block !important;
+    }
+
+    /* Sub Menu */
+    /* Sub Menu */
+    /* Sub Menu */
+    .gnb_al_li ul {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 Columns Enforced */
+        gap: 5px 10px;
+        /* Tighter Gap */
+        background: var(--gnb-sub-bg, rgba(255, 255, 255, 0.03));
+        /* Slight dimmed bg */
+        padding: 10px;
+        /* Reduced Padding */
+        border-radius: 8px;
+        text-align: center;
+        /* Center items in their grid cells */
+    }
+
+    /* Grid Item Container fix for ellipsis */
+    .gnb_al_li ul li {
+        min-width: 0;
+        /* Important for grid child truncation */
+        overflow: hidden;
+    }
+
+    .gnb_al_li ul li a {
+        display: block;
+        width: 100%;
+        font-size: 0.95rem;
+        /* Slight adjust for 2 cols */
+        color: var(--gnb-text-sub, #aaa);
+        padding: 8px 5px;
+        /* Add side padding */
+
+        /* Truncation Logic */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .gnb_al_li ul li a:hover {
+        color: var(--gnb-text-hover, #fff);
+        background: transparent;
+        padding-left: 0;
+        transform: scale(1.05);
+        /* Slight zoom instead of slide */
+    }
+
+    .gnb_close_btn {
+        top: 15px;
+        /* Validated Alignment */
+        right: 20px;
+        font-size: 30px;
+        /* Slightly smaller for header balance */
+        color: var(--gnb-close-color, #fff);
+        z-index: 10000;
+        position: absolute;
+        background: none;
+        border: none;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Mobile (Max Width 768px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+
+    /* Header */
+    #hd {
+        height: 60px;
+    }
+
+    #hd_wrapper {
+        height: 60px;
+        padding: 0 15px;
+    }
+
+    #logo img {
+        height: 50px !important;
+        /* Consistent 50px */
+    }
+
+    /* Hero Content Text */
+    .hero-content {
+        left: 20px;
+        bottom: 40px;
+    }
+
+    .hero-content h2 {
+        font-size: 1.8rem;
+    }
+
+    /* Portfolio Grid */
+    .portfolio-grid {
+        grid-template-columns: 1fr;
+        /* Single column */
+    }
+
+    .portfolio-item {
+        height: 250px;
+    }
+
+    /* Map */
+    .map-container {
+        height: 300px;
+    }
+
+    /* Footer */
+    #ft {
+        padding: 40px 0;
+    }
+}

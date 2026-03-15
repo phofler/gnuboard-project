@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Premium Light Menu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            /* Premium Light Palette */
+            --modern-bg: rgba(255, 255, 255, 0.9);
+            --modern-border: rgba(0, 0, 0, 0.08);
+            --modern-text: #222222;
+            --modern-text-muted: #666666;
+            --modern-gold: #c5a47e;
+
+            --glass-blur: blur(15px);
+            --header-h: 80px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            font-family: 'Montserrat', sans-serif;
+            color: var(--modern-text);
+            padding-top: 150px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        /* Modern Floating Header (Light) */
+        #hd {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-h);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--modern-bg);
+            backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid var(--modern-border);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .modern-gnb-wrap {
+            width: 100%;
+            max-width: 1600px;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        /* Logo */
+        #logo a {
+            font-size: 24px;
+            font-weight: 700;
+            color: #111;
+            text-transform: uppercase;
+        }
+
+        #logo a span {
+            color: var(--modern-gold);
+        }
+
+        /* Navigation */
+        #gnb {
+            height: 100%;
+        }
+
+        #gnb_1dul {
+            display: flex;
+            gap: 30px;
+            height: 100%;
+            align-items: center;
+        }
+
+        .gnb_1dli {
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .gnb_1da {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--modern-text-muted);
+            padding: 8px 16px;
+            border-radius: 4px;
+        }
+
+        .gnb_1dli:hover .gnb_1da {
+            color: #000;
+            background: rgba(0, 0, 0, 0.04);
+        }
+
+        /* Underline Dot */
+        .gnb_1dli::after {
+            content: '';
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--modern-gold);
+            transition: 0.3s;
+            opacity: 0;
+        }
+
+        .gnb_1dli:hover::after {
+            width: 16px;
+            opacity: 1;
+        }
+
+        /* Dropdown (Light Glass) */
+        .gnb_2dul {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            min-width: 220px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--modern-border);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+
+            /* Hidden State */
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+            z-index: 9999;
+        }
+
+        /* Wide variant support */
+        .gnb_2dul.wide-dropdown {
+            min-width: 480px;
+            display: flex;
+            gap: 30px;
+        }
+
+        .gnb_2dul::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%) rotate(45deg);
+            width: 12px;
+            height: 12px;
+            background: #fff;
+            border-top: 1px solid var(--modern-border);
+            border-left: 1px solid var(--modern-border);
+        }
+
+        .gnb_1dli:hover .gnb_2dul {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .gnb_2dul ul {
+            flex: 1;
+        }
+
+        .gnb_2dul li {
+            margin-bottom: 5px;
+        }
+
+        .gnb_2da {
+            display: block;
+            padding: 10px 15px;
+            font-size: 14px;
+            color: #555;
+            border-radius: 6px;
+        }
+
+        .gnb_2da:hover {
+            background: var(--modern-gold);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* Right Actions */
+        .hd_right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .hd_login {
+            font-size: 13px;
+            color: #888;
+            display: flex;
+            gap: 15px;
+        }
+
+        .hd_login a:hover {
+            color: #000;
+        }
+
+        .btn-inquiry {
+            padding: 10px 24px;
+            border: 1px solid var(--modern-gold);
+            color: var(--modern-gold);
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .btn-inquiry:hover {
+            background: var(--modern-gold);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(197, 164, 126, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+
+    <header id="hd">
+        <div class="modern-gnb-wrap">
+            <div id="logo">
+                <a href="#">GNU<span>LIGHT</span></a>
+            </div>
+
+            <nav id="gnb">
+                <ul id="gnb_1dul">
+                    <li class="gnb_1dli">
+                        <a href="#" class="gnb_1da">회사소개</a>
+                        <ul class="gnb_2dul">
+                            <li><a href="#" class="gnb_2da">회사개요</a></li>
+                            <li><a href="#" class="gnb_2da">인사말</a></li>
+                            <li><a href="#" class="gnb_2da">연혁</a></li>
+                        </ul>
+                    </li>
+                    <li class="gnb_1dli">
+                        <a href="#" class="gnb_1da">제품소개</a>
+                        <ul class="gnb_2dul">
+                            <li><a href="#" class="gnb_2da">대문</a></li>
+                            <li><a href="#" class="gnb_2da">자동대문</a></li>
+                            <li><a href="#" class="gnb_2da">휀스</a></li>
+                            <li><a href="#" class="gnb_2da">조명</a></li>
+                        </ul>
+                    </li>
+                    <li class="gnb_1dli"><a href="#" class="gnb_1da">시공사례</a></li>
+                    <li class="gnb_1dli"><a href="#" class="gnb_1da">온라인문의</a></li>
+                </ul>
+            </nav>
+
+            <div class="hd_right">
+                <div class="hd_login">
+                    <a href="#">LOGOUT</a>
+                    <a href="#" style="color:var(--modern-gold); font-weight:600;">ADMIN</a>
+                </div>
+                <a href="#" class="btn-inquiry">Contact Us</a>
+            </div>
+        </div>
+    </header>
+
+</body>
+
+</html>

@@ -1,0 +1,174 @@
+/* Corporate Hero Premium Style */
+.hero-style-corporate {
+    position: relative;
+    overflow: hidden;
+    background: #000;
+}
+
+.hero-style-corporate .mySwiper {
+    width: 100%;
+    height: 100%;
+}
+
+.hero-style-corporate .hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.hero-style-corporate .hero-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.hero-style-corporate .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+.hero-style-corporate .hero-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    text-align: center;
+}
+
+.hero-style-corporate .hero-content-inner {
+    max-width: 1000px;
+    padding: 0 40px;
+}
+
+.hero-style-corporate .hero-tag {
+    display: inline-block;
+    padding: 6px 20px;
+    border: 1px solid rgba(255,255,255,0.4);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+    border-radius: 4px;
+}
+
+.hero-style-corporate h2 {
+    font-size: 5rem;
+    color: #fff;
+    font-weight: 800;
+    margin-bottom: 20px;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+    text-transform: uppercase;
+}
+
+.hero-style-corporate .hero-subtitle {
+    font-size: 1.8rem;
+    color: rgba(255,255,255,0.7);
+    font-weight: 500;
+    margin-bottom: 30px;
+    letter-spacing: 0.05em;
+}
+
+.hero-style-corporate p {
+    font-size: 1.4rem;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 45px;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    line-height: 1.6;
+}
+
+.hero-style-corporate .hero-btn {
+    display: inline-block;
+    padding: 18px 50px;
+    background: #fff;
+    color: #000;
+    text-decoration: none;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    font-size: 14px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero-style-corporate .hero-btn:hover {
+    background: transparent;
+    color: #fff;
+    box-shadow: inset 0 0 0 1px #fff;
+}
+
+/* Animations */
+.hero-style-corporate .swiper-slide-active .tag-animation {
+    animation: fadeInUp 1s both;
+}
+.hero-style-corporate .swiper-slide-active .title-animation {
+    animation: fadeInUp 1s both 0.1s;
+}
+.hero-style-corporate .swiper-slide-active .subtitle-animation {
+    animation: fadeInUp 1s both 0.2s;
+}
+.hero-style-corporate .swiper-slide-active .desc-animation {
+    animation: fadeInUp 1s both 0.3s;
+}
+.hero-style-corporate .swiper-slide-active .btn-animation {
+    animation: fadeInUp 1s both 0.5s;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(50px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Premium Effects */
+.effect-zoom img {
+    animation: kenburns 25s infinite alternate;
+}
+@keyframes kenburns {
+    0% { transform: scale(1) translate(0, 0); }
+    100% { transform: scale(1.1) translate(-1%, -1%); }
+}
+
+.effect-fade img {
+    animation: smoothfade 8s infinite alternate;
+}
+@keyframes smoothfade {
+    0% { filter: brightness(0.8); }
+    100% { filter: brightness(1.1); }
+}
+
+/* Swiper Custom */
+.hero-style-corporate .swiper-pagination-bullet {
+    width: 40px;
+    height: 3px;
+    border-radius: 0;
+    background: #fff;
+    opacity: 0.3;
+    transition: all 0.3s;
+}
+.hero-style-corporate .swiper-pagination-bullet-active {
+    opacity: 1;
+    background: #fff;
+}
+
+@media (max-width: 1024px) {
+    .hero-style-corporate h2 { font-size: 3.5rem; }
+}
+@media (max-width: 768px) {
+    .hero-style-corporate h2 { font-size: 2.5rem; }
+    .hero-style-corporate p { font-size: 1rem; }
+}

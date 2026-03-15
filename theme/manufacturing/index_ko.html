@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메인 비주얼 3종 모음집</title>
+    <style>
+        /* CSS Variables */
+        :root {
+            --color-brand-main: #007bff; /* Primary brand color */
+            --color-brand-secondary: #6c757d; /* Secondary brand color */
+            --color-text-primary: #333333; /* Main text color */
+            --color-text-light: #ffffff; /* Light text color, for dark backgrounds */
+            --color-background-dark: #212529; /* Dark background color */
+            --color-background-light: #f8f9fa; /* Light background color */
+            --spacing-container: 1360px; /* Max width for main content areas */
+            --spacing-large: 80px;
+            --spacing-medium: 40px;
+            --spacing-small: 20px;
+        }
+
+        /* Basic Reset & Typography */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Pretendard", "Noto Sans KR", "Malgun Gothic", sans-serif;
+            color: var(--color-text-primary);
+            line-height: 1.6;
+            background-color: var(--color-background-light);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--color-brand-main);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .container {
+            max-width: var(--spacing-container);
+            margin: 0 auto;
+            padding: 0 var(--spacing-small); /* Add horizontal padding for smaller screens */
+        }
+
+        /* Common Button Styles */
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-weight: 700;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            text-align: center;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: var(--color-brand-main);
+            color: var(--color-text-light);
+            border: 1px solid var(--color-brand-main);
+        }
+        .btn-primary:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+            border-color: #0056b3;
+        }
+
+        /* Hero Section Base Styles */
+        .hero-section {
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            display: flex; /* For vertical centering of content */
+            align-items: center; /* For vertical centering of content */
+            justify-content: center; /* For horizontal centering of content */
+            text-align: center;
+        }
+        .hero-section h2 {
+            font-size: 3em;
+            margin-bottom: var(--spacing-small);
+            line-height: 1.2;
+            font-weight: 700;
+        }
+        .hero-section p {
+            font-size: 1.15em;
+            margin-bottom: var(--spacing-medium);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Style 1: Video Hero */
+        #style-1 {
+            height: 100vh; /* Full viewport height */
+            color: var(--color-text-light);
+            flex-direction: column; /* Ensure content stacks vertically */
+        }
+
+        #style-1 .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -2; /* Below overlay */
+        }
+
+        #style-1 .video-background video {
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: cover; /* Cover the entire container */
+        }
+
+        #style-1 .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); /* Dark overlay */
+            z-index: -1; /* Above video, below content */
+        }
+
+        #style-1 .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: var(--spacing-medium);
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* For better readability */
+        }
+
+        /* Style 2: Split Hero */
+        #style-2 {
+            min-height: 600px; /* Minimum height for the section */
+            padding: var(--spacing-large) 0;
+            background-color: var(--color-background-light);
+            text-align: left; /* Reset text alignment for split content */
+        }
+
+        #style-2 .split-wrapper {
+            display: flex;
+            flex-wrap: wrap; /* Allow columns to wrap on smaller screens */
+            align-items: center;
+            gap: var(--spacing-medium); /* Gap between columns */
+        }
+
+        #style-2 .split-col {
+            flex: 1; /* Each column takes equal available space */
+            min-width: 300px; /* Minimum width before wrapping */
+            padding: var(--spacing-small);
+        }
+
+        #style-2 .split-col--left {
+            padding-right: var(--spacing-medium);
+        }
+
+        #style-2 .split-col--right {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-left: var(--spacing-medium);
+        }
+
+        #style-2 .split-col--right img {
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            #style-2 .split-wrapper {
+                flex-direction: column; /* Stack columns vertically on small screens */
+            }
+            #style-2 .split-col--left,
+            #style-2 .split-col--right {
+                padding: 0; /* Remove horizontal padding when stacked */
+                text-align: center;
+            }
+            #style-2 .split-col--left {
+                padding-bottom: var(--spacing-medium); /* Add spacing between stacked content */
+            }
+            #style-2 .hero-section h2 {
+                font-size: 2.2em;
+            }
+            #style-2 .hero-section p {
+                font-size: 1em;
+            }
+        }
+
+        /* Style 3: Slider Hero */
+        #style-3 {
+            height: 600px; /* Fixed height for the slider, adjust as needed */
+            color: var(--color-text-light);
+            background-color: var(--color-background-dark); /* Fallback background color */
+            position: relative;
+        }
+
+        #style-3 .slider-inner {
+            position: relative;
+            height: 100%;
+            overflow: hidden; /* Ensures slides are clipped */
+        }
+
+        #style-3 .slider-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0; /* Hidden by default */
+            transition: opacity 0.8s ease-in-out; /* Smooth fade transition */
+            z-index: 0;
+        }
+        #style-3 .slider-slide.active {
+            opacity: 1; /* Active slide is visible */
+            z-index: 1; /* Bring active slide to front */
+        }
+        
+        #style-3 .slider-slide::before { /* Overlay for slides background */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4); /* Darker overlay for text readability */
+            z-index: 0;
+        }
+
+        #style-3 .slider-content {
+            position: relative;
+            z-index: 2; /* Above overlay */
+            max-width: 900px;
+            text-align: center;
+            padding: var(--spacing-medium);
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        #style-3 .slider-content h2 {
+            font-size: 3.5em;
+        }
+
+        #style-3 .slider-controls {
+            position: absolute;
+            bottom: var(--spacing-medium);
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3; /* Above slides and content */
+            display: flex;
+            gap: 10px;
+        }
+
+        #style-3 .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+        }
+        #style-3 .slider-dot:hover {
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        #style-3 .slider-dot.active {
+            background-color: var(--color-brand-main);
+            border-color: var(--color-brand-main);
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h2 {
+                font-size: 2.5em;
+            }
+            .hero-section p {
+                font-size: 1em;
+            }
+            #style-3 {
+                height: 450px; /* Adjust slider height for smaller screens */
+            }
+            #style-3 .slider-content h2 {
+                font-size: 2.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Style 1: Video Hero Section - 풀스크린 영상 배경 + 중앙 타이틀 -->
+    <section id="style-1" class="hero-section main-visual-video">
+        <div class="video-background">
+            <!-- Replace with actual video path and poster image -->
+            <video autoplay muted loop playsinline poster="https://via.placeholder.com/1920x1080/666666/FFFFFF?text=Video+Poster">
+                <source src="https://assets.mixkit.co/videos/preview/mixkit-womans-hand-playing-with-a-liquid-bubble-30511-large.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="video-overlay"></div>
+        <div class="hero-content">
+            <h2 class="section-title">새로운 비전을 제시하는 <br>혁신적인 솔루션</h2>
+            <p class="section-desc">최첨단 기술과 창의적인 아이디어로 미래를 만들어갑니다.</p>
+            <a href="#" class="btn btn-primary">자세히 보기</a>
+        </div>
+    </section>
+
+    <!-- Style 2: Split Hero Section - 좌측 텍스트 / 우측 이미지 반반 분할 -->
+    <section id="style-2" class="hero-section main-visual-split">
+        <div class="container">
+            <div class="split-wrapper">
+                <div class="split-col split-col--left">
+                    <h2 class="section-title">차별화된 전략으로 <br>성공을 이끌어갑니다</h2>
+                    <p class="section-desc">고객의 니즈를 정확히 파악하고 맞춤형 서비스를 제공하여 최고의 만족을 선사합니다.</p>
+                    <a href="#" class="btn btn-primary">서비스 알아보기</a>
+                </div>
+                <div class="split-col split-col--right">
+                    <!-- Replace with actual image path -->
+                    <img src="https://via.placeholder.com/600x400/CCCCCC/333333?text=Split+Image" alt="비즈니스 전략 이미지">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Style 3: Slider Hero Section - 클래식 슬라이더 + 하단 컨트롤러 -->
+    <section id="style-3" class="hero-section main-visual-slider">
+        <div class="slider-inner">
+            <!-- Slide 1 -->
+            <div class="slider-slide active" style="background-image: url('https://via.placeholder.com/1920x600/333333/FFFFFF?text=Slide+1');">
+                <div class="slider-content">
+                    <h2 class="section-title">글로벌 비즈니스의 <br>새로운 지평을 열다</h2>
+                    <p class="section-desc">전 세계를 무대로 끊임없이 도전하며 성장합니다.</p>
+                    <a href="#" class="btn btn-primary">비전 보기</a>
+                </div>
+            </div>
+            <!-- Slide 2 -->
+            <div class="slider-slide" style="background-image: url('https://via.placeholder.com/1920x600/555555/FFFFFF?text=Slide+2');">
+                <div class="slider-content">
+                    <h2 class="section-title">미래를 위한 투자 <br>기술 혁신을 선도합니다</h2>
+                    <p class="section-desc">지속적인 연구 개발로 더 나은 내일을 만들어갑니다.</p>
+                    <a href="#" class="btn btn-primary">기술 보기</a>
+                </div>
+            </div>
+            <!-- Slide 3 -->
+            <div class="slider-slide" style="background-image: url('https://via.placeholder.com/1920x600/777777/FFFFFF?text=Slide+3');">
+                <div class="slider-content">
+                    <h2 class="section-title">고객과 함께 성장하는 <br>최고의 파트너</h2>
+                    <p class="section-desc">신뢰와 소통을 바탕으로 성공적인 파트너십을 구축합니다.</p>
+                    <a href="#" class="btn btn-primary">문의하기</a>
+                </div>
+            </div>
+        </div>
+        <!-- Slider Controls (Dots) -->
+        <div class="slider-controls">
+            <span class="slider-dot active" data-slide="0"></span>
+            <span class="slider-dot" data-slide="1"></span>
+            <span class="slider-dot" data-slide="2"></span>
+        </div>
+        <!-- Note: JavaScript would be required to implement actual slider functionality (slide transitions, control clicks).
+             This HTML/CSS provides the static structure and visual styling for a slider. -->
+    </section>
+
+</body>
+</html>

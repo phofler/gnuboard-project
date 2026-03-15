@@ -1,0 +1,55 @@
+/* --- SUB STYLE STYLES (sub_style.css) --- */
+/* Specific content styles for sub-pages */
+
+/* Standard Wrapper for Sub Pages */
+.sub-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 20px;
+    position: relative;
+    box-sizing: border-box;
+}
+
+/* Premium Skin Wrapper (Legacy Support / Specific Design) */
+.premium-skin-wrapper {
+    background-color: var(--primary-bg);
+    color: var(--text-main);
+    font-family: var(--font-sans);
+    line-height: 1.7;
+    overflow-x: hidden;
+}
+
+/* Content Section Layouts */
+.premium-content-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 20px;
+    position: relative;
+}
+
+/* Inquiry Form Styling */
+.inquiry-form {
+    max-width: 800px;
+    margin: 0 auto;
+    /* background: #111; */
+    /* padding: 40px; */
+    /* border: 1px solid #333; */
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 15px;
+    background: #1a1a1a;
+    border: 1px solid #444;
+    color: #fff;
+    font-family: var(--font-body);
+}
+
+.form-control:focus {
+    border-color: var(--accent);
+    outline: none;
+}

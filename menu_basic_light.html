@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Full Mega Menu (Light Version)</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            /* Light Theme Palette */
+            --color-bg-base: #ffffff;
+            --color-text-primary: #333333;
+            --color-text-secondary: #666666;
+            --color-accent-gold: #d4af37;
+            --color-border: #e5e5e5;
+
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+            --header-height: 90px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--color-bg-base);
+            color: var(--color-text-primary);
+            font-family: var(--font-body);
+            font-size: 16px;
+            padding-top: 200px;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s ease;
+        }
+
+        /* Header Layout */
+        #hd {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--color-border);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+        }
+
+        /* GNB Wrapper */
+        .gnb_wrap {
+            width: 100%;
+            max-width: 1600px;
+            /* Wide layout */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            height: 100%;
+        }
+
+        #logo a {
+            font-family: var(--font-heading);
+            font-size: 26px;
+            font-weight: 700;
+            color: #222;
+            /* Darker logo for light theme */
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* 1st Depth Menu */
+        #gnb_1dul {
+            display: flex;
+            gap: 50px;
+            height: 100%;
+        }
+
+        .gnb_1dli {
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .gnb_1da {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--color-text-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            padding: 30px 0;
+            /* Increase hit area */
+        }
+
+        .gnb_1da:hover {
+            color: var(--color-accent-gold);
+        }
+
+        /* Hover Line Effect */
+        .gnb_1da::after {
+            content: '';
+            position: absolute;
+            bottom: 25px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--color-accent-gold);
+            transition: width 0.3s ease;
+        }
+
+        .gnb_1dli:hover .gnb_1da::after {
+            width: 100%;
+        }
+
+        /* ----------------------------------------------------
+           MEGA MENU (Full Width Dropdown) 
+           ---------------------------------------------------- */
+        /* The container for the full-width dropdown */
+        .mega-menu-container {
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            width: 100%;
+            background: #ffffff;
+            border-bottom: 1px solid var(--color-border);
+            /* Hidden by default */
+            display: none;
+            padding: 60px 0;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+            /* Lighter shadow */
+        }
+
+        /* The Mega Dropdown Panel */
+        #gnb_mega_panel {
+            position: absolute;
+            top: 100%;
+            /* Below header */
+            left: 0;
+            width: 100%;
+            background: #ffffff;
+            border-top: 1px solid var(--color-border);
+            border-bottom: 1px solid var(--color-border);
+            height: 0;
+            overflow: hidden;
+            transition: height 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        #gnb_1dul:hover~#gnb_mega_panel,
+        #gnb_mega_panel:hover {
+            height: 400px;
+            /* Height of the full menu */
+            border-bottom: 1px solid var(--color-accent-gold);
+        }
+
+        /* Inner Grid Layout */
+        .mega_inner {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 40px;
+            display: flex;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .mega_col {
+            flex: 1;
+            /* Equal width columns */
+            padding: 0 20px;
+            border-left: 1px solid var(--color-border);
+        }
+
+        .mega_col:first-child {
+            border-left: none;
+        }
+
+        .mega_col h3 {
+            font-family: var(--font-body);
+            /* Gothic Font Request Applied */
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--color-accent-gold);
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--color-border);
+            text-transform: uppercase;
+        }
+
+        .mega_col ul li {
+            margin-bottom: 12px;
+        }
+
+        .mega_col ul li a {
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            display: block;
+        }
+
+        .mega_col ul li a:hover {
+            color: #000;
+            transform: translateX(5px);
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header id="hd">
+        <div class="gnb_wrap">
+            <div id="logo">
+                <a href="#">GNUBOARD</a>
+            </div>
+
+            <nav id="gnb" style="height: 100%;">
+                <ul id="gnb_1dul">
+                    <li class="gnb_1dli"><a href="#" class="gnb_1da">회사소개</a></li>
+                    <li class="gnb_1dli"><a href="#" class="gnb_1da">제품소개</a></li>
+                    <li class="gnb_1dli"><a href="#" class="gnb_1da">시공사례</a></li>
+                    <li class="gnb_1dli"><a href="#" class="gnb_1da">카달로그</a></li>
+                    <li class="gnb_1dli"><a href="#" class="gnb_1da">온라인문의</a></li>
+                    <li class="gnb_1dli"><a href="#" class="gnb_1da">고객지원</a></li>
+                </ul>
+
+                <!-- The Mega Panel (Sibling to ul) -->
+                <div id="gnb_mega_panel">
+                    <div class="mega_inner">
+                        <!-- Col 1: 회사소개 -->
+                        <div class="mega_col">
+                            <h3>회사소개</h3>
+                            <ul>
+                                <li><a href="#">회사개요</a></li>
+                                <li><a href="#">인사말</a></li>
+                                <li><a href="#">제품개요</a></li>
+                                <li><a href="#">연혁</a></li>
+                                <li><a href="#">조직도</a></li>
+                                <li><a href="#">사업분야</a></li>
+                                <li><a href="#">공정현황</a></li>
+                                <li><a href="#">인증/실적</a></li>
+                                <li><a href="#">채용정보</a></li>
+                                <li><a href="#">찾아오시는길</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Col 2: 제품소개 -->
+                        <div class="mega_col" style="flex: 1.5;"> <!-- Slightly wider -->
+                            <h3>제품소개</h3>
+                            <div style="display: flex; gap: 20px;">
+                                <ul style="flex:1;">
+                                    <li><a href="#">대문</a></li>
+                                    <li><a href="#">자동대문</a></li>
+                                    <li><a href="#">오버헤드도어</a></li>
+                                    <li><a href="#">현관문</a></li>
+                                    <li><a href="#">회전계단/특수계단</a></li>
+                                    <li><a href="#">계단난간</a></li>
+                                    <li><a href="#">휀스</a></li>
+                                    <li><a href="#">장애자램프/난간대</a></li>
+                                    <li><a href="#">화분대/에어컨받침대</a></li>
+                                </ul>
+                                <ul style="flex:1;">
+                                    <li><a href="#">방범창/파티션</a></li>
+                                    <li><a href="#">벤치</a></li>
+                                    <li><a href="#">로툰다/퍼걸러/캐노피</a></li>
+                                    <li><a href="#">조명</a></li>
+                                    <li><a href="#">단순부속품</a></li>
+                                    <li><a href="#">소품</a></li>
+                                    <li><a href="#">특수주문제작</a></li>
+                                    <li><a href="#">정원아치장식</a></li>
+                                    <li><a href="#">기타 공사</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Col 3: 시공사례 -->
+                        <div class="mega_col">
+                            <h3>시공사례</h3>
+                            <ul>
+                                <li><a href="#">시공사례</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Col 4: 카달로그 -->
+                        <div class="mega_col">
+                            <h3>카달로그</h3>
+                            <ul>
+                                <li><a href="#">카달로그 보기</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Col 5: 온라인문의 -->
+                        <div class="mega_col">
+                            <h3>온라인문의</h3>
+                            <ul>
+                                <li><a href="#">온라인문의</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Col 6: 고객지원 -->
+                        <div class="mega_col">
+                            <h3>고객지원</h3>
+                            <ul>
+                                <li><a href="#">뉴스 & 공지</a></li>
+                                <li><a href="#">자료실</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="extra_icons" style="color: #666; font-size: 14px;">
+                <!-- Login/Search placeholders -->
+                SEARCH / LOGIN
+            </div>
+        </div>
+    </header>
+
+    <div class="container" style="max-width: 1400px; margin: 0 auto; color: #333;">
+        <h2>전체 메뉴 (Mega Menu) - Light Theme</h2>
+        <p>밝은 배경에서 깔끔하게 보이는 화이트 모던 스타일입니다.</p>
+        <p>요청하신 고딕체 적용 / 다단 메뉴 구조가 동일하게 유지됩니다.</p>
+    </div>
+
+</body>
+
+</html>

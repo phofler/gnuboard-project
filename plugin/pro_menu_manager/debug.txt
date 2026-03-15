@@ -1,0 +1,66 @@
+2025-12-30 09:43:53 === Update Process Started ===
+2025-12-30 09:43:53 POST count: 2
+2025-12-30 09:43:53 POST ma_id: Array
+(
+    [0] => 7
+    [1] => 
+)
+
+2025-12-30 09:43:53 Executing UPDATE for ID 7
+2025-12-30 09:43:53 Executing INSERT for Code 20
+2025-12-30 09:43:53 Existing IDs: 7,12
+2025-12-30 09:43:53 Submitted IDs: 7
+2025-12-30 09:43:53 Diff to Delete: 12
+2025-12-30 09:43:53 Deleting ID 12
+2025-12-30 09:49:02 === Update Process Started ===
+2025-12-30 09:49:02 Table: g5_write_menu_pdc
+2025-12-30 09:49:02 POST count: 1
+2025-12-30 09:49:02 POST ma_id: Array
+(
+    [0] => 
+)
+
+2025-12-30 09:49:02 Executing INSERT:  insert into g5_write_menu_pdc
+                    set ma_code = '20',
+                        ma_name = 'dddd',
+                        ma_link = 'dddd',
+                        ma_target = '',
+                        ma_order = '0',
+                        ma_use = '1',
+                        ma_mobile_use = '1',
+                        ma_regdt = '2025-12-30 09:49:01' 
+2025-12-30 09:49:02 Insert ID: 13
+2025-12-30 09:51:11 === Update Process Started ===
+2025-12-30 09:51:11 Table: g5_write_menu_pdc
+2025-12-30 09:51:11 POST count: 2
+2025-12-30 09:51:11 POST ma_id: Array
+(
+    [0] => 7
+    [1] => 13
+)
+
+2025-12-30 09:51:11 Executing UPDATE:  update g5_write_menu_pdc
+                    set ma_name = '11111111',
+                        ma_link = '1111111111',
+                        ma_target = '',
+                        ma_order = '0',
+                        ma_use = '1',
+                        ma_mobile_use = '1'
+                  where ma_id = '7' 
+2025-12-30 09:51:22 === Update Process Started ===
+2025-12-30 09:51:22 Table: g5_write_menu_pdc
+2025-12-30 09:51:22 POST count: 2
+2025-12-30 09:51:22 POST ma_id: Array
+(
+    [0] => 7
+    [1] => 13
+)
+
+2025-12-30 09:51:22 Executing UPDATE:  update g5_write_menu_pdc
+                    set ma_name = '11111111',
+                        ma_link = '1111111111ddd',
+                        ma_target = '',
+                        ma_order = '0',
+                        ma_use = '1',
+                        ma_mobile_use = '1'
+                  where ma_id = '7' 

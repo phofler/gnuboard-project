@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transparent Menu Style</title>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --accent-color: #d4af37;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: #000;
+        }
+
+        /* Transparent Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height, 90px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 50px;
+            z-index: 1000;
+            background: transparent;
+            /* Totally Transparent */
+            transition: background 0.3s;
+        }
+
+        /* Add this class via JS when scrolled */
+        header.scrolled {
+            background: rgba(0, 0, 0, 0.9);
+            height: calc(var(--header-height, 90px) - 10px);
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        .nav ul {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.8;
+            transition: 0.3s;
+        }
+
+        .nav a:hover {
+            opacity: 1;
+            color: var(--accent-color);
+        }
+
+        .btn-inquiry {
+            padding: 10px 25px;
+            border: 1px solid #fff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 13px;
+            transition: 0.3s;
+        }
+
+        .btn-inquiry:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        /* Hero with Full Image */
+        .hero {
+            height: 100vh;
+            width: 100%;
+            background: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80') center/cover no-repeat;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            color: #fff;
+        }
+
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        .content {
+            height: 100vh;
+            background: #121212;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <a href="#" class="logo">TRANSPARENT</a>
+
+        <nav class="nav">
+            <ul class="gnb">
+                <li>
+                    <a href="#">회사소개회사소개회사소개회사소개회사소개</a>
+                    <ul class="gnb_2dul">
+                        <li><a href="#">회사개요</a></li>
+                        <li><a href="#">인사말</a></li>
+                        <li><a href="#">제품개요</a></li>
+                        <li><a href="#">연혁</a></li>
+                        <li><a href="#">조직도</a></li>
+                        <li><a href="#">사업분야</a></li>
+                        <li><a href="#">인증/실적</a></li>
+                        <li><a href="#">채용정보</a></li>
+                        <li><a href="#">찾아오시는길</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">제품소개제품소개제품소개제품소개제품소개제품소개제품소개제품소개</a>
+                    <ul class="gnb_2dul wide">
+                        <li><a href="#">오버헤드도어오버헤드도어오버헤드도어...</a></li>
+                        <li><a href="#">자동대문</a></li>
+                        <li><a href="#">오버헤드도어</a></li>
+                        <li><a href="#">현관문</a></li>
+                        <li><a href="#">친환경</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">시공사례</a></li>
+                <li><a href="#">온라인문의</a></li>
+                <li>
+                    <a href="#">고객지원</a>
+                    <ul class="gnb_2dul">
+                        <li><a href="#">뉴스 & 공지</a></li>
+                        <li><a href="#">자료실</a></li>
+                        <li><a href="#">묻고답하기</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <style>
+            .header {
+                overflow: visible !important;
+            }
+
+            .gnb {
+                display: flex;
+                gap: 40px;
+                list-style: none;
+            }
+
+            .gnb>li {
+                position: relative;
+            }
+
+            .gnb>li>a {
+                display: inline-block;
+                color: #fff;
+                text-decoration: none;
+                font-size: 14px;
+                font-weight: 500;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                max-width: 150px;
+                /* Truncation */
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                opacity: 0.8;
+                transition: 0.3s;
+                vertical-align: middle;
+            }
+
+            .gnb>li>a:hover {
+                opacity: 1;
+                color: var(--accent-color);
+            }
+
+            .gnb_2dul {
+                position: absolute;
+                top: 100%;
+                left: 50%;
+                transform: translateX(-50%) translateY(10px);
+                background: rgba(0, 0, 0, 0.9);
+                min-width: 180px;
+                padding: 15px 0;
+                list-style: none;
+                opacity: 0;
+                visibility: hidden;
+                transition: 0.3s;
+                text-align: left;
+            }
+
+            .gnb_2dul.wide {
+                min-width: 260px;
+            }
+
+            .gnb>li:hover .gnb_2dul {
+                opacity: 1;
+                visibility: visible;
+                transform: translateX(-50%) translateY(0);
+            }
+
+            .gnb_2dul li a {
+                display: block;
+                padding: 10px 20px;
+                font-size: 13px;
+                color: #ccc;
+                opacity: 1;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 100%;
+            }
+
+            .gnb_2dul li a:hover {
+                color: var(--accent-color);
+                background: rgba(255, 255, 255, 0.1);
+            }
+        </style>
+
+        <a href="#" class="btn-inquiry">Contact Us</a>
+    </header>
+
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Immersive Experience</h1>
+            <p>Blend the boundary between navigation and content.</p>
+        </div>
+    </div>
+
+    <div class="content">
+        <h2>Scroll down to see header effect</h2>
+    </div>
+
+    <script>
+        window.addEventListener('scroll', function () {
+            const header = document.querySelector('header');
+            header.classList.toggle('scrolled', window.scrollY > 50);
+        });
+    </script>
+
+</body>
+
+</html>

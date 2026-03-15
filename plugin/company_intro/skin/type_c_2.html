@@ -1,0 +1,258 @@
+<style>
+    /* 
+     * Type C-2: Vision Center II (Formerly C-1)
+     * Layout: Header -> Wide Image -> Center Text -> 3 Cards
+     * Colors: Dark Navy BG, Electric Blue Gradient Accent
+     * [FIX] Specificity: Using direct class .intro-text on P tag (User Suggestion)
+     */
+
+    /* Container */
+    #wrapper.sub-layout-light .ci-type-c-2,
+    .ci-type-c-2 {
+        width: 100%;
+        max-width: var(--spacing-container, 1200px);
+        margin: 0 auto;
+        padding: 0;
+        box-sizing: border-box;
+        /* font-family: 'Inter', sans-serif; */
+        color: var(--color-text-primary, #eff2f7);
+        text-align: center;
+    }
+
+    /* 1. Vertical Header */
+    #wrapper.sub-layout-light .ci-type-c-2 .vertical-header,
+    .ci-type-c-2 .vertical-header {
+        margin-bottom: 50px;
+        position: relative;
+        display: inline-block;
+    }
+
+    #wrapper.sub-layout-light .ci-type-c-2 .vertical-header h2,
+    .ci-type-c-2 .vertical-header h2 {
+        font-size: 3.2rem;
+        font-weight: 800;
+        /* Gradient Optional: Keeping for Style C, but mapped to Theme Colors if possible, or keeping specific */
+        background: linear-gradient(135deg, var(--color-text-primary, #fff) 0%, var(--color-text-secondary, #a5b4fc) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 15px;
+        line-height: 1.1;
+        font-family: var(--font-heading, sans-serif);
+    }
+
+    #wrapper.sub-layout-light .ci-type-c-2 .vertical-header p,
+    .ci-type-c-2 .vertical-header p {
+        color: var(--color-accent-gold, #64ffda);
+        font-size: 1.1rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        text-transform: uppercase;
+        margin-bottom: 0;
+    }
+
+    /* Decorative Line - [FIX] Equalized with Type C Standard */
+    #wrapper.sub-layout-light .ci-type-c-2 .vertical-header::after,
+    .ci-type-c-2 .vertical-header::after {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 4px;
+        background: var(--color-accent-gold, #00f2ff);
+        margin: 20px auto 0;
+        border-radius: 2px;
+    }
+
+    /* Decorative Line */
+    #wrapper.sub-layout-light .ci-type-c-2 .vertical-header::after,
+    .ci-type-c-2 .vertical-header::after {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 4px;
+        /* Map to Accent for consistency */
+        background: var(--color-accent-gold, #00f2ff);
+        margin: 20px auto 0;
+        border-radius: 2px;
+    }
+
+    /* 2. Cinematic Image */
+    #wrapper.sub-layout-light .ci-type-c-2 .cinema-image,
+    .ci-type-c-2 .cinema-image {
+        width: 100%;
+        height: 400px;
+        margin-bottom: 60px;
+        border-radius: 20px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.5);
+    }
+
+    #wrapper.sub-layout-light .ci-type-c-2 .cinema-image img,
+    .ci-type-c-2 .cinema-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.7s ease;
+        display: block;
+    }
+
+    #wrapper.sub-layout-light .ci-type-c-2 .cinema-image:hover img,
+    .ci-type-c-2 .cinema-image:hover img {
+        transform: scale(1.05);
+    }
+
+    /* Overlay Gradient */
+    #wrapper.sub-layout-light .ci-type-c-2 .cinema-image::after,
+    .ci-type-c-2 .cinema-image::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 50%;
+        background: linear-gradient(to top, var(--color-bg-dark, #0a192f) 0%, transparent 100%);
+        opacity: 0.8;
+    }
+
+    /* 3. Main Text Block - Container */
+    #wrapper.sub-layout-light .ci-type-c-2 .main-text,
+    .ci-type-c-2 .main-text {
+        max-width: 800px;
+        margin: 0 auto 80px;
+    }
+
+    /* [FIX] TARGET CLASS DIRECTLY (User Suggestion) */
+    #wrapper.sub-layout-light .ci-type-c-2 .intro-text,
+    .ci-type-c-2 .intro-text {
+        font-size: 1.15rem;
+        color: var(--color-text-secondary, #e6f0ff);
+        /* Bright Color */
+        line-height: 1.8;
+        margin-bottom: 20px;
+    }
+
+    #wrapper.sub-layout-light .ci-type-c-2 .intro-text strong,
+    .ci-type-c-2 .intro-text strong {
+        color: var(--color-text-primary, #fff);
+        font-weight: 600;
+    }
+
+    /* 4. Three Column Features */
+    #wrapper.sub-layout-light .ci-type-c-2 .feature-grid,
+    .ci-type-c-2 .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+        text-align: left;
+    }
+
+    #wrapper.sub-layout-light .ci-type-c-2 .feature-card,
+    .ci-type-c-2 .feature-card {
+        background: var(--color-bg-panel, #112240);
+        padding: 40px 30px;
+        border-radius: 12px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    #wrapper.sub-layout-light .ci-type-c-2 .feature-card:hover,
+    .ci-type-c-2 .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        border-top: 1px solid var(--color-accent-gold, #00f2ff);
+    }
+
+    #wrapper.sub-layout-light .ci-type-c-2 .feature-icon,
+    .ci-type-c-2 .feature-icon {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        /* Dynamic Gradient based on Theme Accent */
+        background: var(--color-accent-gold, #d4af37);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: inline-block;
+        font-weight: 700;
+        font-family: var(--font-heading, sans-serif);
+    }
+
+    #wrapper.sub-layout-light .ci-type-c-2 .feature-card h3,
+    .ci-type-c-2 .feature-card h3 {
+        font-size: 1.4rem;
+        color: var(--color-text-primary, #fff);
+        margin-bottom: 15px;
+        font-weight: 700;
+        font-family: var(--font-heading, sans-serif);
+    }
+
+    #wrapper.sub-layout-light .ci-type-c-2 .feature-card p,
+    .ci-type-c-2 .feature-card p {
+        font-size: 0.95rem;
+        color: var(--color-text-secondary, #8892b0);
+        line-height: 1.6;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+
+        #wrapper.sub-layout-light .ci-type-c-2 .feature-grid,
+        .ci-type-c-2 .feature-grid {
+            grid-template-columns: 1fr;
+        }
+
+        #wrapper.sub-layout-light .ci-type-c-2 .cinema-image,
+        .ci-type-c-2 .cinema-image {
+            height: 250px;
+        }
+    }
+</style>
+
+<div class="ci-type-c-2">
+    <!-- 1. Header -->
+    <div class="vertical-header" data-aos="fade-up">
+        <p>Our Vision</p>
+        <h2>Creating The Future</h2>
+    </div>
+
+    <!-- 2. Image -->
+    <div class="cinema-image" data-aos="zoom-in" data-aos-delay="200">
+        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop"
+            alt="Visionary Image">
+    </div>
+
+    <!-- 3. Text -->
+    <div class="main-text" data-aos="fade-up" data-aos-delay="400">
+        <!-- ADDED CLASS .intro-text HERE -->
+        <p class="intro-text">
+            <strong>우리의 비전은 명확합니다.</strong><br>
+            기술과 사람을 연결하여 세상을 변화시키는 것, 그것이 우리가 존재하는 이유입니다.<br>
+            한계를 뛰어넘는 도전으로 새로운 가치를 만들어가겠습니다.
+        </p>
+    </div>
+
+    <!-- 4. Features -->
+    <div class="feature-grid">
+        <!-- Card 1 -->
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="500">
+            <div class="feature-icon">01</div>
+            <h3>Passion</h3>
+            <p>열정은 우리의 원동력입니다.<br>매 순간 최선을 다해 목표를 향해 나아갑니다.</p>
+        </div>
+        <!-- Card 2 -->
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="600">
+            <div class="feature-icon">02</div>
+            <h3>Trust</h3>
+            <p>신뢰는 비즈니스의 기본입니다.<br>투명하고 정직한 경영을 약속합니다.</p>
+        </div>
+        <!-- Card 3 -->
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="700">
+            <div class="feature-icon">03</div>
+            <h3>Growth</h3>
+            <p>성장은 멈추지 않습니다.<br>고객과 함께 더 큰 미래를 그려나갑니다.</p>
+        </div>
+    </div>
+</div>

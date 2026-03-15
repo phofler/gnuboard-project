@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Corporate Sub Page - Type C</title>
+    <!-- Google Fonts: Inter (Modern Sans) & Playfair Display (Luxury Serif) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        /* 
+         * PREMIUM CORPORATE THEME BASE
+         * TYPE C: Vertical Layout (Cinematic / Visionary)
+         * Colors: Dark Navy BG, Electric Blue Gradient Accent
+         */
+        :root {
+            --primary-bg: #0a192f;
+            --secondary-bg: #112240;
+            --text-main: #eff2f7;
+            --text-muted: #8892b0;
+            --accent-gradient: linear-gradient(135deg, #00f2ff 0%, #0061ff 100%);
+            /* Electric Blue */
+            --font-sans: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--primary-bg);
+            color: var(--text-main);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* --- Hero Section --- */
+        .sub-hero {
+            position: relative;
+            height: 45vh;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #020c1b;
+        }
+
+        .sub-hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop');
+            /* Architecture */
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+        }
+
+        .sub-hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .sub-hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .sub-hero-subtitle {
+            color: #64ffda;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* --- Breadcrumb --- */
+        .breadcrumb {
+            background-color: var(--secondary-bg);
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .breadcrumb-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: flex-end;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+
+<body id="wrapper" class="sub-layout-light">
+
+    <!-- HERO -->
+    <section class="sub-hero">
+        <div class="sub-hero-bg"></div>
+        <div class="sub-hero-content" data-aos="fade-down">
+            <p class="sub-hero-subtitle">Business Overview</p>
+            <h1 class="sub-hero-title">Core Competency</h1>
+        </div>
+    </section>
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb">
+        <div class="breadcrumb-inner">
+            <span>Home</span> &gt; <span>Company</span> &gt; <span>Vision</span>
+        </div>
+    </div>
+
+    <!-- 
+      ================================================================
+      START SKIN CONTENT: TYPE C (Vertical Design)
+      ================================================================
+    -->
+    <style>
+        /* 
+         * Type C: Vertical Cinematic Design
+         * Layout: Header -> Wide Image -> Center Text -> 3 Cards
+         */
+
+        #wrapper.sub-layout-light .ci-type-c,
+        .ci-type-c {
+            width: 100%;
+            max-width: 1000px;
+            /* Slightly narrower for focus */
+            margin: 0 auto;
+            padding: 80px 20px;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            color: #eff2f7;
+            text-align: center;
+        }
+
+        /* 1. Vertical Header */
+        .ci-type-c .vertical-header {
+            margin-bottom: 50px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .ci-type-c .vertical-header h2 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            line-height: 1.1;
+        }
+
+        .ci-type-c .vertical-header p {
+            color: #64ffda;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* Decorative Line */
+        .ci-type-c .vertical-header::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--accent-gradient);
+            margin: 20px auto 0;
+            border-radius: 2px;
+        }
+
+        /* 2. Cinematic Image */
+        .ci-type-c .cinema-image {
+            width: 100%;
+            height: 400px;
+            margin-bottom: 60px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .ci-type-c .cinema-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s ease;
+        }
+
+        .ci-type-c .cinema-image:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Overlay Gradient */
+        .ci-type-c .cinema-image::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to top, #0a192f 0%, transparent 100%);
+            opacity: 0.8;
+        }
+
+        /* 3. Main Text Block */
+        .ci-type-c .main-text {
+            max-width: 800px;
+            margin: 0 auto 80px;
+            font-size: 1.15rem;
+            color: #e6f0ff;
+            /* Brightened from #8892b0 */
+            line-height: 1.8;
+        }
+
+        .ci-type-c .main-text strong {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* 4. Three Column Features */
+        .ci-type-c .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            text-align: left;
+        }
+
+        .ci-type-c .feature-card {
+            background: #112240;
+            padding: 40px 30px;
+            border-radius: 12px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .ci-type-c .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-top: 1px solid #00f2ff;
+        }
+
+        .ci-type-c .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        .ci-type-c .feature-card h3 {
+            font-size: 1.4rem;
+            color: #fff;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .ci-type-c .feature-card p {
+            font-size: 0.95rem;
+            color: #8892b0;
+            line-height: 1.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .ci-type-c .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .ci-type-c .cinema-image {
+                height: 250px;
+            }
+
+            .ci-type-c .vertical-header h2 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+
+    <div class="ci-type-c">
+        <!-- 1. Header -->
+        <div class="vertical-header" data-aos="fade-up">
+            <p>Our Philosophy</p>
+            <h2>Design Beyond Limits</h2>
+        </div>
+
+        <!-- 2. Image -->
+        <div class="cinema-image" data-aos="zoom-in" data-aos-delay="200">
+            <img src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?q=80&w=2068&auto=format&fit=crop"
+                alt="Visionary Image">
+        </div>
+
+        <!-- 3. Text -->
+        <div class="main-text" data-aos="fade-up" data-aos-delay="400">
+            <p>
+                우리는 단순한 기술을 넘어 <strong>사람과 미래를 잇는 가치</strong>를 창조합니다.<br>
+                끊임없는 혁신과 도전 정신으로, 상상을 현실로 만드는 여정에 당신을 초대합니다.
+                가장 진보된 기술력과 독창적인 디자인 프로세스를 통해<br>
+                <strong>세상에 없던 새로운 경험</strong>을 선사하겠습니다.
+            </p>
+        </div>
+
+        <!-- 4. Features -->
+        <div class="feature-grid">
+            <!-- Card 1 -->
+            <div class="feature-card" data-aos="fade-up" data-aos-delay="500">
+                <div class="feature-icon">01</div>
+                <h3>Innovation</h3>
+                <p>기존의 틀을 깨는 창의적인 사고로<br>매일 새로운 가능성을 발견합니다.</p>
+            </div>
+            <!-- Card 2 -->
+            <div class="feature-card" data-aos="fade-up" data-aos-delay="600">
+                <div class="feature-icon">02</div>
+                <h3>Technology</h3>
+                <p>최첨단 기술을 기반으로<br>완벽하고 안정적인 솔루션을 구축합니다.</p>
+            </div>
+            <!-- Card 3 -->
+            <div class="feature-card" data-aos="fade-up" data-aos-delay="700">
+                <div class="feature-icon">03</div>
+                <h3>Future</h3>
+                <p>지속 가능한 성장을 위해<br>더 나은 내일을 끊임없이 고민합니다.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Init for AOS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            once: true,
+            offset: 100,
+            duration: 800,
+            easing: 'ease-out-cubic'
+        });
+    </script>
+</body>
+
+</html>

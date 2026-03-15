@@ -1,0 +1,104 @@
+<!-- Main Services Skin (What We Do) -->
+<!-- Loaded by: Main Loader (Bridge Pattern) -->
+<style>
+    /* Services Section Styles */
+    .sec-services-wrapper {
+        padding-top: 15vh;
+        padding-bottom: 15vh;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        /* Divider */
+    }
+
+    .t-h2-services {
+        font-family: var(--f-display, serif);
+        font-size: clamp(24px, 3vw, 48px);
+        margin-bottom: 4rem;
+        font-weight: 400;
+        color: var(--color-text-primary);
+        text-transform: uppercase;
+        letter-spacing: -0.02em;
+    }
+
+    .service-list {
+        border-top: 1px solid var(--color-text-primary);
+    }
+
+    .service-item {
+        border-bottom: 1px solid var(--color-text-primary);
+        padding: 4vh 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        cursor: pointer;
+        transition: 0.3s;
+        position: relative;
+    }
+
+    .service-item:hover {
+        color: var(--color-brand);
+        padding-left: 20px;
+    }
+
+    .svc-num {
+        font-size: 16px;
+        font-weight: 800;
+        width: 80px;
+    }
+
+    .svc-name {
+        font-size: clamp(40px, 6vw, 100px);
+        font-family: var(--f-display);
+        text-transform: uppercase;
+        letter-spacing: -0.02em;
+        line-height: 1;
+    }
+
+    .svc-desc {
+        max-width: 300px;
+        font-size: 14px;
+        color: var(--color-text-secondary);
+        text-align: right;
+        line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+        .service-item {
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .svc-desc {
+            text-align: left;
+            max-width: 100%;
+        }
+    }
+</style>
+
+<div class="ci-skin-wrapper">
+    <section class="container sec-services-wrapper">
+        <div class="t-h2-services" data-aos="fade-up">What We Do</div>
+
+        <div class="service-list">
+            <!-- Item 01 -->
+            <div class="service-item" data-aos="fade-up" data-aos-delay="0">
+                <span class="svc-num">01</span>
+                <span class="svc-name">Digital Strategy</span>
+                <div class="svc-desc">디지털 로드맵 설계<br>성장 전략 제안<br>데이터 분석</div>
+            </div>
+
+            <!-- Item 02 -->
+            <div class="service-item" data-aos="fade-up" data-aos-delay="100">
+                <span class="svc-num">02</span>
+                <span class="svc-name">Visual Identity</span>
+                <div class="svc-desc">강렬한 비주얼 언어<br>로고 & 가이드라인<br>아트 디렉션</div>
+            </div>
+
+            <!-- Item 03 -->
+            <div class="service-item" data-aos="fade-up" data-aos-delay="200">
+                <span class="svc-num">03</span>
+                <span class="svc-name">Web Experience</span>
+                <div class="svc-desc">사용자 경험 중심 구축<br>반응형 웹 디자인<br>모션 인터랙션</div>
+            </div>
+        </div>
+    </section>
+</div>
