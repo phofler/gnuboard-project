@@ -1,80 +1,29 @@
-﻿<?php
+<?php
 if (!defined('_GNUBOARD_'))
     exit;
 
+include_once(G5_LIB_PATH.'/premium_module.lib.php');
+
 /**
- * Map Display Function
- * @param string $width  Width (e.g., 100%, 500px)
- * @param string $height Height (e.g., 400px)
- * @param string $map_id Optional specific Map ID (e.g. 'corporate_busan')
+ * Map Display Function (Refactored with Premium Framework)
  */
 function display_map_api($width = '100%', $height = '400px', $map_id = '')
 {
     global $g5, $config;
 
-    // 1. Load Shared Header (Standardization)
+    // 1. Load Shared Header
     include_once(G5_PLUGIN_PATH . '/map_api/skin.head.php');
 
     $map_title = isset($config['cf_title']) && $config['cf_title'] ? $config['cf_title'] : 'Location';
-    // Split title for display
     $map_title_display = str_replace('환경디자인', '<br><span style="font-weight:normal;">환경디자인', $map_title);
     if (strpos($map_title_display, '환경디자인') !== false) {
         $map_title_display .= '</span>';
     }
     $map_title_js = addslashes($map_title_display);
 
-    // [PATTERN A] Dynamic Config Loading
+    // [Premium Framework] Use standardized config loader with fallback
     $table_name = G5_TABLE_PREFIX . 'plugin_map_api';
-    $map_config = false;
-
-    // 1. Try Specific ID if provided
-    if ($map_id) {
-        $map_config = sql_fetch(" SELECT * FROM {$table_name} WHERE ma_id = '{$map_id}' ");
-    }
-
-    // 2. Auto-Detection (Context Aware) if no specific ID or specific ID not found
-    if (!$map_config) {
-        $theme_id = isset($config['cf_theme']) ? $config['cf_theme'] : 'default';
-        $lang = isset($_GET['lang']) ? $_GET['lang'] : (defined('G5_LANG') ? G5_LANG : 'kr');
-
-        // Unified Lang: ko and kr are treated the same for detection
-        $is_korean = ($lang == 'kr' || $lang == 'ko');
-        $target_id = $theme_id . ($is_korean ? '' : '_' . $lang);
-
-        $map_config = sql_fetch(" SELECT * FROM {$table_name} WHERE ma_id = '{$target_id}' ");
-
-        // Fallback: If not found and it's Korean, try searching with _ko or _kr suffix (Old Style)
-        if (!$map_config && $is_korean) {
-            $map_config = sql_fetch(" SELECT * FROM {$table_name} WHERE ma_id = '{$theme_id}_ko' ");
-            if (!$map_config) {
-                $map_config = sql_fetch(" SELECT * FROM {$table_name} WHERE ma_id = '{$theme_id}_kr' ");
-            }
-        }
-
-        if (!$map_config) {
-            $map_config = sql_fetch(" SELECT * FROM {$table_name} WHERE ma_id = '{$theme_id}' ");
-        }
-        if (!$map_config) {
-            $map_config = sql_fetch(" SELECT * FROM {$table_name} WHERE ma_id = 'default' ");
-        }
-    }
-
-    // 3. Backward Compatibility (File-based)
-    if (!$map_config) {
-        $config_file = G5_DATA_PATH . '/map_api_config.php';
-        if (file_exists($config_file)) {
-            $file_config = include($config_file);
-            if ($file_config) {
-                $map_config = array(
-                    'ma_provider' => $file_config['provider'],
-                    'ma_lat' => $file_config['lat'],
-                    'ma_lng' => $file_config['lng'],
-                    'ma_api_key' => $file_config['api_key'],
-                    'ma_client_id' => $file_config['client_id']
-                );
-            }
-        }
-    }
+    $map_config = get_premium_config($table_name, $map_id, 'ma_id');
 
     // Fallback UI
     if (!$map_config) {
@@ -88,15 +37,15 @@ function display_map_api($width = '100%', $height = '400px', $map_id = '')
     $provider = isset($map_config['ma_provider']) ? $map_config['ma_provider'] : 'naver';
     $lat = isset($map_config['ma_lat']) ? $map_config['ma_lat'] : '37.5665';
     $lng = isset($map_config['ma_lng']) ? $map_config['ma_lng'] : '126.9780';
-    $api_key = isset($map_api_key) ? trim($map_api_key) : (isset($map_config['ma_api_key']) ? trim($map_config['ma_api_key']) : '');
-    $client_id = isset($map_client_id) ? trim($map_client_id) : (isset($map_config['ma_client_id']) ? trim($map_config['ma_client_id']) : '');
+    $api_key = isset($map_config['ma_api_key']) ? trim($map_config['ma_api_key']) : '';
+    $client_id = isset($map_config['ma_client_id']) ? trim($map_config['ma_client_id']) : '';
 
-    // Standardized Wrapper & Container
+    // Standardized Wrapper
     $html = '<div class="map-api-wrapper" style="width:' . $width . '; height:' . $height . ';">';
     $html .= '<div id="map_api_container" class="map-api-container"></div>';
     $html .= '</div>';
 
-    // Info Window Template (Standardized)
+    // Info Window Template
     $iw_html = '<div class="map-api-info-window"><strong>' . $map_title_js . '</strong></div>';
 
     if ($provider == 'naver') {
@@ -149,4 +98,3 @@ function display_map_api($width = '100%', $height = '400px', $map_id = '')
 
     return $html;
 }
-?>

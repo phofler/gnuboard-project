@@ -1,34 +1,16 @@
 <?php
 include_once('../../common.php');
+include_once(G5_LIB_PATH.'/premium_module.lib.php');
 
 // [Input Validation]
 $co_id = isset($_GET['co_id']) ? trim(clean_xss_tags($_GET['co_id'])) : '';
 
 // [Plugin Table]
 $plugin_table = G5_TABLE_PREFIX . 'plugin_company_add';
-$co_row = array();
 
-if ($co_id) {
-    // 1. Direct Match (Robust)
-    // Use TRIM to handle potential whitespace issues in DB or URL
-    $co_row = sql_fetch(" select * from {$plugin_table} where TRIM(co_id) = '{$co_id}' ");
-
-    if (!$co_row || !isset($co_row['co_id'])) {
-        // 2. Try adding current theme prefix (Auto-Resolve)
-        // e.g. co_id='company' -> 'corporate_company'
-        global $config;
-        $current_theme = isset($config['cf_theme']) ? $config['cf_theme'] : 'corporate';
-        $lang = isset($g5['lang']) ? $g5['lang'] : (isset($_GET['lang']) ? $_GET['lang'] : 'kr');
-
-        $try_id = $current_theme . '_' . $lang . '_' . $co_id;
-        $co_row = sql_fetch(" select * from {$plugin_table} where TRIM(co_id) = '{$try_id}' ");
-
-        if (!$co_row || !isset($co_row['co_id'])) {
-            $try_id_simple = $current_theme . '_' . $co_id;
-            $co_row = sql_fetch(" select * from {$plugin_table} where TRIM(co_id) = '{$try_id_simple}' ");
-        }
-    }
-}
+// [Premium Framework Loading] 
+// This handles direct ID match AND Theme/Lang prefix fallback automatically
+$co_row = get_premium_config($plugin_table, $co_id, 'co_id');
 
 // [Core Headers] - Set Title BEFORE head.php
 if (isset($co_row['co_subject']) && $co_row['co_subject']) {

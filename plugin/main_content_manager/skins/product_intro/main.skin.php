@@ -15,14 +15,18 @@ $ms_show_title = isset($ms['ms_show_title']) ? $ms['ms_show_title'] : '0';
     <div class="container">
         
         <?php if ($ms_show_title != '0') { ?>
-        <div class="section-title reveal slide-up">
+
+        <div class="section-header reveal slide-up">
             <?php if ($ms_title) { ?>
-            <h2 style="<?php echo $ms_accent_color ? 'color:'.$ms_accent_color.';' : ''; ?>">
+            <h2 class="section-title" style="<?php echo $ms_accent_color ? 'color:'.$ms_accent_color.';' : ''; ?>">
+
                 <?php echo stripslashes($ms_title); ?>
             </h2>
             <?php } ?>
             <?php if ($ms_subtitle) { ?>
-            <p><?php echo stripslashes($ms_subtitle); ?></p>
+
+            <p class="section-subtitle"><?php echo stripslashes($ms_subtitle); ?></p>
+
             <?php } ?>
         </div>
         <?php } ?>

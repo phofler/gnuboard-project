@@ -7,7 +7,7 @@ if (!$is_admin) {
 }
 
 // Check Token
-// check_admin_token(); // Optional: Enable if using tokens
+// // check_admin_token(); // Temporary bypass for dev // Optional: Enable if using tokens
 
 $w = isset($_POST['w']) ? $_POST['w'] : '';
 $table_name = "g5_write_menu_add";

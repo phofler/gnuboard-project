@@ -1,0 +1,135 @@
+<!-- [Infrastructure] Main Map Premium Skin - Standardized to 테마스킨.md -->
+<meta charset="utf-8">
+<style>
+    .ci-skin-wrapper.main-map-section {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: var(--spacing-section, 10vh) 0 0 0;
+        box-sizing: border-box;
+        background-color: transparent;
+    }
+
+    /* 1. Full Width Map Container */
+    .location-map-wrap {
+        width: 100%;
+        height: 600px !important;
+        background: var(--color-bg-dark, #121212);
+        position: relative;
+        overflow: hidden;
+        margin-top: var(--spacing-title-gap, 40px);
+    }
+
+    /* Map Element */
+    .map-api-wrapper, .map-api-container {
+        width: 100% !important;
+        height: 100% !important;
+    }
+    
+    #map_api_container {
+        filter: grayscale(20%) contrast(105%);
+    }
+
+    /* Header Standards (Typography Protocol) - Alignment with PRODUCT INTRODUCTION */
+    .section-header {
+        margin-bottom: var(--spacing-title-gap, 40px);
+        text-align: center;
+        max-width: var(--spacing-container, 1360px);
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0 var(--container-padding, 20px);
+    }
+
+    .section-header .section-title {
+        color: var(--color-title-main);
+        font-family: var(--font-heading) !important;
+        font-size: var(--fs-section-title);
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        display: block;
+        margin-bottom: 0px;
+    }
+
+    .section-header .section-subtitle {
+        color: var(--color-text-secondary);
+        font-family: var(--font-body) !important;
+        font-size: 1.1rem;
+        margin-top: 0px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        display: block;
+        line-height: 1.8;
+    }
+
+    /* Map Header Info Block (Data Bound) */
+    .main-map-info-wrap {
+        margin-top: 30px;
+        color: var(--color-text-primary);
+        font-size: var(--fs-desc, 0.95rem);
+        line-height: 1.8;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .main-map-info-item {
+        margin-bottom: 8px;
+        opacity: 0.9;
+    }
+
+    .main-map-info-item strong {
+        color: var(--color-accent);
+        margin-right: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 0.1em;
+    }
+
+    .main-map-info-divider {
+        margin: 0 15px;
+        opacity: 0.3;
+        color: var(--color-text-secondary);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .ci-skin-wrapper.main-map-section {
+            padding: var(--spacing-section, 10vh) 0 0 0;
+        }
+
+        .location-map-wrap {
+            height: 450px !important;
+        }
+        
+        .section-header .section-title {
+            font-size: 2rem;
+        }
+    }
+</style>
+
+<div class="ci-skin-wrapper main-map-section">
+    <!-- Header: Consistent with Main Sections -->
+    <div class="section-header">
+        <h2 class="section-title">LOCATION</h2>
+        <p class="section-subtitle">오시는 길</p>
+
+        <!-- [Standardized] Data Binding via Copyright Manager Placeholders -->
+        <div class="main-map-info-wrap">
+            <div class="main-map-info-item">
+                <strong>ADD</strong> <span>{CP_ADDRESS}</span>
+            </div>
+            <div class="main-map-info-item">
+                <strong>Tel</strong> <span>{CP_TEL}</span>
+                <span class="main-map-info-divider">/</span>
+                <strong>FAX</strong> <span>{CP_FAX}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Map Area: Full Bleed Concept -->
+    <div class="location-map-wrap">
+        {MAP_API_DISPLAY}
+    </div>
+</div>

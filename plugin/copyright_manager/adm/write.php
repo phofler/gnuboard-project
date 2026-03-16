@@ -1,6 +1,7 @@
 <?php
 include_once('./_common.php');
 include_once('../lib.php');
+include_once(G5_PLUGIN_PATH . '/map_api/lib/premium_module.lib.php'); // Premium Framework
 include_once(G5_EDITOR_LIB);
 
 $sub_menu = "950350";
@@ -87,84 +88,7 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                 <col>
             </colgroup>
             <tbody>
-                <tr>
-                    <th scope="row">식별코드 (ID)</th>
-                    <td>
-                        <?php
-                        // Theme Discovery (Standard Pattern A)
-                        $themes = array();
-                        $theme_dir = G5_PATH . '/theme';
-                        if (is_dir($theme_dir)) {
-                            $tdir = dir($theme_dir);
-                            while ($entry = $tdir->read()) {
-                                if ($entry == '.' || $entry == '..')
-                                    continue;
-                                if (is_dir($theme_dir . '/' . $entry))
-                                    $themes[] = $entry;
-                            }
-                            $tdir->close();
-                        }
-                        sort($themes);
-
-                        // ID Parsing
-                        $sel_theme = '';
-                        $sel_lang = '';
-                        $sel_custom = '';
-
-                        if ($w == 'u' && isset($cp['cp_id']) && $cp['cp_id']) {
-                            $parts = explode('_', $cp['cp_id']);
-                            if (isset($parts[0]) && in_array($parts[0], $themes)) {
-                                $sel_theme = $parts[0];
-                                if (isset($parts[1]) && in_array($parts[1], array('kr', 'en', 'jp', 'cn'))) {
-                                    $sel_lang = $parts[1];
-                                    if (isset($parts[2])) {
-                                        array_shift($parts);
-                                        array_shift($parts);
-                                        $sel_custom = implode('_', $parts);
-                                    }
-                                } else {
-                                    if (isset($parts[1])) {
-                                        array_shift($parts);
-                                        $sel_custom = implode('_', $parts);
-                                    }
-                                }
-                            } else if ($cp['cp_id'] == 'default') {
-                                $sel_theme = '';
-                                $sel_custom = 'default';
-                            } else {
-                                $sel_theme = '';
-                                $sel_custom = $cp['cp_id'];
-                            }
-                        }
-                        ?>
-                        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-                            <select name="cp_theme" id="cp_theme" class="frm_input" onchange="generate_id()" <?php echo $readonly ? 'disabled' : ''; ?>>
-                                <option value="">테마 선택</option>
-                                <?php foreach ($themes as $theme) {
-                                    $selected = ($theme == $sel_theme) ? 'selected' : '';
-                                    echo '<option value="' . $theme . '" ' . $selected . '>' . $theme . '</option>';
-                                } ?>
-                            </select>
-                            <select name="cp_lang" id="cp_lang" class="frm_input" onchange="generate_id()" <?php echo $readonly ? 'disabled' : ''; ?>>
-                                <option value="">언어 선택</option>
-                                <option value="kr" <?php echo ($sel_lang == 'kr' ? 'selected' : ''); ?>>한국어</option>
-                                <option value="en" <?php echo ($sel_lang == 'en' ? 'selected' : ''); ?>>English</option>
-                                <option value="jp" <?php echo ($sel_lang == 'jp' ? 'selected' : ''); ?>>Japanese</option>
-                                <option value="cn" <?php echo ($sel_lang == 'cn' ? 'selected' : ''); ?>>Chinese</option>
-                            </select>
-                            <input type="text" name="cp_custom" id="cp_custom" value="<?php echo $sel_custom; ?>"
-                                class="frm_input" placeholder="커스텀 이름 (영문/숫자)" onkeyup="generate_id()" <?php echo $readonly ? 'readonly' : ''; ?>>
-                        </div>
-                        <div
-                            style="margin-top:8px; font-size:12px; color:#666; padding:10px; background:#f9f9f9; border:1px solid #eee; display:inline-block;">
-                            생성된 식별코드(ID): <strong id="generated_id_display"
-                                style="color:#d4af37; font-size:1.1em;"><?php echo isset($cp['cp_id']) ? $cp['cp_id'] : '-'; ?></strong>
-                        </div>
-                        <p class="frm_info" style="margin-top:5px;">테마와 언어를 선택하면 식별코드가 자동으로 생성됩니다.</p>
-                        <input type="hidden" name="cp_id" id="cp_id"
-                            value="<?php echo isset($cp['cp_id']) ? $cp['cp_id'] : ''; ?>">
-                    </td>
-                </tr>
+                <?php echo render_premium_id_ui('cp_id', $cp['cp_id'], $readonly); ?>
                 <tr>
                     <th scope="row"><label for="cp_subject">제목 (관리용)</label></th>
                     <td>
@@ -241,7 +165,25 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                 </div>
                             </div>
 
-                            <div style="display:flex; gap:20px;">
+                            
+                            <div style="display:flex; gap:20px; margin-bottom:15px;">
+                                <div style="flex:1;">
+                                    <label for="company_val" style="display:block; font-weight:bold; margin-bottom:5px;">상호 (Company)</label>
+                                    <input type="text" name="company_label" value="<?php echo get_text(($cp['company_label'] ?? '') ?: 'COMPANY'); ?>" class="frm_input" size="10" placeholder="라벨">
+                                    <input type="text" name="company_val" value="<?php echo get_text($cp['company_val'] ?? ''); ?>" id="company_val" class="frm_input" style="width:calc(100% - 100px);" placeholder="내용">
+                                </div>
+                                <div style="flex:1;">
+                                    <label for="ceo_val" style="display:block; font-weight:bold; margin-bottom:5px;">대표자 (CEO)</label>
+                                    <input type="text" name="ceo_label" value="<?php echo get_text(($cp['ceo_label'] ?? '') ?: 'CEO'); ?>" class="frm_input" size="10" placeholder="라벨">
+                                    <input type="text" name="ceo_val" value="<?php echo get_text($cp['ceo_val'] ?? ''); ?>" id="ceo_val" class="frm_input" style="width:calc(100% - 100px);" placeholder="내용">
+                                </div>
+                                <div style="flex:1;">
+                                    <label for="bizno_val" style="display:block; font-weight:bold; margin-bottom:5px;">사업자번호 (Biz-No)</label>
+                                    <input type="text" name="bizno_label" value="<?php echo get_text(($cp['bizno_label'] ?? '') ?: 'BIZ-NO'); ?>" class="frm_input" size="12" placeholder="라벨">
+                                    <input type="text" name="bizno_val" value="<?php echo get_text($cp['bizno_val'] ?? ''); ?>" id="bizno_val" class="frm_input" style="width:calc(100% - 110px);" placeholder="내용">
+                                </div>
+                            </div>
+<div style="display:flex; gap:20px;">
                                 <div style="flex:1;">
                                     <label for="link1_url"
                                         style="display:block; font-weight:bold; margin-bottom:5px;">링크 1 (Privacy Policy
@@ -459,16 +401,7 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
 
 <script>
     // Pattern A: Dynamic ID Generation (Standardized)
-    function generate_id() {
-        var theme = $('#cp_theme').val();
-        var lang = $('#cp_lang').val();
-        var custom = $('#cp_custom').val().trim();
-
-        if (custom === 'default') {
-            $('#generated_id_display').text('default');
-            $('#cp_id').val('default');
-            return;
-        }
+    
 
         if (!theme) {
             // If custom input exists but no theme, use custom as ID (Legacy support or Pure Custom)

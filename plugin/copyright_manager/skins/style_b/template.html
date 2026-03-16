@@ -1,10 +1,9 @@
 <style>
     /* Style B: Modern Split Premium */
     .footer-skin-b {
-        padding: 100px 0;
-        background-color: var(--cp-bg, #1a1a1a);
-        color: #eee;
-        /* border: 2px dashed #3498db; Removed per user request */
+        padding: 80px 0;
+        background-color: var(--cp-bg, #ffffff);
+        color: #333;
         margin: 20px 0;
     }
 
@@ -42,56 +41,42 @@
     }
 
     .footer-skin-b .footer-links a {
-        color: #999;
-        font-size: 0.9rem;
+        font-size: 0.95rem;
+        color: #333;
+        font-weight: 500;
         text-decoration: none;
     }
 
     .footer-skin-b .footer-copyright {
         font-size: 0.85rem;
-        color: rgba(255, 255, 255, 0.3);
+        color: #999;
     }
 
     .footer-skin-b .footer-contact-grid {
-        display: flex;
-        flex-direction: column;
-        gap: 25px;
+        display: grid;
+        gap: 20px;
     }
 
     .footer-skin-b .info-item {
-        display: flex;
-        align-items: center;
-        gap: 15px;
+        font-size: 0.9rem;
     }
 
-    .footer-skin-b .info-item.label-top {
-        flex-direction: row;
-        /* Changed from column to row */
-        align-items: center;
-        /* Changed from flex-start */
-        gap: 15px;
-        /* Matched gap with other info-items */
+    .footer-skin-b .label {
+        display: block;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        color: #999;
+        margin-bottom: 5px;
     }
 
     .footer-skin-b .value {
-        color: #eee;
-        font-size: 1rem;
-    }
-
-    .footer-skin-b .value a {
-        color: inherit;
-        text-decoration: none;
-    }
-
-    .footer-skin-b .value a:hover {
-        text-decoration: underline;
+        font-weight: 500;
     }
 
     .footer-skin-b .contact-flex {
         display: flex;
-        gap: 20px;
-        padding-top: 20px;
-        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        gap: 40px;
+        flex-wrap: wrap;
     }
 </style>
 
@@ -112,6 +97,11 @@
 
         <div class="footer-right">
             <div class="footer-contact-grid">
+                <div class="info-item label-top" style="margin-bottom:10px; border-bottom:1px solid rgba(0,0,0,0.05); padding-bottom:15px;">
+                    <span class="value" style="font-weight:700; font-size:1.1rem;">{company}</span>
+                    <span class="value" style="margin-left:20px;"><span class="label" style="display:inline; margin-right:5px;">{ceo_name}</span> {ceo}</span>
+                    <span class="value" style="margin-left:20px;"><span class="label" style="display:inline; margin-right:5px;">{bizno_name}</span> {bizno}</span>
+                </div>
                 <div class="info-item label-top">
                     <span class="label">{addr_name}</span>
                     <span class="value">{addr}</span>

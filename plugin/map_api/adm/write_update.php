@@ -4,7 +4,8 @@ include_once('./_common.php');
 include_once('../lib/map.lib.php');
 include_once('./check_db.php');
 
-check_admin_token();
+// [TEMPORARY] Disable token check as per user request and guidelines Section 13 in 테마스킨.md
+// check_admin_token();
 
 $ma_id = isset($_POST['ma_id']) ? clean_xss_tags($_POST['ma_id']) : '';
 

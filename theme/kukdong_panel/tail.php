@@ -6,23 +6,26 @@ if (!defined('_GNUBOARD_')) exit;
     </div> <!-- #container_wr -->
 </div> <!-- #wrapper -->
 
+<?php
+// [Premium] Dynamic Footer Integration
+if (function_exists('copyright_widget')) {
+    copyright_widget(); 
+} else {
+    // Plugin Disabled Fallback
+?>
 <footer>
     <div class="container">
-        <div class="footer-grid">
+        <div class="footer-grid" style="text-align:center; padding:40px 0;">
             <div class="footer-brand">
                 <div class="footer-logo" style="margin-bottom: 20px;">
-                    <img src="<?php echo G5_THEME_URL ?>/m_logo.png" alt="성우첨단패널 로고" style="height: 40px; filter: brightness(0) invert(1);">
+                    <img src="<?php echo G5_THEME_URL ?>/m_logo.png" alt="logo" style="height: 40px; filter: brightness(0) invert(1);">
                 </div>
-                <p>COPYRIGHT © 2026 SUNGWOO ADVANCED PANEL.<br>ALL RIGHTS RESERVED.</p>
-            </div>
-            <div class="footer-info">
-                <p>주소 : 경기도 하남시 검단산로 239, 6층(하남시 벤처집적시설)</p>
-                <p>대표전화 : 1551-9123 | 이메일 : dearceo@naver.com</p>
-                <p>사업자등록번호 : 560-87-02627</p>
+                <p>COPYRIGHT © 2026 SUNGWOO ADVANCED PANEL. ALL RIGHTS RESERVED.</p>
             </div>
         </div>
     </div>
 </footer>
+<?php } ?>
 
 <script>
     $(function () {

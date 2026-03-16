@@ -1,0 +1,116 @@
+.footer-skin-c {
+    padding: 100px 0 50px;
+    background-color: var(--color-bg-dark);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-skin-c .footer-container {
+    max-width: var(--spacing-container);
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.footer-skin-c .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 80px;
+}
+
+.footer-skin-c .grid-item h3 {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    color: var(--color-accent-gold);
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.footer-skin-c .branding .footer-logo {
+    height: 40px;
+    margin-bottom: 25px;
+    filter: brightness(1);
+}
+
+.footer-skin-c .brand-desc {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    max-width: 300px;
+    opacity: 0.7;
+}
+
+.footer-skin-c .info-item {
+    margin-bottom: 20px;
+}
+
+.footer-skin-c .label {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.3);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+.footer-skin-c .value,
+.footer-skin-c .address-text {
+    color: var(--color-text-primary);
+    font-size: 1rem;
+}
+
+.footer-skin-c .footer-nav {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-skin-c .footer-nav li {
+    margin-bottom: 12px;
+}
+
+.footer-skin-c .footer-nav a {
+    color: var(--color-text-secondary);
+    transition: color 0.3s;
+}
+
+.footer-skin-c .footer-nav a:hover {
+    color: var(--color-accent-gold);
+}
+
+.footer-skin-c .footer-bottom {
+    padding-top: 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: center;
+}
+
+.footer-skin-c .footer-copyright {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 1200px) {
+    .footer-skin-c .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-skin-c .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+    }
+
+    .footer-skin-c .branding .footer-logo {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .footer-skin-c .brand-desc {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}

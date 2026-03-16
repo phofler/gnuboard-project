@@ -3,12 +3,27 @@ include_once('./_common.php');
 
 $table_name = G5_TABLE_PREFIX . 'plugin_copyright';
 
+// [DB Auto-Healing] Ensure new columns exist
+$cols = array(
+    'company_label' => "varchar(50) NOT NULL DEFAULT '상호'",
+    'company_val'   => "varchar(255) NOT NULL DEFAULT ''",
+    'ceo_label'     => "varchar(50) NOT NULL DEFAULT '대표자'",
+    'ceo_val'       => "varchar(255) NOT NULL DEFAULT ''",
+    'bizno_label'   => "varchar(50) NOT NULL DEFAULT '사업자등록번호'",
+    'bizno_val'     => "varchar(255) NOT NULL DEFAULT ''"
+);
+
+foreach($cols as $col => $def) {
+    if(!sql_query(" SELECT $col FROM $table_name LIMIT 1 ", false)) {
+        sql_query(" ALTER TABLE $table_name ADD COLUMN $col $def ");
+    }
+}
+
 $cp_id = isset($_POST['cp_id']) ? clean_xss_tags($_POST['cp_id']) : '';
 if (!$cp_id)
     alert('ID가 전달되지 않았습니다.');
 
 if ($w != 'u') {
-    // Check for duplicate ID
     $row = sql_fetch(" select count(*) as cnt from {$table_name} where cp_id = '{$cp_id}' ");
     if ($row['cnt'] > 0) {
         alert('이미 존재하는 식별코드입니다.');
@@ -45,6 +60,14 @@ $sql_common = " cp_subject = '" . addslashes(stripslashes($_POST['cp_subject']))
                 fax_val = '" . addslashes(stripslashes($_POST['fax_val'])) . "',
                 email_label = '" . addslashes(stripslashes($_POST['email_label'])) . "',
                 email_val = '" . addslashes(stripslashes($_POST['email_val'])) . "',
+                
+                company_label = '" . addslashes(stripslashes($_POST['company_label'])) . "',
+                company_val = '" . addslashes(stripslashes($_POST['company_val'])) . "',
+                ceo_label = '" . addslashes(stripslashes($_POST['ceo_label'])) . "',
+                ceo_val = '" . addslashes(stripslashes($_POST['ceo_val'])) . "',
+                bizno_label = '" . addslashes(stripslashes($_POST['bizno_label'])) . "',
+                bizno_val = '" . addslashes(stripslashes($_POST['bizno_val'])) . "',
+
                 link1_name = '" . addslashes(stripslashes($_POST['link1_name'])) . "',
                 link1_url = '" . addslashes(stripslashes($_POST['link1_url'])) . "',
                 link2_name = '" . addslashes(stripslashes($_POST['link2_name'])) . "',
@@ -63,5 +86,5 @@ if ($w == 'u') {
 
 sql_query($sql);
 
-alert('저장되었습니다.', './list.php');
+alert('저장되었습니다.', './write.php?w=u&cp_id='.$cp_id);
 ?>

@@ -29,7 +29,7 @@
     margin-bottom: 8px;
     font-size: 0.85rem;
     color: var(--color-text-secondary);
-    opacity: 0.8;
+    opacity: 1;
 }
 
 .footer-skin-a .label {
@@ -62,7 +62,7 @@
     gap: 25px;
     flex-wrap: wrap;
     padding-top: 30px;
-    border-top: 1px solid #1f1f1f;
+    border-top: 1px solid var(--color-border, rgba(0,0,0,0.1));
     /* Lighter opacity 0.1 -> 0.05 */
 }
 
@@ -73,11 +73,11 @@
 }
 
 .footer-skin-a .footer-links a:hover {
-    color: var(--color-accent-gold);
+    color: var(--color-accent);
 }
 
 .footer-skin-a .link-privacy {
-    color: var(--color-accent-gold) !important;
+    color: var(--color-accent) !important;
     font-weight: 500;
 }
 

@@ -3,6 +3,8 @@ include_once('./_common.php');
 include_once(G5_ADMIN_PATH . '/admin.lib.php');
 include_once(G5_EDITOR_LIB);
 include_once(G5_PATH . '/lib/theme_css.lib.php');
+include_once(G5_LIB_PATH.'/premium_module.lib.php');
+
 
 $html_title = '회사소개';
 $readonly = '';
@@ -168,87 +170,16 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
             </colgroup>
             <tbody>
                 <?php
-                // Theme List
-                $themes = array();
-                $theme_dir = G5_PATH . '/theme';
-                if (is_dir($theme_dir)) {
-                    $handle = opendir($theme_dir);
-                    while ($file = readdir($handle)) {
-                        if ($file == "." || $file == ".." || !is_dir($theme_dir . "/" . $file))
-                            continue;
-                        $themes[] = $file;
-                    }
-                    closedir($handle);
-                }
-
-                // Standard Parsing Logic
-                $sel_theme = isset($co['co_theme']) ? $co['co_theme'] : '';
-                $sel_lang = isset($co['co_lang']) ? $co['co_lang'] : 'kr';
-                $sel_custom = '';
-
-                if ($w == 'u' && $co['co_id']) {
-                    $parts = explode('_', $co['co_id']);
-                    if (isset($parts[0]) && in_array($parts[0], $themes)) {
-                        $sel_theme = $parts[0];
-                        if (isset($parts[1]) && in_array($parts[1], array('kr', 'en', 'jp', 'cn'))) {
-                            $sel_lang = $parts[1];
-                            if (isset($parts[2])) {
-                                array_shift($parts);
-                                array_shift($parts);
-                                $sel_custom = implode('_', $parts);
-                            }
-                        }
-                    }
-                }
+                // Standardized Premium ID UI
+                echo render_premium_id_ui(array(
+                    'id' => $co['co_id'],
+                    'id_name' => 'co_id',
+                    'label' => '설정 대상 (Theme & Lang)',
+                    'theme' => isset($co['co_theme']) ? $co['co_theme'] : '',
+                    'lang' => isset($co['co_lang']) ? $co['co_lang'] : 'kr',
+                    'onchange' => 'update_theme_defaults'
+                ));
                 ?>
-                <tr>
-                    <th scope="row">설정 대상 (Theme & Lang)</th>
-                    <td>
-                        <div style="display:flex; gap:10px; align-items:center;">
-                            <select name="co_theme" id="co_theme" class="frm_input" required
-                                onchange="update_theme_defaults()">
-                                <option value="">테마 선택</option>
-                                <?php
-                                $themes = array();
-                                $theme_dir = G5_PATH . '/theme';
-                                if (is_dir($theme_dir)) {
-                                    $tdir = dir($theme_dir);
-                                    while ($entry = $tdir->read()) {
-                                        if ($entry == '.' || $entry == '..')
-                                            continue;
-                                        if (is_dir($theme_dir . '/' . $entry))
-                                            $themes[] = $entry;
-                                    }
-                                    $tdir->close();
-                                }
-                                sort($themes);
-                                foreach ($themes as $theme) {
-                                    $selected = ($theme == $sel_theme) ? 'selected' : '';
-                                    echo '<option value="' . $theme . '" ' . $selected . '>' . $theme . '</option>';
-                                } ?>
-                            </select>
-                            <select name="co_lang" id="co_lang" class="frm_input" onchange="generate_co_id()">
-                                <option value="kr" <?php echo ($sel_lang == 'kr' ? 'selected' : ''); ?>>한국어 (기본)</option>
-                                <option value="en" <?php echo ($sel_lang == 'en' ? 'selected' : ''); ?>>English (EN)
-                                </option>
-                                <option value="jp" <?php echo ($sel_lang == 'jp' ? 'selected' : ''); ?>>Japanese (JP)
-                                </option>
-                                <option value="cn" <?php echo ($sel_lang == 'cn' ? 'selected' : ''); ?>>Chinese (CN)
-                                </option>
-                            </select>
-                            <input type="text" name="co_custom" id="co_custom" value="<?php echo $sel_custom; ?>"
-                                class="frm_input" placeholder="커스텀 이름 (선택)" onkeyup="generate_co_id()">
-                        </div>
-                        <div
-                            style="margin-top:8px; font-size:12px; color:#666; padding:10px; background:#f9f9f9; border:1px solid #eee; display:inline-block;">
-                            생성된 식별코드(ID): <strong id="generated_id_display"
-                                style="color:#d4af37; font-size:1.1em;"><?php echo $co['co_id'] ? $co['co_id'] : '-'; ?></strong>
-                        </div>
-                        <p style="margin-top:5px; color:#888; font-size:12px;">테마와 언어를 선택하면 식별코드가 자동으로 생성됩니다. (예:
-                            corporate_en_history)</p>
-                        <input type="hidden" name="co_id" id="co_id" value="<?php echo $co['co_id']; ?>">
-                    </td>
-                </tr>
                 <tr>
                     <th scope="row"><label for="co_subject">제목</label></th>
                     <td>
@@ -863,25 +794,6 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
         oEditors.getById["co_content"].exec("PASTE_HTML", [newHtml]);
     }
 
-    function generate_co_id() {
-        var theme = $('#co_theme').val();
-        var lang = $('#co_lang').val();
-        var custom = $('#co_custom').val().trim();
-
-        if (!theme) {
-            $('#generated_id_display').text('-');
-            $('#co_id').val('');
-            return;
-        }
-
-        var co_id = theme + '_' + lang;
-        if (custom) {
-            co_id += '_' + custom;
-        }
-
-        $('#generated_id_display').text(co_id);
-        $('#co_id').val(co_id);
-    }
 
     function fcompanyform_submit(f) {
         <?php echo get_editor_js('co_content', true); // Only for content sync ?>
@@ -984,10 +896,6 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
             });
         });
 
-        // ID Generation Listeners
-        $('#co_theme, #co_lang, #co_custom').on('change keyup input', function () {
-            generate_co_id();
-        });
     });
 </script>
 

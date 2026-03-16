@@ -6,6 +6,10 @@ if (!defined('_INDEX_')) define('_INDEX_', true);
 include_once(G5_PLUGIN_PATH . '/main_image_manager/lib/main.lib.php');
 include_once(G5_PLUGIN_PATH . '/main_content_manager/lib/main_content.lib.php');
 
+
+include_once(G5_PLUGIN_PATH . '/latest_skin_manager/lib/latest_skin.lib.php');
+
+
 // Language Detection
 $lang = isset($_GET['lang']) ? $_GET['lang'] : 'kr';
 if (!defined('G5_LANG')) define('G5_LANG', $lang);
@@ -71,32 +75,30 @@ if (function_exists('display_main_content')) {
 </section>
 <?php } ?>
 
-<!-- 2. 주요제품소개 (동적 연동: product 게시판) -->
-<section class="main-items">
-    <div class="container">
-        <div class="section-title reveal slide-up">
-            <h2>Best Products</h2>
-            <p>고객이 가장 많이 찾는 성우의 베스트셀러</p>
-        </div>
-        <?php echo latest('theme/kukdong_best', 'product', 4, 30); ?>
-    </div>
-</section>
+
+
+
+
 
 <!-- 4. 고객센터 / 상담신청 / 공지사항 (동적 연동: news 게시판) -->
 <section class="bottom-links">
     <div class="container">
         <div class="links-grid">
-            <a href="#" class="link-box reveal slide-up" style="transition-delay: 0.1s;">
-                <h4>고객센터</h4>
-                <p>1551-9123</p>
-                <p>평일 09:00 ~ 18:00</p>
-            </a>
-            <a href="/contact_us/online.php" class="link-box reveal slide-up" style="transition-delay: 0.2s;">
-                <h4>상담신청</h4>
-                <p>전문 상담사가 친절하게</p>
-                <p>안내해 드리겠습니다.</p>
-            </a>
-            <?php echo latest('theme/kukdong_notice', 'news', 1, 30); ?>
+                        <div class="link-box customer-center-box reveal slide-up" style="transition-delay: 0.1s;">
+                <div class="cc-header">
+                    <i class="fa fa-headphones-simple cc-icon"></i>
+                    <h4>고객센터</h4>
+                </div>
+                <div class="cc-phone">1551-9123</div>
+                <ul class="cc-info-list">
+                    <li><i class="fa-regular fa-clock"></i> <span>월~금: AM 08:30 ~ PM 18:00</span></li>
+                    <li><i class="fa-solid fa-calendar-xmark"></i> <span>토, 일, 공휴일 : 휴무</span></li>
+                    <li><i class="fa-solid fa-utensils"></i> <span>점심시간 : PM 12:30 ~ PM 13:30</span></li>
+                </ul>
+                <p class="cc-notice">문의사항은 고객센터로 연락주시면<br>신속한 상담을 받으실 수 있습니다.</p>
+            </div>
+            <?php latest_widget(6); ?>
+            <?php latest_widget(5); ?>
         </div>
     </div>
 </section>

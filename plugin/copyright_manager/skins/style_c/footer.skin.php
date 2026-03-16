@@ -1,76 +1,70 @@
 <?php
-if (!defined('_GNUBOARD_'))
-    exit;
+if (!defined('_GNUBOARD_')) exit;
 
-// If editor content exists, prioritize it for maximum flexibility
+// [Premium Standardization] Global Skin Context 상속
+global $txt_addr, $txt_tel, $txt_fax, $txt_email, $txt_copyright, $txt_slogan, $img_logo, $link1_name, $link1_url, $link2_name, $link2_url;
+global $txt_company, $txt_ceo, $txt_bizno;
+
 if (trim($cp['processed_content'])) {
-    echo $cp['processed_content'] . PHP_EOL;
+    echo $processed_content . PHP_EOL;
     return;
 }
 ?>
 <div class="footer-skin-c">
     <div class="footer-container">
         <div class="footer-grid">
-            <div class="grid-item branding">
-                <?php if ($cp['logo_url']) { ?>
-                    <img src="<?php echo $cp['logo_url']; ?>" alt="<?php echo $config['cf_title']; ?>" class="footer-logo">
+            <div class="grid-item logo-area">
+                <?php if ($img_logo) { ?>
+                    <img src="<?php echo $img_logo; ?>" alt="footer logo" class="footer-logo">
                 <?php } ?>
-                <p class="brand-desc"><?php echo $cp['slogan'] ? $cp['slogan'] : $config['cf_title']; ?></p>
-                <div class="footer-social">
-                    <!-- Social icons could be added here if needed -->
-                </div>
-            </div>
-
-            <div class="grid-item contact">
-                <h3>Contact</h3>
-                <div class="info-group">
-                    <?php if ($cp['tel_val']) { ?>
-                        <div class="info-item">
-                            <span class="label"><?php echo $cp['tel_label']; ?></span>
-                            <span class="value"><a
-                                    href="tel:<?php echo $cp['tel_val']; ?>"><?php echo $cp['tel_val']; ?></a></span>
-                        </div>
-                    <?php } ?>
-                    <?php if ($cp['fax_val']) { ?>
-                        <div class="info-item">
-                            <span class="label"><?php echo $cp['fax_label']; ?></span>
-                            <span class="value"><?php echo $cp['fax_val']; ?></span>
-                        </div>
-                    <?php } ?>
-                    <?php if ($cp['email_val']) { ?>
-                        <div class="info-item">
-                            <span class="label"><?php echo $cp['email_label']; ?></span>
-                            <span class="value"><a
-                                    href="mailto:<?php echo $cp['email_val']; ?>"><?php echo $cp['email_val']; ?></a></span>
+                <div class="footer-company-info" style="margin-top:25px;">
+                    <?php if ($txt_company) { ?><div class="company-name" style="font-size:1.2rem; font-weight:700; margin-bottom:8px; color:#fff;"><?php echo $txt_company; ?></div><?php } ?>
+                    <?php if ($txt_ceo || $txt_bizno) { ?>
+                        <div class="company-sub" style="font-size:0.9rem; color:rgba(255,255,255,0.6);">
+                            <?php if ($txt_ceo) { ?><span><span style="opacity:0.6; font-size:0.8rem;"><?php echo $cp['ceo_label']; ?></span> <?php echo $txt_ceo; ?></span><?php } ?>
+                            <?php if ($txt_bizno) { ?><span style="margin-left:15px;"><span style="opacity:0.6; font-size:0.8rem;"><?php echo $cp['bizno_label']; ?></span> <?php echo $txt_bizno; ?></span><?php } ?>
                         </div>
                     <?php } ?>
                 </div>
             </div>
 
-            <div class="grid-item location">
-                <h3>Location</h3>
-                <div class="info-item">
-                    <span class="label"><?php echo $cp['addr_label']; ?></span>
-                    <p class="address-text"><?php echo $cp['addr_val']; ?></p>
+            <div class="grid-item info-area">
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <span class="label"><?php echo $cp['addr_label']; ?></span>
+                        <span class="value"><?php echo $txt_addr; ?></span>
+                    </div>
+                    <div class="contact-sub-grid">
+                        <?php if ($txt_tel) { ?>
+                            <div class="contact-item">
+                                <span class="label"><?php echo $cp['tel_label']; ?></span>
+                                <span class="value"><a href="tel:<?php echo $txt_tel; ?>"><?php echo $txt_tel; ?></a></span>
+                            </div>
+                        <?php } ?>
+                        <?php if ($txt_email) { ?>
+                            <div class="contact-item">
+                                <span class="label"><?php echo $cp['email_label']; ?></span>
+                                <span class="value"><a href="mailto:<?php echo $txt_email; ?>"><?php echo $txt_email; ?></a></span>
+                            </div>
+                        <?php } ?>
+                    </div>
                 </div>
             </div>
 
-            <div class="grid-item links">
-                <h3>Explore</h3>
-                <ul class="footer-nav">
-                    <?php if ($cp['link1_name']) { ?>
-                        <li><a href="<?php echo $cp['link1_url']; ?>"><?php echo $cp['link1_name']; ?></a></li>
+            <div class="grid-item link-area">
+                <div class="footer-links">
+                    <?php if ($link1_name) { ?>
+                        <a href="<?php echo $link1_url; ?>" class="link-privacy"><?php echo $link1_name; ?></a>
                     <?php } ?>
-                    <?php if ($cp['link2_name']) { ?>
-                        <li><a href="<?php echo $cp['link2_url']; ?>"><?php echo $cp['link2_name']; ?></a></li>
+                    <?php if ($link2_name) { ?>
+                        <a href="<?php echo $link2_url; ?>"><?php echo $link2_name; ?></a>
                     <?php } ?>
-                </ul>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <div class="footer-copyright">
-                <?php echo $cp['copyright']; ?>
+                </div>
+                <?php if ($txt_copyright) { ?>
+                    <div class="footer-copyright">
+                        <?php echo $txt_copyright; ?>
+                    </div>
+                <?php } ?>
             </div>
         </div>
     </div>

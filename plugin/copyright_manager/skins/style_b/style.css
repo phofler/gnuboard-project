@@ -43,7 +43,7 @@
 }
 
 .footer-skin-b .link-privacy {
-    color: var(--color-accent-gold) !important;
+    color: var(--color-accent) !important;
 }
 
 .footer-skin-b .footer-copyright {
@@ -83,7 +83,7 @@
 .footer-skin-b .value {
     color: var(--color-text-primary);
     font-size: 1rem;
-    opacity: 0.9;
+    opacity: 1;
 }
 
 .footer-skin-b .contact-flex {

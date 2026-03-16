@@ -2,6 +2,7 @@
 $sub_menu = "950400";
 include_once('./_common.php');
 include_once('../lib/map.lib.php');
+include_once(G5_LIB_PATH.'/premium_module.lib.php'); // Include Premium Framework
 include_once('./check_db.php');
 
 $html_title = '지도 설정';
@@ -57,83 +58,7 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                 <col>
             </colgroup>
             <tbody>
-                <tr>
-                    <th scope="row">식별코드 (ID)</th>
-                    <td>
-                        <?php
-                        // Theme Discovery (Standard Pattern A)
-                        $themes = array();
-                        $theme_dir = G5_PATH . '/theme';
-                        if (is_dir($theme_dir)) {
-                            $tdir = dir($theme_dir);
-                            while ($entry = $tdir->read()) {
-                                if ($entry == '.' || $entry == '..')
-                                    continue;
-                                if (is_dir($theme_dir . '/' . $entry))
-                                    $themes[] = $entry;
-                            }
-                            $tdir->close();
-                        }
-                        sort($themes);
-
-                        // ID Parsing for Edit Mode via Pattern Matching
-                        $sel_theme = '';
-                        $sel_lang = '';
-                        $sel_custom = '';
-
-                        if ($w == 'u' && $map['ma_id']) {
-                            $parts = explode('_', $map['ma_id']);
-                            if (isset($parts[0]) && in_array($parts[0], $themes)) {
-                                $sel_theme = $parts[0];
-                                if (isset($parts[1]) && in_array($parts[1], array('kr', 'en', 'jp', 'cn'))) {
-                                    $sel_lang = $parts[1];
-                                    if (isset($parts[2])) {
-                                        array_shift($parts);
-                                        array_shift($parts);
-                                        $sel_custom = implode('_', $parts);
-                                    }
-                                } else {
-                                    if (isset($parts[1])) {
-                                        array_shift($parts);
-                                        $sel_custom = implode('_', $parts);
-                                    }
-                                }
-                            } else if ($map['ma_id'] == 'default') {
-                                $sel_theme = '';
-                                $sel_custom = 'default';
-                            } else {
-                                $sel_theme = '';
-                                $sel_custom = $map['ma_id'];
-                            }
-                        }
-                        ?>
-                        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-                            <select name="ma_theme" id="ma_theme" class="frm_input" onchange="generate_id()" <?php echo $readonly ? 'disabled' : ''; ?>>
-                                <option value="">테마 선택</option>
-                                <?php foreach ($themes as $theme) {
-                                    $selected = ($theme == $sel_theme) ? 'selected' : '';
-                                    echo '<option value="' . $theme . '" ' . $selected . '>' . $theme . '</option>';
-                                } ?>
-                            </select>
-                            <select name="ma_lang" id="ma_lang" class="frm_input" onchange="generate_id()" <?php echo $readonly ? 'disabled' : ''; ?>>
-                                <option value="">언어 선택</option>
-                                <option value="kr" <?php echo ($sel_lang == 'kr' ? 'selected' : ''); ?>>한국어</option>
-                                <option value="en" <?php echo ($sel_lang == 'en' ? 'selected' : ''); ?>>English</option>
-                                <option value="jp" <?php echo ($sel_lang == 'jp' ? 'selected' : ''); ?>>Japanese</option>
-                                <option value="cn" <?php echo ($sel_lang == 'cn' ? 'selected' : ''); ?>>Chinese</option>
-                            </select>
-                            <input type="text" name="ma_custom" id="ma_custom" value="<?php echo $sel_custom; ?>"
-                                class="frm_input" placeholder="커스텀 이름 (영문/숫자)" onkeyup="generate_id()" <?php echo $readonly ? 'readonly' : ''; ?>>
-                        </div>
-                        <div
-                            style="margin-top:8px; font-size:12px; color:#666; padding:10px; background:#f9f9f9; border:1px solid #eee; display:inline-block;">
-                            식별코드(ID): <strong id="generated_id_display" style="color:#d4af37; font-size:1.1em;">
-                                <?php echo $map['ma_id']; ?>
-                            </strong>
-                        </div>
-                        <input type="hidden" name="ma_id" id="ma_id" value="<?php echo $map['ma_id']; ?>">
-                    </td>
-                </tr>
+                <?php echo render_premium_id_ui('ma_id', $map['ma_id'], $readonly); ?>
 
                 <tr>
                     <th scope="row">지도 서비스 제공자</th>
@@ -190,50 +115,13 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
 </form>
 
 <script>
-    function generate_id() {
-        var theme = $('#ma_theme').val();
-        var lang = $('#ma_lang').val();
-        var custom = $('#ma_custom').val().trim().replace(/[^a-z0-9_]/gi, '');
-        document.getElementById('ma_custom').value = custom; // Filter input live
-
-        if (custom === 'default') {
-            $('#generated_id_display').text('default');
-            $('#ma_id').val('default');
-            return;
-        }
-
-        if (!theme) {
-            if (custom) {
-                $('#generated_id_display').text(custom);
-                $('#ma_id').val(custom);
-            } else {
-                $('#generated_id_display').text('-');
-                $('#ma_id').val('');
-            }
-            return;
-        }
-
-        var new_id = theme;
-        if (lang && lang !== 'kr') new_id += '_' + lang;
-        if (custom) new_id += '_' + custom;
-
-        $('#generated_id_display').text(new_id);
-        $('#ma_id').val(new_id);
-    }
-
     function fmapform_submit(f) {
-        if ($('#ma_id').val() == '') {
+        if (jQuery('#ma_id').val() == '') {
             alert('식별코드가 생성되지 않았습니다. 테마를 선택하거나 커스텀 이름을 입력해주세요.');
             return false;
         }
         return true;
     }
-
-    $(function () {
-        if ($('#ma_id').val()) {
-            generate_id();
-        }
-    });
 </script>
 
 <?php

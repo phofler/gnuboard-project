@@ -8,7 +8,7 @@ include_once(G5_LIB_PATH . '/image.lib.php');
 auth_check_menu($auth, $sub_menu, 'w');
 
 // [FIX] Disable Token Check for now to match top_menu_manager logic
-// check_admin_token();
+// // check_admin_token(); // Temporary bypass for dev
 
 if (!defined('G5_PLUGIN_SUB_DESIGN_GROUP_TABLE')) {
     define('G5_PLUGIN_SUB_DESIGN_GROUP_TABLE', G5_TABLE_PREFIX . 'plugin_sub_design_groups');
