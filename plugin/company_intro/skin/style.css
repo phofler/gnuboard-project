@@ -1,3 +1,10 @@
+
+/* [FIX] Double Scrollbar Prevention inside skin */
+html, body { overflow: visible !important; height: auto !important; }
+.premium-skin-wrapper { overflow: visible !important; width: 100% !important; min-width: 0 !important; }
+
+/* [FIX] Double Scrollbar Prevention inside skin */
+html { overflow-y: auto !important; }
 /* 
  * PREMIUM CORPORATE THEME 
  * Colors: Dark Navy (#0a192f), Gold/Bronze (#d4af37), White, Soft Gray
@@ -9,7 +16,7 @@
     background-color: var(--color-bg-dark, #121212);
     color: var(--color-text-primary, #e0e0e0);
     line-height: 1.7;
-    overflow-x: hidden;
+    /* overflow-x: hidden; removed to prevent double scroll */
     position: relative;
     width: 100%;
 }
@@ -26,7 +33,7 @@
 /* --- Hero Section --- */
 .sub-hero {
     position: relative;
-    height: 60vh;
+    height: auto !important; min-height: 400px;
     min-height: 400px;
     display: flex;
     align-items: center;

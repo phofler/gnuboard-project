@@ -1,0 +1,113 @@
+@charset "utf-8";
+
+/* Product Intro Skin - Global Responsive Standards applied */
+
+.product_intro {
+    padding: var(--spacing-section, 60px) 0;
+    overflow: hidden;
+}
+
+.product_intro .container {
+    width: 100%;
+    max-width: var(--max-width, 1200px);
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.product_intro .section_header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.product_intro .section_header h2 {
+    font-size: var(--fs-h-section, clamp(1.8rem, 5vw, 3.5rem));
+    color: var(--color-title-main, #333);
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+/* Harmonized & Responsive Refactor */
+.product_intro .product-row, 
+.product_intro .product_row {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    margin-bottom: 80px;
+    width: 100%;
+}
+
+.product_intro .product-row:last-child {
+    margin-bottom: 0;
+}
+
+.product_intro .product-row.reverse {
+    flex-direction: row-reverse;
+}
+
+.product_intro .product-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.product_intro .product-text h3 {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--color-brand, #1a2c5e);
+    word-break: keep-all;
+}
+
+.product_intro .product-img {
+    flex: 1.5;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    aspect-ratio: 16/9;
+}
+
+.product_intro .product-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform 0.6s ease;
+}
+
+.product_intro .product-row:hover .product-img img {
+    transform: scale(1.03);
+}
+
+/* Responsive Overrides - Nuclear Centering */
+@media (max-width: 768px) {
+    .product_intro .product-row,
+    .product_intro .product-row.reverse {
+        flex-direction: column !important;
+        gap: 20px !important;
+        margin-bottom: 60px !important;
+        text-align: center !important;
+    }
+    
+    .product_intro .product-text {
+        width: 100% !important;
+        text-align: center !important;
+        padding: 0 10px !important;
+    }
+    
+    .product_intro .product-text h3 {
+        font-size: 1.8rem !important;
+    }
+    
+    .product_intro .product-img {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 auto !important;
+        border-radius: 8px !important;
+        aspect-ratio: 4/3;
+    }
+}
+
+@media (max-width: 480px) {
+    .product_intro .product-text h3 { font-size: 1.5rem !important; }
+    .product_intro .product_text p { font-size: 1rem !important; }
+}

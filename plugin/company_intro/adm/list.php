@@ -3,8 +3,19 @@ include_once('./_common.php');
 
 $g5['title'] = '회사소개 관리';
 include_once(G5_ADMIN_PATH . '/admin.head.php');
+include_once(G5_LIB_PATH . '/premium_module.lib.php');
 
 $table_name = G5_TABLE_PREFIX . 'plugin_company_add';
+
+// [MIGRATION] Auto-populate co_theme and co_lang if they are empty
+$themes = get_premium_themes();
+$empty_res = sql_query(" select co_id from {$table_name} where co_theme = '' or co_theme is null ");
+while($em_row = sql_fetch_array($empty_res)) {
+    $parts = parse_premium_id($em_row['co_id'], $themes);
+    if ($parts['theme']) {
+        sql_query(" update {$table_name} set co_theme = '{$parts['theme']}', co_lang = '{$parts['lang']}' where co_id = '{$em_row['co_id']}' ");
+    }
+}
 $sql_common = " from {$table_name} ";
 $sql_search = " where (1) ";
 
@@ -57,9 +68,19 @@ $result = sql_query($sql);
                 $delete_href = './delete.php?co_id=' . $row['co_id'];
 
                 $meta_display = '-';
-                if ($row['co_theme']) {
-                    $meta_display = '<span style="font-weight:800; color:#3498db;">' . $row['co_theme'] . '</span>';
-                    $meta_display .= ' <span style="font-size:11px; color:#999;">(' . strtoupper($row['co_lang']) . ')</span>';
+                $theme = $row['co_theme'];
+                $lang = $row['co_lang'];
+
+                // Fallback parsing if theme is empty
+                if (!$theme) {
+                    $parts = parse_premium_id($row['co_id'], $themes);
+                    $theme = $parts['theme'];
+                    $lang = $parts['lang'] ?: $lang;
+                }
+
+                if ($theme) {
+                    $meta_display = '<span style="font-weight:800; color:#3498db;">' . $theme . '</span>';
+                    $meta_display .= ' <span style="font-size:11px; color:#999;">(' . strtoupper($lang ?: 'kr') . ')</span>';
                 }
                 ?>
                 <tr>

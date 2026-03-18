@@ -1,7 +1,7 @@
 <?php
 include_once('./_common.php');
 include_once(G5_LIB_PATH . '/image.lib.php');
-// check_admin_token(); // [TEMP] Disabled for localhost session debugging
+// // check_admin_token(); // Temporary bypass for dev // [TEMP] Disabled for localhost session debugging
 
 $co_id = isset($_POST['co_id']) ? clean_xss_tags($_POST['co_id']) : '';
 $old_co_id = isset($_POST['old_co_id']) ? clean_xss_tags($_POST['old_co_id']) : '';

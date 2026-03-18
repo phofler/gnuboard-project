@@ -2,19 +2,14 @@
 if (!defined('_GNUBOARD_'))
     exit;
 
+include_once(G5_LIB_PATH.'/premium_module.lib.php');
+
 function get_plugin_company_content($co_id)
 {
     global $g5;
-
-    // SQL Injection 방지
-    $co_id = preg_replace('/[^a-z0-9_]/i', '', $co_id);
-
-    if (!$co_id)
-        return false;
-
-    $sql = " select * from " . G5_TABLE_PREFIX . "plugin_company_add where co_id = '{$co_id}' ";
-    $row = sql_fetch($sql);
-
-    return $row;
+    $table_name = G5_TABLE_PREFIX . "plugin_company_add";
+    
+    // Use Premium Module Framework for smart loading with fallback
+    return get_premium_config($table_name, $co_id, 'co_id');
 }
 ?>

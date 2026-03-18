@@ -17,7 +17,7 @@
     /* Remove redundant .ci-type-a styles that conflict with wrapper */
 
     /* 2. Section Header (Standard Header) */
-    .section-header {
+    .section-header { text-align: center !important; margin-bottom: 50px;
         margin-bottom: 50px;
     }
 
@@ -100,7 +100,7 @@
 
     .ci-skin-wrapper .about-text p {
         margin-bottom: 20px;
-        text-align: justify;
+        text-align: center !important;
         line-height: 1.7;
         color: var(--color-text-secondary, #666);
         font-size: 1.05rem;
@@ -109,7 +109,7 @@
     /* Stats Section */
     .ci-skin-wrapper .stats-row {
         display: flex;
-        justify-content: flex-start;
+        justify-content: center !important;
         /* Left align */
         gap: 60px;
         margin-top: 80px;
@@ -118,7 +118,7 @@
     }
 
     .ci-skin-wrapper .stat-item {
-        text-align: left;
+        text-align: center !important;
     }
 
     .ci-skin-wrapper .stat-number {
@@ -139,6 +139,8 @@
 
     /* Responsive */
     @media (max-width: 991px) {
+        .section-header .section-title { font-size: 2rem !important; }
+        .about-text h3 { text-align: center !important; }
         .ci-skin-wrapper .about-grid {
             grid-template-columns: 1fr;
             gap: 40px;

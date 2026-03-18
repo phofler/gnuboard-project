@@ -1,0 +1,102 @@
+<style>
+    /* [Skin Scope] Team Grid */
+    .team-wrapper {
+        width: 100%;
+        max-width: var(--spacing-container, 1400px);
+        margin: 0 auto;
+        padding: 50px 20px 150px;
+    }
+
+    .team-title {
+        font-family: var(--font-heading, 'Italiana', serif);
+        font-size: 40px;
+        border-bottom: 1px solid var(--color-text-primary, #050505);
+        padding-bottom: 20px;
+        margin-bottom: 60px;
+        color: var(--color-text-primary, #050505);
+    }
+
+    .team-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2vw;
+    }
+
+    .team-card {
+        border-left: 1px solid var(--color-border, #E0E0E0);
+        padding-left: 20px;
+        min-height: 300px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: 0.3s;
+    }
+
+    .team-card:hover {
+        background: #fff;
+        padding: 20px;
+        border-left-color: transparent;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+    }
+
+    .team-role {
+        font-size: 12px;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: var(--color-brand, #FF3B30);
+        margin-bottom: 10px;
+    }
+
+    .team-name {
+        font-size: 32px;
+        font-family: var(--font-heading, 'Italiana', serif);
+        margin-bottom: 20px;
+        color: var(--color-text-primary, #050505);
+    }
+
+    .team-quote {
+        font-size: 14px;
+        color: var(--color-text-secondary, #555555);
+        line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+        .team-grid {
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        .team-card {
+            min-height: auto;
+            padding-bottom: 20px;
+        }
+    }
+</style>
+
+<div class="team-wrapper">
+    <div class="team-title" data-aos="fade-up">Our Team</div>
+
+    <div class="team-grid">
+        <div class="team-card" data-aos="fade-up" data-aos-delay="100">
+            <div>
+                <div class="team-role">Creative Director</div>
+                <div class="team-name">김태훈</div>
+            </div>
+            <div class="team-quote">"디자인은 단순히 예쁘게 만드는 것이 아닙니다. 문제를 아름답게 해결하는 과정입니다."</div>
+        </div>
+        <div class="team-card" data-aos="fade-up" data-aos-delay="200">
+            <div>
+                <div class="team-role">Lead Developer</div>
+                <div class="team-name">이소연</div>
+            </div>
+            <div class="team-quote">"코드는 기계가 이해하는 언어로 쓰인 시(Poetry)입니다."</div>
+        </div>
+        <div class="team-card" data-aos="fade-up" data-aos-delay="300">
+            <div>
+                <div class="team-role">Art Director</div>
+                <div class="team-name">박민수</div>
+            </div>
+            <div class="team-quote">"모든 픽셀에는 이유가 있어야 합니다. 단순함이야말로 궁극의 정교함입니다."</div>
+        </div>
+    </div>
+</div>

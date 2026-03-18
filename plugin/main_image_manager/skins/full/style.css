@@ -159,3 +159,12 @@
 @media (max-width: 768px) {
     .hero-style-full h1 { font-size: 2.5rem; }
 }
+
+@media (max-width: 768px) {
+    .full-hero-bg img {
+        width: auto !important;
+        min-width: 100% !important;
+        height: 100% !important;
+        object-position: center center !important;
+    }
+}

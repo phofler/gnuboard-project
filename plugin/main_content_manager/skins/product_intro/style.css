@@ -1,135 +1,143 @@
-/* Product Intro Skin CSS */
-.product-intro {
-    padding: clamp(60px, 10vw, 120px) 0;
-    position: relative;
-    overflow: hidden;
+@charset "utf-8";
+
+/* Product Intro Skin - REFINED METADATA STYLING */
+
+#wrapper .product-intro {
+    padding: 100px 0 !important;
+    overflow: hidden !important;
+    background: #fff;
 }
 
-.product-intro .section-title {
-    text-align: center;
-    margin-bottom: 60px;
+#wrapper .product-intro .container {
+    max-width: 1250px !important;
+    margin: 0 auto !important;
+    padding: 0 25px !important;
 }
 
-.product-intro .section-title h2 {
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    font-weight: 900;
-    color: var(--mc-accent, var(--primary-dark, #1a2c5e));
-    text-transform: uppercase;
-    letter-spacing: var(--letter-spacing-h, -3px);
+#wrapper .product-intro .section-header {
+    text-align: center !important;
+    margin-bottom: 80px !important;
 }
 
-.product-intro .section-title p {
-    font-size: 1.1rem;
-    color: #666;
-    margin-top: 15px;
-    font-family: var(--font-family-main), sans-serif;
+#wrapper .product-intro .section-header h2 {
+    font-size: clamp(2.2rem, 5vw, 3.8rem) !important;
+    font-weight: 800 !important;
+    color: #1a1a1a !important;
+    margin-bottom: 15px !important;
+    letter-spacing: -1px !important;
 }
 
-/* Product Rows */
-.product-intro .product-row {
-    display: flex;
-    align-items: center;
-    gap: 80px;
-    margin-bottom: 120px;
+#wrapper .product-intro .product-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 100px !important;
+    margin-bottom: 140px !important;
 }
 
-.product-intro .product-row:last-child { margin-bottom: 0; }
-.product-intro .product-row.reverse { flex-direction: row-reverse; }
-.product-intro .product-text { flex: 1; }
+#wrapper .product-intro .product-row:last-child { margin-bottom: 0 !important; }
+#wrapper .product-intro .product-row.reverse { flex-direction: row-reverse !important; }
 
-.product-intro .product-text h3 {
-    font-family: var(--mc-font-heading, var(--font-family-main));
-    font-size: 3rem;
-    font-weight: 900;
-    color: var(--mc-accent, var(--primary-dark, #1a2c5e));
-    margin-bottom: 25px;
-    position: relative;
-    letter-spacing: var(--letter-spacing-h, -3px);
+/* Tag Styling (e.g., Zinc Panel) */
+#wrapper .product-intro .product-tag {
+    display: inline-block !important;
+    padding: 6px 16px !important;
+    background: var(--mc-accent, #508f86) !important;
+    color: #fff !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px !important;
+    margin-bottom: 15px !important;
+    border-radius: 4px !important;
+    box-shadow: 0 4px 12px rgba(80, 143, 134, 0.2) !important;
 }
 
-.product-intro .product-text h3::after {
-    content: '';
-    position: absolute;
-    bottom: -15px;
-    left: 0;
-    width: 60px;
-    height: 4px;
-    background: var(--edge-color, #c92127);
+/* Subtitle Styling (e.g., 그라스울판넬 / 준불연 스치로폴판넬) */
+#wrapper .product-intro .item-subtitle {
+    font-size: 1.1rem !important;
+    color: #666 !important;
+    margin-bottom: 8px !important;
+    font-weight: 500 !important;
+    letter-spacing: -0.5px !important;
 }
 
-.product-intro .product-text .desc {
-    font-family: var(--font-family-main), sans-serif;
-    font-size: var(--fs-desc, 1.25rem);
-    color: #333;
-    margin-bottom: 10px;
-    line-height: 1.8;
-    letter-spacing: -0.5px;
+#wrapper .product-intro .product-text { flex: 1 !important; min-width: 0 !important; }
+
+#wrapper .product-intro .product-text h3 {
+    font-size: 2.5rem !important;
+    margin-top: 5px !important;
+    margin-bottom: 25px !important;
+    font-weight: 800 !important;
+    line-height: 1.2 !important;
+    color: #1a1a1a !important;
 }
 
-.product-intro .product-img {
-    flex: 1.5;
-    position: relative;
-    overflow: hidden;
-    border-radius: 8px;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+#wrapper .product-intro .desc {
+    font-size: 1.15rem !important;
+    line-height: 1.8 !important;
+    color: #444 !important;
+    margin-bottom: 40px !important;
+    word-break: keep-all !important;
 }
 
-.product-intro .product-img .img-overlay-text {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: rgba(43, 43, 43, 0.85);
-    color: #fff;
-    padding: 25px 40px;
-    display: flex;
-    align-items: flex-end;
-    gap: 15px;
-    backdrop-filter: blur(5px);
+#wrapper .product-intro .btn-detail {
+    display: inline-block !important;
+    margin-top: 10px !important;
+    color: var(--mc-accent, #508f86) !important;
+    font-weight: 800 !important;
+    text-decoration: none !important;
+    font-size: 1.05rem !important;
+    transition: all 0.3s ease !important;
 }
 
-.product-intro .product-img .img-overlay-text .en {
-    font-family: var(--font-family-main), sans-serif;
-    font-size: 2.8rem;
-    font-weight: 900;
-    letter-spacing: var(--letter-spacing-h, -3px);
-    line-height: 1;
+#wrapper .product-intro .btn-detail:hover {
+    transform: translateX(5px) !important;
+    color: #000 !important;
 }
 
-.product-intro .product-img .img-overlay-text .ko {
-    font-family: var(--font-family-main), sans-serif;
-    font-size: var(--fs-desc, 1.25rem);
-    font-weight: 400;
-    opacity: 0.8;
+#wrapper .product-intro .product-img {
+    flex: 1.5 !important;
+    aspect-ratio: 16/10 !important;
+    overflow: hidden !important;
+    border-radius: 12px !important;
+    box-shadow: 0 15px 45px rgba(0,0,0,0.12) !important;
 }
 
-.product-intro .product-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: 0.8s;
+#wrapper .product-intro .product-img img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
 }
 
-.product-intro .product-img:hover img { transform: scale(1.03); }
+#wrapper .product-intro .product-row:hover .product-img img {
+    transform: scale(1.05) !important;
+}
 
-/* Scroll Animation Classes (for Sections) */
-.product-intro .reveal {
+/* Animation */
+#wrapper .product-intro .reveal {
     opacity: 0;
-    transition: 1s all ease;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.product-intro .reveal.slide-left { transform: translateX(-100px); }
-.product-intro .reveal.slide-right { transform: translateX(100px); }
-.product-intro .reveal.slide-up { transform: translateY(50px); }
-
-.product-intro .reveal.active {
+#wrapper .product-intro .reveal.active {
     opacity: 1;
-    transform: translate(0,0);
+    transform: translateY(0);
 }
 
-@media (max-width: 992px) {
-    .product-intro .product-row { flex-direction: column !important; gap: 40px; }
-    .product-intro .product-text h3 { font-size: 2.2rem; }
-    .product-intro .product-img .img-overlay-text .en { font-size: 1.8rem; }
+/* MOBILE OPTIMIZATION */
+@media (max-width: 768px) {
+    #wrapper .product-intro { padding: 60px 0 !important; }
+    #wrapper .product-intro .product-row, 
+    #wrapper .product-intro .product-row.reverse {
+        flex-direction: column !important;
+        gap: 35px !important;
+        text-align: center !important;
+    }
+    #wrapper .product-intro .product-text h3 {
+        font-size: 1.8rem !important;
+    }
+    #wrapper .product-intro .product-tag { margin-bottom: 12px !important; }
+    #wrapper .product-intro .item-subtitle { font-size: 1rem !important; }
 }

@@ -49,7 +49,7 @@ $menu_skin_url = G5_PLUGIN_URL . '/top_menu_manager/skins/basic';
                 </ul>
             </nav>
             <div class="rightBtn">
-                <a href="/contact_us/online.php" class="btn-lang desktop-only">CONTACT</a>
+                <a href="<?php echo G5_DATA_URL ?>/about/catalog.pdf" class="btn-lang desktop-only" target="_blank">카다로그 다운로드</a>
                 <a href="tel:1551-9123" class="btn-phone mobile-only"><i class="fas fa-phone"></i></a>
             </div>
         </div>
@@ -89,3 +89,42 @@ $menu_skin_url = G5_PLUGIN_URL . '/top_menu_manager/skins/basic';
         ?>
     </ul>
 </div>
+
+<script>
+$(function() {
+    // Open Mobile Menu
+    $('.btnAllmenu').on('click', function(e) {
+        e.preventDefault();
+        $('.m-menu-wrap').addClass('active');
+        $('.m-menu-overlay').fadeIn(300);
+        $('body').addClass('m-menu-open');
+    });
+
+    // Close Mobile Menu
+    $('.btn-m-close, .m-menu-overlay').on('click', function() {
+        $('.m-menu-wrap').removeClass('active');
+        $('.m-menu-overlay').fadeOut(300);
+        $('body').removeClass('m-menu-open');
+    });
+
+    // Mobile Menu Accordion
+    $('.m-gnb > li > a').on('click', function() {
+        var $li = $(this).parent();
+        var $sub = $li.find('.m-dep2');
+        
+        if ($sub.length > 0) {
+            if ($li.hasClass('on')) {
+                $li.removeClass('on');
+                $sub.slideUp(200);
+            } else {
+                $('.m-gnb > li').removeClass('on').find('.m-dep2').slideUp(200);
+                $li.addClass('on');
+                $sub.slideDown(200);
+            }
+        } else {
+            // If no sub menu, navigate to link
+            window.location.href = $(this).attr('href');
+        }
+    });
+});
+</script>

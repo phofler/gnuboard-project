@@ -45,7 +45,7 @@ $menu_skin_url = G5_PLUGIN_URL . '/top_menu_manager/skins/centered';
                 </ul>
             </nav>
             <div class="rightBtn">
-                <a href="/contact_us/online.php" class="btn-lang desktop-only">CONTACT</a>
+                <a href="<?php echo G5_DATA_URL ?>/about/catalog.pdf" class="btn-lang desktop-only" target="_blank">카다로그 다운로드</a>
                 <a href="tel:1551-9123" class="btnAllmenu mobile-only"><i class="fas fa-bars"></i></a>
             </div>
         </div>

@@ -8,6 +8,7 @@ $uniqid = uniqid('works_');
 
 // Load shared skin header
 include_once(dirname(__FILE__) . '/../skin.head.php');
+global $txt_title, $txt_desc, $more_url, $list, $skin_cls;
 ?>
 
 <section class="sec-works-dark">

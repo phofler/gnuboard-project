@@ -1,0 +1,268 @@
+/* Minimal Skin - Light Theme (White Overlay) */
+/* [SOVEREIGNTY] Using Theme Variables */
+
+/* Minimal Header */
+.minimal-header {
+    width: 100%;
+    max-width: none;
+    /* [FLUID LAYOUT] Expanded for premium look */
+    margin: 0;
+    height: var(--header-height, 90px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 60px;
+    /* [EDITORIAL SPACING] Pushed to edges */
+    transition: background 0.4s ease, box-shadow 0.4s ease, height 0.4s ease;
+    z-index: 1001;
+    /* Above hero but slightly below overlay close */
+}
+
+/* [NEW] Sticky State */
+.minimal-header.is-scrolled {
+    background: var(--color-header-bg, #ffffff) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    height: calc(var(--header-height, 90px) * 0.85);
+    /* Slightly shrink for precision feel */
+}
+
+#logo img {
+    height: auto;
+    max-height: 65px;
+    width: auto;
+}
+
+.minimal-menu-btn {
+    background: none;
+    border: none;
+    color: var(--color-menu-text);
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+
+.minimal-menu-btn i {
+    font-size: 24px;
+    color: inherit;
+}
+
+.minimal-menu-btn:hover {
+    color: var(--color-menu-text-hover);
+}
+
+/* Fullscreen Overlay */
+.overlay-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--color-menu-bg);
+    /* High opacity dark background for legibility */
+    backdrop-filter: blur(15px);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 0;
+    /* Centered instead of pinned to top */
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.4s ease;
+}
+
+.overlay-menu.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Close Button */
+.overlay-close {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    background: none;
+    border: none;
+    color: var(--color-menu-text);
+    font-size: 32px;
+    cursor: pointer;
+    z-index: 10001;
+    /* Above list */
+    transition: 0.3s;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.overlay-close:hover {
+    color: var(--color-menu-text-hover);
+    transform: rotate(90deg);
+}
+
+@media (max-width: 1440px) {
+    .overlay-close {
+        right: 20px;
+    }
+}
+
+.menu-list {
+    list-style: none;
+    text-align: center;
+    max-height: 80vh;
+    overflow-y: auto;
+    width: 100%;
+    padding: 0 20px;
+}
+
+.menu-list>li {
+    margin: 15px 0;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: 0.6s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+.overlay-menu.active .menu-list>li {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Staggered Entry Animation */
+.overlay-menu.active .menu-list>li:nth-child(1) {
+    transition-delay: 0.1s;
+}
+
+.overlay-menu.active .menu-list>li:nth-child(2) {
+    transition-delay: 0.15s;
+}
+
+.overlay-menu.active .menu-list>li:nth-child(3) {
+    transition-delay: 0.2s;
+}
+
+.overlay-menu.active .menu-list>li:nth-child(4) {
+    transition-delay: 0.25s;
+}
+
+.overlay-menu.active .menu-list>li:nth-child(5) {
+    transition-delay: 0.3s;
+}
+
+.overlay-menu.active .menu-list>li:nth-child(6) {
+    transition-delay: 0.35s;
+}
+
+.overlay-menu.active .menu-list>li:nth-child(7) {
+    transition-delay: 0.4s;
+}
+
+/* Menu Text Color */
+.menu-list>li>a {
+    font-family: var(--font-body);
+    font-weight: 400;
+    /* Slightly bolder for clarity */
+    font-size: 36px;
+    letter-spacing: -0.5px;
+    color: var(--color-menu-text);
+    /* Force Theme Color */
+    text-decoration: none;
+    transition: 0.3s;
+    display: inline-block;
+    /* Inline-block for background pill */
+    /* max-width: 300px; REMOVED to prevent hiding long text */
+    white-space: nowrap;
+    /* overflow: hidden; REMOVED */
+    /* text-overflow: ellipsis; REMOVED */
+    padding: 10px 30px;
+    /* Comfortable click area */
+    border-radius: 50px;
+    /* Pill shape */
+    vertical-align: middle;
+}
+
+/* Hover & Active State */
+.menu-list>li>a:hover,
+.menu-list>li.active>a {
+    color: var(--color-menu-hover-text);
+    background: var(--color-menu-hover-bg);
+}
+
+/* Submenu Animation */
+.submenu {
+    list-style: none;
+    margin-top: 0;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease, margin 0.3s ease;
+}
+
+/* Active State for Click Interaction */
+.menu-list li.active .submenu,
+.menu-list li:hover .submenu {
+    max-height: 1000px;
+    /* Increased max-height for large menus */
+    opacity: 1;
+    margin-top: 25px;
+}
+
+.submenu li {
+    margin: 12px 0;
+}
+
+.submenu a {
+    font-size: 18px !important;
+    color: var(--color-menu-subtext);
+    display: block;
+    max-width: 250px;
+    /* Submenu truncation limit */
+    margin: 0 auto;
+    /* Center align */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: 0.3s ease;
+    text-decoration: none;
+}
+
+/* Show items when parent is hovered OR active */
+.menu-list li.active .submenu a,
+.menu-list li:hover .submenu a {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Staggered Delay */
+.menu-list li:hover .submenu li:nth-child(1) a {
+    transition-delay: 0.1s;
+}
+
+.menu-list li:hover .submenu li:nth-child(2) a {
+    transition-delay: 0.15s;
+}
+
+.menu-list li:hover .submenu li:nth-child(3) a {
+    transition-delay: 0.2s;
+}
+
+.menu-list li:hover .submenu li:nth-child(4) a {
+    transition-delay: 0.25s;
+}
+
+.menu-list li:hover .submenu li:nth-child(5) a {
+    transition-delay: 0.3s;
+}
+
+@media (max-width: 768px) {
+    .menu-list>li>a {
+        font-size: 28px;
+    }
+}

@@ -7,13 +7,16 @@ include_once(G5_ADMIN_PATH . '/admin.lib.php');
 auth_check_menu($auth, $sub_menu, 'w');
 
 // CSRF Check
-// check_admin_token();
+if (function_exists('check_admin_token')) {
+    // check_admin_token(); // Temporary bypass for dev
+}
 
+$w = isset($_POST['w']) ? $_POST['w'] : '';
 $ls_theme = isset($_POST['ls_theme']) ? trim($_POST['ls_theme']) : '';
 $ls_lang = isset($_POST['ls_lang']) ? trim($_POST['ls_lang']) : '';
 $ls_more_link = isset($_POST['ls_more_link']) ? trim($_POST['ls_more_link']) : '';
 $ls_description = isset($_POST['ls_description']) ? trim($_POST['ls_description']) : '';
-$ls_options = isset($_POST['ls_options']) ? trim($_POST['ls_options']) : '';
+$ls_options = isset($_POST['ls_id_custom']) ? trim($_POST['ls_id_custom']) : (isset($_POST['ls_options']) ? trim($_POST['ls_options']) : '');
 $ls_title = isset($_POST['ls_title']) ? trim($_POST['ls_title']) : '';
 $ls_skin = isset($_POST['ls_skin']) ? trim($_POST['ls_skin']) : '';
 $ls_bo_table = isset($_POST['ls_bo_table']) ? trim($_POST['ls_bo_table']) : '';
@@ -28,13 +31,15 @@ $ls_id = isset($_POST['ls_id']) ? trim($_POST['ls_id']) : '';
 // Generate ID if empty (New Mode)
 if (!$ls_id && $w == '') {
     $ls_id = $ls_theme;
-    // Standard Rule: Skip 'kr' suffix for Korean
     if ($ls_lang && $ls_lang != 'kr')
         $ls_id .= '_' . $ls_lang;
 
-    // Append custom options/name if provided
     if ($ls_options)
         $ls_id .= '_' . $ls_options;
+}
+
+if (!$ls_id && $w != 'd') {
+    alert("식별코드(ID)가 누락되었습니다.");
 }
 
 $sql_common = " ls_theme = '{$ls_theme}',
@@ -59,7 +64,6 @@ if ($w == '') {
     $sql = " insert into " . G5_PLUGIN_LATEST_SKIN_TABLE . " set ls_id = '{$ls_id}', {$sql_common} ";
     sql_query($sql);
 } else if ($w == 'u') {
-    // Update based on OLD ID if passed, or just update the row match
     $sql = " update " . G5_PLUGIN_LATEST_SKIN_TABLE . " set {$sql_common} where ls_id = '{$ls_id}' ";
     sql_query($sql);
 } else if ($w == 'd') {

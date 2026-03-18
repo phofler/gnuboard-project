@@ -1,46 +1,39 @@
-<?php
-if (!defined('_GNUBOARD_'))
-    exit;
-
-/**
- * Board Skin Manager - Shared Skin Header
- * Handles theme-aware styling and Section 14 Typography Protocol.
- */
-
-// Define standardized variables (similar to Main Content Manager)
-$mc_accent = 'var(--color-brand, var(--color-accent-gold, #d4af37))';
-$mc_font_heading = 'var(--font-heading)';
-$mc_text_primary = 'var(--color-text-primary, inherit)';
-$mc_text_secondary = 'var(--color-text-secondary, inherit)';
-$mc_bg_dark = 'var(--color-bg-dark, transparent)';
-
-?>
 <style>
-    /* [SECTION 14] Typography Standardization */
-    .section-title {
-        color:
-            <?php echo $mc_text_primary; ?>
-            !important;
-        font-family:
-            <?php echo $mc_font_heading; ?>
-            !important;
-        font-size: var(--mc-title-size, 3rem) !important;
-        font-weight: 800 !important;
-        text-transform: uppercase !important;
-        letter-spacing: 2px !important;
-        text-align: center;
-        margin-bottom: 20px;
-    }
+/* 
+ * [Premium Theme Protocol] Shared Typography Standards
+ * 모든 스킨은 테마의 style.css에 정의된 변수를 상속받아야 함.
+ */
+.section-title {
+    /* 테마 변수 상속 (style.css에서 정의됨) */
+    color: var(--color-text-primary, #333);
+    font-family: var(--font-heading, "Inter", sans-serif);
+    font-size: var(--mc-title-size, 2.5rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+    margin-bottom: 20px;
+    display: block;
+}
 
-    .section-subtitle {
-        color:
-            <?php echo $mc_text_secondary; ?>
-            !important;
-        font-size: 1.1rem !important;
-        max-width: 800px;
-        margin: 0 auto 60px;
-        line-height: 1.6;
-        text-align: center;
-        opacity: 0.8;
-    }
+.section-subtitle {
+    color: var(--color-text-secondary, #666);
+    font-size: 1.1rem;
+    font-weight: 300;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+/* 
+ * Isolation Wrapper: 테마 스타일 간섭 방지 및 스코프 제한
+ */
+.mc-skin-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+/* 공통 브랜드 강조색 유틸리티 */
+.text-brand { color: var(--color-brand, var(--color-accent, #d4af37)); }
+.bg-brand { background-color: var(--color-brand, var(--color-accent, #d4af37)); }
+.border-brand { border-color: var(--color-brand, var(--color-accent, #d4af37)); }
 </style>

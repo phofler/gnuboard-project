@@ -1,0 +1,110 @@
+<?php
+if (!defined('_GNUBOARD_')) exit;
+
+// 스킨 내에서 사용할 고유한 아이디
+$section_id = "product_intro_" . $ms_id;
+
+// 변수 초기화
+$ms_bg_color = isset($ms['ms_bg_color']) ? $ms['ms_bg_color'] : '';
+$ms_accent_color = isset($ms['ms_accent_color']) ? $ms['ms_accent_color'] : '';
+$ms_title = isset($ms['ms_title']) ? $ms['ms_title'] : '';
+$ms_subtitle = isset($ms['ms_subtitle']) ? $ms['ms_subtitle'] : '';
+$ms_show_title = isset($ms['ms_show_title']) ? $ms['ms_show_title'] : '0';
+?>
+<section id="<?php echo $section_id; ?>" class="product-intro <?php echo $ms_bg_color ? 'has-bg' : ''; ?>" style="<?php echo $ms_bg_color ? 'background-color:'.$ms_bg_color.';' : ''; ?>">
+    <div class="container">
+        
+        <?php if ($ms_show_title != '0') { ?>
+        <div class="section-header reveal slide-up">
+            <?php if ($ms_title) { ?>
+            <h2 class="section-title" style="<?php echo $ms_accent_color ? 'color:'.$ms_accent_color.';' : ''; ?>">
+                <?php echo stripslashes($ms_title); ?>
+            </h2>
+            <?php } ?>
+            <?php if ($ms_subtitle) { ?>
+            <p class="section-subtitle"><?php echo stripslashes($ms_subtitle); ?></p>
+            <?php } ?>
+        </div>
+        <?php } ?>
+
+        <div class="product-list">
+            <?php
+            if (isset($items) && is_array($items) && count($items) > 0) {
+                foreach ($items as $i => $item) {
+                    $is_reverse = ($i % 2 == 1) ? 'reverse' : '';
+                    $slide_text = ($is_reverse) ? 'slide-right' : 'slide-left';
+                    $slide_img = ($is_reverse) ? 'slide-left' : 'slide-right';
+                    
+                    // 이미지 경로 처리
+                    $img_src = '';
+                    if ($item['mc_image']) {
+                        if (preg_match("/^(http|https):/i", $item['mc_image'])) {
+                            $img_src = $item['mc_image'];
+                        } else {
+                            $theme_name = isset($config['cf_theme']) ? $config['cf_theme'] : '';
+                            $img_src = G5_DATA_URL . '/common_assets/' . $theme_name . '/' . $item['mc_image'];
+                            $physical_path = G5_DATA_PATH . '/common_assets/' . $theme_name . '/' . $item['mc_image'];
+                            if(!file_exists($physical_path)) {
+                                $img_src = G5_DATA_URL . '/common_assets/' . $item['mc_image'];
+                            }
+                        }
+                    } else {
+                        $img_src = "https://via.placeholder.com/800x600?text=No+Image";
+                    }
+
+                    $link_attr = '';
+                    if ($item['mc_link']) {
+                        $link_attr = 'href="'.$item['mc_link'].'"';
+                        if ($item['mc_target'] == '_blank') {
+                            $link_attr .= ' target="_blank"';
+                        }
+                    } else {
+                        $link_attr = 'href="javascript:void(0);"';
+                    }
+                    
+                    $desc_html = nl2br(stripslashes($item['mc_desc']));
+            ?>
+            <div class="product-row <?php echo $is_reverse; ?>">
+                <div class="product-text reveal <?php echo $slide_text; ?>">
+                    <h3><?php echo stripslashes($item['mc_title']); ?></h3>
+                    <div class="desc"><?php echo $desc_html; ?></div>
+                    
+                    <?php if ($item['mc_link']) { ?>
+                    <a <?php echo $link_attr; ?> style="display:inline-block; margin-top:20px; color:var(--edge-color, #c92127); font-weight:700;">
+                        <?php echo (isset($item['mc_link_text']) && $item['mc_link_text']) ? stripslashes($item['mc_link_text']) : '자세히 보기'; ?> <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <?php } ?>
+                </div>
+                
+                <div class="product-img reveal <?php echo $slide_img; ?>">
+                    <img src="<?php echo $img_src; ?>" alt="<?php echo strip_tags($item['mc_title']); ?>">
+                </div>
+            </div>
+            <?php
+                }
+            } else {
+            ?>
+                <div style="text-align:center; padding: 50px 0; color: #999;">등록된 아이템이 없습니다.</div>
+            <?php } ?>
+        </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const observerOptions = { threshold: 0.1 };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    const targetSection = document.getElementById('<?php echo $section_id; ?>');
+    if (targetSection) {
+        targetSection.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    }
+});
+</script>

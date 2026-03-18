@@ -1,0 +1,136 @@
+<style>
+    /* Style B: Modern Split Premium */
+    .footer-skin-b {
+        padding: 100px 0;
+        background-color: var(--cp-bg, #1a1a1a);
+        color: #eee;
+        /* border: 2px dashed #3498db; Removed per user request */
+        margin: 20px 0;
+    }
+
+    .footer-skin-b .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 60px;
+    }
+
+    .footer-skin-b .footer-left {
+        flex: 1;
+    }
+
+    .footer-skin-b .footer-right {
+        flex: 1.5;
+    }
+
+    .footer-skin-b .footer-logo {
+        margin-bottom: 30px;
+    }
+
+    .footer-skin-b .footer-logo img {
+        height: 45px;
+        object-fit: contain;
+    }
+
+    .footer-skin-b .footer-links {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .footer-skin-b .footer-links a {
+        color: #999;
+        font-size: 0.9rem;
+        text-decoration: none;
+    }
+
+    .footer-skin-b .footer-copyright {
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.3);
+    }
+
+    .footer-skin-b .footer-contact-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .footer-skin-b .info-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .footer-skin-b .info-item.label-top {
+        flex-direction: row;
+        /* Changed from column to row */
+        align-items: center;
+        /* Changed from flex-start */
+        gap: 15px;
+        /* Matched gap with other info-items */
+    }
+
+    .footer-skin-b .value {
+        color: #eee;
+        font-size: 1rem;
+    }
+
+    .footer-skin-b .value a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .footer-skin-b .value a:hover {
+        text-decoration: underline;
+    }
+
+    .footer-skin-b .contact-flex {
+        display: flex;
+        gap: 20px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+</style>
+
+<div class="footer-skin-b">
+    <div class="footer-container">
+        <div class="footer-left">
+            <div class="footer-logo">
+                {logo}
+            </div>
+            <div class="footer-links">
+                {link1}
+                {link2}
+            </div>
+            <div class="footer-copyright">
+                {copyright}
+            </div>
+        </div>
+
+        <div class="footer-right">
+            <div class="footer-contact-grid">
+                <div class="info-item label-top">
+                    <span class="label">{addr_name}</span>
+                    <span class="value">{addr}</span>
+                </div>
+                <div class="contact-flex">
+                    <div class="info-item">
+                        <span class="label">{tel_name}</span>
+                        <span class="value"><a href="tel:{tel}">{tel}</a></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">{fax_name}</span>
+                        <span class="value">{fax}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">{email_name}</span>
+                        <span class="value"><a href="mailto:{email}">{email}</a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

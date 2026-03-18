@@ -23,21 +23,22 @@ if (function_exists('g5_apply_font')) {
 <html lang="ko">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <?php
 if (G5_IS_MOBILE) {
-    echo '<meta name="viewport" id="meta_viewport" content="width=device-width,initial-scale=1.0,minimum-scale=0,maximum-scale=10">'.PHP_EOL;
     echo '<meta name="HandheldFriendly" content="true">'.PHP_EOL;
     echo '<meta name="format-detection" content="telephone=no">'.PHP_EOL;
 } else {
     echo '<meta http-equiv="imagetoolbar" content="no">'.PHP_EOL;
-    echo '<meta http-equiv="X-UA-Compatible" content="IE=edge">'.PHP_EOL;
 }
 if($config['cf_add_meta']) echo $config['cf_add_meta'].PHP_EOL;
 ?>
 <title><?php echo $g5_head_title; ?></title>
-<link rel="stylesheet" href="<?php echo G5_CSS_URL ?>/<?php echo G5_IS_MOBILE ? 'mobile' : 'default'; ?>.css?ver=<?php echo G5_CSS_VER ?>">
-<link rel="stylesheet" href="<?php echo G5_THEME_URL ?>/style.css?ver=<?php echo G5_CSS_VER ?>">
+<link rel="stylesheet" href="<?php echo G5_THEME_CSS_URL ?>/<?php echo G5_IS_MOBILE ? 'mobile' : 'default'; ?>.css?ver=<?php echo G5_CSS_VER ?>">
+<link rel="stylesheet" href="<?php echo G5_THEME_CSS_URL ?>/style.css?ver=<?php echo time() ?>">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
 <?php 
 // Standard font loading (Keep as fallback or specific usage)
 echo '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;800;900&family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">'.PHP_EOL;
@@ -65,6 +66,7 @@ var g5_cookie_domain = "<?php echo G5_COOKIE_DOMAIN ?>";
 <script src="<?php echo G5_JS_URL ?>/jquery-migrate-1.4.1.min.js"></script>
 <script src="<?php echo G5_JS_URL ?>/common.js?ver=<?php echo G5_JS_VER ?>"></script>
 <script src="<?php echo G5_JS_URL ?>/wrest.js?ver=<?php echo G5_JS_VER ?>"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <?php
 if(!defined('G5_IS_ADMIN')) echo $config['cf_add_script'];
 ?>

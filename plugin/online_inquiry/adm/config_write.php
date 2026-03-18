@@ -228,8 +228,8 @@ if ($w == 'u' && $row['oi_id']) {
 }
 
 // [DYNAMIC THEME BG] Always prioritize ACTIVE SITE THEME for the "Absolute Default" reference
-$theme_bg_default = get_theme_css_value($config['cf_theme'], array('--color-bg', '--color-bg-dark'), '#121212');
-$theme_text_default = get_theme_css_value($config['cf_theme'], array('--color-text-primary'), '#e0e0e0');
+$theme_bg_default = get_theme_css_value($config['cf_theme'], array('--bg-white', '--bg-light', '--color-bg'), '#ffffff');
+$theme_text_default = get_theme_css_value($config['cf_theme'], array('--text-main', '--color-text-primary'), '#121212');
 
 // Preview logic: if stored bgcolor exists, use it; otherwise use the site's default
 $preview_bg = (isset($row['oi_bgcolor']) && $row['oi_bgcolor']) ? $row['oi_bgcolor'] : $theme_bg_default;
@@ -259,8 +259,8 @@ $preview_bg = (isset($row['oi_bgcolor']) && $row['oi_bgcolor']) ? $row['oi_bgcol
                                 <option value="">테마 선택</option>
                                 <?php foreach ($themes as $theme) {
                                     $selected = ($theme == $sel_theme) ? 'selected' : '';
-                                    $t_bg = get_theme_css_value($theme, array('--color-bg', '--color-bg-dark'), '#121212');
-                                    $t_text = get_theme_css_value($theme, array('--color-text-primary'), '#e0e0e0');
+                                    $t_bg = get_theme_css_value($theme, array('--bg-white', '--bg-light', '--color-bg'), '#ffffff');
+                                    $t_text = get_theme_css_value($theme, array('--text-main', '--color-text-primary'), '#121212');
                                     echo '<option value="' . $theme . '" ' . $selected . ' data-bg="' . $t_bg . '" data-text="' . $t_text . '">' . $theme . '</option>';
                                 } ?>
                             </select>

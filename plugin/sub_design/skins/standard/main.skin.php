@@ -6,18 +6,45 @@ if (!defined('_GNUBOARD_'))
 $sd_img_url = get_sub_design_image_url($item);
 $main_text = $item['sd_main_text'] ? $item['sd_main_text'] : $g5['title'];
 $sub_text = $item['sd_sub_text'];
+$tag_text = isset($item['sd_tag']) ? $item['sd_tag'] : '';
+
+// Effect settings
+$effect = json_decode($item['sd_effect'], true);
+if (!$effect) {
+    $effect = array(
+        'tag' => array('type' => 'fade-down', 'delay' => '200', 'duration' => '1000'),
+        'main' => array('type' => 'fade-up', 'delay' => '400', 'duration' => '1000'),
+        'sub' => array('type' => 'fade-up', 'delay' => '600', 'duration' => '1000')
+    );
+}
 ?>
 <section class="sub-hero sub-hero-standard">
     <div class="sub-hero-bg" style="background-image: url('<?php echo $sd_img_url; ?>');"></div>
-    <div class="sub-hero-content" data-aos="fade-up" data-aos-duration="1000">
+    <div class="sub-hero-content">
+        <?php if ($tag_text) { ?>
+            <p class="sub-hero-tag" 
+               data-aos="<?php echo $effect['tag']['type']; ?>" 
+               data-aos-delay="<?php echo $effect['tag']['delay']; ?>"
+               data-aos-duration="<?php echo $effect['tag']['duration']; ?>">
+                <?php echo $tag_text; ?>
+            </p>
+        <?php } ?>
+
+        <h1 class="sub-hero-title"
+            data-aos="<?php echo $effect['main']['type']; ?>" 
+            data-aos-delay="<?php echo $effect['main']['delay']; ?>"
+            data-aos-duration="<?php echo $effect['main']['duration']; ?>">
+            <?php echo $main_text; ?>
+        </h1>
+
         <?php if ($sub_text) { ?>
-            <p class="sub-hero-subtitle">
+            <p class="sub-hero-subtitle"
+               data-aos="<?php echo $effect['sub']['type']; ?>" 
+               data-aos-delay="<?php echo $effect['sub']['delay']; ?>"
+               data-aos-duration="<?php echo $effect['sub']['duration']; ?>">
                 <?php echo $sub_text; ?>
             </p>
         <?php } ?>
-        <h1 class="sub-hero-title">
-            <?php echo $main_text; ?>
-        </h1>
     </div>
 </section>
 
@@ -55,30 +82,23 @@ $sub_text = $item['sd_sub_text'];
         position: relative;
         z-index: 2;
         padding: 20px;
+        max-width: 1360px; /* var(--spacing-container) 대용 */
+    }
+
+    .sub-hero-standard .sub-hero-tag {
+        margin-bottom: 15px;
     }
 
     .sub-hero-standard .sub-hero-title {
-        font-size: 4rem;
-        font-weight: 800;
-        margin: 10px 0 0;
-        letter-spacing: -0.02em;
+        margin: 10px 0;
         text-transform: uppercase;
-        color: #ffffff;
-        /* Page Title: Always White */
     }
 
     .sub-hero-standard .sub-hero-subtitle {
-        font-size: 1rem;
-        font-weight: 500;
-        color: var(--color-primary, #c8a27c);
-        text-transform: uppercase;
-        letter-spacing: 0.2em;
-        margin-bottom: 5px;
+        margin-top: 25px;
     }
 
     @media (max-width: 768px) {
-        .sub-hero-standard .sub-hero-title {
-            font-size: 2.5rem;
-        }
+        .sub-hero-standard { height: 40vh; min-height: 300px; }
     }
 </style>

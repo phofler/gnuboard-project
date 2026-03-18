@@ -8,13 +8,14 @@ $uniqid = uniqid('works_');
 
 // Load shared skin header
 include_once(dirname(__FILE__) . '/../skin.head.php');
+global $txt_title, $txt_desc, $more_url, $list, $skin_cls;
 ?>
 
 <section class="sec-works-dark" id="<?php echo $uniqid; ?>">
     <style>
         .sec-works-dark {
             padding: 100px 0;
-            background-color: var(--color-bg-dark, #121212);
+            background-color: var(--color-bg-dark);
             color: #fff;
             overflow: hidden;
             position: relative;
@@ -104,7 +105,7 @@ include_once(dirname(__FILE__) . '/../skin.head.php');
         }
 
         .work-info p {
-            color: var(--color-text-secondary, #ccc);
+            color: var(--color-text-secondary);
             font-size: 0.95rem;
             margin-bottom: 20px;
             display: -webkit-box;
@@ -171,7 +172,7 @@ include_once(dirname(__FILE__) . '/../skin.head.php');
 
     <div class="container works-header">
         <h2 class="section-title" data-aos="fade-up">
-            <?php echo $bo_subject; ?>
+            <?php echo $txt_title; ?>
         </h2>
         <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
             Selected projects that define our philosophy.

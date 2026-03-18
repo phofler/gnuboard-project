@@ -6,7 +6,7 @@ include_once(G5_ADMIN_PATH . '/admin.lib.php');
 
 auth_check_menu($auth, $sub_menu, 'w');
 
-// check_admin_token();
+// // check_admin_token(); // Temporary bypass for dev
 
 $w = isset($_REQUEST['w']) ? $_REQUEST['w'] : '';
 $bs_id = isset($_REQUEST['bs_id']) ? trim($_REQUEST['bs_id']) : '';

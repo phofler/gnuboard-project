@@ -4,14 +4,13 @@ include_once('./_common.php');
 $target_w = isset($_GET['w']) ? (int) $_GET['w'] : 0;
 $target_h = isset($_GET['h']) ? (int) $_GET['h'] : 0;
 $mi_id = isset($_GET['mi_id']) ? preg_replace('/[^a-zA-Z0-9_\-]/', '', $_GET['mi_id']) : '';
-$mode = isset($_GET['mode']) ? preg_replace('/[^a-z]/', '', $_GET['mode']) : 'pc'; // pc or mobile
 ?>
 <!doctype html>
 <html lang="ko">
 
 <head>
     <meta charset="utf-8">
-    <title>硫붿씤 鍮꾩＜???대?吏 留ㅻ땲?</title>
+    <title>메인 비주얼 이미지 매니저</title>
     <link rel="stylesheet" href="<?php echo G5_ADMIN_URL ?>/css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
@@ -232,24 +231,35 @@ $mode = isset($_GET['mode']) ? preg_replace('/[^a-z]/', '', $_GET['mode']) : 'pc
             color: #d4af37;
             flex-direction: column;
         }
+
+        /* Aspect Ratio Button Styles */
+        .btn-ratio-toggle {
+            background: #444; color: #fff; border: 1px solid #555; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; transition: all 0.2s;
+        }
+        .btn-ratio-toggle.unlocked {
+            background: #d4af37; border-color: #b8962d;
+        }
+        .btn-ratio-toggle:hover {
+            opacity: 0.8;
+        }
     </style>
     <script src="<?php echo G5_JS_URL ?>/jquery-1.12.4.min.js"></script>
 </head>
 
 <body>
     <div class="tab-header">
-        <div class="tab-btn active" onclick="switchTab('upload')">??而댄벂???낅줈??/div>
-        <div class="tab-btn" onclick="switchTab('library')">?쇱씠釉뚮윭由?/div>
-        <div class="tab-btn" onclick="switchTab('unsplash')">?ㅽ넚 ?대?吏 (Unsplash)</div>
+        <div class="tab-btn active" onclick="switchTab('upload')">내 컴퓨터 업로드</div>
+        <div class="tab-btn" onclick="switchTab('library')">라이브러리</div>
+        <div class="tab-btn" onclick="switchTab('unsplash')">스톡 이미지 (Unsplash)</div>
     </div>
     <div class="content-wrapper">
         <div id="tab_upload" class="tab-content active">
             <div class="upload-zone" id="drop_zone">
-                <div class="upload-msg">?대?吏瑜??닿납???쒕옒洹명븯嫄곕굹 ?대┃?섏뿬 ?낅줈?쒗븯?몄슂.</div>
-                <span class="upload-btn">?뚯씪 ?좏깮</span>
+                <div class="upload-msg">이미지를 이곳에 드래그하거나 클릭하여 업로드하세요.</div>
+                <span class="upload-btn">파일 선택</span>
                 <input type="file" id="file_input" accept="image/*" style="display:none;">
             </div>
-            <div style="margin-top:15px; text-align:center; color:#999; font-size:12px;">沅뚯옣 ?뺤옣?? JPG, PNG, WEBP (理쒕?
+            <div style="margin-top:15px; text-align:center; color:#999; font-size:12px;">권장 확장자: JPG, PNG, WEBP (최대
                 10MB)</div>
         </div>
         <div id="tab_library" class="tab-content">
@@ -258,30 +268,35 @@ $mode = isset($_GET['mode']) ? preg_replace('/[^a-z]/', '', $_GET['mode']) : 'pc
         <div id="tab_unsplash" class="tab-content" style="padding:0;"><iframe src="" id="unsplash_iframe"
                 style="width:100%; height:100%; border:none;"></iframe></div>
         <div id="crop_interface">
-            <div class="crop-header">?대?吏 ?몄쭛 (?먮Ⅴ湲? <button type="button" class="btn btn_02" onclick="cancelCrop()"
-                    style="padding: 4px 8px; font-size: 11px;">痍⑥냼</button></div>
+            <div class="crop-header">이미지 편집 (자르기) <button type="button" class="btn btn_02" onclick="cancelCrop()"
+                    style="padding: 4px 8px; font-size: 11px;">취소</button></div>
             <div class="crop-body"><img id="crop_image" src=""></div>
             <div class="crop-footer">
-                <span style="color:#888; font-size:11px;">* 鍮꾩쑉: <?php echo $target_w ?>x<?php echo $target_h ?>
-                    怨좎젙</span>
-                <button type="button" class="btn btn_submit" onclick="applyCrop()">?좏깮 ?곸뿭 ?곸슜</button>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span id="ratio_status" style="color:#888; font-size:11px;">* 비율: <?php echo $target_w ?>x<?php echo $target_h ?> 고정</span>
+                    <button type="button" id="btn_toggle_ratio" class="btn-ratio-toggle" onclick="toggleAspectRatio()">
+                        <i class="fa fa-unlock"></i> 비율 고정 해제 (자유롭게 자르기)
+                    </button>
+                </div>
+                <button type="button" class="btn btn_submit" onclick="applyCrop()">선택 영역 적용</button>
             </div>
         </div>
-        <div id="loading_mask">泥섎━ 以?..</div>
+        <div id="loading_mask">처리 중...</div>
     </div>
     <div class="mgr-footer">
         <div class="target-info">
-            <div id="storage_info" style="font-size: 10px; color: #999; margin-bottom: 2px;">?쇱씠釉뚮윭由??ъ슜?? 怨꾩궛 以?..</div>
-            洹쒓꺽: <b><?php echo $target_w ?> x <?php echo $target_h ?></b>
+            <div id="storage_info" style="font-size: 10px; color: #999; margin-bottom: 2px;">라이브러리 사용량: 계산 중...</div>
+            규격: <b><?php echo $target_w ?> x <?php echo $target_h ?></b>
         </div>
     </div>
     <script>
         var targetW = <?php echo $target_w ?>;
         var targetH = <?php echo $target_h ?>;
         var mi_id = '<?php echo $mi_id ?>';
-        var mode = '<?php echo $mode ?>';
         var cropper = null;
         var unsplashLoaded = false;
+        var isFixedRatio = true;
+
         $(document).ready(function () { loadLib(); });
         function switchTab(tab) {
             $('.tab-btn').removeClass('active');
@@ -303,11 +318,11 @@ $mode = isset($_GET['mode']) ? preg_replace('/[^a-z]/', '', $_GET['mode']) : 'pc
         function handleFile(file) { var reader = new FileReader(); reader.onload = function (e) { initCrop(e.target.result); }; reader.readAsDataURL(file); }
         function loadLib() {
             $.getJSON('./ajax.list_images.php', function (data) {
-                if (data.total_size) $('#storage_info').text('?쇱씠釉뚮윭由??ъ슜?? ' + data.total_size);
+                if (data.total_size) $('#storage_info').text('라이브러리 사용량: ' + data.total_size);
                 var h = '';
                 if (data.images && data.images.length > 0) {
                     $.each(data.images, function (i, img) { h += '<div class="lib-item" onclick="initCrop(\'' + img.url + '\')"><img src="' + img.url + '" class="lib-thumb"><div class="lib-info">' + img.name + '</div></div>'; });
-                } else { h = '<div style="grid-column:1/-1; text-align:center; padding:50px; color:#999;">?대?吏媛 ?놁뒿?덈떎.</div>'; }
+                } else { h = '<div style="grid-column:1/-1; text-align:center; padding:50px; color:#999;">이미지가 없습니다.</div>'; }
                 $('#lib_list').html(h);
             });
         }
@@ -316,39 +331,68 @@ $mode = isset($_GET['mode']) ? preg_replace('/[^a-z]/', '', $_GET['mode']) : 'pc
             var img = document.getElementById('crop_image');
             img.src = url;
             if (cropper) cropper.destroy();
-            cropper = new Cropper(img, { aspectRatio: targetW / targetH, viewMode: 2, autoCropArea: 0.9 });
+            
+            // Reset ratio state to default (fixed) when opening new crop
+            isFixedRatio = true;
+            updateRatioUI();
+
+            cropper = new Cropper(img, { 
+                aspectRatio: targetW / targetH, 
+                viewMode: 2, 
+                autoCropArea: 0.9 
+            });
+        }
+        function toggleAspectRatio() {
+            if (!cropper) return;
+            isFixedRatio = !isFixedRatio;
+            cropper.setAspectRatio(isFixedRatio ? (targetW / targetH) : NaN);
+            updateRatioUI();
+        }
+        function updateRatioUI() {
+            var $btn = $('#btn_toggle_ratio');
+            var $status = $('#ratio_status');
+            if (isFixedRatio) {
+                $btn.removeClass('unlocked').html('<i class="fa fa-unlock"></i> 비율 고정 해제 (자유롭게 자르기)');
+                $status.text('* 비율: ' + targetW + 'x' + targetH + ' 고정');
+            } else {
+                $btn.addClass('unlocked').html('<i class="fa fa-lock"></i> 비율 고정하기 (원래 규격)');
+                $status.text('* 비율: 자유 (규격 무시)');
+            }
         }
         function cancelCrop() { if (cropper) { cropper.destroy(); cropper = null; } $('#crop_interface').hide(); }
         function applyCrop() {
             if (!cropper) return;
             $('#loading_mask').css('display', 'flex');
-            cropper.getCroppedCanvas({ width: targetW }).toBlob(function (blob) {
+            
+            // If the ratio is unlocked, we use the cropped canvas width proportional to the selection,
+            // but for system consistency, we aim for targetW if possible or just use selection width.
+            var options = isFixedRatio ? { width: targetW } : {};
+            
+            cropper.getCroppedCanvas(options).toBlob(function (blob) {
                 var f = new FormData();
                 f.append('file', blob, 'crop.jpg');
                 $.ajax({
                     url: './ajax.upload.php', type: 'POST', data: f, contentType: false, processData: false, dataType: 'json',
-                    success: function (r) { $('#loading_mask').hide(); if (r.url) selectImage(r.url); else alert(r.error || '????ㅽ뙣'); },
-                    error: function () { $('#loading_mask').hide(); alert('?쒕쾭 ?ㅻ쪟'); }
+                    success: function (r) { $('#loading_mask').hide(); if (r.url) selectImage(r.url); else alert(r.error || '저장 실패'); },
+                    error: function () { $('#loading_mask').hide(); alert('서버 오류'); }
                 });
             }, 'image/jpeg', 0.9);
         }
         function selectImage(url) {
             var p = window.opener || window.parent;
             if (p && p.receiveImageUrl) {
-                p.receiveImageUrl(url, mi_id, mode);
+                p.receiveImageUrl(url, mi_id);
                 if (window.opener) window.close();
                 else if (p.closeUnsplashModal) p.closeUnsplashModal();
             }
         }
         window.receiveUnsplashUrl = function (url) {
-            // [Feature] Auto-save Unsplash to Library
-            $('#loading_mask').css('display', 'flex').text('?쇱씠釉뚮윭由ъ뿉 ???以?..');
+            $('#loading_mask').css('display', 'flex').text('라이브러리에 저장 중...');
             $.post('./ajax.download_url.php', { url: url }, function (r) {
-                $('#loading_mask').hide().text('泥섎━ 以?..');
+                $('#loading_mask').hide().text('처리 중...');
                 if (r.success) {
                     selectImage(r.url);
                 } else {
-                    // Fallback to direct URL if download fails
                     selectImage(url);
                 }
             }, 'json');

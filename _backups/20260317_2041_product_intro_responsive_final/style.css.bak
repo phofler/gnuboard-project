@@ -1,0 +1,169 @@
+@charset "utf-8";
+
+/* Product Intro Skin - Final Centering Refactor */
+
+.product-intro {
+    padding: var(--spacing-section, 60px) 0;
+    overflow: hidden;
+    width: 100%;
+}
+
+.product-intro .container {
+    width: 100%;
+    max-width: var(--max-width, 1200px);
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+/* Section Header - Fixed Match with PHP (hyphen) */
+.product-intro .section-header {
+    text-align: center;
+    margin-bottom: 50px;
+    width: 100%;
+}
+
+.product-intro .section-header h2 {
+    font-size: var(--fs-h-section, clamp(1.8rem, 5vw, 3.5rem));
+    color: var(--color-title-main, #333);
+    font-weight: 800;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.product-intro .section-header .section-subtitle {
+    font-size: 1.1rem;
+    color: var(--color-text-secondary, #666);
+}
+
+/* Product Row - Standardized to hyphenated classes */
+.product-row {
+    display: flex;
+    align-items: center;
+    gap: 80px;
+    margin-bottom: 120px;
+    transition: 0.4s;
+    width: 100%;
+}
+
+.product-row:last-child {
+    margin-bottom: 0;
+}
+
+.product-row.reverse {
+    flex-direction: row-reverse;
+}
+
+.product-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.product-text h3 {
+    font-size: var(--fs-h-product-title, clamp(1.8rem, 4.5vw, 2.5rem));
+    font-weight: 850;
+    margin-bottom: 25px;
+    color: var(--color-brand, #1a2c5e);
+    word-break: keep-all;
+    position: relative;
+    line-height: 1.2;
+}
+
+.product-text h3::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background: var(--edge-color, #c92127);
+}
+
+.product-text .desc {
+    font-size: var(--fs-desc, 1.15rem);
+    line-height: 1.8;
+    color: var(--color-text-primary, #444);
+    word-break: keep-all;
+    overflow-wrap: break-word;
+}
+
+.product-img {
+    flex: 1.5;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+    aspect-ratio: 16/9;
+    background: #f8f9fa;
+}
+
+.product-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform 1s ease;
+}
+
+.product-row:hover .product-img img {
+    transform: scale(1.05);
+}
+
+/* MOBILE NUCLEAR FIX (360px Focus) */
+@media (max-width: 768px) {
+    .product-intro .container {
+        padding: 0 15px !important;
+    }
+
+    .product-row, .product-row.reverse {
+        flex-direction: column !important;
+        gap: 30px !important;
+        margin-bottom: 70px !important;
+        text-align: center !important;
+        width: 100% !important;
+        left: 0 !important;
+        transform: none !important;
+    }
+    
+    .product-text {
+        width: 100% !important;
+        text-align: center !important;
+        padding: 0 !important;
+    }
+    
+    .product-text h3 {
+        font-size: 2rem !important;
+        margin-bottom: 30px !important;
+    }
+    
+    .product-text h3::after {
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+    }
+    
+    .product-text .desc {
+        font-size: 1.05rem !important;
+        line-height: 1.6 !important;
+        padding: 0 5px !important;
+    }
+    
+    .product-img {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 auto !important;
+        border-radius: 8px !important;
+        aspect-ratio: 4/3 !important;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+    }
+
+    /* Animation Shift Override */
+    .reveal.slide-left, .reveal.slide-right {
+        transform: none !important;
+        opacity: 0;
+        transition: opacity 1s ease !important;
+    }
+    .reveal.active {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}

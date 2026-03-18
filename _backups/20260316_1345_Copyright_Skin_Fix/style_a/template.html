@@ -1,0 +1,127 @@
+<style>
+    /* Style A: Classic Centered Premium */
+    .footer-skin-a {
+        padding: 80px 0;
+        text-align: center;
+        background-color: var(--cp-bg, #ffffff);
+        /* Explicitly white in editor */
+        color: #333;
+        border: 0px solid #eee;
+        /* Modified per request */
+        margin: 20px 0;
+    }
+
+    .footer-skin-a .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .footer-skin-a .footer-logo {
+        margin-bottom: 40px;
+    }
+
+    .footer-skin-a .footer-logo img {
+        height: 50px;
+        object-fit: contain;
+        filter: brightness(0.9);
+    }
+
+    .footer-skin-a .footer-contact {
+        margin-bottom: 40px;
+    }
+
+    .footer-skin-a .info-item {
+        margin-bottom: 8px;
+        font-size: 0.85rem;
+        color: #666;
+    }
+
+    .footer-skin-a .label {
+        font-family: var(--font-body);
+        font-weight: 400;
+        color: #666;
+        /* Fallback for var */
+        opacity: 0.5;
+        /* User request: 'opacity: 5' interpreted as 0.5 */
+        margin-right: 8px;
+        font-size: 0.8rem;
+    }
+
+    .footer-skin-a .value a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .footer-skin-a .value a:hover {
+        text-decoration: underline;
+    }
+
+    .footer-skin-a .contact-row {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap;
+        margin-top: 15px;
+    }
+
+    .footer-skin-a .footer-copyright {
+        font-size: 0.9rem;
+        color: #888;
+        margin-bottom: 40px;
+    }
+
+    .footer-skin-a .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        flex-wrap: wrap;
+        padding-top: 30px;
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+        /* Lighter separator */
+    }
+
+    .footer-skin-a .footer-links a {
+        color: #666;
+        font-size: 0.9rem;
+        text-decoration: none;
+    }
+</style>
+
+<div class="footer-skin-a">
+    <div class="footer-container">
+        <div class="footer-logo">
+            {logo}
+        </div>
+
+        <div class="footer-contact">
+            <div class="info-item">
+                <span class="label">{addr_name}</span>
+                <span class="value">{addr}</span>
+            </div>
+            <div class="contact-row">
+                <div class="info-item">
+                    <span class="label">{tel_name}</span>
+                    <span class="value"><a href="tel:{tel}">{tel}</a></span>
+                </div>
+                <div class="info-item">
+                    <span class="label">{fax_name}</span>
+                    <span class="value">{fax}</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">{email_name}</span>
+                    <span class="value"><a href="mailto:{email}">{email}</a></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-copyright">
+            {copyright}
+        </div>
+
+        <div class="footer-links">
+            {link1}
+            {link2}
+        </div>
+    </div>
+</div>

@@ -6,26 +6,38 @@ if (!defined('_GNUBOARD_')) exit;
     </div> <!-- #container_wr -->
 </div> <!-- #wrapper -->
 
+<?php
+// [Premium] Dynamic Footer Integration
+if (function_exists('copyright_widget')) {
+    copyright_widget(); 
+} else {
+    // Plugin Disabled Fallback
+?>
 <footer>
     <div class="container">
-        <div class="footer-grid">
+        <div class="footer-grid" style="text-align:center; padding:40px 0;">
             <div class="footer-brand">
                 <div class="footer-logo" style="margin-bottom: 20px;">
-                    <img src="<?php echo G5_THEME_URL ?>/m_logo.png" alt="성우첨단패널 로고" style="height: 40px; filter: brightness(0) invert(1);">
+                    <img src="<?php echo G5_THEME_IMG_URL ?>/m_logo.png" alt="logo" style="height: 40px; filter: brightness(0) invert(1);">
                 </div>
-                <p>COPYRIGHT © 2026 SUNGWOO ADVANCED PANEL.<br>ALL RIGHTS RESERVED.</p>
-            </div>
-            <div class="footer-info">
-                <p>주소 : 경기도 하남시 검단산로 239, 6층(하남시 벤처집적시설)</p>
-                <p>대표전화 : 1551-9123 | 이메일 : dearceo@naver.com</p>
-                <p>사업자등록번호 : 560-87-02627</p>
+                <p>COPYRIGHT © 2026 SUNGWOO ADVANCED PANEL. ALL RIGHTS RESERVED.</p>
             </div>
         </div>
     </div>
 </footer>
+<?php } ?>
 
 <script>
     $(function () {
+        // Initialize AOS
+        if (typeof AOS !== "undefined") {
+            AOS.init({
+                once: true,
+                duration: 1000,
+                easing: 'ease-out-quad'
+            });
+        }
+
         // Header Scroll Effect
         $(window).on('scroll', function () {
             if ($(window).scrollTop() > 80) {
@@ -44,38 +56,20 @@ if (!defined('_GNUBOARD_')) exit;
             $('.gnb > li').removeClass('on');
         });
 
-        // Mobile Menu Logic
-        $('.btnAllmenu').on('click', function (e) {
-            e.preventDefault();
-            $('.m-menu-wrap, .m-menu-overlay').fadeIn(0).addClass('active');
-            $('.m-menu-overlay').fadeIn(300);
-            $('body').addClass('m-menu-open');
-        });
-
-        $('.btn-m-close, .m-menu-overlay').on('click', function () {
-            $('.m-menu-wrap').removeClass('active');
-            $('.m-menu-overlay').fadeOut(300);
-            $('body').removeClass('m-menu-open');
-            setTimeout(function () {
-                $('.m-gnb li').removeClass('on');
-                $('.m-dep2, .m-dep3').hide();
-            }, 400);
-        });
-
-        $('.m-gnb > li > a').on('click', function (e) {
-            const subMenu = $(this).next('.m-dep2');
-            if (subMenu.length > 0) {
-                e.preventDefault();
-                const parentLi = $(this).parent();
-                if (parentLi.hasClass('on')) {
-                    parentLi.removeClass('on');
-                    subMenu.slideUp(300);
-                } else {
-                    parentLi.addClass('on');
-                    subMenu.slideDown(300);
+        // Reveal Animation Handler
+        function handleReveal() {
+            var reveals = $(".reveal");
+            var windowHeight = $(window).height();
+            reveals.each(function() {
+                var elementTop = $(this).get(0).getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    $(this).addClass("active");
                 }
-            }
-        });
+            });
+        }
+        $(window).on('scroll load', handleReveal);
+        handleReveal();
     });
 </script>
 

@@ -14,7 +14,8 @@ $active_plugins = array(
     'map_api',
     'company_intro',
     'latest_skin_manager',
-    'board_skin_manager'
+    'board_skin_manager',
+    'copyright_manager'
 );
 
 foreach ($active_plugins as $plugin_name) {

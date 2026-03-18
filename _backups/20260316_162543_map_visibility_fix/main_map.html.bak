@@ -1,0 +1,28 @@
+<!-- [Infrastructure] Main Map Premium Skin - Standardized to 테마스킨.md -->
+<meta charset="utf-8">
+
+
+<div class="ci-skin-wrapper main-map-section">
+    <!-- Header: Consistent with Main Sections -->
+    <div class="section-header reveal slide-up">
+        <h2 class="section-title">LOCATION</h2>
+        <p class="section-subtitle">오시는 길</p>
+
+        <!-- [Standardized] Data Binding via Copyright Manager Placeholders -->
+        <div class="main-map-info-wrap">
+            <div class="main-map-info-item">
+                <strong>ADD</strong> <span>{CP_ADDRESS}</span>
+            </div>
+            <div class="main-map-info-item">
+                <strong>Tel</strong> <span>{CP_TEL}</span>
+                <span class="main-map-info-divider">/</span>
+                <strong>FAX</strong> <span>{CP_FAX}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Map Area: Full Bleed Concept -->
+    <div class="location-map-wrap">
+        {MAP_API_DISPLAY}
+    </div>
+</div>

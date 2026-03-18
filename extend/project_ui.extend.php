@@ -1,5 +1,5 @@
 <?php
-if (!defined("_GNUBOARD_")) exit;
+if (!defined('_GNUBOARD_')) exit;
 
 /**
  * 설정 대상 (Theme & Lang) 관리 UI 생성 공통 함수
@@ -204,7 +204,7 @@ function get_skin_select_ui($params = array()) {
 
     <script>
         function select_skin_card(skin_id, input_name, callback) {
-            var grid = document.querySelector('.skin-selection-grid');
+            var grid = event.currentTarget.closest('.skin-selection-grid');
             var cards = grid.querySelectorAll('.skin-card');
             cards.forEach(function(c) { c.classList.remove('active'); });
             
@@ -297,3 +297,113 @@ function get_premium_editor_ui($params = array()) {
     <?php
     return ob_get_clean();
 }
+
+/**
+ * 레이아웃 선택 UI 생성 공통 함수 (Full Width / Sidebar 선택형)
+ */
+function get_layout_select_ui($params = array()) {
+    $name = isset($params['name']) ? $params['name'] : 'sd_layout';
+    $selected = isset($params['selected']) ? $params['selected'] : 'full';
+    $onchange = isset($params['onchange']) ? $params['onchange'] : '';
+    
+    $options = isset($params['options']) ? $params['options'] : array(
+        'full' => array(
+            'title' => 'Full Width',
+            'desc' => '와이드 레이아웃 (갤러리, 제품 리스트 등)',
+            'info' => ''
+        ),
+        'sidebar' => array(
+            'title' => 'Sidebar (LNB)',
+            'desc' => '좌측 사이드바 + 에지 바 적용',
+            'info' => '서브페이지 좌측에 메뉴가 생성되며, 헤더에 에지 바(수직선)가 강제 적용됩니다.'
+        )
+    );
+
+    ob_start();
+    ?>
+    <div class="layout-selection-container" style="display:flex; gap:20px;">
+        <?php foreach ($options as $val => $opt) { 
+            $is_active = ($val === $selected || (!$selected && $val === 'full'));
+            ?>
+            <label style="cursor:pointer; display:flex; align-items:center; gap:8px;">
+                <input type="radio" name="<?php echo $name; ?>" value="<?php echo $val; ?>" <?php echo $is_active ? "checked" : ""; ?> onchange="<?php echo $onchange; ?>">
+                <div style="padding:10px 20px; border:1px solid <?php echo $is_active ? '#3498db' : '#ddd'; ?>; border-radius:4px; background:<?php echo $is_active ? '#f0f7ff' : '#fff'; ?>; transition: all 0.2s;">
+                    <strong style="display:block; color:<?php echo $is_active ? '#2980b9' : '#333'; ?>;"><?php echo $opt['title']; ?></strong>
+                    <span style="display:block; font-size:11px; color:<?php echo $val === 'sidebar' ? '#c0392b' : '#777'; ?>; font-weight:<?php echo $val === 'sidebar' ? 'bold' : 'normal'; ?>;"><?php echo $opt['desc']; ?></span>
+                </div>
+            </label>
+        <?php } ?>
+    </div>
+    <?php if ($selected === 'sidebar' && isset($options['sidebar']['info'])) { ?>
+        <p class="frm_info" style="margin-top:10px;"><?php echo $options['sidebar']['info']; ?></p>
+    <?php } else if (isset($options['full']['info']) && $options['full']['info']) { ?>
+        <p class="frm_info" style="margin-top:10px;"><?php echo $options['full']['info']; ?></p>
+    <?php } ?>
+    <?php
+    return ob_get_clean();
+}
+
+/**
+ * 브레드크럼(LNB) 선택 UI 생성 공통 함수
+ */
+function get_breadcrumb_select_ui($params = array()) {
+    $toggle_name = isset($params['toggle_name']) ? $params['toggle_name'] : 'sd_breadcrumb';
+    $skin_name = isset($params['skin_name']) ? $params['skin_name'] : 'sd_breadcrumb_skin';
+    $is_active = isset($params['active']) ? (bool)$params['active'] : false;
+    $selected_skin = isset($params['selected_skin']) ? $params['selected_skin'] : 'dropdown';
+    $skins_dir = isset($params['skins_dir']) ? $params['skins_dir'] : G5_PLUGIN_PATH . '/sub_design/breadcrumb_skins';
+
+    ob_start();
+    ?>
+    <div class="breadcrumb-config-container">
+        <!-- Activation Toggle -->
+        <div style="display:flex; align-items:center; gap:15px; margin-bottom:15px; padding:10px; background:#f8f9fa; border-radius:6px; border:1px solid #eee;">
+            <strong style="font-size:14px; color:#333;">브레드크럼 사용 여부:</strong>
+            <label class="switch-toggle" style="position:relative; display:inline-block; width:60px; height:30px;">
+                <input type="checkbox" name="<?php echo $toggle_name; ?>" value="1" <?php echo $is_active ? 'checked' : ''; ?> onchange="toggleBreadcrumbSkinGrid(this)" style="opacity:0; width:0; height:0;">
+                <span class="slider-round" style="position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background-color:<?php echo $is_active ? '#2196F3' : '#ccc'; ?>; transition:.4s; border-radius:34px;"></span>
+                <span class="slider-circle" style="position:absolute; content:''; height:22px; width:22px; left:<?php echo $is_active ? '34px' : '4px'; ?>; bottom:4px; background-color:white; transition:.4s; border-radius:50%;"></span>
+            </label>
+            <span id="breadcrumb_status_label" style="font-weight:bold; color:<?php echo $is_active ? '#2196F3' : '#999'; ?>;"><?php echo $is_active ? '활성화' : '비활성화'; ?></span>
+        </div>
+
+        <!-- Skin Selection Grid (Hidden when disabled) -->
+        <div id="breadcrumb_skin_grid" style="display:<?php echo $is_active ? 'block' : 'none'; ?>;">
+            <h4 style="font-size:13px; margin-bottom:10px; color:#666;"><i class="fa fa-paint-brush"></i> 브레드크럼 스타일 선택</h4>
+            <?php 
+            echo get_skin_select_ui(array(
+                "name" => $skin_name,
+                "selected" => $selected_skin,
+                "skins_dir" => $skins_dir,
+                "priority" => array("dropdown", "simple")
+            ));
+            ?>
+        </div>
+    </div>
+
+    <script>
+    function toggleBreadcrumbSkinGrid(cb) {
+        var grid = document.getElementById('breadcrumb_skin_grid');
+        var label = document.getElementById('breadcrumb_status_label');
+        var slider = cb.nextElementSibling;
+        var circle = slider.nextElementSibling;
+        
+        if (cb.checked) {
+            grid.style.display = 'block';
+            label.innerText = '활성화';
+            label.style.color = '#2196F3';
+            slider.style.background = '#2196F3';
+            circle.style.left = '34px';
+        } else {
+            grid.style.display = 'none';
+            label.innerText = '비활성화';
+            label.style.color = '#999';
+            slider.style.background = '#ccc';
+            circle.style.left = '4px';
+        }
+    }
+    </script>
+    <?php
+    return ob_get_clean();
+}
+?>
