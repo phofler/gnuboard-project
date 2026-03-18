@@ -1,0 +1,27 @@
+/* Style E: Logo Only Premium */
+.footer-skin-e {
+    padding: 60px 0;
+    text-align: center;
+    background-color: var(--cp-bg, #ffffff);
+    color: #333;
+}
+
+.footer-skin-e .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.footer-skin-e .footer-logo {
+    margin-bottom: 20px;
+}
+
+.footer-skin-e .footer-logo img {
+    height: 60px;
+    object-fit: contain;
+}
+
+.footer-skin-e .footer-copyright {
+    font-size: 0.85rem;
+    color: #999;
+}

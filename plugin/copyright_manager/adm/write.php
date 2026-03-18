@@ -258,6 +258,14 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                         <span class="skin-desc">Editorial Bold</span>
                                     </label>
                                 </div>
+                                <div class="skin-item">
+                                    <input type="radio" name="cp_skin" value="style_e" id="skin_e" <?php echo ($cp['cp_skin'] == 'style_e') ? 'checked' : ''; ?>
+                                        onchange="load_template(this.value)">
+                                    <label for="skin_e">
+                                        <span class="skin-name">Style E</span>
+                                        <span class="skin-desc">Logo Only</span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                         <div class="frm_info" style="color: #e74c3c;">※ 스킨 변경 시 현재 에디터 내용이 해당 스킨의 기본 양식으로 초기화됩니다.</div>
@@ -374,7 +382,7 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                 var doc = oEditors.getById["cp_content"].getWYSIWYGDocument();
                 if (doc && doc.body) {
                     doc.body.style.backgroundColor = color;
-                    var containers = doc.querySelectorAll('.footer-skin-a, .footer-skin-b, .footer-skin-c, .footer-skin-d');
+                    var containers = doc.querySelectorAll('.footer-skin-a, .footer-skin-b, .footer-skin-c, .footer-skin-d, .footer-skin-e');
                     containers.forEach(function (el) { el.style.backgroundColor = color; });
                 }
             } catch (e) {
