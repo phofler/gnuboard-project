@@ -47,6 +47,14 @@ echo '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;70
 if (isset($g5['style_font_vars'])) echo $g5['style_font_vars'];
 ?>
 
+<style>
+/* [GLOBAL DESIGN TOKENS] Spacing Optimization */
+:root {
+    --spacing-section-y: clamp(40px, 8vh, 100px); /* Vertical section spacing */
+    --spacing-hero-height: 85vh; /* Flexible hero height */
+}
+</style>
+
 <!-- Swiper Library (Dynamic Slider Support) -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
