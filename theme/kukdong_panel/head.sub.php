@@ -50,7 +50,7 @@ if (isset($g5['style_font_vars'])) echo $g5['style_font_vars'];
 <style>
 /* [GLOBAL DESIGN TOKENS] Spacing Optimization */
 :root {
-    --spacing-section-y: clamp(40px, 8vh, 100px); /* Vertical section spacing */
+    --spacing-section-y: clamp(20px, 5vh, 60px); /* Narrower vertical spacing */
     --spacing-hero-height: 85vh; /* Flexible hero height */
 }
 </style>
