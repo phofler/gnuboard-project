@@ -11,23 +11,7 @@
     --fs-h-hero-sub: clamp(1rem, 3vw, 1.8rem);
     --fs-h-hero-desc: clamp(0.9rem, 2vw, 1.3rem);
     --fs-h-section: clamp(1.8rem, 5vw, 3.5rem);
-}
 
-/* 중앙 축소 공통 유틸리티 (Center-focused Scaling) */
-.img-center-focus {
-    object-fit: cover !important;
-    object-position: center center !important;
-    transform-origin: center center !important;
-}
-
-/* 모바일용 유연한 이미지 레이아웃 유틸리티 */
-@media (max-width: 768px) {
-    .img-mobile-fluid {
-        width: auto !important;
-        min-width: 100% !important;
-        height: 100% !important;
-    }
-}
     /* [표준] 테마스킨.md 디자인 시스템 - Ultimate Light */
     --color-bg-dark: #121212;
     --color-brand: #1a2c5e;               /* Deep Blue (기업 식별 컬러) */
@@ -37,7 +21,9 @@
     --color-text-primary: #333333;
     --color-text-secondary: #777777;
     --spacing-container: 1360px;
-    --spacing-section: 10vh;
+    --spacing-section: 10vh; /* Legacy variable, will be replaced */
+    --spacing-section-y: clamp(40px, 8vh, 100px); /* Vertical section spacing */
+    --spacing-hero-height: 85vh; /* Flexible hero height */
     --spacing-title-gap: 40px;           /* 제목과 콘텐츠 사이의 이격 거리 */
     --letter-spacing-h: -0.05em;
     --fs-section-title: clamp(2rem, 5vw, 3.5rem); /* 섹션 메인 제목 크기 */
@@ -61,6 +47,22 @@
     --fs-desc: 1.25rem;
     --fs-desc-m: 1.15rem;
     --letter-spacing-h: -3px;
+}
+
+/* 중앙 축소 공통 유틸리티 (Center-focused Scaling) */
+.img-center-focus {
+    object-fit: cover !important;
+    object-position: center center !important;
+    transform-origin: center center !important;
+}
+
+/* 모바일용 유연한 이미지 레이아웃 유틸리티 */
+@media (max-width: 768px) {
+    .img-mobile-fluid {
+        width: auto !important;
+        min-width: 100% !important;
+        height: 100% !important;
+    }
 }
 
 /* Homepage Full Width Reset (GnuBoard Standard Patterns) */
@@ -160,7 +162,7 @@ ul {
 
 /* Main Slider */
 .main-slider {
-    height: 100vh;
+    height: var(--spacing-hero-height, 100vh);
     min-height: 600px;
     position: relative;
     overflow: hidden;
@@ -272,7 +274,7 @@ ul {
 
 /* Sections */
 section {
-    padding: clamp(60px, 10vw, 120px) 0;
+    padding: var(--spacing-section-y, 80px) 0;
     position: relative;
     overflow: hidden;
 }

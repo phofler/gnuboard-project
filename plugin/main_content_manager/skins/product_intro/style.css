@@ -3,7 +3,7 @@
 /* Product Intro Skin - REFINED METADATA STYLING */
 
 #wrapper .product-intro {
-    padding: 100px 0 !important;
+    padding: var(--spacing-section-y, 80px) 0 !important;
     overflow: hidden !important;
     background: #fff;
 }
@@ -128,7 +128,7 @@
 
 /* MOBILE OPTIMIZATION */
 @media (max-width: 768px) {
-    #wrapper .product-intro { padding: 60px 0 !important; }
+    #wrapper .product-intro { padding: var(--spacing-section-y, 40px) 0 !important; }
     #wrapper .product-intro .product-row, 
     #wrapper .product-intro .product-row.reverse {
         flex-direction: column !important;
