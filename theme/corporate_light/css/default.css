@@ -1,6 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500;700&family=Italiana&family=Manrope:wght@200;300;400;500;600;800&family=Alex+Brush&display=swap');
 
-:root {
+
+    /* [STANDARD SEMANTIC TOKENS] - Alignment with 테마스킨.md */
+    --color-title-main: #d4af37; /* Preferred Gold/Accent for Titles */
+    --color-title-sub: #666666;  /* Secondary Title/Subtitle */
+    
+    --color-text-primary: #050505;
+    --color-text-secondary: #555555;
+    --color-text-muted: #999999;
+    
+    --letter-spacing-main: -0.02em;
+    --letter-spacing-h: -0.05em; /* Tight heading for Editorial look */
+    
+    --fs-h2: clamp(2rem, 5vw, 3.5rem);
+    --fs-desc: 1.125rem;
     /* [MENU PALETTE] Defined by Theme */
     --color-header-bg: #F3F3F3;
     /* Forced Match for Prototype */
@@ -160,7 +173,20 @@
 
 /* [RESPONSIVE PADDING LOGIC] - User Request 2026-01-12 */
 @media (min-width: 1024px) {
-    :root {
+    
+    /* [STANDARD SEMANTIC TOKENS] - Alignment with 테마스킨.md */
+    --color-title-main: #d4af37; /* Preferred Gold/Accent for Titles */
+    --color-title-sub: #666666;  /* Secondary Title/Subtitle */
+    
+    --color-text-primary: #050505;
+    --color-text-secondary: #555555;
+    --color-text-muted: #999999;
+    
+    --letter-spacing-main: -0.02em;
+    --letter-spacing-h: -0.05em; /* Tight heading for Editorial look */
+    
+    --fs-h2: clamp(2rem, 5vw, 3.5rem);
+    --fs-desc: 1.125rem;
         --container-padding: 0px;
         /* PC: Zero Padding to maximize 1360px */
         --padding-sub: 0px;

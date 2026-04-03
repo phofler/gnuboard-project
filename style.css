@@ -1,6 +1,6 @@
 :root {
     --primary-color: #003366;
-    --primary-dark: #1a2c5e;
+    --primary-dark: var(--color-title-main, #d4af37);
     /* SY style primary */
     --accent-color: #0066cc;
     --logo-color: #4b6cb7;
@@ -184,7 +184,7 @@ header.active .gnb>li>a {
 
 .dep2Img h2 {
     font-size: 2.2rem;
-    color: var(--primary-dark);
+    color: var(--color-title-main, #d4af37);
     font-weight: 800;
     margin-bottom: 15px;
 }
@@ -214,7 +214,7 @@ header.active .gnb>li>a {
     display: block;
     font-size: 1.2rem;
     font-weight: 700;
-    color: var(--primary-dark);
+    color: var(--color-title-main, #d4af37);
     padding-bottom: 10px;
     border-bottom: 1px solid #ddd;
     margin-bottom: 15px;
@@ -327,7 +327,7 @@ header.active .btnAllmenu i {
     display: block;
     font-size: 1.3rem;
     font-weight: 800;
-    color: var(--primary-dark);
+    color: var(--color-title-main, #d4af37);
     margin-bottom: 10px;
 }
 
@@ -495,9 +495,9 @@ section {
 .section-title h2 {
     font-size: clamp(2rem, 5vw, 3.5rem);
     font-weight: 900;
-    color: var(--primary-dark);
+    color: var(--color-title-main, #d4af37);
     text-transform: uppercase;
-    letter-spacing: -1px;
+    letter-spacing: var(--letter-spacing-h, -0.05em);
 }
 
 .section-title p {
@@ -529,7 +529,7 @@ section {
 .product-text h3 {
     font-size: 3rem;
     font-weight: 900;
-    color: var(--primary-dark);
+    color: var(--color-title-main, #d4af37);
     margin-bottom: 25px;
     position: relative;
 }
@@ -575,7 +575,7 @@ section {
 .product-img .img-overlay-text .en {
     font-size: 2.8rem;
     font-weight: 900;
-    letter-spacing: -1px;
+    letter-spacing: var(--letter-spacing-h, -0.05em);
     line-height: 1;
 }
 
@@ -634,7 +634,7 @@ section {
 .item-card .info h4 {
     font-size: 1.2rem;
     font-weight: 700;
-    color: var(--primary-dark);
+    color: var(--color-title-main, #d4af37);
 }
 
 /* Factory View */

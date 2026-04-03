@@ -1,0 +1,129 @@
+/* Dropdown Breadcrumbs (Corporate Style) */
+.sub-lnb-wrap {
+    background: #fff;
+    position: relative;
+    z-index: 101;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.breadcrumb-dropdown-area {
+    display: flex;
+    align-items: center;
+    height: 60px; /* Slightly taller for better touch/click */
+    font-size: 1rem;
+    color: #333;
+}
+
+.breadcrumb-item {
+    position: relative;
+    height: 100%;
+}
+
+.breadcrumb-btn {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 0 25px;
+    height: 100%;
+    cursor: pointer;
+    border-right: 1px solid #f0f0f0;
+    transition: all 0.2s ease;
+    background: #fff;
+    min-width: 180px;
+    justify-content: space-between;
+}
+
+.breadcrumb-btn .selected-label {
+    font-weight: 500;
+}
+
+.breadcrumb-btn:hover,
+.breadcrumb-item.active .breadcrumb-btn {
+    background: #f8f9fa;
+    color: #003366;
+}
+
+.breadcrumb-btn i.fa-chevron-down {
+    font-size: 0.7rem;
+    color: #ccc;
+    transition: transform 0.3s;
+}
+
+.breadcrumb-item.active .breadcrumb-btn i.fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+.breadcrumb-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 220px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-top: none;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+.breadcrumb-item.active .breadcrumb-list {
+    display: block;
+}
+
+.breadcrumb-list li a {
+    display: block;
+    padding: 12px 25px;
+    border-bottom: 1px solid #f8f8f8;
+    transition: 0.2s;
+    font-size: 0.95rem;
+    color: #555;
+    text-align: left;
+}
+
+.breadcrumb-list li:last-child a {
+    border-bottom: none;
+}
+
+.breadcrumb-list li a:hover {
+    background: #f0f7ff;
+    color: #003366;
+    padding-left: 30px;
+}
+
+.breadcrumb-list li.active a {
+    color: #fff;
+    background: #003366;
+    font-weight: 600;
+}
+
+.breadcrumb-home {
+    width: 60px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid #f0f0f0;
+    border-left: 1px solid #f0f0f0;
+    font-size: 1.2rem;
+    color: #666;
+    transition: 0.2s;
+}
+
+.breadcrumb-home:hover {
+    color: #003366;
+    background: #f8f9fa;
+}
+
+@media (max-width: 768px) {
+    .breadcrumb-dropdown-area {
+        height: 50px;
+        font-size: 0.9rem;
+    }
+    .breadcrumb-btn {
+        min-width: 140px;
+        padding: 0 15px;
+    }
+    .breadcrumb-home {
+        width: 50px;
+    }
+}

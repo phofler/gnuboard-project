@@ -1,137 +1,125 @@
 <style>
     /* Style C: Cinematic Grid Premium */
     .footer-skin-c {
-        padding: 100px 0 50px;
-        background-color: var(--cp-bg, #111);
-        color: #eee;
-        /* border: 2px dashed #d4af37; Removed per user request */
+        padding: 100px 0;
+        background-color: var(--cp-bg, #ffffff);
+        color: #333;
         margin: 20px 0;
     }
 
     .footer-skin-c .footer-container {
-        max-width: 1200px;
+        max-width: 1400px;
         margin: 0 auto;
-        padding: 0 20px;
+        padding: 0 40px;
     }
 
     .footer-skin-c .footer-grid {
         display: grid;
-        grid-template-columns: 2fr 1fr 1fr 1fr;
-        gap: 40px;
-        margin-bottom: 80px;
+        grid-template-columns: 1fr 2fr 1fr;
+        gap: 60px;
+        align-items: start;
     }
 
-    .footer-skin-c .grid-item h3 {
-        font-size: 1.1rem;
-        color: #d4af37;
-        margin-bottom: 30px;
-        text-transform: uppercase;
-        letter-spacing: 2px;
+    .footer-skin-c .grid-item.logo-area {
+        border-right: 1px solid rgba(0, 0, 0, 0.05);
+        padding-right: 40px;
     }
 
-    .footer-skin-c .branding .footer-logo {
-        height: 40px;
-        margin-bottom: 25px;
-    }
-
-    .footer-skin-c .brand-desc {
-        color: #999;
-        font-size: 0.9rem;
-        line-height: 1.6;
-        max-width: 300px;
-    }
-
-    .footer-skin-c .info-item {
+    .footer-skin-c .footer-logo {
+        height: 60px;
+        object-fit: contain;
+        display: block;
         margin-bottom: 20px;
     }
 
-    .footer-skin-c .value,
-    .footer-skin-c .address-text {
-        color: #eee;
-        font-size: 1rem;
+    .footer-skin-c .contact-grid {
+        display: grid;
+        gap: 30px;
     }
 
-    .footer-skin-c .value a {
-        color: inherit;
-        text-decoration: none;
-    }
-
-    .footer-skin-c .value a:hover {
-        text-decoration: underline;
-    }
-
-    .footer-skin-c .footer-nav {
-        list-style: none;
-        padding: 0;
-    }
-
-    .footer-skin-c .footer-nav li {
-        margin-bottom: 12px;
-    }
-
-    .footer-skin-c .footer-nav a {
+    .footer-skin-c .contact-item .label {
+        display: block;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
         color: #999;
-        text-decoration: none;
+        margin-bottom: 8px;
     }
 
-    .footer-skin-c .footer-bottom {
-        padding-top: 40px;
-        border-top: 1px solid rgba(255, 255, 255, 0.05);
-        text-align: center;
+    .footer-skin-c .contact-item .value {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #333;
+    }
+
+    .footer-skin-c .contact-sub-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        gap: 30px;
+    }
+
+    .footer-skin-c .footer-links {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 40px;
+    }
+
+    .footer-skin-c .footer-links a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 600;
+        font-size: 0.95rem;
     }
 
     .footer-skin-c .footer-copyright {
-        font-size: 0.85rem;
-        color: rgba(255, 255, 255, 0.2);
+        font-size: 0.8rem;
+        color: #bbb;
+        line-height: 1.5;
     }
 </style>
 
 <div class="footer-skin-c">
     <div class="footer-container">
         <div class="footer-grid">
-            <div class="grid-item branding">
+            <div class="grid-item logo-area">
                 {logo}
-                <p class="brand-desc">{slogan}</p>
-            </div>
-
-            <div class="grid-item contact">
-                <h3>Contact</h3>
-                <div class="info-group">
-                    <div class="info-item">
-                        <span class="label">{tel_name}</span>
-                        <span class="value"><a href="tel:{tel}">{tel}</a></span>
-                    </div>
-                    <div class="info-item">
-                        <span class="label">{fax_name}</span>
-                        <span class="value">{fax}</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="label">{email_name}</span>
-                        <span class="value"><a href="mailto:{email}">{email}</a></span>
+                <div class="footer-company-info" style="margin-top:25px;">
+                    <div class="company-name" style="font-size:1.2rem; font-weight:700; margin-bottom:8px; color:#333;">{company}</div>
+                    <div class="company-sub" style="font-size:0.9rem; color:#888;">
+                        <span>{ceo_name}: {ceo}</span>
+                        <span style="margin-left:15px;">{bizno_name}: {bizno}</span>
                     </div>
                 </div>
             </div>
 
-            <div class="grid-item location">
-                <h3>Location</h3>
-                <div class="info-item">
-                    <span class="label">{addr_name}</span>
-                    <p class="address-text">{addr}</p>
+            <div class="grid-item info-area">
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <span class="label">{addr_name}</span>
+                        <span class="value">{addr}</span>
+                    </div>
+                    <div class="contact-sub-grid">
+                        <div class="contact-item">
+                            <span class="label">{tel_name}</span>
+                            <span class="value"><a href="tel:{tel}">{tel}</a></span>
+                        </div>
+                        <div class="contact-item">
+                            <span class="label">{email_name}</span>
+                            <span class="value"><a href="mailto:{email}">{email}</a></span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="grid-item links">
-                <h3>Explore</h3>
-                <ul class="footer-nav">
-                    <li>{link1}</li>
-                    <li>{link2}</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <div class="footer-copyright">
-                {copyright}
+            <div class="grid-item link-area">
+                <div class="footer-links">
+                    {link1}
+                    {link2}
+                </div>
+                <div class="footer-copyright">
+                    {copyright}
+                </div>
             </div>
         </div>
     </div>

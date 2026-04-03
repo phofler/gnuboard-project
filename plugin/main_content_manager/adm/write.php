@@ -1,3 +1,4 @@
+
 <?php
 $sub_menu = '950190';
 include_once('./_common.php');
@@ -29,7 +30,7 @@ if ($w == 'u') {
         'ms_lang' => 'kr',
         'ms_theme' => 'corporate',
         'ms_key' => '',
-        'ms_accent_color' => '#FF3B30',
+        'ms_accent_color' => 'var(--edge-color',
         'ms_content_source' => '',
         'ms_font_mode' => 'serif'
     );
@@ -37,6 +38,9 @@ if ($w == 'u') {
 
 $g5['title'] = $html_title;
 include_once(G5_ADMIN_PATH . '/admin.head.php');
+?>
+<script src="<?php echo G5_JS_URL ?>/image_smart_manager.js"></script>
+<?php
 
 $items = array();
 if ($w == 'u') {
@@ -62,7 +66,7 @@ if (count($items) < 1) {
     }
 }
 
-$theme_bg_default = get_theme_css_value($config['cf_theme'], array('--color-bg', '--color-bg-dark'), '#121212');
+$theme_bg_default = get_theme_css_value($config['cf_theme'], array('--bg-white', '--bg-light', '--color-bg'), '#ffffff');
 ?>
 
 <div id="preview_modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:9999;">
@@ -293,10 +297,35 @@ $theme_bg_default = get_theme_css_value($config['cf_theme'], array('--color-bg',
 </form>
 
 <script>
-    function openUnsplashPopup(id) { var url = './image_manager.php?mi_id=' + id + '&v=' + Date.now(); $('#unsplash_iframe').attr('src', url); $('#unsplash_modal').css('display', 'flex'); }
-    function closeUnsplashModal() { $('#unsplash_modal').hide(); $('#unsplash_iframe').attr('src', ''); }
-    function receiveImageUrl(url, id) { if (id) { $('#mc_image_url_' + id).val(url); $('#mc_preview_' + id).html('<img src="' + url + '" style="width:100%; height:100%; object-fit:cover;">'); closeUnsplashModal(); } }
+    // SmartImageManager used for opening }
     
+    
+    // [UNIFIED] Global Image Manager Helpers
+    function openUnsplashPopup(id) {
+        // [RESOLUTION FIX] Use recommended skin sizes for high-quality cropping
+        var skin_w = <?php $info = get_mc_skin_info($ms['ms_skin']); echo (int)$info['width']; ?>;
+        var skin_h = <?php echo (int)$info['height']; ?>;
+
+        SmartImageManager.open({
+            id: 'mc_preview_' + id,
+            mi_id: id,
+            forceW: skin_w,
+            forceH: skin_h,
+            index: -1,
+            callback: function(url, targetId, index, mi_id, filename) { receiveImageUrl(url, id, filename); }
+        });
+    }
+
+    function closeUnsplashModal() {
+        $('#unsplash_modal').fadeOut(200);
+    }
+
+    function receiveImageUrl(url, id, filename) {
+        var save_path = filename || url;
+        $('#mc_image_url_' + id).val(save_path);
+        $('#mc_preview_' + id).html('<img src="' + url + '" style="width:100%; height:100%; object-fit:cover;">');
+    }
+
     function delete_mc_image(id) {
         if(!confirm('이미지를 삭제하시겠습니까?')) return;
         

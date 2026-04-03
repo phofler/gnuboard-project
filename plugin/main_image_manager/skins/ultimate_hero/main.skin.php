@@ -17,17 +17,20 @@ $container_attrs = function_exists('get_visual_style_attrs')
     <div class="swiper mainSwiper">
         <div class="swiper-wrapper">
             <?php
+            $i = 0;
             foreach ($slides as $slide) {
+                $i++;
             ?>
                 <div class="swiper-slide hero_slide">
                     <div class="hero_bg_wrap">
-                        <div class="hero_bg">
-                            <picture>
-                                <?php if (!empty($slide['img_mobile_url'])) { ?>
-                                    <source media="(max-width: 768px)" srcset="<?php echo $slide['img_mobile_url']; ?>">
-                                <?php } ?>
-                                <img src="<?php echo $slide['img_url']; ?>" alt="<?php echo stripslashes($slide['mi_title']); ?>">
-                            </picture>
+                        <div class="hero_bg" style="background-image: url('<?php echo $slide['img_url']; ?>');">
+                            <?php if (!empty($slide['img_mobile_url'])) { ?>
+                                <style>
+                                    @media (max-width: 768px) {
+                                        .hero_slide:nth-child(<?php echo $i; ?>) .hero_bg { background-image: url('<?php echo $slide['img_mobile_url']; ?>') !important; }
+                                    }
+                                </style>
+                            <?php } ?>
                         </div>
                     </div>
                     <div class="video_overlay" style="background: rgba(0,0,0,<?php echo $overlay_opacity; ?>);"></div>
@@ -66,7 +69,7 @@ $(function() {
             effect: "fade",
             fadeEffect: { crossFade: true },
             speed: 2000,
-            autoplay: { delay: 6000, disableOnInteraction: false },
+            autoplay: { delay: 100000, disableOnInteraction: false },
             pagination: { el: ".swiper-pagination", clickable: true }
         });
     }

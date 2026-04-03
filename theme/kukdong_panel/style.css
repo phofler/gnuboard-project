@@ -1,24 +1,68 @@
 :root {
-    --letter-spacing-h: -3px;
-    --primary-color: #003366;
-    --primary-dark: #1a2c5e;
-    --color-accent-gold: #d4af37;
-    --font-heading: var(--font-family-main);
-    /* SY style primary */
+    /* [표준] 반응형 디자인 시스템 - 글로벌 토큰 */
+    --bp-lg: 1200px;
+    --bp-md: 992px;
+    --bp-sm: 768px;
+    --bp-xs: 576px;
+    --bp-xxs: 480px;
+
+    /* 유동 타이포그래피 토큰 */
+    --fs-h-hero-main: clamp(1.8rem, 8vw, 4.5rem);
+    --fs-h-hero-sub: clamp(1rem, 3vw, 1.8rem);
+    --fs-h-hero-desc: clamp(0.9rem, 2vw, 1.3rem);
+    --fs-h-section: clamp(1.8rem, 5vw, 3.5rem);
+
+    /* [표준] 테마스킨.md 디자인 시스템 - Ultimate Light */
+    --color-bg-dark: #121212;
+    --color-brand: #1a2c5e;               /* Deep Blue (기업 식별 컬러) */
+    --color-accent: #d4af37;              /* Gold (전역 강조 컬러) */
+    --color-title-main: #3b3563;    /* 메인 제목은 골드 */
+    --color-title-sub: var(--color-brand);      /* 서브 제목은 남색 */
+    --color-text-primary: #333333;
+    --color-text-secondary: #777777;
+    --spacing-container: 1360px;
+    --spacing-section: 10vh; /* Legacy variable, will be replaced */
+    --spacing-section-y: clamp(40px, 8vh, 100px); /* Vertical section spacing */
+    --spacing-hero-height: 85vh; /* Flexible hero height */
+    --spacing-title-gap: 40px;           /* 제목과 콘텐츠 사이의 이격 거리 */
+    --letter-spacing-h: -0.05em;
+    --fs-section-title: clamp(2rem, 5vw, 3.5rem); /* 섹션 메인 제목 크기 */
+    --font-heading: 'Pretendard', var(--font-family-main), sans-serif; /* Apple-style Heading */
+    --font-body: 'Pretendard', var(--font-family-main), sans-serif; /* Apple-style Body */
+
+    /* Legacy & Compatibility (Mapped to Tokens) */
+    --primary-color: var(--color-brand);
+    --primary-dark: var(--color-brand);
     --accent-color: #0066cc;
     --logo-color: #4b6cb7;
-    --edge-color: #c92127;
-    /* 성우 레드 포인트 색상 */
+    --edge-color: #d43754;
     --bg-white: #ffffff;
     --bg-light: #f8f9fa;
-    --text-main: #333333;
-    --text-muted: #777777;
+    --text-main: var(--color-text-primary);
+    --text-muted: var(--color-text-secondary);
     --border-light: #eeeeee;
     --border-medium: #dddddd;
     --max-width: 1200px;
     --header-height: 90px;
     --fs-desc: 1.25rem;
     --fs-desc-m: 1.15rem;
+    --letter-spacing-h: -3px;
+}
+
+/* 중앙 축소 공통 유틸리티 (Center-focused Scaling) */
+.img-center-focus {
+    object-fit: cover !important;
+    object-position: center center !important;
+    transform-origin: center center !important;
+}
+
+/* 모바일용 유연한 이미지 레이아웃 유틸리티 */
+@media (max-width: 768px) {
+    .img-mobile-fluid {
+        width: auto !important;
+        min-width: 100% !important;
+        height: 100% !important;
+    }
 }
 
 /* Homepage Full Width Reset (GnuBoard Standard Patterns) */
@@ -29,6 +73,15 @@
     margin: 0 !important; 
     overflow: visible !important;
 }
+/* Global Type Reset for Theme Sovereignty */
+body, p, div, span, a, input, button, textarea {
+    font-family: var(--font-body) !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading) !important;
+}
+
 body { overflow-x: hidden; }
 
 /* Reset & Base */
@@ -38,8 +91,17 @@ body { overflow-x: hidden; }
     box-sizing: border-box;
 }
 
+/* Global Type Reset for Theme Sovereignty */
+body, p, div, span, a, input, button, textarea {
+    font-family: var(--font-body) !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading) !important;
+}
+
 body {
-    font-family: var(--font-family-main), 'Inter', 'Noto Sans KR', sans-serif;
+    font-family: 'Pretendard', var(--font-family-main), 'Apple SD Gothic Neo', sans-serif;
     color: var(--text-main);
     line-height: 1.6;
     word-break: keep-all;
@@ -100,7 +162,7 @@ ul {
 
 /* Main Slider */
 .main-slider {
-    height: 100vh;
+    height: var(--spacing-hero-height, 100vh);
     min-height: 600px;
     position: relative;
     overflow: hidden;
@@ -170,7 +232,7 @@ ul {
     font-size: clamp(1.85rem, 6vw, 3.8rem);
     font-weight: 900;
     letter-spacing: var(--letter-spacing-h);
-    margin-bottom: 20px;
+    margin-bottom: var(--spacing-title-gap, 40px);
     opacity: 0;
     transform: translateY(30px);
     transition: 1.2s 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -212,28 +274,92 @@ ul {
 
 /* Sections */
 section {
-    padding: clamp(60px, 10vw, 120px) 0;
+    padding: var(--spacing-section-y, 80px) 0;
     position: relative;
     overflow: hidden;
 }
 
-.section-title {
+/* Section Header Standard (Refactored for Design Sovereignty) */
+.section-header {
+    margin-bottom: var(--spacing-title-gap, 60px);
     text-align: center;
-    margin-bottom: 60px;
+    width: 100%;
+    display: block;
 }
 
-.section-title h2 {
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    font-weight: 900;
-    letter-spacing: var(--letter-spacing-h);
-    color: var(--primary-dark);
+.section-header .section-title, .section-title {
+    color: var(--color-title-main);
+    font-family: var(--font-heading) !important;
+    font-size: var(--fs-section-title);
+    font-weight: 800;
     text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 0px !important; /* Tight grouping with subtitle */
+    line-height: 1.2;
 }
 
-.section-title p {
+.section-header .section-subtitle, .section-subtitle {
+    font-family: var(--font-body) !important;
     font-size: 1.1rem;
-    color: #666;
-    margin-top: 15px;
+    color: var(--color-text-secondary);
+    margin-top: 5px !important;
+    font-weight: 400;
+    line-height: 1.8;
+}
+
+/* Map Plugin Skins (Standardized) */
+.location-map-wrap {
+    width: 100%;
+    height: 600px !important;
+    background: var(--color-bg-dark, #121212);
+    position: relative;
+    overflow: hidden;
+    margin-top: var(--spacing-title-gap, 40px);
+}
+
+.map-api-wrapper, .map-api-container {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+#map_api_container {
+    filter: grayscale(20%) contrast(105%);
+}
+
+.main-map-info-wrap {
+    margin-top: 30px;
+    color: var(--color-text-primary);
+    font-size: var(--fs-desc, 0.95rem);
+    line-height: 1.8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-map-info-item {
+    margin-bottom: 8px;
+    opacity: 0.9;
+}
+
+.main-map-info-item strong {
+    color: var(--color-accent);
+    margin-right: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+}
+
+.main-map-info-divider {
+    margin: 0 15px;
+    opacity: 0.3;
+    color: var(--color-text-secondary);
+}
+
+@media (max-width: 768px) {
+    .location-map-wrap {
+        height: 450px !important;
+    }
 }
 
 /* Product Rows */
@@ -260,7 +386,7 @@ section {
     font-size: 3rem;
     font-weight: 900;
     letter-spacing: var(--letter-spacing-h);
-    color: var(--primary-dark);
+    color: var(--color-brand);
     margin-bottom: 25px;
     position: relative;
 }
@@ -277,7 +403,7 @@ section {
 
 .product-text p {
     font-size: 1.2rem;
-    color: #333;
+    color: var(--color-text-primary);
     margin-bottom: 10px;
 }
 
@@ -365,7 +491,7 @@ section {
 .item-card .info h4 {
     font-size: 1.2rem;
     font-weight: 700;
-    color: var(--primary-dark);
+    color: var(--color-brand);
 }
 
 /* Factory View */
@@ -410,12 +536,12 @@ section {
 .link-box h4 {
     font-size: 1.5rem;
     font-weight: 800;
-    color: var(--primary-dark);
+    color: var(--color-brand);
     margin-bottom: 10px;
 }
 
 .link-box p {
-    color: #666;
+    color: var(--color-text-secondary);
 }
 
 /* Footer */
@@ -456,7 +582,7 @@ footer {
     right: -20px;
     bottom: -20px;
     font-size: 100px;
-    color: var(--primary-dark);
+    color: var(--color-brand);
     opacity: 0.06;
     transform: rotate(-15deg);
     pointer-events: none;
@@ -540,7 +666,7 @@ footer {
 .sub-title-area h3 {
     font-size: 2.5rem;
     font-weight: 800;
-    color: var(--primary-dark);
+    color: var(--color-brand);
 }
 
 .feature-grid {
@@ -554,12 +680,12 @@ footer {
     background: #f8f9fa;
     padding: 40px;
     border-radius: 4px;
-    border-top: 4px solid var(--primary-dark);
+    border-top: 4px solid var(--color-brand);
 }
 
 .feature-box h4 {
     font-size: 1.5rem;
-    color: var(--primary-dark);
+    color: var(--color-brand);
     margin-bottom: 15px;
     display: flex;
     align-items: center;
@@ -567,8 +693,63 @@ footer {
 }
 
 .feature-box p {
-    color: #666;
+    color: var(--color-text-secondary);
     line-height: 1.8;
+}
+
+/* Map Plugin Skins (Standardized) */
+.location-map-wrap {
+    width: 100%;
+    height: 600px !important;
+    background: var(--color-bg-dark, #121212);
+    position: relative;
+    overflow: hidden;
+    margin-top: var(--spacing-title-gap, 40px);
+}
+
+.map-api-wrapper, .map-api-container {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+#map_api_container {
+    filter: grayscale(20%) contrast(105%);
+}
+
+.main-map-info-wrap {
+    margin-top: 30px;
+    color: var(--color-text-primary);
+    font-size: var(--fs-desc, 0.95rem);
+    line-height: 1.8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-map-info-item {
+    margin-bottom: 8px;
+    opacity: 0.9;
+}
+
+.main-map-info-item strong {
+    color: var(--color-accent);
+    margin-right: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+}
+
+.main-map-info-divider {
+    margin: 0 15px;
+    opacity: 0.3;
+    color: var(--color-text-secondary);
+}
+
+@media (max-width: 768px) {
+    .location-map-wrap {
+        height: 450px !important;
+    }
 }
 
 /* Technical Table */
@@ -576,7 +757,7 @@ footer {
     width: 100%;
     border-collapse: collapse;
     margin-top: 40px;
-    border-top: 2px solid var(--primary-dark);
+    border-top: 2px solid var(--color-brand);
 }
 
 .spec-table th,
@@ -589,7 +770,7 @@ footer {
 .spec-table th {
     background: #f4f7fa;
     font-weight: 700;
-    color: #333;
+    color: var(--color-text-primary);
 }
 
 @media (max-width: 768px) {
@@ -618,14 +799,14 @@ footer {
 }
 
 .sub-page .gnb>li>a {
-    color: #333 !important;
+    color: var(--color-text-primary) !important;
 }
 
 .sub-page .btnAllmenu,
 .sub-page .rightBtn .btn-lang,
 .sub-page .rightBtn .btn-phone {
-    color: #333 !important;
-    border-color: #333 !important;
+    color: var(--color-text-primary) !important;
+    border-color: var(--color-text-primary) !important;
 }
 
 /* Ensure sub-menu links are also clearly visible if needed */
@@ -725,7 +906,7 @@ footer {
 .sub-h4 {
     font-size: 1.6rem;
     font-weight: 800;
-    color: var(--primary-dark);
+    color: var(--color-brand);
     margin-bottom: 25px;
     padding-left: 15px;
     border-left: 5px solid var(--edge-color);
@@ -748,6 +929,61 @@ footer {
 .seo-text-block p {
     color: #444;
     line-height: 1.8;
+}
+
+/* Map Plugin Skins (Standardized) */
+.location-map-wrap {
+    width: 100%;
+    height: 600px !important;
+    background: var(--color-bg-dark, #121212);
+    position: relative;
+    overflow: hidden;
+    margin-top: var(--spacing-title-gap, 40px);
+}
+
+.map-api-wrapper, .map-api-container {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+#map_api_container {
+    filter: grayscale(20%) contrast(105%);
+}
+
+.main-map-info-wrap {
+    margin-top: 30px;
+    color: var(--color-text-primary);
+    font-size: var(--fs-desc, 0.95rem);
+    line-height: 1.8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-map-info-item {
+    margin-bottom: 8px;
+    opacity: 0.9;
+}
+
+.main-map-info-item strong {
+    color: var(--color-accent);
+    margin-right: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+}
+
+.main-map-info-divider {
+    margin: 0 15px;
+    opacity: 0.3;
+    color: var(--color-text-secondary);
+}
+
+@media (max-width: 768px) {
+    .location-map-wrap {
+        height: 450px !important;
+    }
 }
 
 .performance-list {
@@ -774,7 +1010,7 @@ footer {
 }
 
 .performance-list strong {
-    color: var(--primary-dark);
+    color: var(--color-brand);
 }
 
 .catalog-viewer {
@@ -807,7 +1043,7 @@ footer {
     font-size: 2.8rem;
     font-weight: 900;
     letter-spacing: var(--letter-spacing-h);
-    color: var(--primary-dark);
+    color: var(--color-brand);
     line-height: 1.2;
     margin-bottom: 30px;
 }
@@ -900,8 +1136,8 @@ footer {
 }
 
 .product-grid li.active a {
-    background: var(--primary-dark);
-    border-color: var(--primary-dark);
+    background: var(--color-brand);
+    border-color: var(--color-brand);
     color: #fff;
     font-weight: 700;
     box-shadow: 0 10px 20px rgba(26, 44, 94, 0.15);
@@ -957,7 +1193,7 @@ footer {
     align-items: center;
     height: 50px;
     font-size: 0.95rem;
-    color: #666;
+    color: var(--color-text-secondary);
 }
 
 .breadcrumb-item {
@@ -982,7 +1218,7 @@ footer {
 .breadcrumb-btn:hover,
 .breadcrumb-item.active .breadcrumb-btn {
     background: #f9f9f9;
-    color: var(--primary-dark);
+    color: var(--color-brand);
 }
 
 .breadcrumb-btn i.fa-chevron-down {
@@ -1017,7 +1253,7 @@ footer {
     border-bottom: 1px solid #f5f5f5;
     transition: 0.2s;
     font-size: 0.9rem;
-    color: #666;
+    color: var(--color-text-secondary);
 }
 
 .breadcrumb-list li:last-child a {
@@ -1079,7 +1315,7 @@ footer {
 .subTitleTxt h2.title {
     font-size: 3.5rem;
     font-weight: 800;
-    margin-bottom: 20px;
+    margin-bottom: var(--spacing-title-gap, 40px);
     letter-spacing: -2px;
 }
 
@@ -1109,4 +1345,86 @@ footer {
     .subTitleTxt h2.title {
         font-size: 2.2rem;
     }
+}
+
+/* Customer Center Enhanced Styles */
+.customer-center-box {
+    text-align: left !important;
+    padding: 35px 30px !important;
+}
+.cc-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: var(--spacing-title-gap, 40px);
+}
+.cc-header h4 {
+    margin-bottom: 0 !important;
+    font-size: 1.4rem !important;
+}
+.cc-icon {
+    font-size: 1.8rem;
+    color: var(--color-accent);
+}
+.cc-phone {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--color-brand);
+    margin-bottom: var(--spacing-title-gap, 40px);
+    line-height: 1;
+}
+.cc-info-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 25px 0;
+}
+.cc-info-list li {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.cc-info-list li i {
+    width: 16px;
+    color: #999;
+}
+.cc-notice {
+    font-size: 0.85rem;
+    color: #888;
+    line-height: 1.6;
+    margin: 0;
+    border-top: 1px dashed #eee;
+    padding-top: 15px;
+}
+
+@media (max-width: 768px) {
+    .cc-phone {
+        font-size: 1.8rem;
+    }
+}
+/* [표준] 테마스킨.md 디자인 시스템 - Ultimate Light */
+.copyright-manager-wrapper {
+    --color-text-primary: #ffffff;
+    --color-text-secondary: rgba(255,255,255,0.7);
+    --color-accent: #00ccff; /* Brighter accent for dark bg */
+}
+.copyright-manager-wrapper .value {
+    color: var(--color-text-primary) !important;
+    opacity: 1 !important;
+}
+/* Global Layout Responsive Fix */
+@media (max-width: 1200px) {
+    #hd_wrapper { height: auto; padding: 20px; }
+    #logo { float: none; text-align: center; margin-bottom: 20px; }
+    .hd_sch_wr { float: none; width: 100%; margin-left: 0; padding: 10px 0; }
+    #hd_sch #sch_stx { width: calc(100% - 60px); }
+    #hd_qnb { float: none; text-align: center; margin-top: 10px; }
+    #hd_qnb li { float: none; display: inline-block; }
+}
+
+@media (max-width: 768px) {
+    .container, #container_wr { padding: 0 15px; }
+    #hd_wrapper { padding: 15px; }
 }

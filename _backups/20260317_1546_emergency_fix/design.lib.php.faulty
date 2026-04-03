@@ -1,0 +1,105 @@
+<?php
+if (!defined('_GNUBOARD_')) exit;
+
+/**
+ * 상단 디자인 설정 정보 반환
+ */
+function get_sub_design() {
+    global $g5;
+    $sd_table = G5_TABLE_PREFIX . "sub_design";
+    $sd = sql_fetch(" SELECT * FROM $sd_table WHERE 1 LIMIT 1 ");
+    
+    // 현재 활성 메뉴 코드 감지 (지능형 브릿지)
+    $sd['active_me_code'] = get_active_menu_code();
+    
+    return $sd;
+}
+
+/**
+ * 현재 활성화된 메뉴 코드 반환 (커스텀 메뉴 테이블 대응)
+ */
+function get_active_menu_code() {
+    global $g5, $bo_table, $co_id;
+    
+    if (isset($_GET['me_code']) && $_GET['me_code']) return clean_xss_tags($_GET['me_code']);
+
+    $menu_table = $g5['menu_table'];
+    $code_col = 'me_code';
+    $link_col = 'me_link';
+    $use_col = 'me_use';
+    
+    if (defined('G5_PRO_MENU_TABLE')) {
+        $menu_table = G5_PRO_MENU_TABLE;
+        $code_col = 'ma_code';
+        $link_col = 'ma_link';
+        $use_col = 'ma_use';
+    }
+
+    if ($bo_table) {
+        $row = sql_fetch(" SELECT $code_col as code FROM $menu_table WHERE $link_col LIKE '%bo_table={$bo_table}%' AND $use_col = '1' ORDER BY LENGTH($code_col) DESC LIMIT 1 ");
+        if ($row) return $row['code'];
+    }
+    
+    if ($co_id) {
+        $row = sql_fetch(" SELECT $code_col as code FROM $menu_table WHERE $link_col LIKE '%co_id={$co_id}%' AND $use_col = '1' ORDER BY LENGTH($code_col) DESC LIMIT 1 ");
+        if ($row) return $row['code'];
+    }
+
+    $cur_url = $_SERVER['PHP_SELF'];
+    $qstr = $_SERVER['QUERY_STRING'];
+    $search_url = basename($cur_url);
+    if ($qstr) $search_url .= '?' . $qstr;
+    
+    $row = sql_fetch(" SELECT $code_col as code FROM $menu_table WHERE $link_col LIKE '%{$search_url}%' AND $use_col = '1' ORDER BY LENGTH($code_col) DESC LIMIT 1 ");
+    if ($row) return $row['code'];
+
+    $row = sql_fetch(" SELECT $code_col as code FROM $menu_table WHERE $link_col LIKE '%".basename($cur_url)."%' AND $use_col = '1' ORDER BY LENGTH($code_col) DESC LIMIT 1 ");
+    if ($row) return $row['code'];
+
+    return '';
+}
+
+/**
+ * 브레드크럼(LNB) 출력
+ */
+function display_breadcrumb($sd = array()) {
+    global $g5, $config;
+    if (empty($sd)) $sd = get_sub_design();
+    if (empty($sd) || !$sd['sd_breadcrumb']) return;
+
+    $skin = $sd['sd_breadcrumb_skin'] ?: 'dropdown';
+    $active_me_code = $sd['active_me_code'];
+    
+    // 스킨 파일 경로 결정
+    $breadcrumb_skin_path = G5_PLUGIN_PATH . '/sub_design/breadcrumb_skins/' . $skin;
+    $breadcrumb_skin_url = G5_PLUGIN_URL . '/sub_design/breadcrumb_skins/' . $skin;
+    
+    if (is_file($breadcrumb_skin_path . '/main.skin.php')) {
+        include_once($breadcrumb_skin_path . '/main.skin.php');
+    }
+}
+
+/**
+ * 서브 비주얼 출력
+ */
+function display_sub_visual($sd = array()) {
+    global $g5, $config;
+    if (empty($sd)) $sd = get_sub_design();
+    if (empty($sd) || !$sd['sd_visual']) return;
+
+    $skin = $sd['sd_visual_skin'] ?: 'basic';
+    $active_me_code = $sd['active_me_code'];
+    
+    // 서브 비주얼 데이터 추출 (추후 연동)
+    $sv_title = '';
+    $sv_subtitle = '';
+    $sv_img = '';
+    
+    // 스킨 파일 경로 결정
+    $visual_skin_path = G5_PLUGIN_PATH . '/sub_design/visual_skins/' . $skin;
+    $visual_skin_url = G5_PLUGIN_URL . '/sub_design/visual_skins/' . $skin;
+    
+    if (is_file($visual_skin_path . '/main.skin.php')) {
+        include_once($visual_skin_path . '/main.skin.php');
+    }
+}

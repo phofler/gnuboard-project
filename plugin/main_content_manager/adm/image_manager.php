@@ -63,7 +63,12 @@ $mi_id = isset($_GET['mi_id']) ? $_GET['mi_id'] : '';
             <div class="crop-header">이미지 편집 (자르기) <button type="button" class="btn btn_02" onclick="cancelCrop()" style="padding: 4px 8px; font-size: 11px;">취소</button></div>
             <div class="crop-body"><img id="crop_image" src=""></div>
             <div class="crop-footer">
-                <span style="color:#888; font-size:11px;">* 비율: <?php echo $target_w > 0 ? $target_w . "x" . $target_h : "자유"; ?> 고정</span>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span id="ratio_info" style="color:#888; font-size:11px;">* 비율: <?php echo $target_w > 0 ? $target_w . "x" . $target_h : "자유"; ?> 고정</span>
+                    <?php if($target_w > 0) { ?>
+                    <button type="button" id="btn_toggle_ratio" class="btn btn_02" onclick="toggleAspectRatio()" style="padding:4px 8px; font-size:11px; background:#444; color:#fff; border:none;">비율 해제</button>
+                    <?php } ?>
+                </div>
                 <button type="button" class="btn btn_submit" onclick="applyCrop()">선택 영역 적용</button>
             </div>
         </div>
@@ -115,8 +120,17 @@ $mi_id = isset($_GET['mi_id']) ? $_GET['mi_id'] : '';
             $('#crop_interface').css('display', 'flex');
             var img = document.getElementById('crop_image');
             img.src = url;
-            if(cropper) cropper.destroy();
+            if(cropper) cropper.destroy(); isRatioLocked = true; $("#btn_toggle_ratio").text("비율 해제"); $("#ratio_info").text("* 비율: " + targetW + "x" + targetH + " 고정");
             cropper = new Cropper(img, { aspectRatio: targetW > 0 ? targetW/targetH : NaN, viewMode: 2, autoCropArea: 0.9 });
+        }
+        var isRatioLocked = true;
+        function toggleAspectRatio() {
+            if(!cropper) return;
+            isRatioLocked = !isRatioLocked;
+            var ratio = isRatioLocked ? (targetW / targetH) : NaN;
+            cropper.setAspectRatio(ratio);
+            $("#btn_toggle_ratio").text(isRatioLocked ? "비율 해제" : "비율 고정");
+            $("#ratio_info").text(isRatioLocked ? "* 비율: " + targetW + "x" + targetH + " 고정" : "* 비율: 자유");
         }
         function cancelCrop() { if(cropper) { cropper.destroy(); cropper = null; } $('#crop_interface').hide(); }
         function applyCrop() {
@@ -131,10 +145,10 @@ $mi_id = isset($_GET['mi_id']) ? $_GET['mi_id'] : '';
                 });
             }, 'image/jpeg', 0.9);
         }
-        function selectImage(url) {
+        function selectImage(url, filename) {
             var p = window.opener || window.parent;
             if(p && p.receiveImageUrl) {
-                p.receiveImageUrl(url, mi_id);
+                p.receiveImageUrl(url, mi_id, filename);
                 if(window.opener) window.close();
                 else if(p.closeUnsplashModal) p.closeUnsplashModal();
             }

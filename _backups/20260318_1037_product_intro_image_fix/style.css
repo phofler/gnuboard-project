@@ -1,0 +1,96 @@
+@charset "utf-8";
+
+/* Product Intro Skin - NUCLEAR CENTERED (Forced Direct Load) */
+
+#wrapper .product-intro {
+    padding: 80px 0 !important;
+    overflow: hidden !important;
+    width: 100% !important; min-width: 0 !important;
+    display: block !important;
+}
+
+#wrapper .product-intro .container {
+    width: 100% !important; min-width: 0 !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 0 20px !important;
+    display: block !important;
+    float: none !important;
+}
+
+#wrapper .product-intro .section-header {
+    text-align: center !important;
+    margin-bottom: 60px !important;
+    width: 100% !important; min-width: 0 !important;
+}
+
+#wrapper .product-intro .section-header h2 {
+    font-size: clamp(2rem, 5vw, 3.5rem) !important;
+    text-align: center !important;
+    margin: 0 auto 15px !important;
+}
+
+#wrapper .product-intro .product-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 80px !important;
+    margin-bottom: 120px !important;
+    width: 100% !important; min-width: 0 !important;
+}
+
+#wrapper .product-intro .product-row.reverse { flex-direction: row-reverse !important; }
+
+#wrapper .product-intro .product-img {
+    flex: 1.5 !important;
+    aspect-ratio: 16/9 !important;
+}
+
+#wrapper .product-intro .product-img img {
+    width: 100% !important; min-width: 0 !important;
+    height: 100% !important;
+    object-fit: cover !important;
+}
+
+/* MOBILE RESET - ABSOLUTE CENTERING */
+@media (max-width: 768px) {
+    #wrapper .product-intro { padding: 40px 0 !important; }
+    #wrapper .product-intro .container { padding: 0 15px !important; }
+
+    #wrapper .product-intro .product-row, 
+    #wrapper .product-intro .product-row.reverse {
+        flex-direction: column !important;
+        gap: 30px !important;
+        text-align: center !important;
+        margin-bottom: 60px !important;
+    }
+
+    #wrapper .product-intro .product-text {
+        width: 100% !important; min-width: 0 !important;
+        text-align: center !important;
+        padding: 0 !important;
+    }
+
+    #wrapper .product-intro .product-text h3 {
+        text-align: center !important;
+        margin-bottom: 20px !important;
+    }
+
+    #wrapper .product-intro .product-text h3::after {
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+    }
+
+    #wrapper .product-intro .product-img {
+        width: 100% !important; min-width: 0 !important;
+        max-width: 100% !important; min-width: 0 !important;
+        margin: 0 auto !important;
+        aspect-ratio: 4/3 !important;
+    }
+
+    /* Animation Cleanup */
+    #wrapper .product-intro .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+}

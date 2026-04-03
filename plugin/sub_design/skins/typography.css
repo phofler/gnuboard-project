@@ -1,0 +1,57 @@
+/* [Standard] Hero Visual Typography System */
+:root {
+    /* Color Tokens (Mapped to Theme style.css) */
+    --hero-tag-color: var(--color-accent, #d4af37);     /* Gold accent */
+    --hero-main-color: var(--bg-white, #ffffff);
+    --hero-sub-color: rgba(255, 255, 255, 0.85);        /* Slightly more contrast than standard white */
+    
+    /* Font Family Tokens */
+    --hero-font-heading: var(--font-heading, 'Pretendard', sans-serif);
+    --hero-font-body: var(--font-body, 'Pretendard', sans-serif);
+    
+    /* Responsive Scale Tokens */
+    --hero-tag-size: 1.1rem;
+    --hero-main-size: clamp(1.25rem, 4vw, 2.5rem);          /* Reduced by 1/4 per user request */          /* Reduced by 1/3 for better balance */
+    --hero-sub-size: 1.25rem;
+    
+    /* Decoration Tokens */
+    --hero-tag-ls: -0.05em;                               /* Wide tracking for premium feel */
+    --hero-main-ls: var(--letter-spacing-h, -0.05em);
+    --hero-sub-ls: -0.05em;
+}
+
+/* Global Typography Overrides for Hero Section */
+.sub-hero .sub-hero-tag {
+    font-family: var(--hero-font-body);
+    font-size: var(--hero-tag-size);
+    color: var(--hero-tag-color);
+    letter-spacing: var(--hero-tag-ls);
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.sub-hero .sub-hero-title {
+    font-family: var(--hero-font-heading);
+    font-size: var(--hero-main-size);
+    color: var(--hero-main-color);
+    letter-spacing: var(--hero-main-ls);
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.sub-hero .sub-hero-subtitle {
+    font-family: var(--hero-font-body);
+    font-size: var(--hero-sub-size);
+    color: var(--hero-sub-color);
+    letter-spacing: var(--hero-sub-ls);
+    font-weight: 600;
+    line-height: 1.6;
+}
+
+/* Mobile Adjustment Fallback */
+@media (max-width: 768px) {
+    :root {
+        --hero-tag-size: 0.9rem;
+        --hero-sub-size: 1.1rem;
+    }
+}

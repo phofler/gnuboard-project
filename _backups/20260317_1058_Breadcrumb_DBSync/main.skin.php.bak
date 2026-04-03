@@ -1,0 +1,125 @@
+<?php
+if (!defined('_GNUBOARD_')) exit;
+
+// GNB 메뉴 테이블 결정 (Universal)
+$menu_table = isset($g5['menu_table']) ? $g5['menu_table'] : G5_TABLE_PREFIX . 'menu';
+$code_col = 'me_code';
+$name_col = 'me_name';
+$link_col = 'me_link';
+$order_col = 'me_order, me_id';
+
+if (defined('G5_PRO_MENU_TABLE')) {
+    $menu_table = G5_PRO_MENU_TABLE;
+    $code_col = 'ma_code';
+    $name_col = 'ma_name';
+    $link_col = 'ma_link';
+    $order_col = 'ma_order, ma_id';
+}
+
+// 1단계 메뉴 데이터 가져오기
+$sql = " SELECT * FROM $menu_table WHERE me_use = '1' AND LENGTH($code_col) = 2 ORDER BY $order_col ";
+$result1 = sql_query($sql);
+
+$menu1_list = array();
+$active_me1 = null;
+
+while($row1 = sql_fetch_array($result1)) {
+    $is_active = (isset($active_me_code) && substr($active_me_code, 0, 2) == $row1[$code_col]);
+    $menu1_list[] = array(
+        'code' => $row1[$code_col],
+        'name' => $row1[$name_col],
+        'link' => $row1[$link_col],
+        'active' => $is_active
+    );
+    if($is_active) {
+        $active_me1 = array(
+            'me_code' => $row1[$code_col],
+            'me_name' => $row1[$name_col]
+        );
+    }
+}
+
+// 2단계 메뉴 데이터 가져오기
+$menu2_list = array();
+if($active_me1) {
+    $sql2 = " SELECT * FROM $menu_table WHERE me_use = '1' AND $code_col LIKE '{$active_me1['me_code']}%' AND LENGTH($code_col) = 4 ORDER BY $order_col ";
+    $result2 = sql_query($sql2);
+    while($row2 = sql_fetch_array($result2)) {
+        $menu2_list[] = array(
+            'code' => $row2[$code_col],
+            'name' => $row2[$name_col],
+            'link' => $row2[$link_col],
+            'active' => (isset($active_me_code) && $active_me_code == $row2[$code_col])
+        );
+    }
+}
+?>
+
+<link rel="stylesheet" href="<?php echo G5_PLUGIN_URL; ?>/sub_design/breadcrumb_skins/dropdown/style.css">
+
+<div class="sub-lnb-wrap">
+    <div class="container">
+        <div class="breadcrumb-dropdown-area">
+            <a href="<?php echo G5_URL; ?>" class="breadcrumb-home"><i class="fas fa-home"></i></a>
+            
+            <div class="breadcrumb-item" id="bread1">
+                <div class="breadcrumb-btn">
+                    <span class="selected-label"><?php echo $active_me1 ? $active_me1['me_name'] : '메뉴 선택'; ?></span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <ul class="breadcrumb-list">
+                    <?php foreach($menu1_list as $m1) { ?>
+                        <li class="<?php echo $m1['active'] ? 'active' : ''; ?>"><a href="<?php echo $m1['link']; ?>"><?php echo $m1['name']; ?></a></li>
+                    <?php } ?>
+                </ul>
+            </div>
+
+            <?php if(!empty($menu2_list)) { ?>
+            <div class="breadcrumb-item" id="bread2">
+                <div class="breadcrumb-btn">
+                    <?php 
+                    $active_m2_name = '하위 메뉴';
+                    foreach($menu2_list as $m2) { if($m2['active']) $active_m2_name = $m2['name']; }
+                    ?>
+                    <span class="selected-label"><?php echo $active_m2_name; ?></span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <ul class="breadcrumb-list">
+                    <?php foreach($menu2_list as $m2) { ?>
+                        <li class="<?php echo $m2['active'] ? 'active' : ''; ?>"><a href="<?php echo $m2['link']; ?>"><?php echo $m2['name']; ?></a></li>
+                    <?php } ?>
+                </ul>
+            </div>
+            <?php } ?>
+        </div>
+    </div>
+</div>
+
+<script>
+$(function() {
+    // Dropdown toggle logic
+    $('.breadcrumb-btn').off('click').on('click', function(e) {
+        e.stopPropagation();
+        const parent = $(this).parent();
+        
+        // Close others
+        $('.breadcrumb-item').not(parent).removeClass('active');
+        
+        // Toggle current
+        parent.toggleClass('active');
+    });
+
+    // Close on outside click
+    $(document).off('click.breadcrumb').on('click.breadcrumb', function() {
+        $('.breadcrumb-item').removeClass('active');
+    });
+
+    // Hover effect for desktop
+    if ($(window).width() > 768) {
+        $('.breadcrumb-item').hover(
+            function() { $(this).addClass('active'); },
+            function() { $(this).removeClass('active'); }
+        );
+    }
+});
+</script>

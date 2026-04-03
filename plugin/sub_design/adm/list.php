@@ -3,6 +3,17 @@ $sub_menu = '950200';
 define('G5_IS_ADMIN', true);
 include_once('./_common.php');
 include_once(G5_ADMIN_PATH . '/admin.lib.php');
+include_once(G5_LIB_PATH . '/premium_module.lib.php');
+
+$themes = get_premium_themes();
+// [MIGRATION] Auto-populate sd_theme and sd_lang if they are empty
+$empty_res = sql_query(" select sd_id from " . G5_TABLE_PREFIX . "plugin_sub_design_groups where sd_theme = '' or sd_theme is null ");
+while($em_row = sql_fetch_array($empty_res)) {
+    $parts = parse_premium_id($em_row['sd_id'], $themes);
+    if ($parts['theme']) {
+        sql_query(" update " . G5_TABLE_PREFIX . "plugin_sub_design_groups set sd_theme = '{$parts['theme']}', sd_lang = '{$parts['lang']}' where sd_id = '{$em_row['sd_id']}' ");
+    }
+}
 
 // Table Definition
 if (!defined('G5_PLUGIN_SUB_DESIGN_GROUP_TABLE')) {
@@ -19,11 +30,18 @@ if (!sql_query(" DESCRIBE " . G5_PLUGIN_SUB_DESIGN_GROUP_TABLE . " ", false)) {
                 `sd_theme` varchar(50) NOT NULL DEFAULT '',
                 `sd_lang` varchar(10) NOT NULL DEFAULT 'kr',
                 `sd_skin` varchar(50) NOT NULL DEFAULT 'standard',
+                `sd_layout` varchar(50) NOT NULL DEFAULT 'full',
+                `sd_breadcrumb` tinyint(1) NOT NULL DEFAULT '0',
+                `sd_breadcrumb_skin` varchar(50) NOT NULL DEFAULT 'dropdown',
                 `sd_created` datetime NOT NULL,
                 `sd_updated` datetime NOT NULL,
                 PRIMARY KEY (`sd_id`)
             ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ";
     sql_query($sql, true);
+} else {
+    // Add missing columns for Breadcrumb
+    sql_query(" ALTER TABLE " . G5_PLUGIN_SUB_DESIGN_GROUP_TABLE . " ADD COLUMN IF NOT EXISTS `sd_breadcrumb` tinyint(1) NOT NULL DEFAULT '0' AFTER `sd_layout` ", false);
+    sql_query(" ALTER TABLE " . G5_PLUGIN_SUB_DESIGN_GROUP_TABLE . " ADD COLUMN IF NOT EXISTS `sd_breadcrumb_skin` varchar(50) NOT NULL DEFAULT 'dropdown' AFTER `sd_breadcrumb` ", false);
 }
 
 // [NEW] Item Table Creation
@@ -62,16 +80,15 @@ $result = sql_query($sql);
 </div>
 
 <div class="tbl_head01 tbl_wrap" style="width:100%; max-width:100%;">
-    <h2 class="h2_frm">서브 디자인 그룹 목록</h2>
     <table style="width:100%;">
         <caption><?php echo $g5['title']; ?> 목록</caption>
         <colgroup>
-            <col width="150"> <!-- ID -->
-            <col width="100"> <!-- Lang -->
-            <col width="150"> <!-- Theme -->
-            <col> <!-- Skin -->
-            <col width="150"> <!-- Created -->
-            <col width="150"> <!-- Management -->
+            <col width="150">
+            <col width="100">
+            <col width="150">
+            <col>
+            <col width="150">
+            <col width="150">
         </colgroup>
         <thead>
             <tr>
@@ -85,13 +102,21 @@ $result = sql_query($sql);
         </thead>
         <tbody>
             <?php
+            $langs = array('kr' => '한국어 (기본)', 'en' => 'English (EN)', 'jp' => 'Japanese (JP)', 'cn' => 'Chinese (CN)');
             for ($i = 0; $row = sql_fetch_array($result); $i++) {
                 $edit_url = "./write.php?w=u&sd_id=" . $row['sd_id'];
 
-                // Lang Label
-                $langs = array('kr' => '한국어 (기본)', 'en' => 'English (EN)', 'jp' => 'Japanese (JP)', 'cn' => 'Chinese (CN)');
-                $lang_label = isset($langs[$row['sd_lang']]) ? $langs[$row['sd_lang']] : strtoupper($row['sd_lang']);
-                $lang_color = ($row['sd_lang'] == 'kr') ? '#000' : '#d4af37';
+                if (!$row['sd_lang'] || !$row['sd_theme']) {
+                    $parts = parse_premium_id($row['sd_id'], $themes);
+                    $disp_lang = $row['sd_lang'] ?: ($parts['lang'] ?: 'kr');
+                    $disp_theme = $row['sd_theme'] ?: $parts['theme'];
+                } else {
+                    $disp_lang = $row['sd_lang'];
+                    $disp_theme = $row['sd_theme'];
+                }
+
+                $lang_label = isset($langs[$disp_lang]) ? $langs[$disp_lang] : strtoupper($disp_lang);
+                $lang_color = ($disp_lang == 'kr') ? '#000' : '#d4af37';
                 ?>
                 <tr class="bg<?php echo $i % 2; ?>">
                     <td class="td_num"
@@ -101,7 +126,7 @@ $result = sql_query($sql);
                     <td class="td_num" style="font-weight:bold; color:<?php echo $lang_color; ?>;">
                         <?php echo $lang_label; ?>
                     </td>
-                    <td class="td_num"><?php echo $row['sd_theme']; ?></td>
+                    <td class="td_num"><?php echo $disp_theme; ?></td>
                     <td class="td_num"><?php echo $row['sd_skin']; ?></td>
                     <td class="td_datetime"><?php echo substr($row['sd_created'], 0, 10); ?></td>
                     <td class="td_mng text-center">
@@ -118,7 +143,6 @@ $result = sql_query($sql);
         </tbody>
     </table>
 </div>
-
 
 <?php
 include_once(G5_ADMIN_PATH . '/admin.tail.php');

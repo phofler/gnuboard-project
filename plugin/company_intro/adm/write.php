@@ -1,8 +1,13 @@
+
+
+
 <?php
 include_once('./_common.php');
 include_once(G5_ADMIN_PATH . '/admin.lib.php');
 include_once(G5_EDITOR_LIB);
 include_once(G5_PATH . '/lib/theme_css.lib.php');
+include_once(G5_LIB_PATH.'/premium_module.lib.php');
+
 
 $html_title = '회사소개';
 $readonly = '';
@@ -31,11 +36,14 @@ if ($w == 'u') {
 }
 
 // [DYNAMIC THEME BG] Always prioritize ACTIVE SITE THEME for the "Absolute Default" reference
-$theme_bg_default = get_theme_css_value($config['cf_theme'], array('--color-bg', '--color-bg-dark'), '#121212');
-$theme_text_default = get_theme_css_value($config['cf_theme'], array('--color-text-primary'), '#e0e0e0');
+$theme_bg_default = get_theme_css_value($config['cf_theme'], array('--bg-white', '--bg-light', '--color-bg'), '#ffffff');
+$theme_text_default = get_theme_css_value($config['cf_theme'], array('--text-main', '--color-text-primary'), '#121212');
 
 $g5['title'] = $html_title;
 include_once(G5_ADMIN_PATH . '/admin.head.php');
+?>
+<script src="<?php echo G5_JS_URL ?>/image_smart_manager.js"></script>
+<?php
 ?>
 
 <style>
@@ -155,104 +163,50 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
 
 <form name="fcompanyform" id="fcompanyform" action="./write_update.php" onsubmit="return fcompanyform_submit(this);"
     method="post" enctype="multipart/form-data">
-    <input type="hidden" name="w" value="<?php echo $w ?>">
-    <input type="hidden" name="old_co_id" value="<?php echo $co['co_id']; ?>">
-    <input type="hidden" name="token" value="<?php echo get_admin_token(); ?>">
+    <input type="hidden" name="w" value="
+
+
+<?php echo $w ?>">
+    <input type="hidden" name="old_co_id" value="
+
+
+<?php echo $co['co_id']; ?>">
+    <input type="hidden" name="token" value="
+
+
+<?php echo get_admin_token(); ?>">
 
     <div class="tbl_frm01 tbl_wrap">
         <table>
-            <caption><?php echo $g5['title']; ?></caption>
+            <caption>
+
+
+<?php echo $g5['title']; ?></caption>
             <colgroup>
                 <col class="grid_4">
                 <col>
             </colgroup>
             <tbody>
-                <?php
-                // Theme List
-                $themes = array();
-                $theme_dir = G5_PATH . '/theme';
-                if (is_dir($theme_dir)) {
-                    $handle = opendir($theme_dir);
-                    while ($file = readdir($handle)) {
-                        if ($file == "." || $file == ".." || !is_dir($theme_dir . "/" . $file))
-                            continue;
-                        $themes[] = $file;
-                    }
-                    closedir($handle);
-                }
 
-                // Standard Parsing Logic
-                $sel_theme = isset($co['co_theme']) ? $co['co_theme'] : '';
-                $sel_lang = isset($co['co_lang']) ? $co['co_lang'] : 'kr';
-                $sel_custom = '';
 
-                if ($w == 'u' && $co['co_id']) {
-                    $parts = explode('_', $co['co_id']);
-                    if (isset($parts[0]) && in_array($parts[0], $themes)) {
-                        $sel_theme = $parts[0];
-                        if (isset($parts[1]) && in_array($parts[1], array('kr', 'en', 'jp', 'cn'))) {
-                            $sel_lang = $parts[1];
-                            if (isset($parts[2])) {
-                                array_shift($parts);
-                                array_shift($parts);
-                                $sel_custom = implode('_', $parts);
-                            }
-                        }
-                    }
-                }
+<?php
+                // Standardized Premium ID UI
+                echo render_premium_id_ui(array(
+                    'id' => $co['co_id'],
+                    'id_name' => 'co_id',
+                    'label' => '설정 대상 (Theme & Lang)',
+                    'theme' => isset($co['co_theme']) ? $co['co_theme'] : '',
+                    'lang' => isset($co['co_lang']) ? $co['co_lang'] : 'kr',
+                    'onchange' => 'update_theme_defaults'
+                ));
                 ?>
-                <tr>
-                    <th scope="row">설정 대상 (Theme & Lang)</th>
-                    <td>
-                        <div style="display:flex; gap:10px; align-items:center;">
-                            <select name="co_theme" id="co_theme" class="frm_input" required
-                                onchange="update_theme_defaults()">
-                                <option value="">테마 선택</option>
-                                <?php
-                                $themes = array();
-                                $theme_dir = G5_PATH . '/theme';
-                                if (is_dir($theme_dir)) {
-                                    $tdir = dir($theme_dir);
-                                    while ($entry = $tdir->read()) {
-                                        if ($entry == '.' || $entry == '..')
-                                            continue;
-                                        if (is_dir($theme_dir . '/' . $entry))
-                                            $themes[] = $entry;
-                                    }
-                                    $tdir->close();
-                                }
-                                sort($themes);
-                                foreach ($themes as $theme) {
-                                    $selected = ($theme == $sel_theme) ? 'selected' : '';
-                                    echo '<option value="' . $theme . '" ' . $selected . '>' . $theme . '</option>';
-                                } ?>
-                            </select>
-                            <select name="co_lang" id="co_lang" class="frm_input" onchange="generate_co_id()">
-                                <option value="kr" <?php echo ($sel_lang == 'kr' ? 'selected' : ''); ?>>한국어 (기본)</option>
-                                <option value="en" <?php echo ($sel_lang == 'en' ? 'selected' : ''); ?>>English (EN)
-                                </option>
-                                <option value="jp" <?php echo ($sel_lang == 'jp' ? 'selected' : ''); ?>>Japanese (JP)
-                                </option>
-                                <option value="cn" <?php echo ($sel_lang == 'cn' ? 'selected' : ''); ?>>Chinese (CN)
-                                </option>
-                            </select>
-                            <input type="text" name="co_custom" id="co_custom" value="<?php echo $sel_custom; ?>"
-                                class="frm_input" placeholder="커스텀 이름 (선택)" onkeyup="generate_co_id()">
-                        </div>
-                        <div
-                            style="margin-top:8px; font-size:12px; color:#666; padding:10px; background:#f9f9f9; border:1px solid #eee; display:inline-block;">
-                            생성된 식별코드(ID): <strong id="generated_id_display"
-                                style="color:#d4af37; font-size:1.1em;"><?php echo $co['co_id'] ? $co['co_id'] : '-'; ?></strong>
-                        </div>
-                        <p style="margin-top:5px; color:#888; font-size:12px;">테마와 언어를 선택하면 식별코드가 자동으로 생성됩니다. (예:
-                            corporate_en_history)</p>
-                        <input type="hidden" name="co_id" id="co_id" value="<?php echo $co['co_id']; ?>">
-                    </td>
-                </tr>
                 <tr>
                     <th scope="row"><label for="co_subject">제목</label></th>
                     <td>
-                        <input type="text" name="co_subject" value="<?php echo $co['co_subject']; ?>" id="co_subject"
+                        <input type="text" name="co_subject" value="
+
+
+<?php echo $co['co_subject']; ?>" id="co_subject"
                             required class="frm_input" size="80">
                     </td>
                 </tr>
@@ -260,9 +214,14 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
 
                     <th scope="row">스킨 선택</th>
                     <td>
-                        <?php if ($w == 'u') { ?>
+
+
+<?php if ($w == 'u') { ?>
                             <!-- 수정 모드: 현재 스킨 표시 (Premium Info Card) -->
-                            <input type="hidden" name="co_skin" id="co_skin" value="<?php echo $co['co_skin']; ?>">
+                            <input type="hidden" name="co_skin" id="co_skin" value="
+
+
+<?php echo $co['co_skin']; ?>">
                             <div
                                 style="padding:24px; background:linear-gradient(135deg, #f8f9fa 0%, #edf2f7 100%); border-radius:15px; border:2px solid #e2e8f0; display:flex; align-items:center; gap:25px; max-width:650px; box-shadow: 0 4px 6px rgba(0,0,0,0.02);">
                                 <div
@@ -275,7 +234,9 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                         Active Skin Configuration</div>
                                     <strong
                                         style="font-size:20px; color:#1a202c; display:block; margin-bottom:6px; letter-spacing:-0.5px;">
-                                        <?php
+
+
+<?php
                                         $skin_names = array(
                                             'type_a' => 'Type A (이미지 / 텍스트)',
                                             'type_a_1' => 'Type A-1 (CEO)',
@@ -319,7 +280,9 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                     </p>
                                 </div>
                             </div>
-                        <?php } else { ?>
+
+
+<?php } else { ?>
                             <!-- 입력 모드: 카테고리별 프리미엄 카드 선택 -->
                             <style>
                                 .skin-selector-container {
@@ -417,16 +380,24 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                     gap: 8px;
                                 }
                             </style>
-                            <input type="hidden" name="co_skin" id="co_skin" value="<?php echo $co['co_skin']; ?>">
+                            <input type="hidden" name="co_skin" id="co_skin" value="
+
+
+<?php echo $co['co_skin']; ?>">
 
                             <div class="skin-category-title"><i class="fa fa-building" style="color:#3498db;"></i> 회사개요
                                 (Company Overview)
-                                <a href="../?co_id=<?php echo $co['co_id']; ?>" target="_blank" class="btn btn_02"
+                                <a href="../?co_id=
+
+
+<?php echo $co['co_id']; ?>" target="_blank" class="btn btn_02"
                                     style="float:right; font-weight:normal; font-size:12px; padding:5px 10px;">페이지 보기 <i
                                         class="fa fa-external-link-alt"></i></a>
                             </div>
                             <div class="skin-selector-container">
-                                <?php
+
+
+<?php
                                 $skins_v1_overview = array(
                                     'editorial_full' => array('Editorial Full (통합)', 'fa-gem'),
                                     'overview' => array('Overview (회사 개요)', 'fa-info-circle'),
@@ -441,7 +412,9 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                             <div class="skin-category-title"><i class="fa fa-comment-dots" style="color:#2980b9;"></i> 인사말 /
                                 비젼 (Greetings & Vision)</div>
                             <div class="skin-selector-container">
-                                <?php
+
+
+<?php
                                 $skins_v1_greetings = array(
                                     'type_a' => array('Type A', 'fa-id-card'),
                                     'type_a_1' => array('Type A-1 (CEO)', 'fa-user-tie'),
@@ -463,7 +436,9 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                             <div class="skin-category-title"><i class="fa fa-history" style="color:#e67e22;"></i> 연혁 / 실적 /
                                 인증서</div>
                             <div class="skin-selector-container">
-                                <?php
+
+
+<?php
                                 $skins_v2 = array(
                                     'history_photo' => array('연혁 (포토)', 'fa-camera'),
                                     'history_simple' => array('연혁 (심플)', 'fa-list-ul'),
@@ -485,7 +460,9 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                             <div class="skin-category-title"><i class="fa fa-map-marker-alt" style="color:#2ecc71;"></i> 조직
                                 / 사업 / 채용 / 오시는 길</div>
                             <div class="skin-selector-container">
-                                <?php
+
+
+<?php
                                 $skins_page = array(
                                     'org_a' => array('조직도 A', 'fa-sitemap'),
                                     'org_b' => array('조직도 B', 'fa-users'),
@@ -512,7 +489,9 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                             <div class="skin-category-title"><i class="fa fa-star" style="color:#9b59b6;"></i> 메인 섹션 전용
                                 (Main Page)</div>
                             <div class="skin-selector-container">
-                                <?php
+
+
+<?php
                                 $skins_main = array(
                                     'main_manifesto' => array('메인 철학 (Manifesto & Slogan)', 'fa-quote-left'),
                                     'main_latest' => array('메인 최신글', 'fa-images'),
@@ -528,7 +507,10 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
 
                             <!-- [NEW] Latest Skin Picker (Appears only for main_latest) -->
                             <div id="latest_skin_selector_wrap"
-                                style="display: <?php echo ($co['co_skin'] == 'main_latest') ? 'block' : 'none'; ?>; margin-top: 20px; padding: 20px; background: #fdf6e3; border: 1px solid #eee8d5; border-radius: 12px;">
+                                style="display:
+
+
+<?php echo ($co['co_skin'] == 'main_latest') ? 'block' : 'none'; ?>; margin-top: 20px; padding: 20px; background: #fdf6e3; border: 1px solid #eee8d5; border-radius: 12px;">
                                 <div style="display: flex; align-items: center; gap: 15px;">
                                     <div
                                         style="width: 45px; height: 45px; background: #cb4b16; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px;">
@@ -541,7 +523,9 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                         <select id="linked_ls_id" class="frm_input" style="width: 100%; max-width: 400px;"
                                             onchange="update_linked_latest_skin()">
                                             <option value="">위젯 선택 안함</option>
-                                            <?php
+
+
+<?php
                                             $ls_res = sql_query(" select ls_id, ls_title from " . G5_TABLE_PREFIX . "plugin_latest_skin_config order by ls_id desc ");
                                             while ($ls_row = sql_fetch_array($ls_res)) {
                                                 echo '<option value="' . $ls_row['ls_id'] . '">' . get_text($ls_row['ls_title']) . ' (' . $ls_row['ls_id'] . ')</option>';
@@ -560,13 +544,15 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                                 <div style="color:#856404; font-size:13px; font-weight:600;">스킨을 선택하면 기본 양식이 에디터에 자동으로
                                     입력됩니다. 기존 내용은 삭제되니 주의하세요.</div>
                             </div>
-                        <?php } ?>
+
+
+<?php } ?>
                     </td>
                 </tr>
                 <tr>
                     <th scope="row">이미지 교체</th>
                     <td>
-                        <button type="button" class="btn btn_03" onclick="openUnsplashPopup();">Unsplash 이미지 검색 및
+                        <button type="button" class="btn btn_03" onclick="SmartImageManager.open({id:'co_content'});">Unsplash 이미지 검색 및
                             교체</button>
                         <span class="frm_info">※ 현재 본문에 있는 이미지의 크기를 자동으로 감지하여, 검색 팝업에서 동일한 비율로 자를 수 있게 해줍니다.</span>
                     </td>
@@ -575,16 +561,24 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                     <th scope="row">배경색</th>
                     <td>
                         <input type="text" name="co_bgcolor"
-                            value="<?php echo ($co['co_bgcolor'] && $co['co_bgcolor'] != '#000000') ? $co['co_bgcolor'] : $theme_bg_default; ?>"
+                            value="
+
+
+<?php echo ($co['co_bgcolor'] && $co['co_bgcolor'] != '#000000' && $co['co_bgcolor'] != '#e8e8e8') ? $co['co_bgcolor'] : $theme_bg_default; ?>"
                             id="co_bgcolor" class="frm_input" size="10">
-                        <span class="frm_info">※ 페이지 전체 배경색입니다. 비워두면 테마 기본색(<?php echo $theme_bg_default; ?>)이
+                        <span class="frm_info">※ 페이지 전체 배경색입니다. 비워두면 테마 기본색(
+
+
+<?php echo $theme_bg_default; ?>)이
                             적용됩니다.</span>
                     </td>
                 </tr>
                 <tr>
                     <th scope="row">내용</th>
                     <td>
-                        <?php echo editor_html('co_content', get_text($co['co_content'], 0)); ?>
+
+
+<?php echo editor_html('co_content', get_text($co['co_content'], 0)); ?>
                     </td>
                 </tr>
             </tbody>
@@ -630,7 +624,10 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
                 `;
 
                 // Backup direct JS styling for immediate effect
-                doc.body.style.backgroundColor = '<?php echo $theme_bg_default; ?>';
+                doc.body.style.backgroundColor = '
+
+
+<?php echo $theme_bg_default; ?>';
 
                 // 2. Inject Theme CSS (For Variables & Fonts)
                 if (!doc.getElementById('theme_css_injection')) {
@@ -691,101 +688,9 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
 
     var is_checked_id = false;
 
-    // [Unsplash Integration]
-    var targetImageIndex = -1; // -1: Insert New, 0+: Replace specific index
+    // [Smart Image Integration]
 
-    function openUnsplashPopup() {
-        if (typeof oEditors === 'undefined' || !oEditors.getById["co_content"]) {
-            alert("에디터가 로드되지 않았습니다.");
-            return;
-        }
-
-        var doc = oEditors.getById["co_content"].getWYSIWYGDocument();
-        var imgs = doc.body.querySelectorAll("img");
-
-        if (imgs.length > 1) {
-            // Multiple images found -> Show Picker
-            showImagePicker(imgs);
-        } else if (imgs.length === 1) {
-            // Single image -> Auto select
-            selectTargetImage(0);
-        } else {
-            // No image -> Insert Mode
-            targetImageIndex = -1;
-            openRealPopup(0, 0);
-        }
-    }
-
-    function showImagePicker(imgs) {
-        var html = '';
-        for (var i = 0; i < imgs.length; i++) {
-            var src = imgs[i].src;
-            var w = imgs[i].width || imgs[i].naturalWidth;
-            var h = imgs[i].height || imgs[i].naturalHeight;
-
-            html += '<div class="img-picker-item" onclick="selectTargetImage(' + i + ')">';
-            html += '<img src="' + src + '">';
-            html += '<div class="img-picker-info">이미지 #' + (i + 1) + ' (' + w + 'x' + h + ')</div>';
-            html += '</div>';
-        }
-
-        $('#img_picker_list').html(html);
-        $('#img_picker_modal').css('display', 'flex');
-    }
-
-    function selectTargetImage(index) {
-        $('#img_picker_modal').hide();
-        targetImageIndex = index;
-
-        // Analyze size
-        var doc = oEditors.getById["co_content"].getWYSIWYGDocument();
-        var imgs = doc.body.querySelectorAll("img");
-        var img = imgs[index];
-
-        var w = parseInt(img.getAttribute("width")) || parseInt(img.style.width) || img.naturalWidth || 0;
-        var h = parseInt(img.getAttribute("height")) || parseInt(img.style.height) || img.naturalHeight || 0;
-
-        openRealPopup(w, h);
-    }
-
-    function openRealPopup(w, h) {
-        // [MODIFIED] Point to Unified Image Manager
-        var url = './image_manager.php?v=' + Date.now();
-        if (w > 0 && h > 0) {
-            url += '&w=' + w + '&h=' + h;
-            console.log("Detected Image Size for Crop: " + w + "x" + h);
-        }
-
-        var iframe = document.getElementById('unsplash_iframe');
-        iframe.src = url;
-        document.getElementById('unsplash_modal').style.display = 'flex';
-    }
-
-    function closeUnsplashModal() {
-        document.getElementById('unsplash_modal').style.display = 'none';
-        document.getElementById('unsplash_iframe').src = '';
-    }
-
-    function receiveImageUrl(url) {
-        closeUnsplashModal();
-
-        var doc = oEditors.getById["co_content"].getWYSIWYGDocument();
-
-        if (targetImageIndex >= 0) {
-            // Replace specific image
-            var imgs = doc.body.querySelectorAll("img");
-            if (imgs[targetImageIndex]) {
-                imgs[targetImageIndex].src = url;
-            } else {
-                pasteNewImage(url);
-            }
-        } else {
-            // Insert new
-            pasteNewImage(url);
-        }
-    }
-
-    function select_ci_skin(skin_name, el) {
+function select_ci_skin(skin_name, el) {
         $('.skin-card').removeClass('active');
         $(el).addClass('active');
         $('#co_skin').val(skin_name);
@@ -863,28 +768,11 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
         oEditors.getById["co_content"].exec("PASTE_HTML", [newHtml]);
     }
 
-    function generate_co_id() {
-        var theme = $('#co_theme').val();
-        var lang = $('#co_lang').val();
-        var custom = $('#co_custom').val().trim();
-
-        if (!theme) {
-            $('#generated_id_display').text('-');
-            $('#co_id').val('');
-            return;
-        }
-
-        var co_id = theme + '_' + lang;
-        if (custom) {
-            co_id += '_' + custom;
-        }
-
-        $('#generated_id_display').text(co_id);
-        $('#co_id').val(co_id);
-    }
 
     function fcompanyform_submit(f) {
-        <?php echo get_editor_js('co_content', true); // Only for content sync ?>
+
+
+<?php echo get_editor_js('co_content', true); // Only for content sync ?>
 
         if (confirm("저장하시겠습니까?")) {
             return true;
@@ -893,7 +781,9 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
     }
 
     // [IMPORTANT] Initialize SmartEditor2 globally so oEditors is populated
-    <?php echo get_editor_js('co_content', false); // Global init ?>
+
+
+<?php echo get_editor_js('co_content', false); // Global init ?>
 
     $(function () {
         // [Editor Infrastructure Fix] 로딩 즉시 배경색 & 가로폭/높이 강력 제어
@@ -984,12 +874,9 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
             });
         });
 
-        // ID Generation Listeners
-        $('#co_theme, #co_lang, #co_custom').on('change keyup input', function () {
-            generate_co_id();
-        });
     });
 </script>
+
 
 <?php
 include_once(G5_ADMIN_PATH . '/admin.tail.php');

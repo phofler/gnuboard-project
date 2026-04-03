@@ -1,10 +1,10 @@
 <?php
 if (!defined('_GNUBOARD_')) exit;
 
-// 스킨 내에서 사용할 고유한 아이디 (다중 사용시 충돌 방지)
+// 스킨 내에서 사용할 고유한 아이디
 $section_id = "product_intro_" . $ms_id;
 
-// 공통 변수 초기화 (ms_id 등은 상위 render_main_section 함수에서 전달됨)
+// 변수 초기화
 $ms_bg_color = isset($ms['ms_bg_color']) ? $ms['ms_bg_color'] : '';
 $ms_accent_color = isset($ms['ms_accent_color']) ? $ms['ms_accent_color'] : '';
 $ms_title = isset($ms['ms_title']) ? $ms['ms_title'] : '';
@@ -15,14 +15,14 @@ $ms_show_title = isset($ms['ms_show_title']) ? $ms['ms_show_title'] : '0';
     <div class="container">
         
         <?php if ($ms_show_title != '0') { ?>
-        <div class="section-title reveal slide-up">
+        <div class="section-header reveal slide-up">
             <?php if ($ms_title) { ?>
-            <h2 style="<?php echo $ms_accent_color ? 'color:'.$ms_accent_color.';' : ''; ?>">
+            <h2 class="section-title" style="<?php echo $ms_accent_color ? 'color:'.$ms_accent_color.';' : ''; ?>">
                 <?php echo stripslashes($ms_title); ?>
             </h2>
             <?php } ?>
             <?php if ($ms_subtitle) { ?>
-            <p><?php echo stripslashes($ms_subtitle); ?></p>
+            <p class="section-subtitle"><?php echo stripslashes($ms_subtitle); ?></p>
             <?php } ?>
         </div>
         <?php } ?>
@@ -64,42 +64,35 @@ $ms_show_title = isset($ms['ms_show_title']) ? $ms['ms_show_title'] : '0';
                     
                     $desc_html = nl2br(stripslashes($item['mc_desc']));
             ?>
-            <!-- Product Output -->
             <div class="product-row <?php echo $is_reverse; ?>">
                 <div class="product-text reveal <?php echo $slide_text; ?>">
+                    <?php if (isset($item['mc_tag']) && $item['mc_tag']) { ?>
+                    <span class="product-tag"><?php echo stripslashes($item['mc_tag']); ?></span>
+                    <?php } ?>
+                    
+                    <?php if (isset($item['mc_subtitle']) && $item['mc_subtitle']) { ?>
+                    <div class="item-subtitle"><?php echo stripslashes($item['mc_subtitle']); ?></div>
+                    <?php } ?>
+
                     <h3><?php echo stripslashes($item['mc_title']); ?></h3>
                     <div class="desc"><?php echo $desc_html; ?></div>
                     
-                    <a <?php echo $link_attr; ?> style="display:inline-block; margin-top:20px; color:var(--edge-color, #c92127); font-weight:700;">
+                    <?php if ($item['mc_link']) { ?>
+                    <a <?php echo $link_attr; ?> class="btn-detail">
                         <?php echo (isset($item['mc_link_text']) && $item['mc_link_text']) ? stripslashes($item['mc_link_text']) : '자세히 보기'; ?> <i class="fas fa-arrow-right"></i>
                     </a>
+                    <?php } ?>
                 </div>
                 
                 <div class="product-img reveal <?php echo $slide_img; ?>">
-                    <a <?php echo $link_attr; ?> style="display:block; height:100%;">
-                        <img src="<?php echo $img_src; ?>" alt="<?php echo strip_tags($item['mc_title']); ?>">
-                        
-                        <?php if((isset($item['mc_tag']) && $item['mc_tag']) || (isset($item['mc_subtitle']) && $item['mc_subtitle'])) { ?>
-                        <div class="img-overlay-text">
-                            <?php if(isset($item['mc_tag']) && $item['mc_tag']) { ?>
-                            <span class="en"><?php echo stripslashes($item['mc_tag']); ?></span>
-                            <?php } ?>
-                            <?php if(isset($item['mc_subtitle']) && $item['mc_subtitle']) { ?>
-                            <span class="ko"><?php echo stripslashes($item['mc_subtitle']); ?></span>
-                            <?php } ?>
-                        </div>
-                        <?php } ?>
-                    </a>
+                    <img src="<?php echo $img_src; ?>" alt="<?php echo strip_tags($item['mc_title']); ?>">
                 </div>
             </div>
-            <!-- // Product Output -->
             <?php
-                } // end foreach
+                }
             } else {
             ?>
-                <div style="text-align:center; padding: 50px; color: #999; border: 1px dashed #ccc; border-radius: 8px;">
-                    등록된 아이템이 없습니다. 관리자에서 아이템을 추가해주세요.
-                </div>
+                <div style="text-align:center; padding: 50px 0; color: #999;">등록된 아이템이 없습니다.</div>
             <?php } ?>
         </div>
     </div>
@@ -107,7 +100,7 @@ $ms_show_title = isset($ms['ms_show_title']) ? $ms['ms_show_title'] : '0';
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+    const observerOptions = { threshold: 0.1 };
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {

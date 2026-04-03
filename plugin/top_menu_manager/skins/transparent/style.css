@@ -71,7 +71,7 @@ header:hover .gnb, header.active .gnb, header.is-scrolled .gnb {
 
 .logo {
     display: inline-block;
-    transform: translate(50px, 8px);
+    transform: translate(50px, -1px);
     flex-shrink: 0;
 }
 
@@ -409,3 +409,105 @@ header.active .btnAllmenu i {
     border-color: var(--edge-color);
 }
 
+
+/* ==========================================================================
+   Header Mobile Responsiveness (Transparent Skin)
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+    #mainHeader .gnbWrapBg {
+        width: 100% !important;
+        height: 60px !important;
+        background: #fff !important;
+        border-bottom: 1px solid #eee !important;
+    }
+    #mainHeader .gnbArea {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 15px !important;
+        position: relative !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        margin: 0 !important;
+    }
+    .logo {
+        position: absolute !important;
+        left: 50% !important;
+        top: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        margin: 0 !important;
+        z-index: 10 !important;
+    }
+    .logo img {
+        height: 28px !important;
+        filter: none !important; /* Ensure visibility */
+    }
+    .gnb {
+        display: none !important;
+    }
+    .btnAllmenu {
+        display: block !important;
+        position: relative !important;
+        z-index: 20 !important;
+        color: #333 !important;
+        margin-right: auto !important;
+    }
+    .rightBtn {
+        position: relative !important;
+        z-index: 20 !important;
+        display: flex !important;
+        gap: 10px !important;
+        margin-left: auto !important;
+    }
+    .rightBtn .desktop-only {
+        display: none !important;
+    }
+    .btn-phone {
+        color: #333 !important;
+        font-size: 22px !important;
+    }
+    .gnbWrapBg {
+        height: 60px !important;
+        background: #fff !important;
+        border-bottom: 1px solid #eee !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo img {
+        height: 24px !important;
+    }
+    .rightBtn {
+        gap: 5px !important;
+    }
+}
+/* Mobile Menu Header - Fixed Flexbox Layout */
+.m-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    padding: 10px 0 20px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #eee;
+    gap: 15px;
+}
+
+.m-logo-area {
+    flex: 1;
+    min-width: 0;
+    text-align: left;
+}
+
+.m-logo-area img {
+    max-height: 24px;
+    width: auto;
+    max-width: 100%;
+}
+
+.m-contact-area {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}

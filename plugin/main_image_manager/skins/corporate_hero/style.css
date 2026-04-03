@@ -23,7 +23,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center;
+    object-position: center center; transform-origin: center center;;
     display: block;
 }
 
@@ -171,4 +171,13 @@
 @media (max-width: 768px) {
     .hero-style-corporate h2 { font-size: 2.5rem; }
     .hero-style-corporate p { font-size: 1rem; }
+}
+
+@media (max-width: 768px) {
+    .hero_bg img {
+        width: auto !important;
+        min-width: 100% !important;
+        height: 100% !important;
+        object-position: center center !important;
+    }
 }

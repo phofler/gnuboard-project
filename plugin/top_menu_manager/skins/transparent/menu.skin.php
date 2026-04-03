@@ -13,7 +13,7 @@ $menu_skin_url = G5_PLUGIN_URL . '/top_menu_manager/skins/transparent';
     <div class="gnbWrapBg">
         <div class="container gnbArea">
             <a href="#" class="btnAllmenu"><i class="fas fa-bars"></i></a>
-            <h1 class="logo"><a href="<?php echo G5_URL ?>"><img src="<?php echo $logo_src ?>" alt="濡쒓퀬"></a></h1>
+            <h1 class="logo"><a href="<?php echo G5_URL ?>"><img src="<?php echo $logo_src ?>" alt="로고"></a></h1>
             <nav>
                 <ul class="gnb" id="gnb">
                     <?php
@@ -49,19 +49,19 @@ $menu_skin_url = G5_PLUGIN_URL . '/top_menu_manager/skins/transparent';
                 </ul>
             </nav>
             <div class="rightBtn">
-                <a href="/contact_us/online.php" class="btn-lang desktop-only">CONTACT</a>
+                <a href="<?php echo G5_DATA_URL ?>/about/catalog.pdf" class="btn-lang desktop-only" target="_blank">카다로그 다운로드</a>
                 <a href="tel:1551-9123" class="btn-phone mobile-only"><i class="fas fa-phone"></i></a>
             </div>
         </div>
     </div>
 </header>
 
-<!-- 紐⑤컮??硫붾돱 -->
+<!-- 모바일 메뉴 -->
 <div class="m-menu-overlay"></div>
 <div class="m-menu-wrap">
     <div class="m-menu-header">
         <div class="m-logo-area">
-            <a href="<?php echo G5_URL ?>"><img src="<?php echo $logo_src ?>" alt="濡쒓퀬"></a>
+            <a href="<?php echo G5_URL ?>"><img src="<?php echo $logo_src ?>" alt="로고"></a>
         </div>
         <div class="m-contact-area">
             <a href="tel:1551-9123" class="m-icon-btn"><i class="fas fa-phone"></i></a>
@@ -89,3 +89,65 @@ $menu_skin_url = G5_PLUGIN_URL . '/top_menu_manager/skins/transparent';
         ?>
     </ul>
 </div>
+
+<script>
+$(function() {
+    // Open Mobile Menu
+    $('.btnAllmenu').off('click').on('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        $('.m-menu-wrap').addClass('active');
+        $('.m-menu-overlay').fadeIn(300);
+        $('body').addClass('m-menu-open');
+    });
+
+    // Close Mobile Menu
+    $('.btn-m-close, .m-menu-overlay').off('click').on('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        $('.m-menu-wrap').removeClass('active');
+        $('.m-menu-overlay').fadeOut(300);
+        $('body').removeClass('m-menu-open');
+    });
+
+    // Mobile Menu Accordion - Stabilized and Simplified
+    $('.m-gnb > li > a').off('click').on('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        var $li = $(this).closest('li');
+        var $sub = $li.find('.m-dep2');
+        
+        console.log('Mobile menu link clicked:', $li.find('> a').text().trim());
+
+        if ($sub.length > 0) {
+            if ($sub.is(':animated')) return false;
+
+            if ($li.hasClass('on')) {
+                $li.removeClass('on');
+                $sub.slideUp(300);
+            } else {
+                // Close other items
+                $('.m-gnb > li').not($li).removeClass('on').find('.m-dep2').slideUp(300);
+                $li.addClass('on');
+                $sub.slideDown(300);
+            }
+        } else {
+             var link = $(this).attr('href');
+             if (link && link !== 'javascript:void(0)' && link !== '#') {
+                 window.location.href = link;
+             }
+        }
+        return false;
+    });
+
+    // Header Background Change on Scroll
+    $(window).on('scroll', function() {
+        if ($(window).scrollTop() > 50) {
+            $('#mainHeader').addClass('is-scrolled');
+        } else {
+            $('#mainHeader').removeClass('is-scrolled');
+        }
+    });
+});
+</script>

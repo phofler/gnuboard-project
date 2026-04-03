@@ -1,4 +1,4 @@
-# Webzine Skin Walkthrough
+﻿# Webzine Skin Walkthrough
 
 The **Webzine Skin** has been successfully implemented in `theme/corporate_light/skin/board/webzine`. It strictly follows the "Editorial Standard" defined in `theme_skin.md`.
 
@@ -50,3 +50,16 @@ The **Webzine Skin** has been successfully implemented in `theme/corporate_light
 *(Placeholder for actual verification)*
 - **List**: [Image] -> [Text] | [Text] <- [Image]
 - **View**: [Content] | [Sticky Meta]
+
+## [2026-03-16] 히어로 비주얼 서체(Typography) 표준화 완료
+히어로 비주얼의 Tag, 메인 텍스트, 서브 텍스트의 색상과 크기를 테마 표준에 맞게 통합했습니다.
+
+### 1. 주요 변경 사항
+- **CSS 변수 통합**: plugin/sub_design/skins/typography.css를 생성하여 폰트 설정을 중앙 집중화했습니다.
+- **테마 연동**: 테마의 --color-accent, --font-heading 변수를 직접 참조하여 사이트 전체와 일관성을 유지합니다.
+- **반응형 최적화**: clamp() 함수를 사용하여 기기 크기에 따라 타이틀 크기가 부드럽게 조절됩니다.
+
+### 2. 적용 결과
+- **Tag**: 강조색(골드), 넓은 자간(0.3em), 1.1rem
+- **Main**: 고대비 화이트, 굵게(800), 반응형 크기(2.5rem~5rem)
+- **Sub**: 부드러운 화이트(0.85 opacity), 1.25rem

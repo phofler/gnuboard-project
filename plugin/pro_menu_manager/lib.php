@@ -288,3 +288,41 @@ function display_pro_menu($skin_name = 'basic')
     // 4. Include the Skin File (This uses $menu_datas and $skin_url)
     include($skin_path . '/menu.skin.php');
 }
+
+// Generate next menu code with sequential (+1) and alphanumeric support
+function get_next_pro_menu_code($parent, $max_code)
+{
+    if (!$max_code) {
+        return $parent . "10"; // Start at 10
+    }
+
+    $last_two = substr($max_code, -2);
+    
+    // Sequential increment (+1) to avoid 90+10=100 overflow
+    if (is_numeric($last_two)) {
+        $next_val = intval($last_two) + 1;
+        if ($next_val > 99) {
+            // Alphanumeric fallback (a0, a1...)
+            return $parent . "a0";
+        } else {
+            return $parent . sprintf("%02d", $next_val);
+        }
+    } else {
+        // Alphanumeric increment logic (a0 -> a1 ... -> b0)
+        $chars = "0123456789abcdefghijklmnopqrstuvwxyz";
+        $c1 = substr($last_two, 0, 1);
+        $c2 = substr($last_two, 1, 1);
+        
+        $pos2 = strpos($chars, $c2);
+        if ($pos2 !== false && $pos2 < strlen($chars) - 1) {
+            return $parent . $c1 . $chars[$pos2 + 1];
+        } else {
+            $pos1 = strpos($chars, $c1);
+            if ($pos1 !== false && $pos1 < strlen($chars) - 1) {
+                return $parent . $chars[$pos1 + 1] . "0";
+            }
+        }
+    }
+    
+    return $parent . "zz"; // Ultimate fallback
+}

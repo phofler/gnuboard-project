@@ -7,15 +7,38 @@ if (!defined('_GNUBOARD_'))
  */
 function get_main_content_list($ms_id)
 {
+    global $config;
     $list = array();
     $sql = " select * from g5_plugin_main_content where ms_id = '{$ms_id}' order by mc_sort asc ";
     $result = sql_query($sql);
+    
+    $theme_name = isset($config['cf_theme']) ? $config['cf_theme'] : 'default';
+
     while ($row = sql_fetch_array($result)) {
         if ($row['mc_image']) {
-            if (preg_match("/^(http|https):/i", $row['mc_image'])) {
-                $row['img_url'] = $row['mc_image'];
+            // [ENVIRONMENT AGNOSTIC] Normalize localhost URLs or relative paths
+            $raw_img = $row['mc_image'];
+
+            // 1. If it's a localhost URL, strip it to make it relative
+            if (preg_match("/^https?:\/\/localhost/i", $raw_img)) {
+                $parts = explode('/common_assets/', $raw_img);
+                if (count($parts) > 1) {
+                    $raw_img = $parts[1]; // Result: "theme_name/filename.jpg"
+                }
+            }
+
+            // 2. Final URL generation
+            if (preg_match("/^(http|https):/i", $raw_img)) {
+                $row['img_url'] = $raw_img;
             } else {
-                $row['img_url'] = G5_DATA_URL . '/common_assets/' . $row['mc_image'];
+                // Ensure theme_name is included in the path
+                if (strpos($raw_img, '/') === false) {
+                    // Just a filename, prepend theme
+                    $row['img_url'] = G5_DATA_URL . '/common_assets/' . $theme_name . '/' . $raw_img;
+                } else {
+                    // Already contains theme/filename or subfolder
+                    $row['img_url'] = G5_DATA_URL . '/common_assets/' . $raw_img;
+                }
             }
         } else {
             $row['img_url'] = '';
@@ -78,7 +101,7 @@ function render_main_section($ms)
     $show_title = $ms['ms_show_title'];
 
     // [THEME SOVEREIGNTY] Use CSS variables from the theme
-    $accent_color = 'var(--color-accent-gold)';
+    $accent_color = (isset($ms['ms_accent_color']) && $ms['ms_accent_color']) ? $ms['ms_accent_color'] : 'var(--color-accent-gold)';
     $font_family = "var(--font-heading)";
 
     // Skin Path
@@ -101,11 +124,11 @@ function render_main_section($ms)
         $bg_style = 'style="background-color: ' . $ms['ms_bg_color'] . ';"';
     }
 
-    echo '<div id="main_section_' . $ms_id . '" class="main-content-section-wrapper ' . $style . '" ' . $bg_style . '>';
+    echo '<div id="main_section_' . $ms_id . '" class="main-content-section-wrapper ' . str_replace('_', '-', $style) . '" ' . $bg_style . '>';
 
     if (file_exists($skin_file)) {
         if (file_exists($css_file)) {
-            add_stylesheet('<link rel="stylesheet" href="' . $skin_url . '/style.css?v=' . time() . '">', 0);
+            echo '<link rel="stylesheet" href="' . $skin_url . '/style.css?v=' . time() . '">';
         }
         include($skin_file);
     } else {
